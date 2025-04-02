@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "453402448651",
+    "project_id": "lello-f2e3e",
+    "storage_bucket": "lello-f2e3e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453402448651:android:26e32a4417c97de758480e",
+        "android_client_info": {
+          "package_name": "io.github.faening.lello"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7Tbq_JBn5JFQvyOm_KPSHnlrH4Zp6DYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
