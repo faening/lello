@@ -23,3 +23,4 @@ rootProject.name = "lello"
 include(":app")
 include(":core:designsystem")
 include(":core:model")
+include(":core:domain")
