@@ -3,6 +3,7 @@ activityCompose = "1.10.1"
 agp = "8.9.1"
 composeBom = "2025.03.01"
 coreKtx = "1.15.0"
+datetime = "0.6.1"
 espressoCore = "3.6.1"
 firebaseBom = "33.12.0"
 googleServices = "4.4.2"
@@ -46,8 +47,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 hilt-android = { group = "com.google.dagger", name="hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-#androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-#material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -56,5 +56,6 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
