@@ -21,6 +21,7 @@ dependencyResolutionManagement {
 rootProject.name = "lello"
 
 include(":app")
+include(":core:authentication")
 include(":core:designsystem")
-include(":core:model")
 include(":core:domain")
+include(":core:model")
