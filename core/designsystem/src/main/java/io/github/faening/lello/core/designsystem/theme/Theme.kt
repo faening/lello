@@ -1,4 +1,4 @@
-package io.github.faening.lello.ui.theme
+package io.github.faening.lello.core.designsystem.theme
 
 import android.app.Activity
 import android.os.Build
