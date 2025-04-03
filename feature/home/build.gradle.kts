@@ -1,30 +1,24 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "io.github.faening.lello"
+    namespace = "io.github.faening.lello.feature.home"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.github.faening.lello"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -32,41 +26,42 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
-    buildFeatures {
-        compose = true
     }
 }
 
 dependencies {
     api(project(":core:designsystem"))
-    api(project(":feature:home"))
-    api(project(":feature:diarymood"))
+    api(project(":core:domain"))
+    api(project(":core:model"))
 
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Jetpack Compose
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.ui.tooling.preview)
 
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // ViewModel
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
-    // Navigation
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     // Unit Tests
     testImplementation(libs.junit)
