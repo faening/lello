@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import io.github.faening.lello.core.domain.contracts.AppNavigator
+import io.github.faening.lello.core.domain.navigation.AppNavigator
 import io.github.faening.lello.feature.diarymeal.navigation.diaryMealGraph
 import io.github.faening.lello.feature.diarymeal.navigation.navigateToDiaryMeal
 import io.github.faening.lello.feature.diarymood.navigation.diaryMoodGraph

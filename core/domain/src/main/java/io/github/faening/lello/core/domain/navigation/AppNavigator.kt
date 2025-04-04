@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.contracts
+package io.github.faening.lello.core.domain.navigation
 
 /**
  * Interface que define todas as possíveis navegações entre os módulos da aplicação.

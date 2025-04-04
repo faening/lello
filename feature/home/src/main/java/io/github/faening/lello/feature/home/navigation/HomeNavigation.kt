@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import io.github.faening.lello.core.domain.contracts.AppNavigator
+import io.github.faening.lello.core.domain.navigation.AppNavigator
 import io.github.faening.lello.feature.home.screen.HomeScreen
 
 object HomeRoute {
