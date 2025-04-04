@@ -32,12 +32,19 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onDiaryMoodClick: () -> Unit, // Callback para navegação para DiaryMood
+    onDiaryMealClick: () -> Unit,
+    onDiaryMoodClick: () -> Unit,
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Text("Tela Inicial")
 
-        // Botão para navegar para o DiaryMood
+        Button(
+            onClick = onDiaryMealClick,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text("Ir para Diário de Alimentação")
+        }
+
         Button(
             onClick = onDiaryMoodClick,
             modifier = Modifier.padding(top = 16.dp)

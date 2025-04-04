@@ -17,10 +17,12 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeScreen(
+    onDiaryMealClick: () -> Unit,
     onDiaryMoodClick: () -> Unit
 ) {
     composable(route = HomeRoute.HOME_ROUTE) {
         HomeScreen(
+            onDiaryMealClick = onDiaryMealClick,
             onDiaryMoodClick = onDiaryMoodClick
         )
     }

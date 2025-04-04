@@ -45,6 +45,7 @@ android {
 dependencies {
     api(project(":core:designsystem"))
     api(project(":feature:home"))
+    api(project(":feature:diarymeal"))
     api(project(":feature:diarymood"))
 
     // Core Android
