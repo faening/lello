@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,29 +31,22 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    mainNavController: NavController,
-    onBackClick: () -> Unit
+    modifier: Modifier = Modifier,
+    onDiaryMoodClick: () -> Unit, // Callback para navegação para DiaryMood
 ) {
-    val navController = rememberNavController()
+    Column(modifier = modifier.padding(16.dp)) {
+        Text("Tela Inicial")
 
-    HomeNavHost(
-        navController = navController,
-        mainNavController = mainNavController,
-        onBackClick = onBackClick
-    )
+        // Botão para navegar para o DiaryMood
+        Button(
+            onClick = onDiaryMoodClick,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text("Ir para Diário de Humor")
+        }
 
-//    Scaffold(
-//        topBar = {
-//            CenterAlignedTopAppBar(
-//                title = { Text("Lello - Meu Diário") }
-//            )
-//        }
-//    ) { padding ->
-//        HomeContent(
-//            navController = navController,
-//            modifier = Modifier.padding(padding)
-//        )
-//    }
+        // Outros botões para outros módulos podem ser adicionados aqui
+    }
 }
 
 @Composable

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.navigation.LelloNavHost
@@ -21,10 +20,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                    val navController = rememberNavController()
-                    LelloNavHost(navController = navController)
-                }
+                ) { LelloNavHost() }
             }
         }
     }
