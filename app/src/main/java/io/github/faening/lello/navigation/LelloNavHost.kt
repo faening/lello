@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import io.github.faening.lello.feature.diarymood.navigation.diaryMoodGraph
 import io.github.faening.lello.feature.diarymood.navigation.navigateToDiaryMood
-import io.github.faening.lello.feature.home.navigation.HOME_ROUTE
+import io.github.faening.lello.feature.home.navigation.HomeRoute.HOME_ROUTE
 import io.github.faening.lello.feature.home.navigation.homeScreen
 
 @Composable

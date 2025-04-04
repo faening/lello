@@ -11,13 +11,13 @@ import io.github.faening.lello.feature.diarymood.screen.ScreenTwo
 
 internal object DiaryMoodRoute {
     const val DIARY_MOOD_GRAPH = "diary_mood_graph"
-    const val DIARY_MOOD_HOME = "diary_mood_route"
+    const val HOME_ROUTE = "diary_mood_route"
     const val SCREEN_ONE_ROUTE = "screen_one_route"
     const val SCREEN_TWO_ROUTE = "screen_two_route"
 }
 
 fun NavController.navigateToDiaryMood(navOptions: NavOptions? = null) {
-    this.navigate(route = DiaryMoodRoute.DIARY_MOOD_HOME, navOptions = navOptions)
+    this.navigate(route = DiaryMoodRoute.HOME_ROUTE, navOptions = navOptions)
 }
 
 internal fun NavController.navigateToScreenOne(navOptions: NavOptions? = null) {
@@ -30,10 +30,10 @@ internal fun NavController.navigateToScreenTwo(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.diaryMoodGraph(onBackClick: () -> Unit, navController: NavController) {
     navigation(
-        startDestination = DiaryMoodRoute.DIARY_MOOD_HOME,
+        startDestination = DiaryMoodRoute.HOME_ROUTE,
         route = DiaryMoodRoute.DIARY_MOOD_GRAPH
     ) {
-        composable(route = DiaryMoodRoute.DIARY_MOOD_HOME) {
+        composable(route = DiaryMoodRoute.HOME_ROUTE) {
             DiaryMoodScreen(
                 onBackClick = onBackClick,
                 onNavigateToScreenOne = { navController.navigateToScreenOne() }
