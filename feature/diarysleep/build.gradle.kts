@@ -34,6 +34,7 @@ android {
 
 dependencies {
     api(project(":core:designsystem"))
+    api(project(":core:domain"))
     api(project(":core:model"))
 
     // Core Android

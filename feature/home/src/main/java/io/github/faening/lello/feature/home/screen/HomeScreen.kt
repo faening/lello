@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,29 +23,27 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import io.github.faening.lello.core.domain.contracts.AppNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onDiaryMealClick: () -> Unit,
-    onDiaryMoodClick: () -> Unit,
+    navigator: AppNavigator
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Text("Tela Inicial")
 
         Button(
-            onClick = onDiaryMealClick,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = { navigator.navigateToMealDiary() }
         ) {
             Text("Ir para Diário de Alimentação")
         }
 
         Button(
-            onClick = onDiaryMoodClick,
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = { navigator.navigateToMoodDiary() }
         ) {
             Text("Ir para Diário de Humor")
         }

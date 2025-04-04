@@ -2,10 +2,9 @@ package io.github.faening.lello.feature.home.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import io.github.faening.lello.core.domain.repository.NavigationDestination
+import io.github.faening.lello.core.domain.contracts.AppNavigator
 import io.github.faening.lello.feature.home.screen.HomeScreen
 
 object HomeRoute {
@@ -17,13 +16,11 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeScreen(
-    onDiaryMealClick: () -> Unit,
-    onDiaryMoodClick: () -> Unit
+    navigator: AppNavigator
 ) {
     composable(route = HomeRoute.HOME_ROUTE) {
         HomeScreen(
-            onDiaryMealClick = onDiaryMealClick,
-            onDiaryMoodClick = onDiaryMoodClick
+            navigator = navigator
         )
     }
 }
