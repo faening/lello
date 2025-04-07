@@ -1,6 +1,5 @@
 package io.github.faening.lello.core.designsystem.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,71 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Brown300,
+    onPrimary = Brown900,
+    primaryContainer = Brown700,
+    onPrimaryContainer = Brown100,
+
+    secondary = Blue300,
+    onSecondary = Blue900,
+    secondaryContainer = Blue700,
+    onSecondaryContainer = Blue100,
+
+    tertiary = Yellow300,
+    onTertiary = Brown900,
+    tertiaryContainer = Brown700,
+    onTertiaryContainer = Yellow100,
+
+    error = Red300,
+    onError = Red900,
+    errorContainer = Red700,
+    onErrorContainer = Red100,
+
+    background = Grey800,
+    onBackground = Neutral100,
+    surface = Grey900,
+    onSurface = Neutral50,
+
+    surfaceVariant = Grey700,
+    onSurfaceVariant = Neutral300,
+    outline = Grey500
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Brown500,
+    onPrimary = Neutral50,
+    primaryContainer = Brown100,
+    onPrimaryContainer = Brown900,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = Blue500,
+    onSecondary = Neutral50,
+    secondaryContainer = Blue100,
+    onSecondaryContainer = Blue900,
+
+    tertiary = Yellow500,
+    onTertiary = Brown900,
+    tertiaryContainer = Yellow100,
+    onTertiaryContainer = Brown900,
+
+    error = Red500,
+    onError = Neutral50,
+    errorContainer = Red100,
+    onErrorContainer = Red900,
+
+    background = Neutral100,
+    onBackground = Grey900,
+    surface = Neutral50,
+    onSurface = Grey900,
+
+    surfaceVariant = Neutral200,
+    onSurfaceVariant = Grey700,
+    outline = Grey400
 )
 
 @Composable
 fun LelloTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = true, // Dynamic color is available on Android 12+
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

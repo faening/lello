@@ -9,7 +9,8 @@ import androidx.compose.ui.unit.sp
 import io.github.faening.lello.core.designsystem.R
 
 val CustomFontFamily = FontFamily(
-    Font(R.font.uniform_rounded, FontWeight.Normal), Font(R.font.uniform_rounded_bold, FontWeight.Bold)
+    Font(R.font.uniform_rounded, FontWeight.Normal),
+    Font(R.font.uniform_rounded_bold, FontWeight.Bold)
 )
 
 val Typography = Typography(

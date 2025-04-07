@@ -1,0 +1,107 @@
+package io.github.faening.lello.ui
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
+import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.feature.home.navigation.HomeRoutes
+import io.github.faening.lello.feature.profile.navigation.ProfileNavigation
+import io.github.faening.lello.navigation.LelloNavHost
+import io.github.faening.lello.feature.home.R as homeR
+import io.github.faening.lello.feature.profile.R as profileR
+
+@Composable
+fun LelloApp() {
+    val navController = rememberNavController()
+
+    // Principais destinos
+    val items = listOf(
+        NavigationItem(
+            title = homeR.string.home_title,
+            route = HomeRoutes.HOME_MAIN_ROUTE,
+            selectedIcon = LelloIcons.Home,
+            unselectedIcon = LelloIcons.HomeBorder
+        ),
+        NavigationItem(
+            title = profileR.string.profile_title,
+            route = ProfileNavigation.PROFILE_ROUTE,
+            selectedIcon = LelloIcons.Profile,
+            unselectedIcon = LelloIcons.ProfileBorder
+        )
+    )
+
+    // Lista de rotas de alto nível onde o menu deve aparecer
+    val topLevelRoutes = items.map { it.route }.toSet()
+
+    // Verificar se estamos em uma rota de alto nível para mostrar o menu
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val showBottomBar = currentDestination?.route in topLevelRoutes
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            if (showBottomBar) {
+                LelloNavigationBar {
+                    items.forEach { item ->
+                        val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
+
+                        LelloNavigationBarItem(
+                            icon = {
+                                Icon(
+                                    imageVector = item.unselectedIcon,
+                                    contentDescription = stringResource(id = item.title)
+                                )
+                            },
+                            selectedIcon = {
+                                Icon(
+                                    imageVector = item.selectedIcon,
+                                    contentDescription = stringResource(id = item.title)
+                                )
+                            },
+                            label = { Text(text = stringResource(id = item.title)) },
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    // Evita múltiplas cópias da mesma rota na pilha
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+
+                                    // Evita múltiplas cópias do mesmo destino
+                                    launchSingleTop = true
+
+                                    // Restaura o estado quando voltar a este destino
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    ) { innerPadding ->
+        LelloNavHost(
+            navController = navController,
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
+
+private data class NavigationItem(
+    val title: Int,
+    val route: String,
+    val unselectedIcon: ImageVector,
+    val selectedIcon: ImageVector
+)

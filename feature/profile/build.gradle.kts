@@ -4,11 +4,10 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "io.github.faening.lello.feature.home"
+    namespace = "io.github.faening.lello.feature.profile"
     compileSdk = 35
 
     defaultConfig {
@@ -27,8 +26,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15" // Compose UI
     }
 }
 
@@ -37,18 +45,21 @@ dependencies {
     api(project(":core:domain"))
     api(project(":core:model"))
 
-    implementation(libs.kotlinx.serialization.json)
-
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Jetpack Compose
-    implementation(platform(libs.androidx.compose.bom))
+    // Compose UI
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
+
+    // Material 3
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.navigation.suite)
+    implementation(libs.androidx.compose.material3.window.sizeclass)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

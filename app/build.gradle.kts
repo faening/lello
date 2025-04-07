@@ -45,20 +45,32 @@ android {
 dependencies {
     api(project(":core:designsystem"))
     api(project(":feature:home"))
+    api(project(":feature:profile"))
     api(project(":feature:diarymeal"))
     api(project(":feature:diarymood"))
+
+    implementation(libs.kotlinx.serialization.json)
 
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Jetpack Compose
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
+    // Material 3
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3.navigation.suite)
+    implementation(libs.androidx.compose.material3.window.sizeclass)
+
+    // Compose Core
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.runtime)
+
+    // Compose UI
+    implementation(libs.androidx.compose.activity)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -73,7 +85,7 @@ dependencies {
     testImplementation(libs.junit)
 
     // Debug Tools
-    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 
