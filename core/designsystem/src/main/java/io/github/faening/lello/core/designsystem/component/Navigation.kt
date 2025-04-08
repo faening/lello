@@ -61,7 +61,7 @@ fun RowScope.LelloNavigationBarItem(
 
 @Composable
 private fun MobileNavigationBarContent() {
-    val items = listOf("Home", "Diaries", "Achievements", "Dashboard", "Profile")
+    val items = listOf("Home", "Diary", "Achievements", "Dashboard", "Profile")
     val icons = listOf(
         LelloIcons.Home,
         LelloIcons.Diary,
