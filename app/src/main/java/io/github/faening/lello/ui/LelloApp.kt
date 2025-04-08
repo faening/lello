@@ -3,6 +3,7 @@ package io.github.faening.lello.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.home.navigation.HomeRoutes
 import io.github.faening.lello.feature.profile.navigation.ProfileNavigation
 import io.github.faening.lello.navigation.LelloNavHost
@@ -53,6 +56,7 @@ fun LelloApp() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             if (showBottomBar) {
                 LelloNavigationBar {
@@ -96,6 +100,14 @@ fun LelloApp() {
             navController = navController,
             modifier = Modifier.padding(innerPadding)
         )
+    }
+}
+
+@Preview(name = "Light Theme")
+@Composable
+fun LelloAppPreview() {
+    LelloTheme(darkTheme = false) {
+        LelloApp()
     }
 }
 

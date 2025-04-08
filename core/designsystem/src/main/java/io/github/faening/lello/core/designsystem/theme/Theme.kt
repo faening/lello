@@ -62,7 +62,7 @@ private val LightColorScheme = lightColorScheme(
     errorContainer = Red100,
     onErrorContainer = Red900,
 
-    background = Neutral100,
+    background = Yellow50,
     onBackground = Grey900,
     surface = Neutral50,
     onSurface = Grey900,
@@ -75,7 +75,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun LelloTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true, // Dynamic color is available on Android 12+
+    dynamicColor: Boolean = false, // Dynamic color is available on Android 12+
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
