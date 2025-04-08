@@ -5,22 +5,20 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.github.faening.lello.feature.profile.screen.ProfileScreen
 
-object ProfileNavigation {
-    const val PROFILE_GRAPH = "profile"
-    const val PROFILE_ROUTE = "profile_main"
-    const val PROFILE_SETTINGS_ROUTE = "profile_settings"
-    const val PROFILE_EDIT_ROUTE = "profile_edit"
-}
+const val PROFILE_GRAPH = "profile"
+const val PROFILE_MAIN_ROUTE = "profile_main"
+const val PROFILE_SETTINGS_ROUTE = "profile_settings"
+const val PROFILE_EDIT_ROUTE = "profile_edit"
 
 fun NavGraphBuilder.profileGraph(navController: NavController) {
     // Tela principal do Profile diretamente na rota "profile"
-    composable(route = ProfileNavigation.PROFILE_ROUTE) {
+    composable(route = PROFILE_MAIN_ROUTE) {
         ProfileScreen(
             onSettingsClick = {
-                navController.navigate(ProfileNavigation.PROFILE_SETTINGS_ROUTE)
+                navController.navigate(PROFILE_SETTINGS_ROUTE)
             },
             onEditProfileClick = {
-                navController.navigate(ProfileNavigation.PROFILE_EDIT_ROUTE)
+                navController.navigate(PROFILE_EDIT_ROUTE)
             }
         )
     }

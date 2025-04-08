@@ -55,7 +55,7 @@ fun HomeScreen(
                     ModuleItem(
                         "diaries",
                         R.string.home_title,
-                        LelloIcons.Diaries
+                        LelloIcons.Diary
                     ),
                     ModuleItem(
                         "achievements",
@@ -224,7 +224,7 @@ fun ItemRow(
         }
 
         Icon(
-            imageVector = LelloIcons.Diaries,
+            imageVector = LelloIcons.Diary,
             contentDescription = null
         )
     }

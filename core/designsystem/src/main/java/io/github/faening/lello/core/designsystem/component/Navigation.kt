@@ -64,17 +64,17 @@ private fun MobileNavigationBarContent() {
     val items = listOf("Home", "Diaries", "Achievements", "Dashboard", "Profile")
     val icons = listOf(
         LelloIcons.Home,
-        LelloIcons.Diaries,
+        LelloIcons.Diary,
         LelloIcons.Achievements,
         LelloIcons.Dashboard,
         LelloIcons.Profile,
     )
     val selectedIcons = listOf(
-        LelloIcons.Home,
-        LelloIcons.Diaries,
-        LelloIcons.Achievements,
-        LelloIcons.Dashboard,
-        LelloIcons.Profile,
+        LelloIcons.HomeBorder,
+        LelloIcons.DiaryBorder,
+        LelloIcons.AchievementsBorder,
+        LelloIcons.DashboardBorder,
+        LelloIcons.ProfileBorder,
     )
 
     LelloNavigationBar {
@@ -92,7 +92,9 @@ private fun MobileNavigationBarContent() {
                         contentDescription = item,
                     )
                 },
-                label = { Text(item) },
+                label = { Text(
+                    item
+                ) },
                 selected = index == 0,
                 onClick = { },
             )

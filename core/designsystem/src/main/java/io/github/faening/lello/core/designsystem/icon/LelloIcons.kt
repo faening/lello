@@ -12,8 +12,8 @@ object LelloIcons {
     // Menu
     val Home = Icons.Rounded.Home
     val HomeBorder = Icons.Rounded.Home
-    val Diaries = Icons.Rounded.LibraryBooks
-    val DiariesBorder = Icons.Rounded.LibraryBooks
+    val Diary = Icons.Rounded.LibraryBooks
+    val DiaryBorder = Icons.Rounded.LibraryBooks
     val Achievements = Icons.Rounded.Pets
     val AchievementsBorder = Icons.Rounded.Pets
     val Dashboard = Icons.Rounded.BarChart
