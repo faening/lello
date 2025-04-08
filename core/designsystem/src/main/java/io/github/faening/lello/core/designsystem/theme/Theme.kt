@@ -69,7 +69,7 @@ private val LightColorScheme = lightColorScheme(
 
     surfaceVariant = Neutral200,
     onSurfaceVariant = Grey700,
-    outline = Grey400
+    outline = Grey400,
 )
 
 @Composable
