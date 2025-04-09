@@ -31,6 +31,14 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15" // Compose UI
+    }
 }
 
 dependencies {
@@ -38,18 +46,27 @@ dependencies {
     api(project(":core:domain"))
     api(project(":core:model"))
 
-    implementation(libs.kotlinx.serialization.json)
-
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    // Jetpack Compose
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.runtime)
+
+    // Compose UI
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.foundation.layout)
+
+    // Material 3
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.navigation.suite)
+    implementation(libs.androidx.compose.material3.window.sizeclass)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -63,7 +80,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
-    // Coroutines
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 

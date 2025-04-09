@@ -11,6 +11,7 @@ import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Pets
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 
 object LelloIcons {
     // Menu
@@ -30,6 +31,7 @@ object LelloIcons {
     val Search = Icons.Rounded.Search
     val Favorite = Icons.Rounded.Favorite
     val MoreVert = Icons.Rounded.MoreVert
+    val Settings = Icons.Rounded.Settings
 
     val Add = Icons.Rounded.Add
 }

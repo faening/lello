@@ -3,7 +3,6 @@ package io.github.faening.lello.core.designsystem.component
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -13,7 +12,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -48,7 +46,6 @@ fun LelloTopAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-            // Título é opcional
             title?.let {
                 Text(
                     text = when {
@@ -61,7 +58,6 @@ fun LelloTopAppBar(
             }
         },
         navigationIcon = {
-            // Botão de navegação é opcional
             navigationAction?.let {
                 IconButton(onClick = it.onClick) {
                     Icon(
@@ -73,7 +69,6 @@ fun LelloTopAppBar(
             }
         },
         actions = {
-            // Agora renderiza múltiplas ações
             actions.forEach { action ->
                 IconButton(onClick = action.onClick) {
                     Icon(

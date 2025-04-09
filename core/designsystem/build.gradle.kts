@@ -35,10 +35,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15" // Compose UI
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
 }
 
 dependencies {
