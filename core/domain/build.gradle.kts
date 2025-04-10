@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -36,16 +34,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
     testImplementation(libs.junit)
-}
-
-kapt {
-    correctErrorTypes = true
 }

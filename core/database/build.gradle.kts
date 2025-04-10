@@ -35,8 +35,7 @@ dependencies {
     api(project(":core:model"))
 
     // Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt)
     ksp(libs.hilt.compiler)
 
     // Room

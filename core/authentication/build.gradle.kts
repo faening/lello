@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -40,8 +40,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
 
     // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -50,8 +50,4 @@ dependencies {
     // Unit Tests
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
-}
-
-kapt {
-    correctErrorTypes = true
 }
