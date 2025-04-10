@@ -1,9 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.lello.hilt)
 }
 
 android {
@@ -32,11 +31,7 @@ android {
 }
 
 dependencies {
-    api(project(":core:model"))
-
-    // Hilt
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
+    api(projects.core.model)
 
     // Room
     implementation(libs.androidx.room.runtime)

@@ -1,4 +1,5 @@
 pluginManagement {
+     includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -11,6 +12,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -18,10 +20,13 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "lello"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 include(":core:authentication")
+include(":core:database")
 include(":core:designsystem")
 include(":core:domain")
 include(":core:model")
@@ -33,4 +38,3 @@ include(":feature:diarymeal")
 include(":feature:diarymedication")
 include(":feature:diarymood")
 include(":feature:diarysleep")
-include(":core:database")

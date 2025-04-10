@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.lello.hilt)
+
 }
 
 android {
@@ -38,10 +39,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
-
-    // Hilt
-    implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
 
     // Firebase
     implementation(platform(libs.firebase.bom))

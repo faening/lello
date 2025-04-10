@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.lello.hilt)
 }
 
 android {
@@ -73,14 +71,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
-    // Hilt
-    implementation(libs.hilt)
-    implementation(libs.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
-
     // Navigation
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.hilt.navigation.compose)
 
     // Unit Tests
     testImplementation(libs.junit)
