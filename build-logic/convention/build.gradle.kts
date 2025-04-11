@@ -23,7 +23,8 @@ dependencies {
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
 
-    // compileOnly(libs.android.tools.common)
+    compileOnly(libs.android.tools.common)
+
     // compileOnly(libs.firebase.crashlytics.gradlePlugin)
     // compileOnly(libs.room.gradlePlugin)
 }
@@ -37,9 +38,20 @@ tasks {
 
 gradlePlugin {
     plugins {
+        register("androidApplicationCompose") {
+            id = "lello.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "lello.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "lello.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
         register("hilt") {
-            // id = "io.github.faening.lello.hilt"
-            id = libs.plugins.lello.hilt.get().pluginId
+            id = "lello.hilt"
             implementationClass = "HiltConventionPlugin"
         }
     }
