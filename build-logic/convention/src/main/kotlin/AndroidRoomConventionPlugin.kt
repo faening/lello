@@ -12,8 +12,10 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            apply(plugin = "androidx.room")
-            apply(plugin = "com.google.devtools.ksp")
+            with(pluginManager) {
+                apply(plugin = "androidx.room")
+                apply(plugin = "com.google.devtools.ksp")
+            }
 
             extensions.configure<KspExtension> {
                 arg("room.generateKotlin", "true")
@@ -24,9 +26,9 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(libs.findLibrary("room.runtime").get())
-                "implementation"(libs.findLibrary("room.ktx").get())
-                "ksp"(libs.findLibrary("room.compiler").get())
+                "implementation"(libs.findLibrary("androidx.room.runtime").get())
+                "implementation"(libs.findLibrary("androidx.room.ktx").get())
+                "ksp"(libs.findLibrary("androidx.room.compiler").get())
             }
         }
     }

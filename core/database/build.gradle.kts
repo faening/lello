@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.lello.android.library)
+    alias(libs.plugins.lello.android.room)
     alias(libs.plugins.lello.hilt)
 }
 
@@ -10,9 +11,5 @@ android {
 dependencies {
     api(projects.core.model)
 
-    // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    testImplementation(libs.androidx.room.testing)
+    implementation(libs.kotlinx.datetime)
 }
