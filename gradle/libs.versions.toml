@@ -90,7 +90,6 @@ firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
 hilt = { group = "com.google.dagger", name="hilt-android", version.ref = "hilt" }
 hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hilt" }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation" }
 
 # Junit
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -107,7 +106,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 
 # Lifecycle
 # https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=pt-br
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-runtime-test = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
@@ -123,6 +122,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 # Navigation
 # https://developer.android.com/guide/navigation?hl=pt-br
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-navigation-compose-hilt = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation" }
 androidx-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 
 # Room
@@ -170,6 +170,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Plugins definidos internamente (build-logic)
 lello-android-application-compose = { id = "lello.android.application.compose" }
+lello-android-feature = { id = "lello.android.feature" }
 lello-android-library = { id = "lello.android.library" }
 lello-android-library-compose = { id = "lello.android.library.compose" }
 lello-android-library-compose-ui = { id = "lello.android.library.compose.ui" } # Compose + UI

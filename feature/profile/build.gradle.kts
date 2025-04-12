@@ -46,7 +46,7 @@ dependencies {
 
     // Core Android
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
 
     // Compose UI
     implementation(libs.androidx.compose.ui)
@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // ViewModel
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Coroutines

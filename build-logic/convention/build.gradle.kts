@@ -51,6 +51,10 @@ gradlePlugin {
             id = "lello.android.library.compose.ui"
             implementationClass = "AndroidLibraryComposeUIConventionPlugin"
         }
+        register("androidFeature") {
+            id = "lello.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
         register("hilt") {
             id = "lello.hilt"
             implementationClass = "HiltConventionPlugin"

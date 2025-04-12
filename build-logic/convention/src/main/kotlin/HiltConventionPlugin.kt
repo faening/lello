@@ -15,8 +15,8 @@ class HiltConventionPlugin : Plugin<Project> {
                 pluginManager.withPlugin("com.android.base") {
                     pluginManager.apply("com.google.dagger.hilt.android")
                     dependencies {
-                        "implementation"(libs.findLibrary("hilt").get())
-                        "implementation"(libs.findLibrary("hilt.navigation.compose").get())
+                        add("implementation", libs.findLibrary("hilt").get())
+                        add("implementation", libs.findLibrary("androidx-navigation-compose-hilt").get())
                     }
                 }
             }

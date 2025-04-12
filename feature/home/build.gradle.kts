@@ -57,7 +57,7 @@ dependencies {
 
     // Core Android
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
 
     // Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // ViewModel
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Coroutines
