@@ -175,3 +175,4 @@ lello-android-library-compose = { id = "lello.android.library.compose" }
 lello-android-library-compose-ui = { id = "lello.android.library.compose.ui" } # Compose + UI
 lello-android-room = { id = "lello.android.room" }
 lello-hilt = { id = "lello.hilt" }
+lello-jvm-library = { id = "lello.jvm.library" }

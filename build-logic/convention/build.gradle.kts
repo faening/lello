@@ -59,5 +59,9 @@ gradlePlugin {
             id = "lello.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "lello.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }
