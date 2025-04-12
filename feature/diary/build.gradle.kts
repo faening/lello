@@ -83,5 +83,5 @@ dependencies {
 
     // Debug Tools
     debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

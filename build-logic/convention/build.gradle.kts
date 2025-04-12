@@ -7,26 +7,23 @@ plugins {
 group = "io.github.faening.lello.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
+        jvmTarget = JvmTarget.JVM_17
     }
 }
 
 dependencies {
-    compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.ksp.gradlePlugin)
-    compileOnly(libs.compose.gradlePlugin)
-
+    compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.android.room.gradle.plugin)
     compileOnly(libs.android.tools.common)
-
-    // compileOnly(libs.firebase.crashlytics.gradlePlugin)
-    // compileOnly(libs.room.gradlePlugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.kotlin.gradle.compose.plugin)
+    compileOnly(libs.ksp.gradle.plugin)
 }
 
 tasks {
@@ -53,6 +50,10 @@ gradlePlugin {
         register("hilt") {
             id = "lello.hilt"
             implementationClass = "HiltConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "lello.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }
