@@ -11,10 +11,6 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.model)
 
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.play.services)
-
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.authentication)
 
