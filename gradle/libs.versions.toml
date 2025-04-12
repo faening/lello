@@ -169,7 +169,9 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Plugins definidos internamente (build-logic)
+lello-android-application = { id = "lello.android.application" }
 lello-android-application-compose = { id = "lello.android.application.compose" }
+lello-android-application-compose-ui = { id = "lello.android.application.compose.ui" }
 lello-android-feature = { id = "lello.android.feature" }
 lello-android-library = { id = "lello.android.library" }
 lello-android-library-compose = { id = "lello.android.library.compose" }

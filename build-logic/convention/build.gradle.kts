@@ -35,9 +35,21 @@ tasks {
 
 gradlePlugin {
     plugins {
+        register("androidApplication") {
+            id = "lello.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
         register("androidApplicationCompose") {
             id = "lello.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidApplicationComposeUI") {
+            id = "lello.android.application.compose.ui"
+            implementationClass = "AndroidApplicationComposeUIConventionPlugin"
+        }
+        register("androidFeature") {
+            id = "lello.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidLibrary") {
             id = "lello.android.library"
@@ -50,10 +62,6 @@ gradlePlugin {
         register("androidLibraryComposeUI") {
             id = "lello.android.library.compose.ui"
             implementationClass = "AndroidLibraryComposeUIConventionPlugin"
-        }
-        register("androidFeature") {
-            id = "lello.android.feature"
-            implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("hilt") {
             id = "lello.hilt"
