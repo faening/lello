@@ -4,9 +4,6 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-/**
- * Configure Compose-specific options
- */
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
@@ -15,25 +12,54 @@ internal fun Project.configureAndroidCompose(
             compose = true
         }
 
+        dependencies {
+            add("implementation", platform(libs.findLibrary("androidx-compose-bom").get()))
+            add("androidTestImplementation", platform(libs.findLibrary("androidx-compose-bom").get()))
+
+            add("implementation", libs.findLibrary("androidx-compose-runtime").get())
+
+            add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+        }
+    }
+}
+
+internal fun Project.configureAndroidComposeUI(
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
+) {
+    commonExtension.apply {
+        buildFeatures {
+            compose = true
+        }
+
         composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.15" // Compose UI
+            kotlinCompilerExtensionVersion = "1.5.15"
         }
 
         dependencies {
-            val bom = libs.findLibrary("androidx-compose-bom").get()
-            "implementation"(platform(bom))
-            "implementation"(libs.findLibrary("androidx-compose-runtime").get())
-            "implementation"(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
-            "implementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
+            add("implementation", platform(libs.findLibrary("androidx-compose-bom").get()))
+            add("implementation", libs.findLibrary("androidx-compose-runtime").get())
 
-            "androidTestImplementation"(platform(bom))
+            add("implementation", libs.findLibrary("androidx-compose-foundation").get())
+            add("implementation", libs.findLibrary("androidx-compose-foundation-layout").get())
+
+            add("implementation", libs.findLibrary("androidx-compose-material-icons-core").get())
+            add("implementation", libs.findLibrary("androidx-compose-material-icons-extended").get())
+
+            add("implementation", libs.findLibrary("androidx-compose-material3").get())
+            add("implementation", libs.findLibrary("androidx-compose-material3-adaptive-layout").get())
+            add("implementation", libs.findLibrary("androidx-compose-material3-navigation-suite").get())
+            add("implementation", libs.findLibrary("androidx-compose-material3-window-sizeclass").get())
+
+            add("implementation", libs.findLibrary("androidx-compose-ui").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-graphics").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-util").get())
+            add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
+            add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+
+            add("androidTestImplementation", platform(libs.findLibrary("androidx.compose.ui.test").get()))
+            add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test").get())
+            add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
         }
-
-//        testOptions {
-//            unitTests {
-//                // For Robolectric
-//                // isIncludeAndroidResources = true
-//            }
-//        }
     }
 }
