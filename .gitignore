@@ -41,3 +41,4 @@ captures/
 # Others
 .externalNativeBuild
 .cxx
+/build-logic/.kotlin/errors/errors-1744561677203.log

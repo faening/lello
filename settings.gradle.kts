@@ -1,5 +1,5 @@
 pluginManagement {
-     includeBuild("build-logic")
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -13,6 +13,7 @@ pluginManagement {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
