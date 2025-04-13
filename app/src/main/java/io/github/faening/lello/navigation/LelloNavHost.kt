@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import io.github.faening.lello.feature.dashboard.navigation.dashboardGraph
-import io.github.faening.lello.feature.diary.navigation.diaryGraph
 import io.github.faening.lello.feature.home.navigation.HOME_MAIN_ROUTE
 import io.github.faening.lello.feature.home.navigation.homeGraph
 import io.github.faening.lello.feature.profile.navigation.profileGraph
@@ -24,9 +23,9 @@ fun LelloNavHost(
             navController = navController
         )
 
-        diaryGraph(
-            navController = navController
-        )
+//        diaryGraph(
+//            navController = navController
+//        )
 
         dashboardGraph(
             navController = navController

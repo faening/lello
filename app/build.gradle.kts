@@ -26,7 +26,6 @@ android {
 dependencies {
     api(projects.core.designsystem)
     api(projects.feature.home)
-    api(projects.feature.diary)
     api(projects.feature.dashboard)
     api(projects.feature.profile)
 }
