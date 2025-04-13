@@ -1,12 +1,11 @@
+@file:Suppress("unused")
+
 package io.github.faening.lello.buildlogic
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 
-/**
- * Configura os build types para a aplicação e bibliotecas
- */
-fun configureBuildTypes(
+fun configureLibraryBuildTypes(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
@@ -21,9 +20,6 @@ fun configureBuildTypes(
     }
 }
 
-/**
- * Adiciona configurações específicas para o módulo de aplicação
- */
 fun configureApplicationBuildTypes(
     applicationExtension: ApplicationExtension,
 ) {

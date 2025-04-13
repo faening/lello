@@ -1,9 +1,10 @@
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import io.github.faening.lello.buildlogic.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.configure
 
+@Suppress("unused")
 class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -12,8 +13,9 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
 
-            val extension = extensions.getByType<LibraryExtension>()
-            configureAndroidCompose(extension)
+            extensions.configure<LibraryExtension> {
+                configureAndroidCompose(this)
+            }
         }
     }
 }

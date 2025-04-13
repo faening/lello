@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.github.faening.lello.buildlogic
 
 import com.android.build.api.dsl.CommonExtension
@@ -5,9 +7,7 @@ import com.android.build.api.dsl.ManagedVirtualDevice
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.invoke
 
-/**
- * Configure project for Gradle managed devices
- */
+@Suppress("DEPRECATION", "UnstableApiUsage")
 internal fun configureGradleManagedDevices(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {

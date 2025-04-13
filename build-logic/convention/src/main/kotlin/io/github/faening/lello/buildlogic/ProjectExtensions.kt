@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.github.faening.lello.buildlogic
 
 import org.gradle.api.Project

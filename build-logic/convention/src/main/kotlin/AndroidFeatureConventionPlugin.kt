@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
+@Suppress("unused")
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -21,14 +22,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("implementation", project(":core:designsystem"))
-
                 add("implementation", libs.findLibrary("androidx-navigation-compose").get())
-
                 add("implementation", libs.findLibrary("androidx-lifecycle-runtime").get())
                 add("implementation", libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
-
                 add("implementation", libs.findLibrary("kotlinx-serialization-json").get())
-
                 add("testImplementation", libs.findLibrary("androidx-navigation-test").get())
                 add("androidTestImplementation", libs.findLibrary("androidx-lifecycle-runtime-test").get())
             }
