@@ -11,26 +11,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.menu.dashboard.R as dashboardR
+import io.github.faening.lello.feature.menu.dashboard.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
-    onSettingsClick: () -> Unit,
-    onEditDashboardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = {
-            LelloTopAppBar(
-                title = TopAppBarTitle(textRes = dashboardR.string.main_home_toolbar_title)
-            )
-        }
+        topBar = { DashboardScreenTopAppBar() }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -41,7 +36,7 @@ fun DashboardScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Dashboards...",
+                text = stringResource(R.string.dashboard_title),
                 style = MaterialTheme.typography.headlineSmall
             )
         }
@@ -49,13 +44,19 @@ fun DashboardScreen(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DashboardScreenTopAppBar() {
+    val title = R.string.dashboard_topappbar_title
+    LelloTopAppBar(
+        title = TopAppBarTitle(textRes = title)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun DashboardScreenPreview() {
     LelloTheme(darkTheme = false) {
-        DashboardScreen(
-            onSettingsClick = {},
-            onEditDashboardClick = {}
-        )
+        DashboardScreen()
     }
 }

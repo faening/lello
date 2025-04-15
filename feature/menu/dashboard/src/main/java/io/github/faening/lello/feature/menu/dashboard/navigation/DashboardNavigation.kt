@@ -13,13 +13,6 @@ const val DASHBOARD_EDIT_ROUTE = "dashboard_edit"
 fun NavGraphBuilder.dashboardGraph(navController: NavController) {
 
     composable(route = DASHBOARD_MAIN_ROUTE) {
-        DashboardScreen(
-            onSettingsClick = {
-                navController.navigate(DASHBOARD_SETTINGS_ROUTE)
-            },
-            onEditDashboardClick = {
-                navController.navigate(DASHBOARD_EDIT_ROUTE)
-            }
-        )
+        DashboardScreen()
     }
 }
