@@ -13,13 +13,6 @@ const val PROFILE_EDIT_ROUTE = "profile_edit"
 fun NavGraphBuilder.profileGraph(navController: NavController) {
     // Tela principal do Profile diretamente na rota "profile"
     composable(route = PROFILE_MAIN_ROUTE) {
-        ProfileScreen(
-            onSettingsClick = {
-                navController.navigate(PROFILE_SETTINGS_ROUTE)
-            },
-            onEditProfileClick = {
-                navController.navigate(PROFILE_EDIT_ROUTE)
-            }
-        )
+        ProfileScreen()
     }
 }
