@@ -2,6 +2,7 @@ package io.github.faening.lello.core.designsystem.component
 
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,6 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
@@ -53,7 +55,8 @@ fun LelloTopAppBar(
                         it.text != null -> it.text
                         else -> ""
                     },
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         },
@@ -63,7 +66,8 @@ fun LelloTopAppBar(
                     Icon(
                         imageVector = it.icon,
                         contentDescription = it.contentDescription,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }
@@ -74,7 +78,8 @@ fun LelloTopAppBar(
                     Icon(
                         imageVector = action.icon,
                         contentDescription = action.contentDescription,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(28.dp)
                     )
                 }
             }
@@ -118,10 +123,6 @@ private fun LelloTopAppBarMultipleActionsPreview() {
                 contentDescription = "Voltar"
             ),
             actions = listOf(
-                TopAppBarAction(
-                    icon = LelloIcons.Search,
-                    contentDescription = "Pesquisar"
-                ),
                 TopAppBarAction(
                     icon = LelloIcons.Favorite,
                     contentDescription = "Favoritos"

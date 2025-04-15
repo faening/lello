@@ -100,8 +100,8 @@ fun DiarySettingsScreen(
 private fun DiarySettingsScreenTopAppBar(
     onBackClick: () -> Unit
 ) {
-    val toolbarTitle = R.string.settings_toolbar_title
-    val toolbarBackActionDescription = stringResource(R.string.settings_toolbar_go_back)
+    val toolbarTitle = R.string.toolbar_action_settings_title
+    val toolbarBackActionDescription = stringResource(R.string.toolbar_action_settings_go_back)
 
     LelloTopAppBar(
         title = TopAppBarTitle(textRes = toolbarTitle),

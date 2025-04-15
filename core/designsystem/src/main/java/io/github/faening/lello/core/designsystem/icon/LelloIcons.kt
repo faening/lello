@@ -7,6 +7,7 @@ import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.LibraryBooks
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PieChartOutline
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Favorite
@@ -37,7 +38,7 @@ object LelloIcons {
     val Search = Icons.Rounded.Search
     val Favorite = Icons.Rounded.Favorite
     val MoreVert = Icons.Rounded.MoreVert
-    val Settings = Icons.Rounded.Settings
+    val Settings = Icons.Outlined.Settings
 
     val Add = Icons.Rounded.Add
 }

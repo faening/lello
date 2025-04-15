@@ -11,10 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Orange500,
-    onPrimary = Neutral300,
-    primaryContainer = Orange300,
-    onPrimaryContainer = Grey500,
+    // --- Cores Primárias ---
+    primary = Orange500,               // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
+    onPrimary = Neutral500,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
+    primaryContainer = Orange200,      // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
+    onPrimaryContainer = Neutral500,   // Cor do texto/ícones que aparece SOBRE containers primários
 
     secondary = Blue300,
     onSecondary = Blue900,
@@ -31,45 +32,53 @@ private val DarkColorScheme = darkColorScheme(
     errorContainer = Red700,
     onErrorContainer = Red100,
 
-    background = Grey900,
-    onBackground = Neutral100,
-    surface = Grey900,
-    onSurface = Neutral50,
+    // --- Cores de Fundo e Superfície ---
+    background = Grey900,       // Cor de fundo principal do aplicativo
+    onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
+    surface = Grey500,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
+    onSurface = Neutral100,     // Cor do texto/ícones que aparece SOBRE superfícies
 
-    surfaceVariant = Grey700,
-    onSurfaceVariant = Neutral300,
-    outline = Grey500
+    // --- Cores de Variante e Contorno ---
+    surfaceVariant = Neutral200,      // Variante sutil da superfície para diferenciar áreas da interface
+    onSurfaceVariant = Neutral300,    // Cor para texto/ícones secundários sobre variantes de superfície
+    outline = Neutral400,                // Cor para bordas e divisores, definindo limites entre elementos
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Orange500,
-    onPrimary = Grey300,
-    primaryContainer = Orange100,
-    onPrimaryContainer = Grey500,
+    // --- Cores Primárias ---
+    primary = Orange500,            // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
+    onPrimary = Grey500,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
+    primaryContainer = Orange200,   // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
+    onPrimaryContainer = Grey300,   // Cor do texto/ícones que aparece SOBRE containers primários
 
-    secondary = Blue500,
-    onSecondary = Neutral50,
-    secondaryContainer = Blue100,
-    onSecondaryContainer = Blue900,
+    // --- Cores Secundárias ---
+    secondary = Blue500,              // Cor secundária para elementos menos proeminentes, mas ainda importantes
+    onSecondary = Neutral50,          // Cor do texto/ícones que aparece SOBRE elementos que usam a cor secondary
+    secondaryContainer = Blue100,     // Containers secundários, menos enfáticos que os primários
+    onSecondaryContainer = Blue900,   // Cor do texto/ícones que aparece SOBRE containers secundários
 
-    tertiary = Yellow500,
-    onTertiary = Brown900,
-    tertiaryContainer = Yellow100,
-    onTertiaryContainer = Brown900,
+    // --- Cores Terciárias ---
+    tertiary = Yellow500,             // Cor de acento para elementos distintos, complementando a primária e secundária
+    onTertiary = Brown900,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor tertiary
+    tertiaryContainer = Yellow100,    // Containers terciários para agrupar conteúdo relacionado ao tema terciário
+    onTertiaryContainer = Brown900,   // Cor do texto/ícones que aparece SOBRE containers terciários
 
-    error = Red500,
-    onError = Neutral50,
-    errorContainer = Red100,
-    onErrorContainer = Red900,
+    // --- Cores de Erro ---
+    error = Red500,              // Cor para indicar estados de erro ou ações destrutivas
+    onError = Neutral50,         // Cor do texto/ícones que aparece SOBRE elementos que usam a cor error
+    errorContainer = Red100,     // Containers para mensagens de erro ou avisos, menos intenso que error
+    onErrorContainer = Red900,   // Cor do texto/ícones que aparece SOBRE containers de erro
 
-    background = Yellow50,
-    onBackground = Grey900,
-    surface = Brown50,
-    onSurface = Grey500,
+    // --- Cores de Fundo e Superfície ---
+    background = Yellow50,      // Cor de fundo principal do aplicativo
+    onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
+    surface = Brown50,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
+    onSurface = Grey500,        // Cor do texto/ícones que aparece SOBRE superfícies
 
-    surfaceVariant = Neutral200,
-    onSurfaceVariant = Grey300,
-    outline = Grey400,
+    // --- Cores de Variante e Contorno ---
+    surfaceVariant = Neutral200,   // Variante sutil da superfície para diferenciar áreas da interface
+    onSurfaceVariant = Grey300,    // Cor para texto/ícones secundários sobre variantes de superfície
+    outline = Grey400,             // Cor para bordas e divisores, definindo limites entre elementos
 )
 
 @Composable

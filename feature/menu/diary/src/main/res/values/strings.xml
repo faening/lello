@@ -2,10 +2,10 @@
 <resources>
     <string name="diary_title">Diary</string>
 
-    <string name="home_toolbar_title">Diaries</string>
-    <string name="home_toolbar_action_settings_description">Settings</string>
-
-    <string name="settings_toolbar_title">Settings</string>
-    <string name="settings_toolbar_go_back">Go Back</string>
+    <!-- Toolbar -->
+    <string name="toolbar_title">Diaries</string>
+    <string name="toolbar_action_settings_title">Settings</string>
+    <string name="toolbar_action_settings_description">Settings</string>
+    <string name="toolbar_action_settings_go_back">Go Back</string>
     <string name="settings_top_message">Select which results you want to monitor daily</string>
 </resources>

@@ -18,17 +18,24 @@ import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.menu.diary.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiaryHomeScreen(
+fun DiaryScreen(
+    onBackClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onEditDiaryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { DiaryHomeScreenTopAppBar(onSettingsClick) }
+        topBar = {
+            DiaryScreenTopAppBar(
+                onBackClick = onBackClick,
+                onSettingsClick = onSettingsClick
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -48,18 +55,24 @@ fun DiaryHomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DiaryHomeScreenTopAppBar(
+private fun DiaryScreenTopAppBar(
+    onBackClick: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
-    val toolbarTitle = R.string.home_toolbar_title
-    val toolbarActionSettingsDescription = stringResource(R.string.home_toolbar_action_settings_description)
+    val title = R.string.toolbar_title
+    val actionSettingsDescription = stringResource(R.string.toolbar_action_settings_description)
 
     LelloTopAppBar(
-        title = TopAppBarTitle(textRes = toolbarTitle),
+        title = TopAppBarTitle(textRes = title),
+        navigationAction = TopAppBarAction(
+            icon = LelloIcons.ArrowBack,
+            contentDescription = actionSettingsDescription,
+            onClick = { onBackClick() }
+        ),
         actions = listOf(
             TopAppBarAction(
                 icon = LelloIcons.Settings,
-                contentDescription = toolbarActionSettingsDescription,
+                contentDescription = actionSettingsDescription,
                 onClick = { onSettingsClick() }
             )
         )
@@ -67,11 +80,17 @@ private fun DiaryHomeScreenTopAppBar(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+@Preview(
+    name = "Diary Home Screen",
+    showBackground = true
+)
 @Composable
 fun DiaryHomeScreenPreview() {
-    DiaryHomeScreen(
-        onSettingsClick = {},
-        onEditDiaryClick = {}
-    )
+    LelloTheme(darkTheme = false) {
+        DiaryScreen(
+            onBackClick = {},
+            onSettingsClick = {},
+            onEditDiaryClick = {}
+        )
+    }
 }

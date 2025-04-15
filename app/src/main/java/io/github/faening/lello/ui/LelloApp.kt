@@ -51,7 +51,7 @@ fun LelloApp() {
             unselectedIcon = LelloIcons.Diary
         ),
         NavigationItem(
-            title = achievementR.string.title,
+            title = achievementR.string.achievements_title,
             route = ACHIEVEMENT_MAIN_ROUTE,
             selectedIcon = LelloIcons.AchievementsBorder,
             unselectedIcon = LelloIcons.Achievements

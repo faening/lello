@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="diary_title">Diários</string>
-    <string name="home_toolbar_title">Diários</string>
-    <string name="home_toolbar_action_settings_description">Configurações</string>
-    <string name="settings_toolbar_title">Configurações</string>
-    <string name="settings_toolbar_go_back">Voltar</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_title">Diários</string>
+    <string name="toolbar_action_settings_description">Configurações</string>
+    <string name="toolbar_action_settings_title">Configurações</string>
+    <string name="toolbar_action_settings_go_back">Voltar</string>
     <string name="settings_top_message">Selecione quais resultados você deseja monitorar diariamente</string>
 </resources>
