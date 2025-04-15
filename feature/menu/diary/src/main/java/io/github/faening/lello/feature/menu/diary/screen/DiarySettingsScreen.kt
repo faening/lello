@@ -30,7 +30,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.diary.DiarySettingsOption
+import io.github.faening.lello.core.model.diary.Diary
 import io.github.faening.lello.feature.menu.diary.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,42 +39,14 @@ fun DiarySettingsScreen(
     onBackClick: () -> Unit
 ) {
 
-    val settingsOptions = remember {
-        mutableStateListOf(
-            DiarySettingsOption(
-                id = "daily_diary",
-                title = "Diário Diário",
-                icon = LelloIcons.Settings,
-                isEnabled = true
-            ),
-            DiarySettingsOption(
-                id = "weekly_diary",
-                title = "Diário Semanal",
-                icon = LelloIcons.Settings,
-                isEnabled = false
-            ),
-            DiarySettingsOption(
-                id = "monthly_diary",
-                title = "Diário Mensal",
-                icon = LelloIcons.Settings,
-                isEnabled = false
-            ),
-            DiarySettingsOption(
-                id = "annual_diary",
-                title = "Diário Anual",
-                icon = LelloIcons.Settings,
-                isEnabled = true
-            )
-        )
-    }
 
     // Função para atualizar o estado quando o toggle muda
-    val onToggleChanged = { id: String, isEnabled: Boolean ->
-        val index = settingsOptions.indexOfFirst { it.id == id }
-        if (index != -1) {
-            settingsOptions[index] = settingsOptions[index].copy(isEnabled = isEnabled)
-        }
-    }
+//    val onToggleChanged = { id: String, isEnabled: Boolean ->
+//        val index = settingsOptions.indexOfFirst { it.id == id }
+//        if (index != -1) {
+//            settingsOptions[index] = settingsOptions[index].copy(isEnabled = isEnabled)
+//        }
+//    }
 
     Scaffold(
         topBar = {
@@ -89,10 +61,10 @@ fun DiarySettingsScreen(
         ) {
             DiarySettingsScreenTextTop()
             Spacer(modifier = Modifier.height(16.dp))
-            DiarySettingsList(
-                options = settingsOptions,
-                onToggleChanged = onToggleChanged
-            )
+//            DiarySettingsList(
+//                options = settingsOptions,
+//                onToggleChanged = onToggleChanged
+//            )
         }
     }
 }
@@ -127,7 +99,7 @@ private fun DiarySettingsScreenTextTop() {
 
 @Composable
 private fun DiarySettingsList(
-    options: List<DiarySettingsOption>,
+    options: List<Diary>,
     onToggleChanged: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -147,7 +119,7 @@ private fun DiarySettingsList(
 
 @Composable
 private fun DiarySettingsOptionCard(
-    option: DiarySettingsOption,
+    option: Diary,
     onToggleChanged: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -162,27 +134,27 @@ private fun DiarySettingsOptionCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Icon(
-                    imageVector = option.icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = option.title,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-
-            Switch(
-                checked = option.isEnabled,
-                onCheckedChange = { isChecked ->
-                    onToggleChanged(option.id, isChecked)
-                }
-            )
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.spacedBy(16.dp)
+//            ) {
+//                Icon(
+//                    imageVector = option.icon,
+//                    contentDescription = null,
+//                    tint = MaterialTheme.colorScheme.primary
+//                )
+//                Text(
+//                    text = option.title,
+//                    style = MaterialTheme.typography.bodyLarge
+//                )
+//            }
+//
+//            Switch(
+//                checked = option.isEnabled,
+//                onCheckedChange = { isChecked ->
+//                    onToggleChanged(option.id, isChecked)
+//                }
+//            )
         }
     }
 }
