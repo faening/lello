@@ -1,18 +1,23 @@
+@file:Suppress("unused")
+
 package io.github.faening.lello.core.designsystem.component
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
@@ -23,9 +28,8 @@ fun LelloNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier.fillMaxWidth(),
-        contentColor = NavigationDefaults.navigationSelectedItemColor(),
-        containerColor = NavigationDefaults.navigationContainerColor(),
-        tonalElevation = NavigationDefaults.navigationElevation,
+        contentColor = NavigationDefaults.selectedItemColor(),
+        containerColor = NavigationDefaults.containerColor(),
         content = content,
     )
 }
@@ -41,27 +45,52 @@ fun RowScope.LelloNavigationBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
 ) {
+    // Obtenha as cores antecipadamente
+    val selectedColor = NavigationDefaults.selectedItemColor()
+    val unselectedColor = NavigationDefaults.unselectedItemColor()
+
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
         icon = if (selected) selectedIcon else icon,
         modifier = modifier,
         enabled = enabled,
-        label = label,
+        label = label?.let { labelContent ->
+            {
+                val textStyle = if (selected) {
+                    MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = selectedColor,
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize
+                    )
+                } else {
+                    MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.Normal,
+                        color = unselectedColor,
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize
+                    )
+                }
+                CompositionLocalProvider(
+                    LocalTextStyle provides textStyle
+                ) {
+                    labelContent()
+                }
+            }
+        },
         alwaysShowLabel = alwaysShowLabel,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = NavigationDefaults.navigationSelectedItemColor(),
-            unselectedIconColor = NavigationDefaults.navigationContentColor(),
-            selectedTextColor = NavigationDefaults.navigationSelectedItemColor(),
-            unselectedTextColor = NavigationDefaults.navigationContentColor(),
-            indicatorColor = NavigationDefaults.navigationIndicatorColor(),
+            selectedIconColor = selectedColor,
+            unselectedIconColor = unselectedColor,
+            selectedTextColor = selectedColor,
+            unselectedTextColor = unselectedColor,
+            indicatorColor = NavigationDefaults.indicatorColor(),
         ),
     )
 }
 
 @Composable
 private fun MobileNavigationBarContent() {
-    val items = listOf("Home", "Diary", "Achievements", "Dashboard", "Profile")
+    val items = listOf("Início", "Diários", "Conquistas", "Dashboards", "Perfil")
     val icons = listOf(
         LelloIcons.Home,
         LelloIcons.Diary,
@@ -92,9 +121,13 @@ private fun MobileNavigationBarContent() {
                         contentDescription = item,
                     )
                 },
-                label = { Text(
-                    item
-                ) },
+                label = {
+                    Text(
+                        text = item,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 selected = index == 0,
                 onClick = { },
             )
@@ -123,17 +156,23 @@ private object NavigationDefaults {
      * Cor para itens não selecionados na barra de navegação
      */
     @Composable
-    fun navigationContentColor(): Color {
-        // Use a cor onSurfaceVariant, que é adequada para conteúdo em áreas de superfície variante
+    fun contentColor(): Color {
         return MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    /**
+     * Cor para itens não selecionados na barra de navegação (Grey500)
+     */
+    @Composable
+    fun unselectedItemColor(): Color {
+        return MaterialTheme.colorScheme.onPrimary
     }
 
     /**
      * Cor para itens selecionados na barra de navegação
      */
     @Composable
-    fun navigationSelectedItemColor(): Color {
-        // Use a cor primária para destacar o item selecionado
+    fun selectedItemColor(): Color {
         return MaterialTheme.colorScheme.primary
     }
 
@@ -141,8 +180,7 @@ private object NavigationDefaults {
      * Cor para o indicador na barra de navegação
      */
     @Composable
-    fun navigationIndicatorColor(): Color {
-        // Use o primaryContainer para o indicador, que é uma versão mais suave da cor primária
+    fun indicatorColor(): Color {
         return MaterialTheme.colorScheme.primaryContainer
     }
 
@@ -150,13 +188,7 @@ private object NavigationDefaults {
      * Cor de fundo para a barra de navegação
      */
     @Composable
-    fun navigationContainerColor(): Color {
-        // Use a cor de superfície, possivelmente com uma pequena elevação
+    fun containerColor(): Color {
         return MaterialTheme.colorScheme.surface
     }
-
-    /**
-     * Valor de elevação para a barra de navegação
-     */
-    val navigationElevation = 4.dp
 }

@@ -22,22 +22,4 @@ fun NavGraphBuilder.profileGraph(navController: NavController) {
             }
         )
     }
-
-    // Tela de configurações
-//    composable(route = PROFILE_SETTINGS_ROUTE) {
-//        ProfileSettingsScreen(
-//            onBackClick = {
-//                navController.navigateUp()
-//            }
-//        )
-//    }
-
-    // Tela de edição de perfil
-//    composable(route = PROFILE_EDIT_ROUTE) {
-//        ProfileEditScreen(
-//            onBackClick = {
-//                navController.navigateUp()
-//            }
-//        )
-//    }
 }

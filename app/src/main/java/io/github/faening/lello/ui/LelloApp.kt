@@ -20,6 +20,7 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.feature.menu.achievement.navigation.ACHIEVEMENT_MAIN_ROUTE
 import io.github.faening.lello.feature.menu.dashboard.navigation.DASHBOARD_MAIN_ROUTE
 import io.github.faening.lello.feature.menu.diary.navigation.DIARY_MAIN_ROUTE
 import io.github.faening.lello.feature.menu.home.navigation.HOME_MAIN_ROUTE
@@ -29,6 +30,7 @@ import io.github.faening.lello.feature.menu.dashboard.R as dashboardR
 import io.github.faening.lello.feature.menu.diary.R as diaryR
 import io.github.faening.lello.feature.menu.home.R as homeR
 import io.github.faening.lello.feature.menu.profile.R as profileR
+import io.github.faening.lello.feature.menu.achievement.R as achievementR
 
 @Composable
 fun LelloApp() {
@@ -39,26 +41,32 @@ fun LelloApp() {
         NavigationItem(
             title = homeR.string.home_title,
             route = HOME_MAIN_ROUTE,
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.HomeBorder
+            selectedIcon = LelloIcons.HomeBorder,
+            unselectedIcon = LelloIcons.Home
         ),
         NavigationItem(
             title = diaryR.string.diary_title,
             route = DIARY_MAIN_ROUTE,
-            selectedIcon = LelloIcons.Diary,
-            unselectedIcon = LelloIcons.DiaryBorder
+            selectedIcon = LelloIcons.DiaryBorder,
+            unselectedIcon = LelloIcons.Diary
+        ),
+        NavigationItem(
+            title = achievementR.string.title,
+            route = ACHIEVEMENT_MAIN_ROUTE,
+            selectedIcon = LelloIcons.AchievementsBorder,
+            unselectedIcon = LelloIcons.Achievements
         ),
         NavigationItem(
             title = dashboardR.string.dashboard_title,
             route = DASHBOARD_MAIN_ROUTE,
-            selectedIcon = LelloIcons.Dashboard,
-            unselectedIcon = LelloIcons.DashboardBorder
+            selectedIcon = LelloIcons.DashboardBorder,
+            unselectedIcon = LelloIcons.Dashboard
         ),
         NavigationItem(
             title = profileR.string.profile_title,
             route = PROFILE_MAIN_ROUTE,
-            selectedIcon = LelloIcons.Profile,
-            unselectedIcon = LelloIcons.ProfileBorder
+            selectedIcon = LelloIcons.ProfileBorder,
+            unselectedIcon = LelloIcons.Profile
         )
     )
 
