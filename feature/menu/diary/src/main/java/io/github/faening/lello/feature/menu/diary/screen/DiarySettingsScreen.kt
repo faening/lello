@@ -77,7 +77,9 @@ fun DiarySettingsScreen(
     }
 
     Scaffold(
-        topBar = { DiarySettingsScreenTopAppBar(onBackClick = onBackClick) }
+        topBar = {
+            DiarySettingsScreenTopAppBar(onBackClick = onBackClick)
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -119,9 +121,10 @@ private fun DiarySettingsScreenTextTop() {
 
     Text(
         text = topMessage,
-        style = MaterialTheme.typography.headlineSmall
+        style = MaterialTheme.typography.headlineMedium
     )
 }
+
 @Composable
 private fun DiarySettingsList(
     options: List<DiarySettingsOption>,

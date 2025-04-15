@@ -24,7 +24,6 @@ import io.github.faening.lello.feature.menu.diary.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiaryScreen(
-    onBackClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onEditDiaryClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -32,7 +31,6 @@ fun DiaryScreen(
     Scaffold(
         topBar = {
             DiaryScreenTopAppBar(
-                onBackClick = onBackClick,
                 onSettingsClick = onSettingsClick
             )
         }
@@ -56,7 +54,6 @@ fun DiaryScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DiaryScreenTopAppBar(
-    onBackClick: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
     val title = R.string.toolbar_title
@@ -64,11 +61,6 @@ private fun DiaryScreenTopAppBar(
 
     LelloTopAppBar(
         title = TopAppBarTitle(textRes = title),
-        navigationAction = TopAppBarAction(
-            icon = LelloIcons.ArrowBack,
-            contentDescription = actionSettingsDescription,
-            onClick = { onBackClick() }
-        ),
         actions = listOf(
             TopAppBarAction(
                 icon = LelloIcons.Settings,
@@ -88,7 +80,6 @@ private fun DiaryScreenTopAppBar(
 fun DiaryHomeScreenPreview() {
     LelloTheme(darkTheme = false) {
         DiaryScreen(
-            onBackClick = {},
             onSettingsClick = {},
             onEditDiaryClick = {}
         )

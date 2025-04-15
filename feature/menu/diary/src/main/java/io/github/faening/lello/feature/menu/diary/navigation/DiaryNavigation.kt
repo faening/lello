@@ -15,9 +15,6 @@ fun NavGraphBuilder.diaryGraph(navController: NavController) {
 
     composable(route = DIARY_MAIN_ROUTE) {
         DiaryScreen(
-            onBackClick = {
-                navController.navigateUp()
-            },
             onSettingsClick = {
                 navController.navigate(DIARY_SETTINGS_ROUTE)
             },
