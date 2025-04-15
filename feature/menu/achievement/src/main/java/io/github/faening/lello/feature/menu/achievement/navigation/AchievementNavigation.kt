@@ -11,10 +11,6 @@ const val ACHIEVEMENT_MAIN_ROUTE = "achievement_main"
 fun NavGraphBuilder.achievementGraph(navController: NavController) {
 
     composable(route = ACHIEVEMENT_MAIN_ROUTE) {
-        AchievementScreen(
-            onBackClick = {
-                navController.navigateUp()
-            }
-        )
+        AchievementScreen()
     }
 }
