@@ -3,7 +3,8 @@ package io.github.faening.lello.feature.menu.diary
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.data.repository.IDiaryRepository
+import io.github.faening.lello.core.data.repository.ResourceRepository
+import io.github.faening.lello.core.model.diary.Diary
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
-    diaryRepository: IDiaryRepository
+    diaryRepository: ResourceRepository<Diary>
 ) : ViewModel() {
 
     // Estado UI para a tela
@@ -22,7 +23,7 @@ class DiaryViewModel @Inject constructor(
     val uiState: StateFlow<DiaryUiState> = _uiState
 
     // Lista de diários
-    val diaries = diaryRepository.getDiaries()
+    val diaries = diaryRepository.getAll()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

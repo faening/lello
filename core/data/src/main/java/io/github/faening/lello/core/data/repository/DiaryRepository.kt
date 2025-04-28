@@ -10,25 +10,31 @@ import javax.inject.Inject
 
 internal class DiaryRepository @Inject constructor(
     private val diaryDao: DiaryDao
-) : IDiaryRepository {
+) : ResourceRepository<Diary> {
 
-    override fun getDiaries(): Flow<List<Diary>> {
-        return diaryDao.getDiaries().map { list -> list.map { it.toModel() } }
+    override fun getAll(): Flow<List<Diary>> {
+        return diaryDao
+            .getDiaries()
+            .map { list -> list.map { it.toModel() } }
     }
 
-    override fun getDiary(id: Long): Flow<Diary>? {
-        return diaryDao.getDiary(id)?.map { it.toModel() }
+    override fun getById(id: Long): Flow<Diary>? {
+        return diaryDao
+            .getDiary(id)
+            ?.map { it.toModel() }
     }
 
-    override suspend fun insertDiary(diary: Diary) : Long {
-        return diaryDao.insertDiary(diary.toEntity())
+    override suspend fun insert(entity: Diary): Long {
+        return diaryDao.insertDiary(entity.toEntity())
     }
 
-    override suspend fun updateDiary(diary: Diary) {
-        TODO("Not yet implemented")
+    override suspend fun update(entity: Diary) {
+        diaryDao.updateDiary(entity.toEntity())
     }
 
-    override suspend fun deleteDiary(id: Long) {
-        TODO("Not yet implemented")
+    override suspend fun delete(id: Long) {
+        diaryDao.getDiary(id)?.collect { diaryEntity ->
+            diaryDao.deleteDiary(diaryEntity)
+        }
     }
 }
