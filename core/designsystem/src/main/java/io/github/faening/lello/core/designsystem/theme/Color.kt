@@ -1,17 +1,19 @@
+@file:Suppress("unused")
+
 package io.github.faening.lello.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Neutral50 = Color(0xFFFEFEFE)
-val Neutral100 = Color(0xFFFDFCFA)
-val Neutral200 = Color(0xFFFCFAF8)
-val Neutral300 = Color(0xFFFAF8F5)
-val Neutral400 = Color(0xFFF9F7F3)
-val Neutral500 = Color(0xFFF8F5F0)
-val Neutral600 = Color(0xFFE2DFDA)
-val Neutral700 = Color(0xFFB0AEAA)
-val Neutral800 = Color(0xFF888784)
-val Neutral900 = Color(0xFF686765)
+val Yellow50 = Color(0xFFFEFAEF)
+val Yellow100 = Color(0xFFFDF3CF)
+val Yellow200 = Color(0xFFFCEDB9)
+val Yellow300 = Color(0xFFFBE698)
+val Yellow400 = Color(0xFFFBE185)
+val Yellow500 = Color(0xFFFADA66)
+val Yellow600 = Color(0xFFE7BE56)
+val Yellow700 = Color(0xFFC79F45)
+val Yellow800 = Color(0xFF9D7C36)
+val Yellow900 = Color(0xFF7A602A)
 
 val Grey50 = Color(0xFFE9E9E9)
 val Grey100 = Color(0xFFBCBCBC)
@@ -24,6 +26,19 @@ val Grey700 = Color(0xFF1B1B1B)
 val Grey800 = Color(0xFF151515)
 val Grey900 = Color(0xFF101010)
 
+
+
+val Neutral50 = Color(0xFFFEFEFE)
+val Neutral100 = Color(0xFFFDFCFA)
+val Neutral200 = Color(0xFFFCFAF8)
+val Neutral300 = Color(0xFFFAF8F5)
+val Neutral400 = Color(0xFFF9F7F3)
+val Neutral500 = Color(0xFFF8F5F0)
+val Neutral600 = Color(0xFFE2DFDA)
+val Neutral700 = Color(0xFFB0AEAA)
+val Neutral800 = Color(0xFF888784)
+val Neutral900 = Color(0xFF686765)
+
 val Brown50 = Color(0xFFF3EEEA)
 val Brown100 = Color(0xFFD8CBBD)
 val Brown200 = Color(0xFFC6B19D)
@@ -35,16 +50,7 @@ val Brown700 = Color(0xFF5C3D1E)
 val Brown800 = Color(0xFF482F17)
 val Brown900 = Color(0xFF372412)
 
-val Yellow50 = Color(0xFFFDF9EF)
-val Yellow100 = Color(0xFFF8EBCC)
-val Yellow200 = Color(0xFFF5E1B4)
-val Yellow300 = Color(0xFFF1D391)
-val Yellow400 = Color(0xFFEECB7C)
-val Yellow500 = Color(0xFFEABE5B)
-val Yellow600 = Color(0xFFD5AD53)
-val Yellow700 = Color(0xFFA68741)
-val Yellow800 = Color(0xFF816932)
-val Yellow900 = Color(0xFF625026)
+
 
 val Orange50 = Color(0xFFFDF4EF)
 val Orange100 = Color(0xFFF8DECC)
