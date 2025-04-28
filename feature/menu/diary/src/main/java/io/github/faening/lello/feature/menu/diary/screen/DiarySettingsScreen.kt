@@ -40,6 +40,7 @@ fun DiarySettingsScreen(
 ) {
 
 
+
     // Função para atualizar o estado quando o toggle muda
 //    val onToggleChanged = { id: String, isEnabled: Boolean ->
 //        val index = settingsOptions.indexOfFirst { it.id == id }

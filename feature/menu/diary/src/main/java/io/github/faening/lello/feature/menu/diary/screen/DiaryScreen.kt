@@ -2,23 +2,43 @@ package io.github.faening.lello.feature.menu.diary.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
-import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.diary.Diary
+import io.github.faening.lello.feature.menu.diary.DiaryViewModel
 import io.github.faening.lello.feature.menu.diary.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,27 +46,93 @@ import io.github.faening.lello.feature.menu.diary.R
 fun DiaryScreen(
     onSettingsClick: () -> Unit,
     onEditDiaryClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DiaryViewModel = hiltViewModel()
 ) {
+
+    // Coletar os estados
+    val diaries by viewModel.diaries.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    
+    // SnackbarHostState
+    val snackbarHostState = remember { SnackbarHostState() }
+    
+    // Mostrar erro em um Snackbar se houver
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.dismissError()
+        }
+    }
+    
     Scaffold(
         topBar = {
             DiaryScreenTopAppBar(
                 onSettingsClick = onSettingsClick
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { data ->
+                Snackbar(
+                    modifier = Modifier.padding(16.dp),
+                    action = {
+                        /* Ação opcional */
+                    }
+                ) {
+                    Text(data.visuals.message)
+                }
+            }
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Diaries",
-                style = MaterialTheme.typography.headlineSmall
-            )
+            if (uiState.isLoading) {
+                CircularProgressIndicator(
+
+                )
+            }
+            
+            if (diaries.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(diaries) { diary ->
+                        DiaryItem(
+                            diary = diary,
+                            onToggleActive = { active ->
+                                viewModel.toggleDiaryStatus(
+                                    diary.id?: 0,
+                                    active
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+            
+            if (diaries.isEmpty() && !uiState.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Nenhum diário encontrado",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = "Adicione novos diários para começar",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
     }
 }
@@ -57,18 +143,26 @@ private fun DiaryScreenTopAppBar(
     onSettingsClick: () -> Unit
 ) {
     val title = R.string.toolbar_title
-    val actionSettingsDescription = stringResource(R.string.toolbar_action_settings_description)
+    val actionSettingsDescription = "Settings"
 
-    LelloTopAppBar(
-        title = TopAppBarTitle(textRes = title),
-        actions = listOf(
-            TopAppBarAction(
-                icon = LelloIcons.Settings,
-                contentDescription = actionSettingsDescription,
-                onClick = { onSettingsClick() }
-            )
-        )
-    )
+//    TopAppBar(
+//        title = { Text(title) },
+//        navigationIcon = {
+//            IconButton(onClick = { /* Voltar */ }) {
+//                Icon(
+//                    imageVector = Icons.Default.ArrowBack,
+//                    contentDescription = "Voltar"
+//                )
+//            }
+//        },
+//        actions = listOf(
+//            TopAppBarAction(
+//                icon = LelloIcons.Settings,
+//                contentDescription = actionSettingsDescription,
+//                onClick = { onSettingsClick() }
+//            )
+//        )
+//    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,4 +178,81 @@ fun DiaryHomeScreenPreview() {
             onEditDiaryClick = {}
         )
     }
+}
+
+@Composable
+fun DiaryItem(
+    diary: Diary,
+    onToggleActive: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Imagem do diário (se houver)
+            if (diary.imageUrl.isNotEmpty()) {
+                AsyncImage(
+                    model = diary.imageUrl,
+                    contentDescription = diary.name,
+                    modifier = Modifier.size(48.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+
+            // Informações do diário
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = diary.name,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    if (diary.locked) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = "Bloqueado",
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+
+                Text(
+                    text = diary.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Switch para ativar/desativar
+            Switch(
+                checked = diary.active,
+                onCheckedChange = { if (!diary.locked) onToggleActive(it) },
+                enabled = !diary.locked
+            )
+        }
+    }
+}
+
+@Composable
+fun AsyncImage(model: String, contentDescription: String, modifier: Modifier) {
+    TODO("Not yet implemented")
 }

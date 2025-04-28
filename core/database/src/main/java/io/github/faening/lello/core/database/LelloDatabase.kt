@@ -22,7 +22,7 @@ import io.github.faening.lello.core.database.util.UUIDCOnverters
     InstantConverters::class,
     UUIDCOnverters::class
 )
-internal abstract class LelloDatabase : RoomDatabase() {
+abstract class LelloDatabase : RoomDatabase() {
 
     abstract fun diaryDao(): DiaryDao
 
