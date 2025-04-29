@@ -4,16 +4,16 @@ package io.github.faening.lello.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Yellow50 = Color(0xFFFEFAEF)
-val Yellow100 = Color(0xFFFDF3CF)
-val Yellow200 = Color(0xFFFCEDB9)
-val Yellow300 = Color(0xFFFBE698)
-val Yellow400 = Color(0xFFFBE185)
-val Yellow500 = Color(0xFFFADA66)
-val Yellow600 = Color(0xFFE7BE56)
-val Yellow700 = Color(0xFFC79F45)
-val Yellow800 = Color(0xFF9D7C36)
-val Yellow900 = Color(0xFF7A602A)
+val Yellow50 = Color(0xFFFFFBF0)
+val Yellow100 = Color(0xFFFEF4D0)
+val Yellow200 = Color(0xFFFDEEB9)
+val Yellow300 = Color(0xFFFCE798)
+val Yellow400 = Color(0xFFFCE285)
+val Yellow500 = Color(0xFFFBD866)
+val Yellow600 = Color(0xFFE8BE56)
+val Yellow700 = Color(0xFFC89F45)
+val Yellow800 = Color(0xFF9D7C35)
+val Yellow900 = Color(0xFF7A6029)
 
 val Grey50 = Color(0xFFE9E9E9)
 val Grey100 = Color(0xFFBCBCBC)
