@@ -45,7 +45,6 @@ fun RowScope.LelloNavigationBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
 ) {
-    // Obtenha as cores antecipadamente
     val selectedColor = NavigationDefaults.selectedItemColor()
     val unselectedColor = NavigationDefaults.unselectedItemColor()
 
@@ -59,13 +58,13 @@ fun RowScope.LelloNavigationBarItem(
             {
                 val textStyle = if (selected) {
                     MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.ExtraBold,
                         color = selectedColor,
                         fontSize = MaterialTheme.typography.labelSmall.fontSize
                     )
                 } else {
                     MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.Normal,
+                        fontWeight = FontWeight.Bold,
                         color = unselectedColor,
                         fontSize = MaterialTheme.typography.labelSmall.fontSize
                     )
@@ -157,7 +156,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun contentColor(): Color {
-        return MaterialTheme.colorScheme.onSurfaceVariant
+        return MaterialTheme.colorScheme.onPrimary
     }
 
     /**
@@ -173,7 +172,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun selectedItemColor(): Color {
-        return MaterialTheme.colorScheme.primary
+        return MaterialTheme.colorScheme.onPrimary
     }
 
     /**
@@ -181,7 +180,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun indicatorColor(): Color {
-        return MaterialTheme.colorScheme.primaryContainer
+        return MaterialTheme.colorScheme.primary
     }
 
     /**

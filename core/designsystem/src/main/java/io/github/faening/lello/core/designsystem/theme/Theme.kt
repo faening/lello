@@ -12,10 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     // --- Cores Primárias ---
-    primary = Orange500,               // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
-    onPrimary = Neutral500,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
-    primaryContainer = Orange200,      // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
-    onPrimaryContainer = Neutral500,   // Cor do texto/ícones que aparece SOBRE containers primários
+    primary = Yellow500,           // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
+    onPrimary = Yellow50,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
+    primaryContainer = Yellow300,  // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
+    onPrimaryContainer = Yellow50,   // Cor do texto/ícones que aparece SOBRE containers primários
 
     secondary = Blue300,
     onSecondary = Blue900,
@@ -33,7 +33,7 @@ private val DarkColorScheme = darkColorScheme(
     onErrorContainer = Red100,
 
     // --- Cores de Fundo e Superfície ---
-    background = Grey900,       // Cor de fundo principal do aplicativo
+    background = Grey500,       // Cor de fundo principal do aplicativo
     onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
     surface = Grey500,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
     onSurface = Neutral100,     // Cor do texto/ícones que aparece SOBRE superfícies
@@ -46,9 +46,9 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     // --- Cores Primárias ---
-    primary = Orange500,            // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
+    primary = Yellow500,            // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
     onPrimary = Grey500,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
-    primaryContainer = Orange200,   // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
+    primaryContainer = Yellow300,   // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
     onPrimaryContainer = Grey300,   // Cor do texto/ícones que aparece SOBRE containers primários
 
     // --- Cores Secundárias ---
@@ -72,13 +72,13 @@ private val LightColorScheme = lightColorScheme(
     // --- Cores de Fundo e Superfície ---
     background = Yellow50,      // Cor de fundo principal do aplicativo
     onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
-    surface = Brown50,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
+    surface = Yellow50,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
     onSurface = Grey500,        // Cor do texto/ícones que aparece SOBRE superfícies
 
     // --- Cores de Variante e Contorno ---
     surfaceVariant = Neutral200,   // Variante sutil da superfície para diferenciar áreas da interface
     onSurfaceVariant = Grey300,    // Cor para texto/ícones secundários sobre variantes de superfície
-    outline = Grey400,             // Cor para bordas e divisores, definindo limites entre elementos
+    outline = Grey100,             // Cor para bordas e divisores, definindo limites entre elementos
 )
 
 @Composable
