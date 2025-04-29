@@ -17,7 +17,9 @@ import androidx.compose.material.icons.rounded.LibraryBooks
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 
 @Suppress("DEPRECATION")
 object LelloIcons {
@@ -41,4 +43,8 @@ object LelloIcons {
     val Settings = Icons.Outlined.Settings
 
     val Add = Icons.Rounded.Add
+
+    // Carregar ícones SVG
+    @Composable
+    fun customIcon(id: Int): ImageVector = ImageVector.vectorResource(id = id)
 }
