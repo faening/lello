@@ -59,6 +59,18 @@ val Green700 = Color(0xFF36623E)
 val Green800 = Color(0xFF2A4C30)
 val Green900 = Color(0xFF203A25)
 
+val Aquamarine50 = Color(0xFFF3FBF8)
+val Aquamarine100 = Color(0xFFD9F3E9)
+val Aquamarine200 = Color(0xFFC7EDDE)
+val Aquamarine300 = Color(0xFFAEE5CF)
+val Aquamarine400 = Color(0xFF9EE0C6)
+val Aquamarine500 = Color(0xFF86D8B8)
+val Aquamarine600 = Color(0xFF7AC5A7)
+val Aquamarine700 = Color(0xFF5F9983)
+val Aquamarine800 = Color(0xFF4A7765)
+val Aquamarine900 = Color(0xFF385B4D)
+
+
 
 val Neutral50 = Color(0xFFFEFEFE)
 val Neutral100 = Color(0xFFFDFCFA)
@@ -106,13 +118,3 @@ val Violet900 = Color(0xFF542661)
 
 
 
-val Aquamarine50 = Color(0xFFF3FBF8)
-val Aquamarine100 = Color(0xFFD9F3E9)
-val Aquamarine200 = Color(0xFFC7EDDE)
-val Aquamarine300 = Color(0xFFAEE5CF)
-val Aquamarine400 = Color(0xFF9EE0C6)
-val Aquamarine500 = Color(0xFF86D8B8)
-val Aquamarine600 = Color(0xFF7AC5A7)
-val Aquamarine700 = Color(0xFF5F9983)
-val Aquamarine800 = Color(0xFF4A7765)
-val Aquamarine900 = Color(0xFF385B4D)
