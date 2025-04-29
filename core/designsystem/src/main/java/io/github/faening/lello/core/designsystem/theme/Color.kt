@@ -37,6 +37,19 @@ val Orange700 = Color(0xFFA5693D)
 val Orange800 = Color(0xFF80512F)
 val Orange900 = Color(0xFF613E24)
 
+val Blue50 = Color(0xFFEEF1F7)
+val Blue100 = Color(0xFFC9D5E7)
+val Blue200 = Color(0xFFAFc0DB)
+val Blue300 = Color(0xFF8AA4CB)
+val Blue400 = Color(0xFF7492C1)
+val Blue500 = Color(0xFF5177B1)
+val Blue600 = Color(0xFF4A6CA1)
+val Blue700 = Color(0xFF3A547E)
+val Blue800 = Color(0xFF2D4161)
+val Blue900 = Color(0xFF22324A)
+
+
+
 val Neutral50 = Color(0xFFFEFEFE)
 val Neutral100 = Color(0xFFFDFCFA)
 val Neutral200 = Color(0xFFFCFAF8)
@@ -59,10 +72,6 @@ val Brown700 = Color(0xFF5C3D1E)
 val Brown800 = Color(0xFF482F17)
 val Brown900 = Color(0xFF372412)
 
-
-
-
-
 val Red50 = Color(0xFFFBEEED)
 val Red100 = Color(0xFFF3CAC8)
 val Red200 = Color(0xFFEEB0AE)
@@ -84,17 +93,6 @@ val Violet600 = Color(0xFFB652D3)
 val Violet700 = Color(0xFF8E40A5)
 val Violet800 = Color(0xFF6E3280)
 val Violet900 = Color(0xFF542661)
-
-val Blue50 = Color(0xFFEEF1F7)
-val Blue100 = Color(0xFFC9D5E7)
-val Blue200 = Color(0xFFAFC0DC)
-val Blue300 = Color(0xFF8AA4CB)
-val Blue400 = Color(0xFF7492C1)
-val Blue500 = Color(0xFF5177B2)
-val Blue600 = Color(0xFF4A6CA2)
-val Blue700 = Color(0xFF3A547E)
-val Blue800 = Color(0xFF2D4162)
-val Blue900 = Color(0xFF22324B)
 
 val Green50 = Color(0xFFF4F5EF)
 val Green100 = Color(0xFFDBE0CE)
