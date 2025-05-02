@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.database.DatabaseMigrations
 import io.github.faening.lello.core.database.LelloDatabase
 import javax.inject.Singleton
 
@@ -22,5 +23,9 @@ object DatabaseModule {
         context,
         LelloDatabase::class.java,
         "lello-database",
-    ).build()
+    )
+    .addMigrations(
+        DatabaseMigrations.MIGRATION_1_2
+    )
+    .build()
 }
