@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.entity.DiaryEntity
+import io.github.faening.lello.core.database.model.DiaryEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

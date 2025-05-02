@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.entity
+package io.github.faening.lello.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,22 +8,16 @@ import kotlinx.datetime.Instant
 
 @Entity(tableName = "diaries")
 data class DiaryEntity(
-    @PrimaryKey(autoGenerate = true)
-    override val id: Long,
-
-    override val createdAt: Instant,
-    override val updatedAt: Instant,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
     val description: String,
     val locked: Boolean,
     val active: Boolean,
     val imageUrl: String
-) : BaseEntity()
+)
 
 fun DiaryEntity.toModel() = Diary(
     id = id,
-    createdAt = createdAt,
-    updatedAt = updatedAt,
     name = name,
     description = description,
     locked = locked,
@@ -32,9 +26,7 @@ fun DiaryEntity.toModel() = Diary(
 )
 
 fun Diary.toEntity() = DiaryEntity(
-    id = this.id ?: 0L,
-    createdAt = this.createdAt ?: Clock.System.now(),
-    updatedAt = this.updatedAt ?: Clock.System.now(),
+    id = this.id ?: 0,
     name = this.name,
     description = this.description,
     locked = this.locked,

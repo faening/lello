@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.github.faening.lello.core.database.dao.DiaryDao
-import io.github.faening.lello.core.database.entity.DiaryEntity
+import io.github.faening.lello.core.database.model.DiaryEntity
 import io.github.faening.lello.core.database.util.InstantConverters
 import io.github.faening.lello.core.database.util.UUIDCOnverters
 

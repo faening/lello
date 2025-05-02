@@ -1,8 +1,8 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.DiaryDao
-import io.github.faening.lello.core.database.entity.toEntity
-import io.github.faening.lello.core.database.entity.toModel
+import io.github.faening.lello.core.database.model.toEntity
+import io.github.faening.lello.core.database.model.toModel
 import io.github.faening.lello.core.model.diary.Diary
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
