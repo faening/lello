@@ -6,9 +6,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.data.repository.DiaryRepository
+import io.github.faening.lello.core.data.repository.JournalRepository
 import io.github.faening.lello.core.data.repository.ResourceRepository
-import io.github.faening.lello.core.model.diary.Diary
+import io.github.faening.lello.core.model.diary.Journal
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -16,6 +16,6 @@ abstract class DataModule {
 
     @Binds
     internal abstract fun bindDiaryRepository(
-        diaryRepository: DiaryRepository
-    ): ResourceRepository<Diary>
+        journalRepository: JournalRepository
+    ): ResourceRepository<Journal>
 }

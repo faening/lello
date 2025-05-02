@@ -2,27 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a0d310dbe0fd661320eb6288ef7ffbce",
+    "identityHash": "22c36b0b569275a530000c7d9f696f16",
     "entities": [
       {
-        "tableName": "diaries",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `locked` INTEGER NOT NULL, `active` INTEGER NOT NULL, `imageUrl` TEXT NOT NULL)",
+        "tableName": "journals",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `short_description` TEXT NOT NULL, `long_description` TEXT NOT NULL, `blocked` INTEGER NOT NULL, `active` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "createdAt",
-            "columnName": "createdAt",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "updatedAt",
-            "columnName": "updatedAt",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -33,14 +21,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "description",
-            "columnName": "description",
+            "fieldPath": "shortDescription",
+            "columnName": "short_description",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "locked",
-            "columnName": "locked",
+            "fieldPath": "longDescription",
+            "columnName": "long_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blocked",
+            "columnName": "blocked",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -48,12 +42,6 @@
             "fieldPath": "active",
             "columnName": "active",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "imageUrl",
-            "columnName": "imageUrl",
-            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -67,7 +55,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a0d310dbe0fd661320eb6288ef7ffbce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '22c36b0b569275a530000c7d9f696f16')"
     ]
   }
 }

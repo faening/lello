@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,8 +37,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.diary.Diary
+import io.github.faening.lello.core.model.diary.Journal
 import io.github.faening.lello.feature.menu.diary.DiaryViewModel
 import io.github.faening.lello.feature.menu.diary.R
 
@@ -104,10 +108,10 @@ fun DiaryScreen(
                 ) {
                     items(diaries) { diary ->
                         DiaryItem(
-                            diary = diary,
+                            journal = diary,
                             onToggleActive = { active ->
                                 viewModel.toggleDiaryStatus(
-                                    diary.id?: 0,
+                                    diary.id ?: 0,
                                     active
                                 )
                             }
@@ -145,24 +149,14 @@ private fun DiaryScreenTopAppBar(
     val title = R.string.toolbar_title
     val actionSettingsDescription = "Settings"
 
-//    TopAppBar(
-//        title = { Text(title) },
-//        navigationIcon = {
-//            IconButton(onClick = { /* Voltar */ }) {
-//                Icon(
-//                    imageVector = Icons.Default.ArrowBack,
-//                    contentDescription = "Voltar"
-//                )
-//            }
-//        },
-//        actions = listOf(
-//            TopAppBarAction(
-//                icon = LelloIcons.Settings,
-//                contentDescription = actionSettingsDescription,
-//                onClick = { onSettingsClick() }
-//            )
-//        )
-//    )
+    LelloTopAppBar(
+        title = TopAppBarTitle(textRes = title),
+        navigateUp = TopAppBarAction(
+            icon = Icons.Default.Settings,
+            contentDescription = actionSettingsDescription,
+            onClick = onSettingsClick
+        )
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -182,7 +176,7 @@ fun DiaryHomeScreenPreview() {
 
 @Composable
 fun DiaryItem(
-    diary: Diary,
+    journal: Journal,
     onToggleActive: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -201,14 +195,14 @@ fun DiaryItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Imagem do diário (se houver)
-            if (diary.imageUrl.isNotEmpty()) {
-                AsyncImage(
-                    model = diary.imageUrl,
-                    contentDescription = diary.name,
-                    modifier = Modifier.size(48.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-            }
+//            if (journal.imageUrl.isNotEmpty()) {
+//                AsyncImage(
+//                    model = journal.imageUrl,
+//                    contentDescription = journal.name,
+//                    modifier = Modifier.size(48.dp)
+//                )
+//                Spacer(modifier = Modifier.width(16.dp))
+//            }
 
             // Informações do diário
             Column(
@@ -218,11 +212,11 @@ fun DiaryItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = diary.name,
+                        text = journal.name,
                         style = MaterialTheme.typography.titleMedium
                     )
 
-                    if (diary.locked) {
+                    if (journal.blocked) {
                         Spacer(modifier = Modifier.width(4.dp))
                         Icon(
                             imageVector = Icons.Default.Lock,
@@ -234,7 +228,7 @@ fun DiaryItem(
                 }
 
                 Text(
-                    text = diary.description,
+                    text = journal.shortDescription,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
@@ -244,9 +238,9 @@ fun DiaryItem(
 
             // Switch para ativar/desativar
             Switch(
-                checked = diary.active,
-                onCheckedChange = { if (!diary.locked) onToggleActive(it) },
-                enabled = !diary.locked
+                checked = journal.active,
+                onCheckedChange = { if (!journal.blocked) onToggleActive(it) },
+                enabled = !journal.blocked
             )
         }
     }

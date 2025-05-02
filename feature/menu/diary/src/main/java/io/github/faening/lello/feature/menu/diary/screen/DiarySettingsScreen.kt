@@ -26,7 +26,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.diary.Diary
+import io.github.faening.lello.core.model.diary.Journal
 import io.github.faening.lello.feature.menu.diary.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +96,7 @@ private fun DiarySettingsScreenTextTop() {
 
 @Composable
 private fun DiarySettingsList(
-    options: List<Diary>,
+    options: List<Journal>,
     onToggleChanged: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -116,7 +116,7 @@ private fun DiarySettingsList(
 
 @Composable
 private fun DiarySettingsOptionCard(
-    option: Diary,
+    option: Journal,
     onToggleChanged: (String, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {

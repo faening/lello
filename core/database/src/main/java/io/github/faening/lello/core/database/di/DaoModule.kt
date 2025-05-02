@@ -5,16 +5,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.database.LelloDatabase
-import io.github.faening.lello.core.database.dao.DiaryDao
+import io.github.faening.lello.core.database.dao.JournalDao
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DaoModule {
 
     @Provides
-    fun providesDiaryDao(
+    fun providesJournalDao(
         database: LelloDatabase,
-    ): DiaryDao = database.diaryDao()
-
-
+    ): JournalDao = database.JournalDao()
 }

@@ -7,35 +7,31 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.DiaryEntity
+import io.github.faening.lello.core.database.model.JournalEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface DiaryDao {
+interface JournalDao {
+
+    @Transaction
+    @Query(value = "SELECT * FROM journals")
+    fun getJournals(): Flow<List<JournalEntity>>
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM diaries
-        """
-    )
-    fun getDiaries(): Flow<List<DiaryEntity>>
-
-    @Transaction
-    @Query(
-        value = """
-            SELECT * FROM diaries
+            SELECT * FROM journals
             WHERE id = :id
         """
     )
-    fun getDiary(id: Long): Flow<DiaryEntity>?
+    fun getJournal(id: Long): Flow<JournalEntity>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDiary(diary: DiaryEntity): Long
+    fun insertJournal(journal: JournalEntity): Long
 
     @Update
-    fun updateDiary(diary: DiaryEntity)
+    fun updateJournal(journal: JournalEntity)
 
     @Delete
-    fun deleteDiary(diary: DiaryEntity)
+    fun deleteJournal(journal: JournalEntity)
 }
