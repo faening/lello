@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 interface ResourceRepository<T> {
     fun getAll(): Flow<List<T>>
     fun getById(id: Long): Flow<T>?
-    suspend fun insert(entity: T): Long
-    suspend fun update(entity: T)
-    suspend fun delete(id: Long)
+    suspend fun insert(vararg entities: T)
+    suspend fun update(vararg entities: T)
+    suspend fun delete(vararg entities: T)
 }

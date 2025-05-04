@@ -14,27 +14,31 @@ internal class JournalRepository @Inject constructor(
 
     override fun getAll(): Flow<List<Journal>> {
         return journalDao
-            .getJournals()
+            .getAll()
             .map { list -> list.map { it.toModel() } }
     }
 
     override fun getById(id: Long): Flow<Journal>? {
         return journalDao
-            .getJournal(id)
+            .get(id)
             ?.map { it.toModel() }
     }
 
-    override suspend fun insert(entity: Journal): Long {
-        return journalDao.insertJournal(entity.toEntity())
+    override suspend fun insert(vararg entities: Journal) {
+        entities.forEach { entity ->
+            journalDao.insert(entity.toEntity())
+        }
     }
 
-    override suspend fun update(entity: Journal) {
-        journalDao.updateJournal(entity.toEntity())
+    override suspend fun update(vararg entities: Journal) {
+        entities.forEach { entity ->
+            journalDao.update(entity.toEntity())
+        }
     }
 
-    override suspend fun delete(id: Long) {
-        journalDao.getJournal(id)?.collect { diaryEntity ->
-            journalDao.deleteJournal(diaryEntity)
+    override suspend fun delete(vararg entities: Journal) {
+        entities.forEach { entity ->
+            journalDao.delete(entity.toEntity())
         }
     }
 }

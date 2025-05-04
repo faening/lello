@@ -15,12 +15,14 @@ import kotlinx.coroutines.flow.Flow
 interface JournalDao {
 
     /**
-     * Obtém todas os diários armazenadas no banco de dados.
+     * Busca recursos de diários que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
+     * combinados para refinar a busca.
      *
-     * @param useBlockedFilter Se verdadeiro, filtra os diários com base no status de bloqueio.
-     * @param isBlocked Define se os diários devem estar bloqueadas (`true`) ou não bloqueadas (`false`). Padrão é `false`.
-     * @param useActiveFilter Se verdadeiro, filtra os diários com base no status ativo.
-     * @param isActive Define se os diários devem estar ativos (`true`) ou inativas (`false`). Padrão é `true`.
+     * @param useBlockedFilter Ativa o filtro com base na propriedade `blocked`. O padrão é `false`.
+     * @param isBlocked Define se os itens devem estar com o status `blocked` `true` ou `false`. O padrão é `false`.
+     * @param useActiveFilter Ativa o filtro com base na propriedade `active`. O padrão é `false`.
+     * @param isActive Define se os itens devem estar com o status `active` `true` ou `false`. O padrão é `false`.
+     *
      * @return Uma lista de objetos [JournalEntity] que correspondem aos critérios de filtro fornecidos.
      */
     @Transaction
@@ -38,7 +40,7 @@ interface JournalDao {
             ORDER BY name ASC
         """
     )
-    fun getJournals(
+    fun getAll(
         useBlockedFilter: Boolean = false,
         isBlocked: Boolean = false,
         useActiveFilter: Boolean = true,
@@ -50,16 +52,18 @@ interface JournalDao {
         value = """
             SELECT * FROM journals
             WHERE id = :id
+            LIMIT 1
         """
     )
-    fun getJournal(id: Long): Flow<JournalEntity>?
+    fun get(id: Long): Flow<JournalEntity>?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertJournal(journal: JournalEntity) : Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(vararg climates: JournalEntity)
 
-    @Update
-    fun updateJournal(journal: JournalEntity)
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(vararg climates: JournalEntity)
 
     @Delete
-    fun deleteJournal(journal: JournalEntity)
+    fun delete(vararg climates: JournalEntity)
 }
