@@ -24,6 +24,9 @@ android {
 }
 
 dependencies {
+    api(projects.core.domain)
+    api(projects.core.data)
+
     api(projects.core.designsystem)
     api(projects.feature.menu.achievement)
     api(projects.feature.menu.dashboard)

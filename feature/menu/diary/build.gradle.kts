@@ -8,8 +8,6 @@ android {
 }
 
 dependencies {
-    api(projects.core.data)
-
     api(projects.core.domain)
     api(projects.core.model)
 }
