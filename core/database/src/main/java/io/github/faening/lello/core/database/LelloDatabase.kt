@@ -14,8 +14,7 @@ import io.github.faening.lello.core.database.util.InstantConverters
         JournalEntity::class,
         EmotionEntity::class
     ],
-    version = 2,
-    autoMigrations = [],
+    version = 1,
     exportSchema = true
 )
 @TypeConverters(
