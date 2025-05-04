@@ -24,4 +24,9 @@ internal object DaoModule {
     fun provideJournalDao(
         database: LelloDatabase,
     ) = database.JournalDao()
+
+    @Provides
+    fun provideLocationOptionDao(
+        database: LelloDatabase,
+    ) = database.LocationOptionDao()
 }
