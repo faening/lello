@@ -50,7 +50,7 @@ interface EmotionDao {
     @Transaction
     @Query(
         value = """
-            SELECT * FROM climates
+            SELECT * FROM emotions
             WHERE id = :id
             LIMIT 1
         """
