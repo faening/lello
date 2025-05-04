@@ -2,6 +2,7 @@ package io.github.faening.lello.core.database.seed
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
+import io.github.faening.lello.core.database.model.ClimateEntity
 
 /**
  * Classe responsável por centralizar a população de dados iniciais no banco de dados.
@@ -16,9 +17,31 @@ internal object DatabaseSeeder {
      */
     fun seedAll(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
-        seedJournals(db)
+
+        seedClimates(db)
         seedEmotions(db)
+        seedJournals(db)
+
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
+    }
+
+    /**
+     * Popula a tabela 'climates' com dados iniciais
+     */
+    fun seedClimates(db: SupportSQLiteDatabase) {
+        for (climate in ClimateSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO climates (weather_type, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    climate.weatherType,
+                    if (climate.blocked) 1 else 0,
+                    if (climate.active) 1 else 0
+                )
+            )
+        }
     }
 
     /**
@@ -26,7 +49,7 @@ internal object DatabaseSeeder {
      */
     fun seedJournals(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Populando tabela 'journals' com ${JournalSeed.data.size} registros")
-        
+
         for (journal in JournalSeed.data) {
             db.execSQL(
                 """
@@ -42,7 +65,7 @@ internal object DatabaseSeeder {
                 )
             )
         }
-        
+
         Log.d(TAG, "Tabela 'journals' populada com sucesso")
     }
 
@@ -51,7 +74,7 @@ internal object DatabaseSeeder {
      */
     fun seedEmotions(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Populando tabela 'emotions' com ${EmotionSeed.data.size} registros")
-        
+
         for (emotion in EmotionSeed.data) {
             db.execSQL(
                 """
@@ -65,7 +88,7 @@ internal object DatabaseSeeder {
                 )
             )
         }
-        
+
         Log.d(TAG, "Tabela 'emotions' populada com sucesso")
     }
 }

@@ -11,12 +11,17 @@ import io.github.faening.lello.core.database.LelloDatabase
 internal object DaoModule {
 
     @Provides
-    fun provideJournalDao(
+    fun provideClimateDao(
         database: LelloDatabase,
-    ) = database.JournalDao()
+    ) = database.ClimateDao()
 
     @Provides
     fun provideEmotionDao(
         database: LelloDatabase,
     ) = database.EmotionDao()
+
+    @Provides
+    fun provideJournalDao(
+        database: LelloDatabase,
+    ) = database.JournalDao()
 }
