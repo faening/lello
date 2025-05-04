@@ -1,12 +1,8 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Update
 import io.github.faening.lello.core.database.model.JournalEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -56,14 +52,4 @@ interface JournalDao {
         """
     )
     fun get(id: Long): Flow<JournalEntity>?
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(vararg climates: JournalEntity)
-
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(vararg climates: JournalEntity)
-
-    @Delete
-    fun delete(vararg climates: JournalEntity)
 }

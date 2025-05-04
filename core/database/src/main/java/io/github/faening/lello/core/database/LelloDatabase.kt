@@ -15,9 +15,9 @@ import io.github.faening.lello.core.database.util.InstantConverters
 
 @Database(
     entities = [
+        JournalEntity::class,
         ClimateOptionEntity::class,
         EmotionOptionEntity::class,
-        JournalEntity::class,
         LocationOptionEntity::class
     ],
     version = 1,
@@ -27,8 +27,8 @@ import io.github.faening.lello.core.database.util.InstantConverters
     InstantConverters::class,
 )
 abstract class LelloDatabase : RoomDatabase() {
+    abstract fun journalDao(): JournalDao
     abstract fun climateOptionDao(): ClimateOptionDao
     abstract fun emotionOptionDao(): EmotionOptionDao
-    abstract fun JournalDao(): JournalDao
     abstract fun locationOptionDao() : LocationOptionDao
 }

@@ -23,7 +23,7 @@ internal object DaoModule {
     @Provides
     fun provideJournalDao(
         database: LelloDatabase,
-    ) = database.JournalDao()
+    ) = database.journalDao()
 
     @Provides
     fun provideLocationOptionDao(
