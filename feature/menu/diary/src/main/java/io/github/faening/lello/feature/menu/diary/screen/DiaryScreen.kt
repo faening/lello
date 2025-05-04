@@ -41,7 +41,7 @@ import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.diary.Journal
+import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.menu.diary.DiaryViewModel
 import io.github.faening.lello.feature.menu.diary.R
 
@@ -176,7 +176,7 @@ fun DiaryHomeScreenPreview() {
 
 @Composable
 fun DiaryItem(
-    journal: Journal,
+    journal: JournalCategory,
     onToggleActive: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {

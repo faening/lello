@@ -1,21 +1,24 @@
-@file:Suppress("unused")
-
 package io.github.faening.lello.core.data.di
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.data.repository.JournalRepository
-import io.github.faening.lello.core.data.repository.ResourceRepository
-import io.github.faening.lello.core.model.diary.Journal
+import io.github.faening.lello.core.data.repository.JournalCategoryRepository
+import io.github.faening.lello.core.database.dao.JournalCategoryDao
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+object ProvidesDataModule {
 
-    @Binds
-    internal abstract fun bindDiaryRepository(
-        journalRepository: JournalRepository
-    ): ResourceRepository<Journal>
+    @Provides
+    fun provideJournalCategoryRepository(
+        dao: JournalCategoryDao
+    ): JournalCategoryRepository {
+        return JournalCategoryRepository(dao)
+    }
 }
+
+// @Module
+// @InstallIn(SingletonComponent::class)
+// abstract class BindsDataModule { }

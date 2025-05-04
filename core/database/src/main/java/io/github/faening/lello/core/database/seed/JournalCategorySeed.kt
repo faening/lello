@@ -1,10 +1,10 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.JournalEntity
+import io.github.faening.lello.core.database.model.JournalCategoryEntity
 
-internal object JournalSeed: Seed<JournalEntity> {
+internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
     override val data = listOf(
-        JournalEntity(
+        JournalCategoryEntity(
             id = 1,
             name = "Diário de Humor",
             shortDescription = "Registre suas emoções e compreenda melhor seus estados emocionais ao longo do dia",
@@ -20,7 +20,7 @@ internal object JournalSeed: Seed<JournalEntity> {
             blocked = true,
             active = true
         ),
-        JournalEntity(
+        JournalCategoryEntity(
             id = 2,
             name = "Diário de Medicamentos",
             shortDescription = "Acompanhe sua medicação diária e monitore sua adaptação ao tratamento",
@@ -37,7 +37,7 @@ internal object JournalSeed: Seed<JournalEntity> {
             blocked = true,
             active = true
         ),
-        JournalEntity(
+        JournalCategoryEntity(
             id = 3,
             name = "Diário de Sono",
             shortDescription = "Monitore seu sono e descubra como ele impacta seu bem-estar emocional",
@@ -52,7 +52,7 @@ internal object JournalSeed: Seed<JournalEntity> {
             blocked = true,
             active = true
         ),
-        JournalEntity(
+        JournalCategoryEntity(
             id = 4,
             name = "Diário de Alimentação",
             shortDescription = "Registre sua alimentação e compreenda como ela afeta sua saúde emocional",

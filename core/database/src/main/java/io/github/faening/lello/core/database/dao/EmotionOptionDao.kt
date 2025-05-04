@@ -3,7 +3,7 @@ package io.github.faening.lello.core.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.faening.lello.core.database.dao.base.WritableRoom
+import io.github.faening.lello.core.database.dao.WritableRoom
 import io.github.faening.lello.core.database.model.EmotionOptionEntity
 import kotlinx.coroutines.flow.Flow
 

@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.model.base
+package io.github.faening.lello.core.database.model
 
 import androidx.room.PrimaryKey
 

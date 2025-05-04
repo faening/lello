@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
-import io.github.faening.lello.core.database.seed.JournalSeed
+import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 
 /**
@@ -22,7 +22,7 @@ internal object DatabaseSeeder {
     fun seedAll(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
 
-        seedJournals(db)
+        seedJournalCategory(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
         seedLocationOptions(db)
@@ -30,51 +30,51 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-    fun seedJournals(db: SupportSQLiteDatabase) {
-        for (journal in JournalSeed.data) {
+    fun seedJournalCategory(db: SupportSQLiteDatabase) {
+        for (item in JournalCategorySeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO journals (name, short_description, long_description, blocked, active)
+                        INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
-                    journal.name,
-                    journal.shortDescription,
-                    journal.longDescription,
-                    if (journal.blocked) 1 else 0,
-                    if (journal.active) 1 else 0
+                    item.name,
+                    item.shortDescription,
+                    item.longDescription,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
                 )
             )
         }
     }
 
     fun seedClimateOptions(db: SupportSQLiteDatabase) {
-        for (climate in ClimateOptionSeed.data) {
+        for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO climate_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
-                    climate.description,
-                    if (climate.blocked) 1 else 0,
-                    if (climate.active) 1 else 0
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
                 )
             )
         }
     }
 
     fun seedEmotionOptions(db: SupportSQLiteDatabase) {
-        for (emotion in EmotionOptionSeed.data) {
+        for (item in EmotionOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO emotion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
-                    emotion.description,
-                    if (emotion.blocked) 1 else 0,
-                    if (emotion.active) 1 else 0
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
                 )
             )
         }
