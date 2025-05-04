@@ -29,4 +29,9 @@ internal object DaoModule {
     fun provideLocationOptionDao(
         database: LelloDatabase,
     ) = database.locationOptionDao()
+
+    @Provides
+    fun provideSocialOptionDao(
+        database: LelloDatabase,
+    ) = database.socialOptionDao()
 }

@@ -6,6 +6,7 @@ import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
+import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
  * Classe responsável por centralizar a população de dados iniciais no banco de dados.
@@ -26,6 +27,7 @@ internal object DatabaseSeeder {
         seedClimateOptions(db)
         seedEmotionOptions(db)
         seedLocationOptions(db)
+        seedSocialOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
@@ -85,6 +87,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO location_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSocialOptions(db: SupportSQLiteDatabase) {
+        for (item in SocialOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO social_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
