@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
+import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
@@ -26,6 +27,7 @@ internal object DatabaseSeeder {
         seedJournalCategory(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
+        seedHealthOptions(db)
         seedLocationOptions(db)
         seedSocialOptions(db)
 
@@ -71,6 +73,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO emotion_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedHealthOptions(db: SupportSQLiteDatabase) {
+        for (item in HealthOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO health_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
