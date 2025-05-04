@@ -15,12 +15,14 @@ import kotlinx.coroutines.flow.Flow
 interface EmotionDao {
 
     /**
-     * Obtém todas as emoções armazenadas no banco de dados.
+     * Busca recursos de emoções que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
+     * combinados para refinar a busca.
      *
-     * @param useBlockedFilter Se verdadeiro, filtra as palavras com base no status de bloqueio.
-     * @param isBlocked Define se as palavras devem estar bloqueadas (`true`) ou não bloqueadas (`false`). Padrão é `false`.
-     * @param useActiveFilter Se verdadeiro, filtra as palavras com base no status ativo.
-     * @param isActive Define se as palavras devem estar ativas (`true`) ou inativas (`false`). Padrão é `true`.
+     * @param useBlockedFilter Ativa o filtro com base na propriedade `blocked`. O padrão é `false`.
+     * @param isBlocked Define se os itens devem estar com o status `blocked` `true` ou `false`. O padrão é `false`.
+     * @param useActiveFilter Ativa o filtro com base na propriedade `active`. O padrão é `false`.
+     * @param isActive Define se os itens devem estar com o status `active` `true` ou `false`. O padrão é `false`.
+     *
      * @return Uma lista de objetos [EmotionEntity] que correspondem aos critérios de filtro fornecidos.
      */
     @Transaction
@@ -38,7 +40,7 @@ interface EmotionDao {
             ORDER BY word ASC
         """
     )
-    fun getEmotions(
+    fun getAll(
         useBlockedFilter: Boolean = false,
         isBlocked: Boolean = false,
         useActiveFilter: Boolean = false,
@@ -46,18 +48,21 @@ interface EmotionDao {
     ): Flow<List<EmotionEntity>>
 
     @Transaction
-    @Query(value = "SELECT * FROM emotions WHERE id = :id")
-    fun getEmotion(id: Long): Flow<EmotionEntity>
+    @Query(
+        value = """
+            SELECT * FROM climates
+            WHERE id = :id
+            LIMIT 1
+        """
+    )
+    fun get(id: Long): Flow<EmotionEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmotion(entity: EmotionEntity): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(vararg emotions: EmotionEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmotions(entities: List<EmotionEntity>): List<Long>
-
-    @Update
-    suspend fun updateEmotion(entity: EmotionEntity)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateEmotion(vararg emotions: EmotionEntity)
 
     @Delete
-    suspend fun deleteEmotion(entity: EmotionEntity)
+    suspend fun deleteEmotion(vararg emotions: EmotionEntity)
 }
