@@ -7,7 +7,7 @@ import io.github.faening.lello.core.model.diary.Journal
 
 @Entity(tableName = "journals")
 data class JournalEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
     @ColumnInfo(name = "short_description") val shortDescription: String,
     @ColumnInfo(name = "long_description") val longDescription: String,

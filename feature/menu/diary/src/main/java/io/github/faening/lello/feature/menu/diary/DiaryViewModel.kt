@@ -51,7 +51,7 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun toggleDiaryStatus(diaryId: Int, active: Boolean) {
+    fun toggleDiaryStatus(diaryId: Long, active: Boolean) {
 //        viewModelScope.launch {
 //            try {
 //                val success = diaryRepository.toggleActiveStatus(diaryId, active)
