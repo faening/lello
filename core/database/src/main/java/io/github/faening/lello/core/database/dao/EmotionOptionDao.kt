@@ -1,18 +1,15 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Update
-import io.github.faening.lello.core.database.model.EmotionEntity
+import io.github.faening.lello.core.database.dao.base.WritableRoom
+import io.github.faening.lello.core.database.model.EmotionOptionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface EmotionDao {
+interface EmotionOptionDao : WritableRoom<EmotionOptionEntity> {
 
     /**
      * Busca recursos de emoções que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -23,12 +20,12 @@ interface EmotionDao {
      * @param useActiveFilter Ativa o filtro com base na propriedade `active`. O padrão é `false`.
      * @param isActive Define se os itens devem estar com o status `active` `true` ou `false`. O padrão é `false`.
      *
-     * @return Uma lista de objetos [EmotionEntity] que correspondem aos critérios de filtro fornecidos.
+     * @return Uma lista de objetos [EmotionOptionEntity] que correspondem aos critérios de filtro fornecidos.
      */
     @Transaction
     @Query(
         value = """
-            SELECT * FROM emotions
+            SELECT * FROM emotion_options
             WHERE 
                 CASE WHEN :useBlockedFilter
                     THEN blocked = :isBlocked
@@ -37,7 +34,7 @@ interface EmotionDao {
                 CASE WHEN :useActiveFilter
                     THEN active = :isActive
                     ELSE 1 END
-            ORDER BY word ASC
+            ORDER BY description ASC
         """
     )
     fun getAll(
@@ -45,24 +42,15 @@ interface EmotionDao {
         isBlocked: Boolean = false,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ): Flow<List<EmotionEntity>>
+    ): Flow<List<EmotionOptionEntity>>
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM emotions
+            SELECT * FROM emotion_options
             WHERE id = :id
             LIMIT 1
         """
     )
-    fun get(id: Long): Flow<EmotionEntity>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(vararg emotions: EmotionEntity)
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun updateEmotion(vararg emotions: EmotionEntity)
-
-    @Delete
-    suspend fun deleteEmotion(vararg emotions: EmotionEntity)
+    fun get(id: Int): Flow<EmotionOptionEntity>
 }

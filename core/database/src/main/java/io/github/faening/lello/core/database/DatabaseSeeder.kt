@@ -3,7 +3,7 @@ package io.github.faening.lello.core.database
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.ClimateSeed
-import io.github.faening.lello.core.database.seed.EmotionSeed
+import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.JournalSeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 
@@ -23,9 +23,9 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
 
         seedClimates(db)
-        seedEmotions(db)
+        seedEmotionOptions(db)
         seedJournals(db)
-        seedLocationOption(db)
+        seedLocationOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
@@ -46,15 +46,15 @@ internal object DatabaseSeeder {
         }
     }
 
-    fun seedEmotions(db: SupportSQLiteDatabase) {
-        for (emotion in EmotionSeed.data) {
+    fun seedEmotionOptions(db: SupportSQLiteDatabase) {
+        for (emotion in EmotionOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO emotions (word, blocked, active)
+                        INSERT INTO emotion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
-                    emotion.word,
+                    emotion.description,
                     if (emotion.blocked) 1 else 0,
                     if (emotion.active) 1 else 0
                 )
@@ -80,7 +80,7 @@ internal object DatabaseSeeder {
         }
     }
 
-    fun seedLocationOption(db: SupportSQLiteDatabase) {
+    fun seedLocationOptions(db: SupportSQLiteDatabase) {
         for (item in LocationOptionSeed.data) {
             db.execSQL(
                 sql = """

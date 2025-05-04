@@ -4,11 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.github.faening.lello.core.database.dao.ClimateDao
-import io.github.faening.lello.core.database.dao.EmotionDao
+import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.JournalDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.model.ClimateEntity
-import io.github.faening.lello.core.database.model.EmotionEntity
+import io.github.faening.lello.core.database.model.EmotionOptionEntity
 import io.github.faening.lello.core.database.model.JournalEntity
 import io.github.faening.lello.core.database.model.LocationOptionEntity
 import io.github.faening.lello.core.database.util.InstantConverters
@@ -16,7 +16,7 @@ import io.github.faening.lello.core.database.util.InstantConverters
 @Database(
     entities = [
         ClimateEntity::class,
-        EmotionEntity::class,
+        EmotionOptionEntity::class,
         JournalEntity::class,
         LocationOptionEntity::class
     ],
@@ -28,7 +28,7 @@ import io.github.faening.lello.core.database.util.InstantConverters
 )
 abstract class LelloDatabase : RoomDatabase() {
     abstract fun ClimateDao(): ClimateDao
-    abstract fun EmotionDao(): EmotionDao
+    abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun JournalDao(): JournalDao
-    abstract fun LocationOptionDao() : LocationOptionDao
+    abstract fun locationOptionDao() : LocationOptionDao
 }

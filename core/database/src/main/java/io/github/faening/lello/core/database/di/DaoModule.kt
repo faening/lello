@@ -18,7 +18,7 @@ internal object DaoModule {
     @Provides
     fun provideEmotionDao(
         database: LelloDatabase,
-    ) = database.EmotionDao()
+    ) = database.emotionOptionDao()
 
     @Provides
     fun provideJournalDao(
@@ -28,5 +28,5 @@ internal object DaoModule {
     @Provides
     fun provideLocationOptionDao(
         database: LelloDatabase,
-    ) = database.LocationOptionDao()
+    ) = database.locationOptionDao()
 }

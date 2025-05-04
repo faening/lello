@@ -15,5 +15,5 @@ interface WritableRoom<T> {
     fun update(vararg entities: T)
 
     @Delete
-    fun delete(vararg entities: T)
+    fun delete(entity: T)
 }
