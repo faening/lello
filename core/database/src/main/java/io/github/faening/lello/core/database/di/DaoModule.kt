@@ -13,7 +13,7 @@ internal object DaoModule {
     @Provides
     fun provideClimateDao(
         database: LelloDatabase,
-    ) = database.ClimateDao()
+    ) = database.climateOptionDao()
 
     @Provides
     fun provideEmotionDao(

@@ -1,18 +1,15 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Update
-import io.github.faening.lello.core.database.model.ClimateEntity
+import io.github.faening.lello.core.database.dao.base.WritableRoom
+import io.github.faening.lello.core.database.model.ClimateOptionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface ClimateDao {
+interface ClimateOptionDao : WritableRoom<ClimateOptionEntity> {
 
     /**
      * Busca recursos de clima que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -23,12 +20,12 @@ interface ClimateDao {
      * @param useActiveFilter Ativa o filtro com base na propriedade `active`. O padrão é `false`.
      * @param isActive Define se os itens devem estar com o status `active` `true` ou `false`. O padrão é `false`.
      *
-     * @return Uma lista de objetos [ClimateEntity] que correspondem aos critérios de filtro fornecidos.
+     * @return Uma lista de objetos [ClimateOptionEntity] que correspondem aos critérios de filtro fornecidos.
      */
     @Transaction
     @Query(
         value = """
-            SELECT * FROM climates
+            SELECT * FROM climate_options
             WHERE 
                 CASE WHEN :useBlockedFilter
                     THEN blocked = :isBlocked
@@ -45,24 +42,15 @@ interface ClimateDao {
         isBlocked: Boolean = true,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ): Flow<List<ClimateEntity>>
+    ): Flow<List<ClimateOptionEntity>>
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM climates
+            SELECT * FROM climate_options
             WHERE id = :id
             LIMIT 1
         """
     )
-    fun get(id: Long): Flow<ClimateEntity>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(vararg climates: ClimateEntity)
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(vararg climates: ClimateEntity)
-
-    @Delete
-    fun delete(vararg climates: ClimateEntity)
+    fun get(id: Int): Flow<ClimateOptionEntity>
 }
