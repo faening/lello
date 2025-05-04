@@ -13,7 +13,10 @@ internal object DaoModule {
     @Provides
     fun provideJournalDao(
         database: LelloDatabase,
-    ): JournalDao = database.JournalDao()
     ) = database.JournalDao()
 
+    @Provides
+    fun provideEmotionDao(
+        database: LelloDatabase,
+    ) = database.EmotionDao()
 }
