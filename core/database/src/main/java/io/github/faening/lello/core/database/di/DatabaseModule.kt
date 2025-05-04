@@ -10,7 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.database.LelloDatabase
-import io.github.faening.lello.core.database.seed.DatabaseSeeder
+import io.github.faening.lello.core.database.DatabaseSeeder
 import javax.inject.Singleton
 
 @Module
