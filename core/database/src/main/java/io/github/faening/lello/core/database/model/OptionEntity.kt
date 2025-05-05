@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model
 
 import androidx.room.PrimaryKey
 
-open class OptionBaseEntity {
+open class OptionEntity {
     @PrimaryKey(autoGenerate = true) open val id: Int = 0
     open val description: String = ""
     open val blocked: Boolean = false

@@ -10,7 +10,7 @@ data class SocialOptionEntity(
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
-) : OptionBaseEntity()
+) : OptionEntity()
 
 fun SocialOptionEntity.toModel(): SocialOption {
     return SocialOption(

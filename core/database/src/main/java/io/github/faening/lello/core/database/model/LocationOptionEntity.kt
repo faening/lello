@@ -2,7 +2,6 @@ package io.github.faening.lello.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.database.model.OptionBaseEntity
 import io.github.faening.lello.core.model.journal.LocationOption
 
 @Entity(tableName = "location_options")
@@ -11,7 +10,7 @@ data class LocationOptionEntity(
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
-) : OptionBaseEntity()
+) : OptionEntity()
 
 fun LocationOption.toModel() = LocationOption(
     id = id,

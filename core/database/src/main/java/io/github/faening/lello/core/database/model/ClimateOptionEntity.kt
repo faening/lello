@@ -2,7 +2,6 @@ package io.github.faening.lello.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.database.model.OptionBaseEntity
 import io.github.faening.lello.core.model.journal.ClimateOption
 
 @Entity(tableName = "climate_options")
@@ -11,7 +10,7 @@ data class ClimateOptionEntity(
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
-) : OptionBaseEntity()
+) : OptionEntity()
 
 fun ClimateOptionEntity.toModel() : ClimateOption {
     return ClimateOption(
