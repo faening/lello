@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.SocialOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionRepository
+import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SocialOptionDao : OptionRepository<SocialOptionEntity> {
+interface SocialOptionDao : OptionResources<SocialOptionEntity> {
 
     /**
      * Busca recursos de interaçõessociais que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser

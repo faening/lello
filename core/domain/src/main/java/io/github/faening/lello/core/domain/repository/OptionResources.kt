@@ -2,7 +2,7 @@ package io.github.faening.lello.core.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 
-interface OptionRepository<T> {
+interface OptionResources<T> {
     fun getAll(
         useBlockedFilter: Boolean = false,
         isBlocked: Boolean = true,

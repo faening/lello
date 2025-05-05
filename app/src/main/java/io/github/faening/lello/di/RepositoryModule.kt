@@ -17,7 +17,7 @@ import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
-import io.github.faening.lello.core.domain.repository.OptionRepository
+import io.github.faening.lello.core.domain.repository.OptionResources
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
@@ -55,35 +55,35 @@ object RepositoryModule {
     @Provides
     fun provideClimateOptionRepository(
         dao: ClimateOptionDao
-    ): OptionRepository<ClimateOption> {
+    ): OptionResources<ClimateOption> {
         return ClimateOptionRepository(dao)
     }
 
     @Provides
     fun provideEmotionOptionRepository(
         dao: EmotionOptionDao
-    ): OptionRepository<EmotionOption> {
+    ): OptionResources<EmotionOption> {
         return EmotionOptionRepository(dao)
     }
 
     @Provides
     fun provideHealthOptionRepository(
         dao: HealthOptionDao
-    ) : OptionRepository<HealthOption> {
+    ) : OptionResources<HealthOption> {
         return HealthOptionRepository(dao)
     }
 
     @Provides
     fun provideLocationOptionRepository(
         dao: LocationOptionDao
-    ) : OptionRepository<LocationOption> {
+    ) : OptionResources<LocationOption> {
         return LocationOptionRepository(dao)
     }
 
     @Provides
     fun provideSocialOptionRepository(
         dao: SocialOptionDao
-    ) : OptionRepository<SocialOption> {
+    ) : OptionResources<SocialOption> {
         return SocialOptionRepository(dao)
     }
 }

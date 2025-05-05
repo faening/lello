@@ -1,12 +1,12 @@
 package io.github.faening.lello.core.data.repository
 
-import io.github.faening.lello.core.domain.repository.OptionRepository
+import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 abstract class OptionRepository<M, E>(
-    private val dao: OptionRepository<E>
-) : OptionRepository<M> {
+    private val dao: OptionResources<E>
+) : OptionResources<M> {
 
     abstract fun E.toModel(): M
     abstract fun M.toEntity(): E
