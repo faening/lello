@@ -16,8 +16,8 @@ import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
+import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.OptionRepository
-import io.github.faening.lello.core.domain.repository.ReadOnlyRepository
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
@@ -48,7 +48,7 @@ object RepositoryModule {
     @Provides
     fun provideJournalCategoryRepository(
         dao: JournalCategoryDao
-    ): ReadOnlyRepository<JournalCategory> {
+    ): JournalCategoryResources<JournalCategory> {
         return JournalCategoryRepository(dao)
     }
 

@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import io.github.faening.lello.core.database.model.JournalCategoryEntity
+import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface JournalCategoryDao {
+interface JournalCategoryDao : JournalCategoryResources<JournalCategoryEntity> {
 
     /**
      * Busca recursos de diários que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -36,11 +37,11 @@ interface JournalCategoryDao {
             ORDER BY name ASC
         """
     )
-    fun getAll(
-        useBlockedFilter: Boolean = false,
-        isBlocked: Boolean = false,
-        useActiveFilter: Boolean = true,
-        isActive: Boolean = true
+    override fun getAll(
+        useBlockedFilter: Boolean,
+        isBlocked: Boolean,
+        useActiveFilter: Boolean,
+        isActive: Boolean
     ): Flow<List<JournalCategoryEntity>>
 
     @Transaction
@@ -51,5 +52,5 @@ interface JournalCategoryDao {
             LIMIT 1
         """
     )
-    fun get(id: Int): Flow<JournalCategoryEntity>?
+    override fun getById(id: Int): Flow<JournalCategoryEntity>?
 }
