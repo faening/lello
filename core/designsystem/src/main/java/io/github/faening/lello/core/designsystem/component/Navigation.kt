@@ -57,16 +57,16 @@ fun RowScope.LelloNavigationBarItem(
         label = label?.let { labelContent ->
             {
                 val textStyle = if (selected) {
-                    MaterialTheme.typography.labelSmall.copy(
+                    MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.ExtraBold,
                         color = selectedColor,
-                        fontSize = MaterialTheme.typography.labelSmall.fontSize
+                        fontSize = MaterialTheme.typography.labelMedium.fontSize
                     )
                 } else {
-                    MaterialTheme.typography.labelSmall.copy(
+                    MaterialTheme.typography.labelMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = unselectedColor,
-                        fontSize = MaterialTheme.typography.labelSmall.fontSize
+                        fontSize = MaterialTheme.typography.labelMedium.fontSize
                     )
                 }
                 CompositionLocalProvider(
@@ -89,19 +89,15 @@ fun RowScope.LelloNavigationBarItem(
 
 @Composable
 private fun MobileNavigationBarContent() {
-    val items = listOf("Início", "Diários", "Conquistas", "Dashboards", "Perfil")
+    val items = listOf("Início", "Conquistas", "Perfil")
     val icons = listOf(
         LelloIcons.Home,
-        LelloIcons.Diary,
         LelloIcons.Achievements,
-        LelloIcons.Dashboard,
         LelloIcons.Profile,
     )
     val selectedIcons = listOf(
         LelloIcons.HomeBorder,
-        LelloIcons.DiaryBorder,
         LelloIcons.AchievementsBorder,
-        LelloIcons.DashboardBorder,
         LelloIcons.ProfileBorder,
     )
 
