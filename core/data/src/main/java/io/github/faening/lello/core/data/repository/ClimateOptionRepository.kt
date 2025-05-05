@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 
 class ClimateOptionRepository @Inject constructor(
     dao: ClimateOptionDao
-) : BaseOptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
+) : OptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
 
     override fun ClimateOptionEntity.toModel(): ClimateOption {
         return this.toModel()

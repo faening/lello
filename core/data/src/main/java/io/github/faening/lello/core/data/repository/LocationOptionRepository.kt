@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 
 class LocationOptionRepository @Inject constructor(
     dao: LocationOptionDao
-) : BaseOptionRepository<LocationOption, LocationOptionEntity>(dao) {
+) : OptionRepository<LocationOption, LocationOptionEntity>(dao) {
 
     override fun LocationOptionEntity.toModel(): LocationOption {
         return this.toModel()

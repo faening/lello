@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 
 class EmotionOptionRepository @Inject constructor(
     dao: EmotionOptionDao
-) : BaseOptionRepository<EmotionOption, EmotionOptionEntity>(dao) {
+) : OptionRepository<EmotionOption, EmotionOptionEntity>(dao) {
 
     override fun EmotionOptionEntity.toModel(): EmotionOption {
         return this.toModel()

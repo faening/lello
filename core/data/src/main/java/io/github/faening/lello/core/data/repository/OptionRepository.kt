@@ -4,7 +4,7 @@ import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-abstract class BaseOptionRepository<M, E>(
+abstract class OptionRepository<M, E>(
     private val dao: OptionRepository<E>
 ) : OptionRepository<M> {
 

@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 
 class SocialOptionRepository @Inject constructor(
     dao: SocialOptionDao
-) : BaseOptionRepository<SocialOption, SocialOptionEntity>(dao) {
+) : OptionRepository<SocialOption, SocialOptionEntity>(dao) {
 
     override fun SocialOptionEntity.toModel(): SocialOption {
         return this.toModel()
