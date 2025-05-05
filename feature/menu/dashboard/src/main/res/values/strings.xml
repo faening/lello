@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dashboard_title" translatable="false">Dashboard</string>
-
-    <string name="dashboard_topappbar_title" translatable="false">Dashboard</string>
-</resources>

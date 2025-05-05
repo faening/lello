@@ -24,12 +24,11 @@ android {
 }
 
 dependencies {
-    api(projects.core.domain)
     api(projects.core.data)
-
     api(projects.core.designsystem)
+    api(projects.core.domain)
+
     api(projects.feature.menu.achievement)
-    api(projects.feature.menu.dashboard)
     api(projects.feature.menu.diary)
     api(projects.feature.menu.home)
     api(projects.feature.menu.profile)
