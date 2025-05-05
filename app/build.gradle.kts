@@ -29,7 +29,6 @@ dependencies {
     api(projects.core.domain)
 
     api(projects.feature.menu.achievement)
-    api(projects.feature.menu.diary)
     api(projects.feature.menu.home)
     api(projects.feature.menu.profile)
 }
