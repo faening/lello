@@ -1,14 +1,19 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import io.github.faening.lello.core.database.model.SocialOptionEntity
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SocialOptionDao : WritableRoom<SocialOptionEntity> {
+interface SocialOptionDao : OptionRepository<SocialOptionEntity> {
 
     /**
      * Busca recursos de interaçõessociais que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -36,11 +41,11 @@ interface SocialOptionDao : WritableRoom<SocialOptionEntity> {
             ORDER BY description ASC
         """
     )
-    fun getAll(
-        useBlockedFilter: Boolean = false,
-        isBlocked: Boolean = false,
-        useActiveFilter: Boolean = false,
-        isActive: Boolean = true
+    override fun getAll(
+        useBlockedFilter: Boolean,
+        isBlocked: Boolean,
+        useActiveFilter: Boolean,
+        isActive: Boolean
     ): Flow<List<SocialOptionEntity>>
 
     @Transaction
@@ -51,5 +56,14 @@ interface SocialOptionDao : WritableRoom<SocialOptionEntity> {
             LIMIT 1
         """
     )
-    fun get(id: Int): Flow<SocialOptionEntity>
+    override fun getById(id: Int): Flow<SocialOptionEntity>
+
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
+    override suspend fun insert(item: SocialOptionEntity)
+
+    @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
+    override suspend fun update(item: SocialOptionEntity)
+
+    @Delete
+    override suspend fun delete(item: SocialOptionEntity)
 }

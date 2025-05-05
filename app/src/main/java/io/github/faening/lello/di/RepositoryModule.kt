@@ -9,11 +9,13 @@ import io.github.faening.lello.core.data.repository.EmotionOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
+import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.ReadOnlyRepository
 import io.github.faening.lello.core.model.journal.ClimateOption
@@ -21,6 +23,7 @@ import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.journal.SocialOption
 
 /**
  * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.
@@ -75,5 +78,12 @@ object RepositoryModule {
         dao: LocationOptionDao
     ) : OptionRepository<LocationOption> {
         return LocationOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideSocialOptionRepository(
+        dao: SocialOptionDao
+    ) : OptionRepository<SocialOption> {
+        return SocialOptionRepository(dao)
     }
 }
