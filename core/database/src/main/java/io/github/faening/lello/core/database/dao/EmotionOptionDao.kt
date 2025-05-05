@@ -1,15 +1,19 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.faening.lello.core.database.dao.WritableRoom
+import androidx.room.Update
 import io.github.faening.lello.core.database.model.EmotionOptionEntity
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface EmotionOptionDao : WritableRoom<EmotionOptionEntity> {
+interface EmotionOptionDao : OptionRepository<EmotionOptionEntity> {
 
     /**
      * Busca recursos de emoções que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -37,11 +41,11 @@ interface EmotionOptionDao : WritableRoom<EmotionOptionEntity> {
             ORDER BY description ASC
         """
     )
-    fun getAll(
-        useBlockedFilter: Boolean = false,
-        isBlocked: Boolean = false,
-        useActiveFilter: Boolean = false,
-        isActive: Boolean = true
+    override fun getAll(
+        useBlockedFilter: Boolean,
+        isBlocked: Boolean,
+        useActiveFilter: Boolean,
+        isActive: Boolean
     ): Flow<List<EmotionOptionEntity>>
 
     @Transaction
@@ -52,5 +56,14 @@ interface EmotionOptionDao : WritableRoom<EmotionOptionEntity> {
             LIMIT 1
         """
     )
-    fun get(id: Int): Flow<EmotionOptionEntity>
+    override fun getById(id: Int): Flow<EmotionOptionEntity>
+
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
+    override suspend fun insert(item: EmotionOptionEntity)
+
+    @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
+    override suspend fun update(item: EmotionOptionEntity)
+
+    @Delete
+    override suspend fun delete(item: EmotionOptionEntity)
 }
