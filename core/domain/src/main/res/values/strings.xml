@@ -3,4 +3,5 @@
     <string name="exception_invalid_id">O ID não pode ser nulo ou menor que 1</string>
     <string name="exception_description_empty">A descrição não pode estar vazia</string>
     <string name="exception_option_duplicate">Esta opção já existe</string>
+    <string name="exception_option_blocked">Não é possível atualizar um item bloqueado</string>
 </resources>

@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.domain.usecase
 
-import io.github.faening.lello.core.domain.R
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
+import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.model.journal.JournalCategory
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -20,11 +20,7 @@ class JournalCategoryUseCase @Inject constructor(
     }
 
     fun getById(id: Int): Flow<JournalCategory>? {
-        if (id <= 0) {
-            val message = R.string.exception_invalid_id.toString()
-            throw IllegalArgumentException(message)
-        }
-
+        id.validateId()
         return repository.getById(id)
     }
 }
