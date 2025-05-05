@@ -6,14 +6,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.data.repository.ClimateOptionRepository
 import io.github.faening.lello.core.data.repository.EmotionOptionRepository
+import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
+import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.ReadOnlyRepository
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
 
 /**
@@ -55,5 +58,12 @@ object RepositoryModule {
         dao: EmotionOptionDao
     ): OptionRepository<EmotionOption> {
         return EmotionOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideHealthOptionRepository(
+        dao: HealthOptionDao
+    ) : OptionRepository<HealthOption> {
+        return HealthOptionRepository(dao)
     }
 }
