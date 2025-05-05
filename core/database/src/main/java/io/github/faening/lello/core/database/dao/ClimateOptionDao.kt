@@ -1,15 +1,19 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.faening.lello.core.database.dao.WritableRoom
+import androidx.room.Update
 import io.github.faening.lello.core.database.model.ClimateOptionEntity
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface ClimateOptionDao : WritableRoom<ClimateOptionEntity> {
+interface ClimateOptionDao : OptionRepository<ClimateOptionEntity> {
 
     /**
      * Busca recursos de clima que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -37,11 +41,11 @@ interface ClimateOptionDao : WritableRoom<ClimateOptionEntity> {
             ORDER BY id ASC
         """
     )
-    fun getAll(
-        useBlockedFilter: Boolean = false,
-        isBlocked: Boolean = true,
-        useActiveFilter: Boolean = false,
-        isActive: Boolean = true
+    override fun getAll(
+        useBlockedFilter: Boolean,
+        isBlocked: Boolean,
+        useActiveFilter: Boolean,
+        isActive: Boolean
     ): Flow<List<ClimateOptionEntity>>
 
     @Transaction
@@ -52,5 +56,14 @@ interface ClimateOptionDao : WritableRoom<ClimateOptionEntity> {
             LIMIT 1
         """
     )
-    fun get(id: Int): Flow<ClimateOptionEntity>
+    override fun getById(id: Int): Flow<ClimateOptionEntity>
+
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
+    override suspend fun insert(item: ClimateOptionEntity)
+
+    @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
+    override suspend fun update(item: ClimateOptionEntity)
+
+    @Delete
+    override suspend fun delete(item: ClimateOptionEntity)
 }

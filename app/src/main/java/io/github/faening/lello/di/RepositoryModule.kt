@@ -4,9 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.data.repository.ClimateOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
+import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.ReadOnlyRepository
+import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.JournalCategory
 
 /**
@@ -34,5 +38,12 @@ object RepositoryModule {
         dao: JournalCategoryDao
     ): ReadOnlyRepository<JournalCategory> {
         return JournalCategoryRepository(dao)
+    }
+
+    @Provides
+    fun provideClimateOptionRepository(
+        dao: ClimateOptionDao
+    ): OptionRepository<ClimateOption> {
+        return ClimateOptionRepository(dao)
     }
 }
