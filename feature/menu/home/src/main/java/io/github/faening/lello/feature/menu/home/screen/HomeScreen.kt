@@ -24,6 +24,7 @@ import io.github.faening.lello.core.designsystem.component.JournalCategoryCardCo
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.menu.home.HomeViewModel
+import io.github.faening.lello.feature.menu.home.navigation.ModuleRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,7 +89,12 @@ private fun JournalContent(
                     title = category.name,
                     description = category.shortDescription,
                     configuration = JournalCategoryCardConfig.fromName(category.name),
-                    onClick = { onNavigateToModule(category.name) }
+                    onClick = {
+                        when (category.name) {
+                            "Diário de Humor" -> onNavigateToModule((ModuleRoute.Mood.route))
+                            // coloca os outros diários aqui
+                        }
+                    }
                 )
                 
                 Spacer(modifier = Modifier.height(8.dp))

@@ -9,14 +9,14 @@ import io.github.faening.lello.feature.diary.mood.screen.DiaryMoodScreen
 import io.github.faening.lello.feature.diary.mood.screen.ScreenOne
 import io.github.faening.lello.feature.diary.mood.screen.ScreenTwo
 
-internal object DiaryMoodRoute {
+object DiaryMoodRoute {
     const val DIARY_MOOD_GRAPH = "diary_mood_graph"
     const val HOME_ROUTE = "diary_mood_route"
     const val SCREEN_ONE_ROUTE = "screen_one_route"
     const val SCREEN_TWO_ROUTE = "screen_two_route"
 }
 
-fun NavController.navigateToDiaryMood(navOptions: NavOptions? = null) {
+internal fun NavController.navigateToDiaryMood(navOptions: NavOptions? = null) {
     this.navigate(route = DiaryMoodRoute.HOME_ROUTE, navOptions = navOptions)
 }
 
