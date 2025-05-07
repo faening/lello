@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.lello.android.library.compose.ui)
 }
 android {
-    namespace = "io.github.faening.lello.feature.diary.meal"
+    namespace = "io.github.faening.lello.feature.journal.medication"
 }
 
 dependencies {

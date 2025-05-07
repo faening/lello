@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import io.github.faening.lello.feature.diary.mood.navigation.diaryMoodGraph
 import io.github.faening.lello.feature.menu.achievement.navigation.achievementGraph
 import io.github.faening.lello.feature.menu.home.navigation.HOME_MAIN_ROUTE
 import io.github.faening.lello.feature.menu.home.navigation.homeGraph
@@ -32,9 +31,9 @@ fun LelloNavHost(
             navController = navController
         )
 
-        diaryMoodGraph(
-            onBackClick = { navController.popBackStack() },
-            navController = navController
-        )
+//        diaryMoodGraph(
+//            onBackClick = { navController.popBackStack() },
+//            navController = navController
+//        )
     }
 }

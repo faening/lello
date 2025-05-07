@@ -11,5 +11,5 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.model)
 
-    api(projects.feature.diary.mood)
+    api(projects.feature.journal.mood)
 }
