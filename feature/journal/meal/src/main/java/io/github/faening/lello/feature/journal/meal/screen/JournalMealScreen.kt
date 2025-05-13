@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.diary.meal.screen
+package io.github.faening.lello.feature.journal.meal.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
