@@ -24,9 +24,9 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.diary.sleep.screen.navigation.JournalSleepDestinations
-import io.github.faening.lello.feature.diary.medication.navigation.JournalMedicationDestinations
 import io.github.faening.lello.feature.diary.mood.navigation.JournalMoodDestinations
 import io.github.faening.lello.feature.journal.meal.navigation.JournalMealDestinations
+import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
 import io.github.faening.lello.feature.menu.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

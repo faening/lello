@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.diary.medication.screen
+package io.github.faening.lello.feature.journal.medication.screen
 
 import android.R
 import androidx.compose.foundation.clickable
