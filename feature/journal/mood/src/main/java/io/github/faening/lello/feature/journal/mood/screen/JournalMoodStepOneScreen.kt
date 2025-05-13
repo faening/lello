@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.diary.mood.screen
+package io.github.faening.lello.feature.journal.mood.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -8,15 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun JournalMoodHomeScreen(
+fun JournalMoodStepOneScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
     Column(modifier = modifier.padding(16.dp)) {
-        Text("Tela de Diário de Humor")
+        Text("Screen One")
 
         Button(
             onClick = onBack,
@@ -29,7 +28,7 @@ fun JournalMoodHomeScreen(
             onClick = onNext,
             modifier = Modifier.padding(top = 8.dp)
         ) {
-            Text("Ir para ScreenOne")
+            Text("Ir para ScreenTwo")
         }
     }
 }

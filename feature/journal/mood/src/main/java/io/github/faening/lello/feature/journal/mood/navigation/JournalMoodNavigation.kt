@@ -1,12 +1,12 @@
-package io.github.faening.lello.feature.diary.mood.navigation
+package io.github.faening.lello.feature.journal.mood.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.diary.mood.screen.JournalMoodHomeScreen
-import io.github.faening.lello.feature.diary.mood.screen.JournalMoodStepOneScreen
-import io.github.faening.lello.feature.diary.mood.screen.JournalMoodStepTwoScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodHomeScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodStepOneScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodStepTwoScreen
 
 object JournalMoodDestinations {
     const val GRAPH = "journal_mood_graph"
