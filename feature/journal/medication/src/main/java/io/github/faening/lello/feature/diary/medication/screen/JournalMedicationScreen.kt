@@ -2,18 +2,34 @@ package io.github.faening.lello.feature.diary.medication.screen
 
 import android.R
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiaryMedicationScreen(navController: NavController) {
+fun JournalMedicationScreen(
+    onBack: () -> Unit,
+) {
     Scaffold(
     topBar = {
         TopAppBar(
@@ -44,7 +60,7 @@ fun DiaryMedicationScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Medicamentos",
                 description = "Acompanhe seu bem-estar emocional",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -52,7 +68,7 @@ fun DiaryMedicationScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Medicamentos",
                 description = "Gerencie suas medicações",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -60,7 +76,7 @@ fun DiaryMedicationScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Sono",
                 description = "Monitore seus padrões de sono",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -68,7 +84,7 @@ fun DiaryMedicationScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Alimentação",
                 description = "Registre sua alimentação diária",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
         }
     }

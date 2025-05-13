@@ -1,4 +1,4 @@
-package io.github.faening.lello.diary.sleep
+package io.github.faening.lello.diary.sleep.screen
 
 import android.R
 import androidx.compose.foundation.clickable
@@ -28,7 +28,9 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiaryMoodScreen(navController: NavController) {
+fun JournalSleepScreen(
+    onBack: () -> Unit
+) {
     Scaffold(
     topBar = {
         TopAppBar(
@@ -59,7 +61,7 @@ fun DiaryMoodScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Humor",
                 description = "Acompanhe seu bem-estar emocional",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -67,7 +69,7 @@ fun DiaryMoodScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Medicamentos",
                 description = "Gerencie suas medicações",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -75,7 +77,7 @@ fun DiaryMoodScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Sono",
                 description = "Monitore seus padrões de sono",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -83,7 +85,7 @@ fun DiaryMoodScreen(navController: NavController) {
             DiaryCard(
                 title = "Diário de Alimentação",
                 description = "Registre sua alimentação diária",
-                onClick = { navController.popBackStack() }
+                onClick = { onBack() }
             )
         }
     }

@@ -8,19 +8,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+
 @Composable
-fun ScreenTwo(
+fun JournalMoodHomeScreen(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    onBack: () -> Unit,
+    onNext: () -> Unit
 ) {
     Column(modifier = modifier.padding(16.dp)) {
-        Text("Screen Two")
+        Text("Tela de Diário de Humor")
 
         Button(
-            onClick = onBackClick,
+            onClick = onBack,
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Voltar")
+        }
+
+        Button(
+            onClick = onNext,
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Ir para ScreenOne")
         }
     }
 }

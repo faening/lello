@@ -20,6 +20,7 @@ import io.github.faening.lello.feature.menu.profile.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(

@@ -9,23 +9,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ScreenOne(
+fun JournalMoodStepOneScreen(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit,
-    onNavigateToScreenTwo: () -> Unit
+    onBack: () -> Unit,
+    onNext: () -> Unit
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Text("Screen One")
 
         Button(
-            onClick = onBackClick,
+            onClick = onBack,
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Voltar")
         }
 
         Button(
-            onClick = onNavigateToScreenTwo,
+            onClick = onNext,
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text("Ir para ScreenTwo")

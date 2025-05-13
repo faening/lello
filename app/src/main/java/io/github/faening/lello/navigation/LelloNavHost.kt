@@ -4,8 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import io.github.faening.lello.diary.sleep.screen.navigation.journalSleepGraph
+import io.github.faening.lello.feature.diary.meal.navigation.journalMealGraph
+import io.github.faening.lello.feature.diary.medication.navigation.journalMedicationGraph
+import io.github.faening.lello.feature.diary.mood.navigation.journalMoodGraph
 import io.github.faening.lello.feature.menu.achievement.navigation.achievementGraph
-import io.github.faening.lello.feature.menu.home.navigation.HOME_MAIN_ROUTE
+import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
 import io.github.faening.lello.feature.menu.home.navigation.homeGraph
 import io.github.faening.lello.feature.menu.profile.navigation.profileGraph
 
@@ -16,24 +20,18 @@ fun LelloNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HOME_MAIN_ROUTE,
+        startDestination = HomeDestinations.GRAPH,
         modifier = modifier
     ) {
-        homeGraph(
-            navController = navController
-        )
+        // Menu
+        homeGraph(navController = navController)
+        achievementGraph(navController = navController)
+        profileGraph(navController = navController)
 
-        achievementGraph(
-            navController = navController
-        )
-
-        profileGraph(
-            navController = navController
-        )
-
-//        diaryMoodGraph(
-//            onBackClick = { navController.popBackStack() },
-//            navController = navController
-//        )
+        // Journals
+        journalMealGraph(navController = navController)
+        journalMedicationGraph(navController = navController)
+        journalMoodGraph(navController = navController)
+        journalSleepGraph(navController = navController)
     }
 }

@@ -17,14 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCard
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCardConfig
+import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.diary.sleep.screen.navigation.JournalSleepDestinations
+import io.github.faening.lello.feature.diary.meal.navigation.JournalMealDestinations
+import io.github.faening.lello.feature.diary.medication.navigation.JournalMedicationDestinations
+import io.github.faening.lello.feature.diary.mood.navigation.JournalMoodDestinations
 import io.github.faening.lello.feature.menu.home.HomeViewModel
-import io.github.faening.lello.feature.menu.home.navigation.ModuleRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,12 +94,15 @@ private fun JournalContent(
                     configuration = JournalCategoryCardConfig.fromName(category.name),
                     onClick = {
                         when (category.name) {
-                            "Diário de Humor" -> onNavigateToModule((ModuleRoute.Mood.route))
-                            // coloca os outros diários aqui
+                            "Diário de Humor" -> onNavigateToModule(JournalMoodDestinations.GRAPH)
+                            "Diário de Sono" -> onNavigateToModule(JournalSleepDestinations.GRAPH)
+                            "Diário de Medicamentos" -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
+                            "Diário de Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
+
                         }
                     }
                 )
-                
+
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

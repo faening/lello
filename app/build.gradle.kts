@@ -27,8 +27,11 @@ dependencies {
     api(projects.core.data)
     api(projects.core.designsystem)
     api(projects.core.domain)
-
     api(projects.feature.menu.achievement)
     api(projects.feature.menu.home)
     api(projects.feature.menu.profile)
+    api(projects.feature.journal.meal)
+    api(projects.feature.journal.medication)
+    api(projects.feature.journal.mood)
+    api(projects.feature.journal.sleep)
 }

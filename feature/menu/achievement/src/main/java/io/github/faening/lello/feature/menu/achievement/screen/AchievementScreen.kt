@@ -18,10 +18,12 @@ import io.github.faening.lello.feature.menu.achievement.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AchievementScreen() {
+fun AchievementScreen(
+    onBack: () -> Unit = {}
+) {
     Scaffold(
         topBar = {
-            AchievementScreenTopAppBar()
+            AchievementScreenTopAppBar(onBack = onBack)
         }
     ) { paddingValues ->
         Column(
@@ -42,7 +44,9 @@ fun AchievementScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AchievementScreenTopAppBar() {
+private fun AchievementScreenTopAppBar(
+    onBack: () -> Unit = {}
+) {
     val title = R.string.achievements_topappbar_title
     LelloTopAppBar(
         title = TopAppBarTitle(textRes = title)

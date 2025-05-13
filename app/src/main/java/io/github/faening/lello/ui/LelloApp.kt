@@ -20,9 +20,9 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.menu.achievement.navigation.ACHIEVEMENT_MAIN_ROUTE
-import io.github.faening.lello.feature.menu.home.navigation.HOME_MAIN_ROUTE
-import io.github.faening.lello.feature.menu.profile.navigation.PROFILE_MAIN_ROUTE
+import io.github.faening.lello.feature.menu.achievement.navigation.AchievementDestinations
+import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
+import io.github.faening.lello.feature.menu.profile.navigation.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
 import io.github.faening.lello.feature.menu.achievement.R as achievementR
 import io.github.faening.lello.feature.menu.home.R as homeR
@@ -36,19 +36,19 @@ fun LelloApp() {
     val items = listOf(
         NavigationItem(
             title = homeR.string.home_title,
-            route = HOME_MAIN_ROUTE,
+            route = HomeDestinations.GRAPH,
             selectedIcon = LelloIcons.HomeBorder,
             unselectedIcon = LelloIcons.Home
         ),
         NavigationItem(
             title = achievementR.string.achievements_title,
-            route = ACHIEVEMENT_MAIN_ROUTE,
+            route = AchievementDestinations.GRAPH,
             selectedIcon = LelloIcons.AchievementsBorder,
             unselectedIcon = LelloIcons.Achievements
         ),
         NavigationItem(
             title = profileR.string.profile_title,
-            route = PROFILE_MAIN_ROUTE,
+            route = ProfileDestinations.GRAPH,
             selectedIcon = LelloIcons.ProfileBorder,
             unselectedIcon = LelloIcons.Profile
         )
