@@ -35,17 +35,17 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Yellow700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow50,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
             primary               = Yellow500,
-            onPrimary             = Grey500,
+            onPrimary             = Grey900,
             primaryContainer      = Grey500,
             onPrimaryContainer    = Grey50,
 
@@ -66,12 +66,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Yellow700,
             onSurfaceVariant      = Grey300,
 
             background            = Grey500,
             onBackground          = Grey50,
-            outline               = Grey50
+            outline               = Grey900
         )
     ),
 
@@ -99,17 +99,17 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Yellow700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow500,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
             primary               = Yellow600,
-            onPrimary             = Yellow50,
+            onPrimary             = Grey500,
             primaryContainer      = Yellow300,
             onPrimaryContainer    = Yellow50,
 
@@ -119,8 +119,8 @@ enum class LelloColorScheme(
             onSecondaryContainer  = Blue100,
 
             tertiary              = Yellow300,
-            onTertiary            = Brown900,
-            tertiaryContainer     = Brown700,
+            onTertiary            = Yellow900,
+            tertiaryContainer     = Yellow600,
             onTertiaryContainer   = Yellow100,
 
             error                 = Red300,
@@ -129,13 +129,13 @@ enum class LelloColorScheme(
             onErrorContainer      = Red100,
 
             surface               = Grey500,
-            onSurface             = Neutral100,
-            surfaceVariant        = Neutral200,
-            onSurfaceVariant      = Neutral300,
+            onSurface             = Grey50,
+            surfaceVariant        = Yellow700,
+            onSurfaceVariant      = Grey50,
 
             background            = Grey500,
             onBackground          = Grey500,
-            outline               = Neutral400
+            outline               = Grey900
         )
     ),
 
@@ -163,12 +163,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Aquamarine700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow50,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
@@ -194,12 +194,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Aquamarine700,
             onSurfaceVariant      = Grey300,
 
             background            = Grey500,
             onBackground          = Grey50,
-            outline               = Grey50
+            outline               = Grey900
         )
     ),
 
@@ -227,17 +227,17 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Blue700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow50,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
             primary               = Blue500,
-            onPrimary             = Grey500,
+            onPrimary             = Grey50,
             primaryContainer      = Grey500,
             onPrimaryContainer    = Grey50,
 
@@ -258,12 +258,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Blue700,
             onSurfaceVariant      = Grey300,
 
             background            = Grey500,
             onBackground          = Grey50,
-            outline               = Grey50
+            outline               = Grey900
         )
     ),
 
@@ -291,12 +291,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Orange700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow50,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
@@ -322,12 +322,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Orange700,
             onSurfaceVariant      = Grey300,
 
             background            = Grey500,
             onBackground          = Grey50,
-            outline               = Grey50
+            outline               = Grey900
         )
     ),
 
@@ -355,12 +355,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Red700,
             onSurfaceVariant      = Grey300,
 
             background            = Yellow50,
             onBackground          = Grey500,
-            outline               = Grey100
+            outline               = Grey500
         ),
 
         darkScheme = darkColorScheme(
@@ -386,12 +386,12 @@ enum class LelloColorScheme(
 
             surface               = Yellow50,
             onSurface             = Grey500,
-            surfaceVariant        = Grey100,
+            surfaceVariant        = Red700,
             onSurfaceVariant      = Grey300,
 
             background            = Grey500,
             onBackground          = Grey50,
-            outline               = Grey50
+            outline               = Grey900
         )
     );
 
