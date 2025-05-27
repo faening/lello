@@ -1,4 +1,4 @@
-package io.github.faening.lello.di
+package io.github.faening.lello.core.data.di
 
 import dagger.Module
 import dagger.Provides
