@@ -19,7 +19,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
 @Composable
-fun LelloPill(
+fun LelloSelectablePill(
     label: String,
     selected: Boolean = false,
     onClick: () -> Unit,
@@ -56,11 +56,11 @@ fun LelloPill(
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillUnselectedLightPreview() {
+private fun LelloSelectablePillUnselectedLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.DEFAULT
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             onClick = {},
         )
@@ -76,11 +76,11 @@ private fun LelloPillUnselectedLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillUnselectedDarkPreview() {
+private fun LelloSelectablePillUnselectedDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.DEFAULT
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             onClick = {},
         )
@@ -96,11 +96,11 @@ private fun LelloPillUnselectedDarkPreview() {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillDefaultLightPreview() {
+private fun LelloSelectablePillDefaultLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.DEFAULT
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -117,11 +117,11 @@ private fun LelloPillDefaultLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillDefaultDarkPreview() {
+private fun LelloSelectablePillDefaultDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.DEFAULT
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -138,11 +138,11 @@ private fun LelloPillDefaultDarkPreview() {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillAquamarineLightPreview() {
+private fun LelloSelectablePillAquamarineLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.AQUAMARINE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -159,11 +159,11 @@ private fun LelloPillAquamarineLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillAquamarineDarkPreview() {
+private fun LelloSelectablePillAquamarineDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.AQUAMARINE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -180,11 +180,11 @@ private fun LelloPillAquamarineDarkPreview() {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillBlueLightPreview() {
+private fun LelloSelectablePillBlueLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.BLUE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -201,11 +201,11 @@ private fun LelloPillBlueLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillBlueDarkPreview() {
+private fun LelloSelectablePillBlueDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.BLUE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -222,11 +222,11 @@ private fun LelloPillBlueDarkPreview() {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillOrangeLightPreview() {
+private fun LelloSelectablePillOrangeLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.ORANGE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -243,11 +243,11 @@ private fun LelloPillOrangeLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillOrangeDarkPreview() {
+private fun LelloSelectablePillOrangeDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.ORANGE
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -264,11 +264,11 @@ private fun LelloPillOrangeDarkPreview() {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloPillRedLightPreview() {
+private fun LelloSelectablePillRedLightPreview() {
     LelloTheme(
         scheme = LelloColorScheme.RED
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
@@ -285,11 +285,11 @@ private fun LelloPillRedLightPreview() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloPillRedDarkPreview() {
+private fun LelloSelectablePillRedDarkPreview() {
     LelloTheme(
         scheme = LelloColorScheme.RED
     ) {
-        LelloPill(
+        LelloSelectablePill(
             label = "Feliz",
             selected = true,
             onClick = {},
