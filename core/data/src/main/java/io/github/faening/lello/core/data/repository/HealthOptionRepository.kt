@@ -10,10 +10,20 @@ class HealthOptionRepository @Inject constructor(
 ) : OptionRepository<HealthOption, HealthOptionEntity>(dao) {
 
     override fun HealthOptionEntity.toModel(): HealthOption {
-        return this.toModel()
+        return HealthOption(
+            id = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun HealthOption.toEntity(): HealthOptionEntity {
-        return this.toEntity()
+        return HealthOptionEntity(
+            id = this.id ?: 0,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }

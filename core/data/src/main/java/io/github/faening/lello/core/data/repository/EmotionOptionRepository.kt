@@ -10,10 +10,20 @@ class EmotionOptionRepository @Inject constructor(
 ) : OptionRepository<EmotionOption, EmotionOptionEntity>(dao) {
 
     override fun EmotionOptionEntity.toModel(): EmotionOption {
-        return this.toModel()
+        return EmotionOption(
+            id = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun EmotionOption.toEntity(): EmotionOptionEntity {
-        return this.toEntity()
+        return EmotionOptionEntity(
+            id = this.id ?: 0,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }

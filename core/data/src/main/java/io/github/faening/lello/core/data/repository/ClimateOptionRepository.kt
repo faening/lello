@@ -10,10 +10,20 @@ class ClimateOptionRepository @Inject constructor(
 ) : OptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
 
     override fun ClimateOptionEntity.toModel(): ClimateOption {
-        return this.toModel()
+        return ClimateOption(
+            id = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun ClimateOption.toEntity(): ClimateOptionEntity {
-        return this.toEntity()
+        return ClimateOptionEntity(
+            id = this.id ?: 0,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }

@@ -10,10 +10,20 @@ class LocationOptionRepository @Inject constructor(
 ) : OptionRepository<LocationOption, LocationOptionEntity>(dao) {
 
     override fun LocationOptionEntity.toModel(): LocationOption {
-        return this.toModel()
+        return LocationOption(
+            id = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun LocationOption.toEntity(): LocationOptionEntity {
-        return this.toEntity()
+        return LocationOptionEntity(
+            id = this.id ?: 0,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }
