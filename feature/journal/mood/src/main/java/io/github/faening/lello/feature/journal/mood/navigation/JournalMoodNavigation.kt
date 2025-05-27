@@ -31,7 +31,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
             JournalMoodEmotionSelectionRoute(
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.STEP2) },
-                onOpenMenu = { /* go to settings */ }
+                onOpenRegistration = { /* go to settings */ }
             )
         }
 

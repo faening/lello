@@ -48,7 +48,7 @@ internal fun JournalMoodRoute(
     viewModel: JournalMoodViewModel = hiltViewModel(),
 ) {
     val mood by viewModel.selectedMood.collectAsState()
-    val entryDateTime by viewModel.entryDateTimeFormatted.collectAsState()
+    val entryTime by viewModel.entryTimeFormatted.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.captureEntryDateTime()
@@ -56,8 +56,8 @@ internal fun JournalMoodRoute(
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodScreen(
+            entryTime = entryTime,
             mood = mood,
-            entryTime = entryDateTime,
             viewModel = viewModel,
             onBack = onBack,
             onNext = onNext,
@@ -67,15 +67,15 @@ internal fun JournalMoodRoute(
 
 @Composable
 private fun JournalMoodScreen(
-    mood: JournalMood,
     entryTime: String,
+    mood: JournalMood,
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         JournalMoodScreenTopAppBar(
-            title = entryTime,
+            entryTime = entryTime,
             onBack = onBack
         )
         Spacer(modifier = Modifier.height(Dimension.Medium))
@@ -158,11 +158,11 @@ private fun JournalMoodScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun JournalMoodScreenTopAppBar(
-    title: String,
+    entryTime: String,
     onBack: () -> Unit = {}
 ) {
     LelloTopAppBar(
-        title = TopAppBarTitle(text = title),
+        title = TopAppBarTitle(text = "Hoje, $entryTime"),
         navigateUp = TopAppBarAction(onClick = onBack),
     )
 }
