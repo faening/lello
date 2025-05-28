@@ -41,10 +41,11 @@ fun LelloFilledButton(
     enabled: Boolean = true,
     onClick: () -> Unit,
     colorScheme: ColorScheme = MaterialTheme.colorScheme,
-    shapeRadius: Dp = Dimension.Small
+    shapeRadius: Dp = Dimension.Small,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
     ) {
         // Fake Shadow
         Box(
