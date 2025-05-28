@@ -21,7 +21,7 @@ enum class LelloColorScheme(
             secondary             = Grey500,
             onSecondary           = Grey50,
             secondaryContainer    = Grey100,
-            onSecondaryContainer  = Grey900,
+            onSecondaryContainer  = Grey300,
 
             tertiary              = Yellow600,
             onTertiary            = Yellow50,
@@ -34,7 +34,7 @@ enum class LelloColorScheme(
             onErrorContainer      = Red900,
 
             surface               = Yellow50,
-            onSurface             = Grey500,
+            onSurface             = Grey300,
             surfaceVariant        = Yellow700,
             onSurfaceVariant      = Grey300,
 

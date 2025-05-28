@@ -16,4 +16,7 @@ object Dimension {
     // Drop shadow offset
     const val ALPHA_DISABLED = 0.35f
     const val ALPHA_PRESSED = 0.5f
+
+    // Buttons
+    val buttonHeight = 56.dp
 }
