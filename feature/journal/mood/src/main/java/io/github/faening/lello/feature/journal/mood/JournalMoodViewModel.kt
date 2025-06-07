@@ -20,6 +20,8 @@ class JournalMoodViewModel @Inject constructor(
     emotionOptionUseCase: EmotionOptionUseCase
 ) : ViewModel() {
 
+    // region: Gerenciamento de estado
+
     private val _selectedMood = MutableStateFlow(JournalMood.JOYFUL)
     val selectedMood: StateFlow<JournalMood> = _selectedMood
 
@@ -28,20 +30,30 @@ class JournalMoodViewModel @Inject constructor(
         .map { dt -> dt?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "" }
         .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
-    val emotionOptions: StateFlow<List<EmotionOption>> = emotionOptionUseCase
-        .getAll()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
-
+    /**
+     * Atualiza o humor selecionado pelo usuário.
+     */
     fun updateMood(mood: JournalMood) {
         _selectedMood.value = mood
     }
 
     /**
-     * Define o valor de `entryDateTime` para a data e hora atuais somente se ainda não tiver sido definido.
+     * Captura o horário de início do diário apenas se ainda não tiver sido definido.
+     * Essa função deve ser chamada ao abrir o fluxo de diário de humor.
      */
     fun captureEntryDateTime() {
         if (_entryDateTime.value == null) {
             _entryDateTime.value = LocalDateTime.now()
         }
     }
+
+    // endregion
+
+    // region: Carregamento de opções
+
+    val emotionOptions: StateFlow<List<EmotionOption>> = emotionOptionUseCase
+        .getAll()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    // endregion
 }
