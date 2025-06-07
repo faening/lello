@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloSliderVertical
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
@@ -58,9 +58,9 @@ internal fun JournalMoodRoute(
         JournalMoodScreen(
             mood = mood,
             entryTime = entryTime,
-            viewModel = viewModel,
             onBack = onBack,
             onNext = onNext,
+            onMoodChange = { viewModel.updateMood(it) }
         )
     }
 }
@@ -69,97 +69,33 @@ internal fun JournalMoodRoute(
 private fun JournalMoodScreen(
     mood: JournalMood,
     entryTime: String,
-    viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    onMoodChange: (JournalMood) -> Unit
 ) {
-    Column(Modifier.fillMaxSize()) {
-        JournalMoodScreenTopAppBar(
+    Column(modifier = Modifier.fillMaxSize()) {
+        JournalMoodTopAppBar(
             entryTime = entryTime,
             onBack = onBack
         )
         Spacer(modifier = Modifier.height(Dimension.Medium))
-        JournalMoodScrenTitle()
+        JournalMoodTitle()
         Spacer(modifier = Modifier.height(Dimension.Medium))
-        Row(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = Dimension.Medium),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                JournalMood.entries.forEach {
-                    Text(
-                        text = it.label,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(Dimension.Medium))
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.Start
-            ) {
-                LelloSliderVertical(
-                    steps = JournalMood.entries.size,
-                    currentStep = JournalMood.entries.indexOf(mood),
-                    onStepSelected = { index ->
-                        viewModel.updateMood(JournalMood.entries[index])
-                    },
-                    enableStepDrag = true
-                )
-            }
-            Spacer(modifier = Modifier.width(Dimension.Medium))
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                JournalMood.entries.forEach {
-                    Icon(
-                        painter = painterResource(it.iconRes),
-                        contentDescription = it.label,
-                        tint = Color.Unspecified,
-                        modifier = Modifier
-                            .size(68.dp)
-                    )
-                }
-            }
-        }
+        JournalMoodSelectorRow(
+            mood = mood,
+            onMoodChange = onMoodChange,
+            modifier = Modifier.weight(1f)
+        )
         Spacer(modifier = Modifier.height(Dimension.Medium))
-        Box(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(Dimension.horizontalPadding)
-        ) {
-            LelloFloatingActionButton(
-                icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-                contentDescription = "Próximo",
-                onClick = onNext
-            )
-        }
+        JournalMoodNextButton(onNext)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun JournalMoodScreenTopAppBar(
+private fun JournalMoodTopAppBar(
     entryTime: String,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Hoje, $entryTime"),
@@ -168,13 +104,110 @@ private fun JournalMoodScreenTopAppBar(
 }
 
 @Composable
-private fun JournalMoodScrenTitle() {
+private fun JournalMoodTitle() {
     Row(
         modifier = Modifier.padding(horizontal = Dimension.horizontalPadding)
     ) {
         Text(
             text = "Como você descreve seu humor neste momento?",
             style = MaterialTheme.typography.headlineSmall
+        )
+    }
+}
+
+@Composable
+private fun JournalMoodSelectorRow(
+    mood: JournalMood,
+    onMoodChange: (JournalMood) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = Dimension.Medium),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        MoodLabelColumn(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(Dimension.Medium))
+        MoodSliderColumn(mood = mood, onMoodChange = onMoodChange, modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(Dimension.Medium))
+        MoodIconColumn(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun MoodLabelColumn(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        JournalMood.entries.forEach {
+            Text(
+                text = it.label,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun MoodSliderColumn(
+    mood: JournalMood,
+    onMoodChange: (JournalMood) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.Start
+    ) {
+        LelloSliderVertical(
+            steps = JournalMood.entries.size,
+            currentStep = JournalMood.entries.indexOf(mood),
+            onStepSelected = { index -> onMoodChange(JournalMood.entries[index]) },
+            enableStepDrag = true
+        )
+    }
+}
+
+@Composable
+private fun MoodIconColumn(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxHeight(),
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        JournalMood.entries.forEach {
+            Icon(
+                painter = painterResource(it.iconRes),
+                contentDescription = it.label,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(68.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun JournalMoodNextButton(onNext: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth().wrapContentWidth(Alignment.End)
+            .padding(Dimension.horizontalPadding)
+    ) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = onNext
         )
     }
 }
@@ -191,9 +224,9 @@ fun JournalMoodScreenPreview() {
         JournalMoodScreen(
             mood = JournalMood.JOYFUL,
             entryTime = "12:00",
-            viewModel = hiltViewModel(),
             onBack = {},
-            onNext = {}
+            onNext = {},
+            onMoodChange = {}
         )
     }
 }

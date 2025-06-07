@@ -14,15 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloSelectablePill
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
@@ -37,20 +34,19 @@ import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
  * Screen 2: Parte do fluxo de diário de humor e que se trata de uma etapa de seleção de emoções.
  */
 @Composable
-fun JournalMoodEmotionSelectionRoute(
+fun JournalMoodEmotionRoute(
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
+    onFinish: () -> Unit,
     onOpenRegistration: () -> Unit
 ) {
     val mood by viewModel.selectedMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
     val emotions by viewModel.emotionOptions.collectAsState()
 
-//    key(mood) {
-//    }
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodEmotionSelectionScreen(
+        JournalMoodEmotionScreen(
             entryTime = entryTime,
             emotions = emotions,
             onBack = onBack,
@@ -61,7 +57,7 @@ fun JournalMoodEmotionSelectionRoute(
 }
 
 @Composable
-private fun JournalMoodEmotionSelectionScreen(
+private fun JournalMoodEmotionScreen(
     entryTime: String,
     emotions: List<EmotionOption>,
     onBack: () -> Unit,
@@ -69,7 +65,6 @@ private fun JournalMoodEmotionSelectionScreen(
     onOpenRegistration: () -> Unit
 ) {
     var selected by remember { mutableStateOf(setOf<String>()) }
-
 
     Scaffold(
         topBar = {
@@ -127,7 +122,7 @@ private fun JournalMoodEmotionSelectionScreen(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalMoodEmotionSelectionScreenPreview() {
+fun JournalMoodEmotionScreenPreview() {
     val emotions = listOf(
         EmotionOption(
             id = 1,
@@ -174,7 +169,7 @@ fun JournalMoodEmotionSelectionScreenPreview() {
     )
 
     LelloTheme {
-        JournalMoodEmotionSelectionScreen(
+        JournalMoodEmotionScreen(
             emotions = emotions,
             entryTime = "12:41",
             onBack = {},
