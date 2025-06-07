@@ -25,7 +25,7 @@ fun LelloSelectablePill(
     onClick: () -> Unit,
     shapeRadius: Dp = 4.dp,
     horizontalPadding: Dp = 20.dp,
-    verticalPadding: Dp = 12.dp
+    verticalPadding: Dp = 16.dp
 ) {
     Surface(
         modifier = Modifier.clickable { onClick() },
@@ -39,7 +39,7 @@ fun LelloSelectablePill(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
             fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = horizontalPadding, vertical = verticalPadding)
