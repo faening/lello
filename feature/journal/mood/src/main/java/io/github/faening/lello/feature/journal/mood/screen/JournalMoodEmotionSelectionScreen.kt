@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloSelectablePill
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
@@ -36,15 +38,17 @@ import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
  */
 @Composable
 fun JournalMoodEmotionSelectionRoute(
+    viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onOpenRegistration: () -> Unit,
-    viewModel: JournalMoodViewModel = hiltViewModel()
+    onOpenRegistration: () -> Unit
 ) {
     val mood by viewModel.selectedMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
     val emotions by viewModel.emotionOptions.collectAsState()
 
+//    key(mood) {
+//    }
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodEmotionSelectionScreen(
             entryTime = entryTime,
@@ -65,6 +69,7 @@ private fun JournalMoodEmotionSelectionScreen(
     onOpenRegistration: () -> Unit
 ) {
     var selected by remember { mutableStateOf(setOf<String>()) }
+
 
     Scaffold(
         topBar = {

@@ -43,9 +43,9 @@ import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun JournalMoodRoute(
+    viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
-    onNext: () -> Unit,
-    viewModel: JournalMoodViewModel = hiltViewModel(),
+    onNext: () -> Unit
 ) {
     val mood by viewModel.selectedMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
@@ -56,8 +56,8 @@ internal fun JournalMoodRoute(
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodScreen(
-            entryTime = entryTime,
             mood = mood,
+            entryTime = entryTime,
             viewModel = viewModel,
             onBack = onBack,
             onNext = onNext,
@@ -67,8 +67,8 @@ internal fun JournalMoodRoute(
 
 @Composable
 private fun JournalMoodScreen(
-    entryTime: String,
     mood: JournalMood,
+    entryTime: String,
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit
