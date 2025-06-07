@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -29,35 +30,43 @@ import io.github.faening.lello.core.designsystem.R as designsystemR
 fun LelloFloatingActionButton(
     icon: ImageVector,
     contentDescription: String,
+    enabled: Boolean = true,
     colorScheme: ColorScheme = MaterialTheme.colorScheme,
     onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
     ) {
+        // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
                 .offset(x = Dimension.Small, y = Dimension.Small)
                 .background(
-                    color = colorScheme.surfaceVariant.copy(alpha = Dimension.ALPHA_DISABLED),
+                    color = if (enabled) colorScheme.surfaceVariant.copy(alpha = Dimension.ALPHA_DISABLED)
+                    else colorScheme.onSurface.copy(alpha = Dimension.ALPHA_DISABLED),
                     shape = RoundedCornerShape(Dimension.Small)
                 )
         )
+
         FloatingActionButton(
             modifier = Modifier
                 .border(
-                    border = BorderStroke(width = 1.5.dp, color = colorScheme.outline),
+                    border = BorderStroke(
+                        width = 1.5.dp,
+                        color = if (enabled) colorScheme.outline else colorScheme.onSecondaryContainer
+                    ),
                     shape = RoundedCornerShape(Dimension.Small)
-                ),
-            containerColor = colorScheme.primary,
+                )
+                .clickable(enabled = enabled, onClick = onClick),
+            containerColor = if (enabled) colorScheme.primary else colorScheme.secondaryContainer,
             shape = RoundedCornerShape(Dimension.Small),
-            onClick = onClick,
+            onClick = { if (enabled) onClick() },
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = colorScheme.onPrimary
+                tint = if (enabled) colorScheme.onPrimary else colorScheme.onSurfaceVariant
             )
         }
     }
@@ -310,6 +319,28 @@ private fun LelloFloatingActionButtonRedDarkPreview() {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
+            onClick = {}
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Light",
+    group = "Disabled",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFloatingActionButtonDisabledPreview() {
+    LelloTheme(
+        scheme = LelloColorScheme.DEFAULT
+    ) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            enabled = false,
             onClick = {}
         )
     }

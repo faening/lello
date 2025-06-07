@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Inventory2
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Inventory2
@@ -26,6 +27,8 @@ object LelloIcons {
     // TopAppBar
     val Favorite = Icons.Rounded.Favorite
     val MoreVert = Icons.Rounded.MoreVert
+
+    val Add = Icons.Rounded.Add
 
     // Carregar ícones SVG
     @Composable
