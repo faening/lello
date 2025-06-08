@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.journal.mood.navigation
+package io.github.faening.lello.feature.journal.mood
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,7 +8,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
