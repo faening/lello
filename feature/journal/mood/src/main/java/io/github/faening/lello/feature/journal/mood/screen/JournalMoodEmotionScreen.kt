@@ -47,11 +47,11 @@ internal fun JournalMoodEmotionScreen(
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
-    onOpenRegistration: () -> Unit
+    onOpenEmotionSettings: () -> Unit
 ) {
     val mood by viewModel.selectedMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
-    val emotions by viewModel.emotionOptions.collectAsState()
+    val emotions by viewModel.emotions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodEmotionContainer(
@@ -60,7 +60,7 @@ internal fun JournalMoodEmotionScreen(
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish,
-            onOpenRegistration = onOpenRegistration
+            onOpenEmotionSettings = onOpenEmotionSettings
         )
     }
 }
@@ -72,7 +72,7 @@ private fun JournalMoodEmotionContainer(
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
-    onOpenRegistration: () -> Unit
+    onOpenEmotionSettings: () -> Unit
 ) {
     var selected by remember { mutableStateOf(setOf<String>()) }
 
@@ -86,7 +86,7 @@ private fun JournalMoodEmotionContainer(
             onEmotionToggled = { emotion ->
                 selected = if (selected.contains(emotion)) selected - emotion else selected + emotion
             },
-            onOpenRegistration = onOpenRegistration,
+            onOpenEmotionSettings = onOpenEmotionSettings,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -137,7 +137,7 @@ private fun JournalMoodEmotionContent(
     emotions: List<EmotionOption>,
     selected: Set<String>,
     onEmotionToggled: (String) -> Unit,
-    onOpenRegistration: () -> Unit,
+    onOpenEmotionSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -162,7 +162,7 @@ private fun JournalMoodEmotionContent(
                 )
             }
             LelloFlowItemButton(
-                onClick = onOpenRegistration
+                onClick = onOpenEmotionSettings
             )
         }
     }
@@ -228,7 +228,7 @@ private fun JournalMoodStepOneScreenPreview() {
             onBack = {},
             onNext = {},
             onFinish = {},
-            onOpenRegistration = {}
+            onOpenEmotionSettings = {}
         )
     }
 }

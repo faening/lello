@@ -45,17 +45,50 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
                 onFinish = { /* conluir diário */ },
-                onOpenRegistration = {
+                onOpenEmotionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.EMOTION_SETTINGS.replace("{colorScheme}", mood.colorScheme.name)
+                        JournalSettingsDestinations.EMOTION_SETTINGS.replace(
+                            oldValue = "{colorScheme}",
+                            newValue = mood.colorScheme.name
+                        )
                     )
                 }
             )
         }
 
-        composable(JournalMoodDestinations.DETAILS) {
+        composable(JournalMoodDestinations.DETAILS) { backStackEntry ->
+            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+            val mood by viewModel.selectedMood.collectAsState()
+
             JournalMoodDetailsScreen(
-                onBack = { navController.popBackStack() }
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onNext = { /* próximo passo */ },
+                onFinish = { /* concluir diário */ },
+                onOpenClimateSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.CLIMATE_SETTINGS.replace(
+                            oldValue = "{colorScheme}",
+                            newValue = mood.colorScheme.name
+                        )
+                    )
+                },
+                onOpenLocationSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.LOCATION_SETTINGS.replace(
+                            oldValue = "{colorScheme}",
+                            newValue = mood.colorScheme.name
+                        )
+                    )
+                },
+                onOpenSocialSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.SOCIAL_SETTINGS.replace(
+                            oldValue = "{colorScheme}",
+                            newValue = mood.colorScheme.name
+                        )
+                    )
+                },
             )
         }
     }
