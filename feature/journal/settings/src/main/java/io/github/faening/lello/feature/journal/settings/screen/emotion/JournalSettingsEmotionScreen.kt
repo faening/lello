@@ -20,21 +20,23 @@ import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
 
 @Composable
-fun JournalSettingsEmotionScreen(
+internal fun JournalSettingsEmotionScreen(
     viewModel: JournalSettingsViewModel,
+    colorScheme: LelloColorScheme,
     onBack: () -> Unit,
     onRegister: () -> Unit
 ) {
     val emotions by viewModel.emotionOptions.collectAsState()
 
-    LelloTheme {
-        JournalSettingsEmotionScreenContainer(
+    LelloTheme(scheme = colorScheme) {
+        JournalSettingsEmotionContainer(
             emotions = emotions,
             onToggle = { option, active -> viewModel.toggleEmotionOption(option, active) },
             onBack = onBack,
@@ -44,7 +46,7 @@ fun JournalSettingsEmotionScreen(
 }
 
 @Composable
-private fun JournalSettingsEmotionScreenContainer(
+private fun JournalSettingsEmotionContainer(
     emotions: List<EmotionOption>,
     onToggle: (EmotionOption, Boolean) -> Unit,
     onBack: () -> Unit,
@@ -54,7 +56,7 @@ private fun JournalSettingsEmotionScreenContainer(
         topBar = { JournalSettingsEmotionTopBar(onBack) },
         bottomBar = { JournalSettingsEmotionBottomBar(onRegister) }
     ) { paddingValues ->
-        JournalSettingsEmotionScreenContent(
+        JournalSettingsEmotionContent(
             emotions = emotions,
             onToggle = onToggle,
             modifier = Modifier.padding(paddingValues)
@@ -89,7 +91,7 @@ private fun JournalSettingsEmotionBottomBar(
 }
 
 @Composable
-private fun JournalSettingsEmotionScreenContent(
+private fun JournalSettingsEmotionContent(
     emotions: List<EmotionOption>,
     onToggle: (EmotionOption, Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -130,7 +132,7 @@ fun JournalSettingsEmotionScreenPreview() {
         EmotionOption(id = 3, description = "Ansioso", blocked = false, active = true)
     )
     LelloTheme {
-        JournalSettingsEmotionScreenContainer(
+        JournalSettingsEmotionContainer(
             emotions = emotions,
             onToggle = { _, _ -> },
             onBack = {},

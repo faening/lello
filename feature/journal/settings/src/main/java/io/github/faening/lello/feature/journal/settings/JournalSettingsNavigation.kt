@@ -8,12 +8,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionScreen
 
 object JournalSettingsDestinations {
     const val GRAPH = "journal_settings_graph"
-    const val EMOTION_SETTINGS = "journal_settings_emotion"
+    const val EMOTION_SETTINGS = "journal_settings_emotion/{colorScheme}"
     const val EMOTION_REGISTER = "journal_settings_emotion_register"
 }
 
@@ -23,9 +24,15 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
         route = JournalSettingsDestinations.GRAPH
     ) {
         composable(JournalSettingsDestinations.EMOTION_SETTINGS) { backStackEntry ->
+            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val colorScheme = colorSchemeName
+                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
+                ?: LelloColorScheme.DEFAULT
+
             val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
             JournalSettingsEmotionScreen(
                 viewModel = viewModel,
+                colorScheme = colorScheme,
                 onBack = { navController.popBackStack() },
                 onRegister = { navController.navigate(JournalSettingsDestinations.EMOTION_REGISTER) }
             )

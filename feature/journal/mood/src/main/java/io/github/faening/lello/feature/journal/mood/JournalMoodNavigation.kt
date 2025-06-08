@@ -1,6 +1,8 @@
 package io.github.faening.lello.feature.journal.mood
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
@@ -8,9 +10,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 
 object JournalMoodDestinations {
@@ -36,12 +38,18 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
 
         composable(JournalMoodDestinations.EMOTION) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+            val mood by viewModel.selectedMood.collectAsState()
+
             JournalMoodEmotionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
                 onFinish = { /* conluir diário */ },
-                onOpenRegistration = { navController.navigate(JournalSettingsDestinations.EMOTION_SETTINGS) }
+                onOpenRegistration = {
+                    navController.navigate(
+                        JournalSettingsDestinations.EMOTION_SETTINGS.replace("{colorScheme}", mood.colorScheme.name)
+                    )
+                }
             )
         }
 
