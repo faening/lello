@@ -9,16 +9,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodRoute
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodStepTwoScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 
 object JournalMoodDestinations {
     const val GRAPH = "journal_mood_graph"
     const val HOME = "journal_mood_home"
-    const val STEP1 = "journal_mood_emotion"
-    const val STEP2 = "journal_mood_step2"
+    const val EMOTION = "journal_mood_emotion"
+    const val DETAILS = "journal_mood_details"
 }
 
 fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
@@ -28,26 +28,26 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
     ) {
         composable(JournalMoodDestinations.HOME) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            JournalMoodRoute(
+            JournalMoodScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.STEP1) }
+                onNext = { navController.navigate(JournalMoodDestinations.EMOTION) }
             )
         }
 
-        composable(JournalMoodDestinations.STEP1) { backStackEntry ->
+        composable(JournalMoodDestinations.EMOTION) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
             JournalMoodEmotionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.STEP2) },
+                onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
                 onFinish = { /* conluir diário */ },
                 onOpenRegistration = { navController.navigate(JournalSettingsDestinations.EMOTION_SETTINGS) }
             )
         }
 
-        composable(JournalMoodDestinations.STEP2) {
-            JournalMoodStepTwoScreen(
+        composable(JournalMoodDestinations.DETAILS) {
+            JournalMoodDetailsScreen(
                 onBack = { navController.popBackStack() }
             )
         }

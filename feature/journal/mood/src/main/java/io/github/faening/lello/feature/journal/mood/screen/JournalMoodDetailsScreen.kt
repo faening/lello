@@ -8,8 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Step 3: Detalhes adicionais sobre o humor do usuário.
+ */
 @Composable
-fun JournalMoodStepTwoScreen(
+internal fun JournalMoodDetailsScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit
 ) {

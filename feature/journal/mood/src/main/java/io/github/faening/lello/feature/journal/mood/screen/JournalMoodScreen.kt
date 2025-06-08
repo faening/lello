@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,8 +42,11 @@ import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.feature.journal.mood.model.JournalMood
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
+/**
+ * Step 1: Seleção do humor do usuário.
+ */
 @Composable
-internal fun JournalMoodRoute(
+internal fun JournalMoodScreen(
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit
@@ -55,7 +59,7 @@ internal fun JournalMoodRoute(
     }
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodScreen(
+        JournalMoodContainer(
             mood = mood,
             entryTime = entryTime,
             onBack = onBack,
@@ -66,34 +70,28 @@ internal fun JournalMoodRoute(
 }
 
 @Composable
-private fun JournalMoodScreen(
+private fun JournalMoodContainer(
     mood: JournalMood,
     entryTime: String,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onMoodChange: (JournalMood) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        JournalMoodTopAppBar(
-            entryTime = entryTime,
-            onBack = onBack
-        )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
-        JournalMoodTitle()
-        Spacer(modifier = Modifier.height(Dimension.Medium))
-        JournalMoodSelectorRow(
+    Scaffold(
+        topBar = { JournalMoodTopBar(entryTime, onBack) },
+        bottomBar = { JournalMoodBottomBar(onNext) }
+    ) { paddingValues ->
+        JournalMoodContent(
             mood = mood,
             onMoodChange = onMoodChange,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.padding(paddingValues)
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
-        JournalMoodNextButton(onNext)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun JournalMoodTopAppBar(
+private fun JournalMoodTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -104,14 +102,46 @@ private fun JournalMoodTopAppBar(
 }
 
 @Composable
-private fun JournalMoodTitle() {
-    Row(
-        modifier = Modifier.padding(horizontal = Dimension.horizontalPadding)
+private fun JournalMoodBottomBar(
+    onNext: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentWidth(Alignment.End)
+            .padding(Dimension.Medium)
+    ) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = onNext
+        )
+    }
+}
+
+@Composable
+private fun JournalMoodContent(
+    mood: JournalMood,
+    onMoodChange: (JournalMood) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxHeight()
+            .padding(Dimension.Medium)
     ) {
         Text(
             text = "Como você descreve seu humor neste momento?",
             style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        JournalMoodSelectorRow(
+            mood = mood,
+            onMoodChange = onMoodChange,
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        // JournalMoodBottomBar(onNext)
     }
 }
 
@@ -123,8 +153,7 @@ private fun JournalMoodSelectorRow(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = Dimension.Medium),
+            .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         MoodLabelColumn(modifier = Modifier.weight(1f))
@@ -198,21 +227,6 @@ private fun MoodIconColumn(
 }
 
 @Composable
-private fun JournalMoodNextButton(onNext: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth().wrapContentWidth(Alignment.End)
-            .padding(Dimension.horizontalPadding)
-    ) {
-        LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-            contentDescription = "Próximo",
-            onClick = onNext
-        )
-    }
-}
-
-@Composable
 @Preview(
     name = "Light",
     showBackground = true,
@@ -221,7 +235,7 @@ private fun JournalMoodNextButton(onNext: () -> Unit) {
 )
 fun JournalMoodScreenPreview() {
     LelloTheme {
-        JournalMoodScreen(
+        JournalMoodContainer(
             mood = JournalMood.JOYFUL,
             entryTime = "12:00",
             onBack = {},

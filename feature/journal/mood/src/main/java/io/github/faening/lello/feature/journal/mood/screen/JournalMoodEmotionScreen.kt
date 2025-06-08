@@ -39,10 +39,10 @@ import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 /**
- * Screen 2: Parte do fluxo de diário de humor e que se trata de uma etapa de seleção de emoções.
+ * Step 2: Seleção das emoções do usuário.
  */
 @Composable
-fun JournalMoodEmotionScreen(
+internal fun JournalMoodEmotionScreen(
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
@@ -54,7 +54,7 @@ fun JournalMoodEmotionScreen(
     val emotions by viewModel.emotionOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodEmotionScreenContainer(
+        JournalMoodEmotionContainer(
             entryTime = entryTime,
             emotions = emotions,
             onBack = onBack,
@@ -66,7 +66,7 @@ fun JournalMoodEmotionScreen(
 }
 
 @Composable
-private fun JournalMoodEmotionScreenContainer(
+private fun JournalMoodEmotionContainer(
     entryTime: String,
     emotions: List<EmotionOption>,
     onBack: () -> Unit,
@@ -175,7 +175,7 @@ private fun JournalMoodEmotionContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalMoodEmotionScreenPreview() {
+private fun JournalMoodStepOneScreenPreview() {
     val emotions = listOf(
         EmotionOption(
             id = 1,
@@ -222,7 +222,7 @@ fun JournalMoodEmotionScreenPreview() {
     )
 
     LelloTheme {
-        JournalMoodEmotionScreenContainer(
+        JournalMoodEmotionContainer(
             emotions = emotions,
             entryTime = "12:41",
             onBack = {},
