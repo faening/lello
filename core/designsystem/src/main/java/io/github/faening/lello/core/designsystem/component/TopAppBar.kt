@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,8 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.R
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
 @SuppressLint("ModifierParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +42,7 @@ fun LelloTopAppBar(
     val cs = MaterialTheme.colorScheme
 
     CenterAlignedTopAppBar(
-        modifier = modifier,
+        // modifier = modifier.fillMaxWidth(),
         title = {
             title?.let {
                 Text(
@@ -54,25 +56,31 @@ fun LelloTopAppBar(
         },
         navigationIcon = {
             navigateUp?.let {
-                TopAppBarActionButton(
-                    action = it.also {
-                        it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
-                        it.contentDescription = "Voltar"
-                    },
-                    iconTint = cs.onPrimary,
-                    background = cs.primary
-                )
+                Box(modifier = Modifier.padding(start = Dimension.Small)) {
+                    TopAppBarActionButton(
+                        action = it.also {
+                            it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
+                            it.contentDescription = "Voltar"
+                        },
+                        iconTint = cs.onPrimary,
+                        background = cs.primary
+                    )
+                }
             }
         },
         actions = {
             actions.forEachIndexed { index, action ->
-                TopAppBarActionButton(
-                    action = action,
-                    iconTint = cs.onPrimary,
-                    background = cs.primary,
-                    contentPadding = if (index < actions.size - 1) Modifier.padding(end = 8.dp)
-                    else Modifier
-                )
+                Box(
+                    modifier = Modifier.padding(
+                        end = Dimension.Small
+                    )
+                ) {
+                    TopAppBarActionButton(
+                        action = action,
+                        iconTint = cs.onPrimary,
+                        background = cs.primary
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
