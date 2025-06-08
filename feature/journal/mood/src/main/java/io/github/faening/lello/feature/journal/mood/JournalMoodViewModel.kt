@@ -3,8 +3,14 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.journal.SocialOption
 import io.github.faening.lello.feature.journal.mood.model.JournalMood
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +23,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JournalMoodViewModel @Inject constructor(
-    emotionOptionUseCase: EmotionOptionUseCase
+    emotionOptionUseCase: EmotionOptionUseCase,
+    climateOptionUseCase: ClimateOptionUseCase,
+    locationOptionUseCase: LocationOptionUseCase,
+    socialOptionUseCase: SocialOptionUseCase
 ) : ViewModel() {
 
     // region: Gerenciamento de estado
@@ -51,7 +60,19 @@ class JournalMoodViewModel @Inject constructor(
 
     // region: Carregamento de opções
 
-    val emotionOptions: StateFlow<List<EmotionOption>> = emotionOptionUseCase
+    val emotions: StateFlow<List<EmotionOption>> = emotionOptionUseCase
+        .getAll()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    val climates: StateFlow<List<ClimateOption>> = climateOptionUseCase
+        .getAll()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    val locations: StateFlow<List<LocationOption>> = locationOptionUseCase
+        .getAll()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    val socials: StateFlow<List<SocialOption>> = socialOptionUseCase
         .getAll()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
