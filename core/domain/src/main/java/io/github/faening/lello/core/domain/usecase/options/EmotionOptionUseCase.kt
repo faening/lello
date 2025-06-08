@@ -1,16 +1,16 @@
-package io.github.faening.lello.core.domain.usecase
+package io.github.faening.lello.core.domain.usecase.options
 
 import io.github.faening.lello.core.domain.repository.OptionResources
 import io.github.faening.lello.core.domain.util.capitalizeFirst
 import io.github.faening.lello.core.domain.util.validateDescription
 import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.domain.util.validateNotBlocked
-import io.github.faening.lello.core.model.journal.HealthOption
+import io.github.faening.lello.core.model.journal.EmotionOption
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class HealthOptionUseCase @Inject constructor(
-    private val repository: OptionResources<HealthOption>
+class EmotionOptionUseCase @Inject constructor(
+    private val repository: OptionResources<EmotionOption>
 ) {
 
     fun getAll(
@@ -18,16 +18,16 @@ class HealthOptionUseCase @Inject constructor(
         isBlocked: Boolean = true,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ): Flow<List<HealthOption>> {
+    ): Flow<List<EmotionOption>> {
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Int): Flow<HealthOption>? {
+    fun getById(id: Int): Flow<EmotionOption>? {
         id.validateId()
         return repository.getById(id)
     }
 
-    suspend fun save(vararg items: HealthOption) {
+    suspend fun save(vararg items: EmotionOption) {
         val formattedItems = items.map { item ->
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
@@ -35,7 +35,7 @@ class HealthOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.insert(item) }
     }
 
-    suspend fun update(vararg items: HealthOption) {
+    suspend fun update(vararg items: EmotionOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
             item.id?.validateId()
@@ -45,7 +45,7 @@ class HealthOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
-    suspend fun delete(vararg items: HealthOption) {
+    suspend fun delete(vararg items: EmotionOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
             item.id?.validateId()

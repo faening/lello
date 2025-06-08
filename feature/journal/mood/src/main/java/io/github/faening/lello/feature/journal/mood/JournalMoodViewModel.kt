@@ -3,7 +3,7 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.EmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.feature.journal.mood.model.JournalMood
 import kotlinx.coroutines.flow.MutableStateFlow

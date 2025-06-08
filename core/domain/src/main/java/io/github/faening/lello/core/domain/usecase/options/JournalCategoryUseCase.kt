@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.usecase
+package io.github.faening.lello.core.domain.usecase.options
 
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.util.validateId
