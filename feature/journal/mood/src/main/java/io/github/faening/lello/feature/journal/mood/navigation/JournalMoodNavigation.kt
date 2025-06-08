@@ -10,8 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodRoute
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionRoute
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodStepTwoScreen
+import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 
 object JournalMoodDestinations {
     const val GRAPH = "journal_mood_graph"
@@ -36,12 +37,12 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
 
         composable(JournalMoodDestinations.STEP1) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            JournalMoodEmotionRoute(
+            JournalMoodEmotionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.STEP2) },
                 onFinish = { /* conluir diário */ },
-                onOpenRegistration = { /* go to settings */ }
+                onOpenRegistration = { navController.navigate(JournalSettingsDestinations.EMOTION_SETTINGS) }
             )
         }
 

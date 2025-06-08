@@ -42,7 +42,7 @@ import io.github.faening.lello.core.designsystem.R as designsystemR
  * Screen 2: Parte do fluxo de diário de humor e que se trata de uma etapa de seleção de emoções.
  */
 @Composable
-fun JournalMoodEmotionRoute(
+fun JournalMoodEmotionScreen(
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
@@ -54,7 +54,7 @@ fun JournalMoodEmotionRoute(
     val emotions by viewModel.emotionOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodEmotionScreen(
+        JournalMoodEmotionScreenContainer(
             entryTime = entryTime,
             emotions = emotions,
             onBack = onBack,
@@ -66,7 +66,7 @@ fun JournalMoodEmotionRoute(
 }
 
 @Composable
-private fun JournalMoodEmotionScreen(
+private fun JournalMoodEmotionScreenContainer(
     entryTime: String,
     emotions: List<EmotionOption>,
     onBack: () -> Unit,
@@ -77,14 +77,8 @@ private fun JournalMoodEmotionScreen(
     var selected by remember { mutableStateOf(setOf<String>()) }
 
     Scaffold(
-        topBar = { JournalMoodEmotionAppBar(entryTime, onBack) },
-        bottomBar = {
-            JournalMoodEmotionConfirmButton(
-                enabled = selected.isNotEmpty(),
-                onNext = onNext,
-                onFinish = onFinish
-            )
-        }
+        topBar = { JournalMoodEmotionTopBar(entryTime, onBack) },
+        bottomBar = { JournalMoodEmotionBottomBar(selected.isNotEmpty(), onNext, onFinish) }
     ) { paddingValues ->
         JournalMoodEmotionContent(
             emotions = emotions,
@@ -99,7 +93,7 @@ private fun JournalMoodEmotionScreen(
 }
 
 @Composable
-private fun JournalMoodEmotionAppBar(
+private fun JournalMoodEmotionTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -107,6 +101,35 @@ private fun JournalMoodEmotionAppBar(
         title = TopAppBarTitle(text = "Hoje, $entryTime"),
         navigateUp = TopAppBarAction(onClick = onBack)
     )
+}
+
+@Composable
+private fun JournalMoodEmotionBottomBar(
+    enabled: Boolean,
+    onNext: () -> Unit,
+    onFinish: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimension.Medium),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LelloFilledButton(
+            label = "Concluir",
+            enabled = enabled,
+            onClick = onFinish,
+            modifier = Modifier.weight(1f)
+        )
+
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            enabled = enabled,
+            onClick = onNext
+        )
+    }
 }
 
 @Composable
@@ -120,7 +143,7 @@ private fun JournalMoodEmotionContent(
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(Dimension.Medium)
     ) {
         Text(
             text = "Quais emoções fazem mais sentido neste momento?",
@@ -142,35 +165,6 @@ private fun JournalMoodEmotionContent(
                 onClick = onOpenRegistration
             )
         }
-    }
-}
-
-@Composable
-private fun JournalMoodEmotionConfirmButton(
-    enabled: Boolean,
-    onNext: () -> Unit,
-    onFinish: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Dimension.Medium, vertical = Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        LelloFilledButton(
-            label = "Concluir",
-            enabled = enabled,
-            onClick = onFinish,
-            modifier = Modifier.weight(1f)
-        )
-
-        LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-            contentDescription = "Próximo",
-            enabled = enabled,
-            onClick = onNext
-        )
     }
 }
 
@@ -228,7 +222,7 @@ fun JournalMoodEmotionScreenPreview() {
     )
 
     LelloTheme {
-        JournalMoodEmotionScreen(
+        JournalMoodEmotionScreenContainer(
             emotions = emotions,
             entryTime = "12:41",
             onBack = {},

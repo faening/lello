@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Commom -->
+
+    <!-- Emotion -->
+    <string name="journal_settings_emotion_appbar_title">Emoções</string>
+    <string name="journal_settings_emotion_register_button_label">Cadastrar emoção</string>
+
+</resources>

@@ -34,4 +34,5 @@ dependencies {
     api(projects.feature.journal.medication)
     api(projects.feature.journal.mood)
     api(projects.feature.journal.sleep)
+    api(projects.feature.journal.settings)
 }
