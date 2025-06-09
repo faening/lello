@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.journal.mood.screen
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,11 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
-import io.github.faening.lello.core.designsystem.component.LelloFlowItemButton
-import io.github.faening.lello.core.designsystem.component.LelloSelectablePill
+import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
@@ -149,22 +146,18 @@ private fun JournalMoodEmotionContent(
             text = "Quais emoções fazem mais sentido neste momento?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(24.dp))
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(Dimension.Small),
-            verticalArrangement = Arrangement.spacedBy(Dimension.Small)
-        ) {
-            emotions.forEach { emotion ->
-                LelloSelectablePill(
-                    label = emotion.description,
-                    selected = selected.contains(emotion.description),
-                    onClick = { onEmotionToggled(emotion.description) }
-                )
-            }
-            LelloFlowItemButton(
-                onClick = onOpenEmotionSettings
-            )
-        }
+        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+
+        LelloOptionPillSelector(
+            title = null,
+            options = emotions,
+            isSelected = { selected.contains(it.description) },
+            onToggle = { option ->
+                onEmotionToggled(option.description)
+            },
+            onOpenSettings = onOpenEmotionSettings,
+            getLabel = { it.description }
+        )
     }
 }
 
