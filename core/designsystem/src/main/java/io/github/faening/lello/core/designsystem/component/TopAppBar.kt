@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.R
@@ -36,21 +38,24 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 fun LelloTopAppBar(
     title: TopAppBarTitle? = null,
     navigateUp: TopAppBarAction? = null,
-    actions: List<TopAppBarAction> = emptyList(),
-    modifier: Modifier = Modifier
+    actions: List<TopAppBarAction> = emptyList()
 ) {
-    val cs = MaterialTheme.colorScheme
+    val colorScheme = MaterialTheme.colorScheme
 
     CenterAlignedTopAppBar(
-        // modifier = modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding(),
         title = {
             title?.let {
                 Text(
                     text = it.text
                         ?: it.textRes?.let { id -> stringResource(id) }
                         ?: "",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     style = it.style ?: MaterialTheme.typography.titleLarge,
-                    color = cs.onPrimaryContainer
+                    color = colorScheme.onPrimaryContainer
                 )
             }
         },
@@ -62,8 +67,8 @@ fun LelloTopAppBar(
                             it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
                             it.contentDescription = "Voltar"
                         },
-                        iconTint = cs.onPrimary,
-                        background = cs.primary
+                        iconTint = colorScheme.onPrimary,
+                        background = colorScheme.primary
                     )
                 }
             }
@@ -77,17 +82,17 @@ fun LelloTopAppBar(
                 ) {
                     TopAppBarActionButton(
                         action = action,
-                        iconTint = cs.onPrimary,
-                        background = cs.primary
+                        iconTint = colorScheme.onPrimary,
+                        background = colorScheme.primary
                     )
                 }
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = cs.primaryContainer,
-            titleContentColor = cs.onPrimaryContainer,
-            navigationIconContentColor = cs.onPrimary,
-            actionIconContentColor = cs.primary
+            containerColor = colorScheme.primaryContainer,
+            titleContentColor = colorScheme.onPrimaryContainer,
+            navigationIconContentColor = colorScheme.onPrimary,
+            actionIconContentColor = colorScheme.primary
         )
     )
 }
