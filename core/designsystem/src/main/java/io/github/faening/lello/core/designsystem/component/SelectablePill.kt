@@ -24,8 +24,8 @@ fun LelloSelectablePill(
     selected: Boolean = false,
     onClick: () -> Unit,
     shapeRadius: Dp = 4.dp,
-    horizontalPadding: Dp = 20.dp,
-    verticalPadding: Dp = 16.dp
+    horizontalPadding: Dp = 12.dp,
+    verticalPadding: Dp = 12.dp
 ) {
     Surface(
         modifier = Modifier.clickable { onClick() },

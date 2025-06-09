@@ -24,7 +24,7 @@ fun LelloFlowItemButton(
     colorScheme: ColorScheme = MaterialTheme.colorScheme,
 ) {
     FloatingActionButton(
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.size(40.dp),
         containerColor = colorScheme.primary,
         shape = RoundedCornerShape(Dimension.Small),
         elevation = FloatingActionButtonDefaults.elevation(
