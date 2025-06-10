@@ -15,6 +15,10 @@ import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSe
 import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateScreen
 import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialScreen
+import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthScreen
 
 object JournalSettingsDestinations {
     const val GRAPH = "journal_settings_graph"
@@ -99,6 +103,52 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
         composable(JournalSettingsDestinations.LOCATION_REGISTER) { backStackEntry ->
             val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
             JournalSettingsLocationRegisterScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+            )
+        }
+
+        composable(JournalSettingsDestinations.SOCIAL_SETTINGS) { backStackEntry ->
+            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val colorScheme = colorSchemeName
+                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
+                ?: LelloColorScheme.DEFAULT
+
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsSocialScreen(
+                viewModel = viewModel,
+                colorScheme = colorScheme,
+                onBack = { navController.popBackStack() },
+                onRegister = { navController.navigate(JournalSettingsDestinations.SOCIAl_REGISTER) }
+            )
+        }
+
+        composable(JournalSettingsDestinations.SOCIAl_REGISTER) { backStackEntry ->
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsSocialRegisterScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+            )
+        }
+
+        composable(JournalSettingsDestinations.HEALTH_SETTINGS) { backStackEntry ->
+            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val colorScheme = colorSchemeName
+                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
+                ?: LelloColorScheme.DEFAULT
+
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsHealthScreen(
+                viewModel = viewModel,
+                colorScheme = colorScheme,
+                onBack = { navController.popBackStack() },
+                onRegister = { navController.navigate(JournalSettingsDestinations.HEALTH_REGISTER) }
+            )
+        }
+
+        composable(JournalSettingsDestinations.HEALTH_REGISTER) { backStackEntry ->
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsHealthRegisterScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
             )
