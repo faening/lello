@@ -38,7 +38,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
 
         composable(JournalMoodDestinations.EMOTION) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            val mood by viewModel.selectedMood.collectAsState()
+            val mood by viewModel.currentMood.collectAsState()
 
             JournalMoodEmotionScreen(
                 viewModel = viewModel,
@@ -58,7 +58,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
 
         composable(JournalMoodDestinations.DETAILS) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            val mood by viewModel.selectedMood.collectAsState()
+            val mood by viewModel.currentMood.collectAsState()
 
             JournalMoodDetailsScreen(
                 viewModel = viewModel,

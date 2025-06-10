@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -29,10 +31,18 @@ class JournalMoodViewModel @Inject constructor(
     socialOptionUseCase: SocialOptionUseCase
 ) : ViewModel() {
 
-    // region: Gerenciamento de estado
+    init {
+        viewModelScope.launch {
+            emotionOptionUseCase.getAll().collect { options ->
+                _emotions.value = options
+            }
+        }
+    }
 
-    private val _selectedMood = MutableStateFlow(JournalMood.JOYFUL)
-    val selectedMood: StateFlow<JournalMood> = _selectedMood
+    // region: Mood State
+
+    private val _currentMood = MutableStateFlow(JournalMood.JOYFUL)
+    val currentMood: StateFlow<JournalMood> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryTimeFormatted: StateFlow<String> = _entryDateTime
@@ -43,7 +53,7 @@ class JournalMoodViewModel @Inject constructor(
      * Atualiza o humor selecionado pelo usuário.
      */
     fun updateMood(mood: JournalMood) {
-        _selectedMood.value = mood
+        _currentMood.value = mood
     }
 
     /**
@@ -58,11 +68,10 @@ class JournalMoodViewModel @Inject constructor(
 
     // endregion
 
-    // region: Carregamento de opções
+    // region: Options
 
-    val emotions: StateFlow<List<EmotionOption>> = emotionOptionUseCase
-        .getAll()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private val _emotions = MutableStateFlow<List<EmotionOption>>(emptyList())
+    val emotions: StateFlow<List<EmotionOption>> = _emotions
 
     val climates: StateFlow<List<ClimateOption>> = climateOptionUseCase
         .getAll()
@@ -76,5 +85,17 @@ class JournalMoodViewModel @Inject constructor(
         .getAll()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    // endregion
+    /**
+     * Alterna a seleção de uma emoção específica.
+     */
+    fun toggleEmotionSelection(description: String) {
+        _emotions.update { list ->
+            list.map {
+                if (it.description == description) it.copy(selected = !it.selected)
+                else it
+            }
+        }
+    }
+
+    //endregion
 }

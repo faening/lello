@@ -16,9 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +28,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
@@ -46,7 +44,7 @@ internal fun JournalMoodEmotionScreen(
     onFinish: () -> Unit,
     onOpenEmotionSettings: () -> Unit
 ) {
-    val mood by viewModel.selectedMood.collectAsState()
+    val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
     val emotions by viewModel.emotions.collectAsState()
 
@@ -54,6 +52,7 @@ internal fun JournalMoodEmotionScreen(
         JournalMoodEmotionContainer(
             entryTime = entryTime,
             emotions = emotions,
+            onToggleEmotionSelection = viewModel::toggleEmotionSelection,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish,
@@ -66,23 +65,21 @@ internal fun JournalMoodEmotionScreen(
 private fun JournalMoodEmotionContainer(
     entryTime: String,
     emotions: List<EmotionOption>,
+    onToggleEmotionSelection: (String) -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
     onOpenEmotionSettings: () -> Unit
 ) {
-    var selected by remember { mutableStateOf(setOf<String>()) }
+    val anySelected = emotions.any { it.selected }
 
     Scaffold(
         topBar = { JournalMoodEmotionTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodEmotionBottomBar(selected.isNotEmpty(), onNext, onFinish) }
+        bottomBar = { JournalMoodEmotionBottomBar(anySelected, onNext, onFinish) }
     ) { paddingValues ->
         JournalMoodEmotionContent(
             emotions = emotions,
-            selected = selected,
-            onEmotionToggled = { emotion ->
-                selected = if (selected.contains(emotion)) selected - emotion else selected + emotion
-            },
+            onEmotionToggled = onToggleEmotionSelection,
             onOpenEmotionSettings = onOpenEmotionSettings,
             modifier = Modifier.padding(paddingValues)
         )
@@ -132,7 +129,6 @@ private fun JournalMoodEmotionBottomBar(
 @Composable
 private fun JournalMoodEmotionContent(
     emotions: List<EmotionOption>,
-    selected: Set<String>,
     onEmotionToggled: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
     modifier: Modifier = Modifier
@@ -151,10 +147,8 @@ private fun JournalMoodEmotionContent(
         LelloOptionPillSelector(
             title = null,
             options = emotions,
-            isSelected = { selected.contains(it.description) },
-            onToggle = { option ->
-                onEmotionToggled(option.description)
-            },
+            isSelected = { it.selected },
+            onToggle = { option -> onEmotionToggled(option.description) },
             onOpenSettings = onOpenEmotionSettings,
             getLabel = { it.description }
         )
@@ -169,55 +163,11 @@ private fun JournalMoodEmotionContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 private fun JournalMoodStepOneScreenPreview() {
-    val emotions = listOf(
-        EmotionOption(
-            id = 1,
-            description = "Feliz",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Triste",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Cansado",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Fome",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Enérgico",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Animado",
-            blocked = false,
-            active = true
-        ),
-        EmotionOption(
-            id = 1,
-            description = "Confiante",
-            blocked = false,
-            active = true
-        )
-    )
-
     LelloTheme {
         JournalMoodEmotionContainer(
-            emotions = emotions,
+            emotions = EmotionOptionMock.list,
             entryTime = "12:41",
+            onToggleEmotionSelection = { _ -> },
             onBack = {},
             onNext = {},
             onFinish = {},
