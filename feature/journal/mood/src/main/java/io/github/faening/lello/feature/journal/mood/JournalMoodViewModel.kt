@@ -33,7 +33,7 @@ class JournalMoodViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            emotionOptionUseCase.getAll().collect { _emotions.value = it }
+            emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
         }
         viewModelScope.launch {
             climateOptionUseCase.getAll().collect { _climateOptions.value = it }
@@ -77,8 +77,8 @@ class JournalMoodViewModel @Inject constructor(
 
     // region: Options
 
-    private val _emotions = MutableStateFlow<List<EmotionOption>>(emptyList())
-    val emotions: StateFlow<List<EmotionOption>> = _emotions
+    private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
+    val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
 
     private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
     val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
@@ -90,7 +90,7 @@ class JournalMoodViewModel @Inject constructor(
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
     fun toggleEmotionSelection(description: String) {
-        _emotions.update { list ->
+        _emotionOptions.update { list ->
             list.map {
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }

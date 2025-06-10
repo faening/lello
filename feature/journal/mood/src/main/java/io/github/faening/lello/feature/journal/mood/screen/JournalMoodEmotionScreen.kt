@@ -42,21 +42,21 @@ internal fun JournalMoodEmotionScreen(
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
-    onOpenEmotionSettings: () -> Unit
+    onOpenEmotionOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
-    val emotions by viewModel.emotions.collectAsState()
+    val emotionOptions by viewModel.emotionOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodEmotionContainer(
             entryTime = entryTime,
-            emotions = emotions,
-            onToggleEmotionSelection = viewModel::toggleEmotionSelection,
+            emotionOptions = emotionOptions,
+            onEmotionOptionToggle = viewModel::toggleEmotionSelection,
+            onOpenEmotionOptionSettings = onOpenEmotionOptionSettings,
             onBack = onBack,
             onNext = onNext,
-            onFinish = onFinish,
-            onOpenEmotionSettings = onOpenEmotionSettings
+            onFinish = onFinish
         )
     }
 }
@@ -64,23 +64,23 @@ internal fun JournalMoodEmotionScreen(
 @Composable
 private fun JournalMoodEmotionContainer(
     entryTime: String,
-    emotions: List<EmotionOption>,
-    onToggleEmotionSelection: (String) -> Unit,
+    emotionOptions: List<EmotionOption>,
+    onEmotionOptionToggle: (String) -> Unit,
+    onOpenEmotionOptionSettings: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onFinish: () -> Unit,
-    onOpenEmotionSettings: () -> Unit
+    onFinish: () -> Unit
 ) {
-    val anySelected = emotions.any { it.selected }
+    val anySelected = emotionOptions.any { it.selected }
 
     Scaffold(
         topBar = { JournalMoodEmotionTopBar(entryTime, onBack) },
         bottomBar = { JournalMoodEmotionBottomBar(anySelected, onNext, onFinish) }
     ) { paddingValues ->
         JournalMoodEmotionContent(
-            emotions = emotions,
-            onEmotionToggled = onToggleEmotionSelection,
-            onOpenEmotionSettings = onOpenEmotionSettings,
+            emotionOptions = emotionOptions,
+            onEmotionOptionToggle = onEmotionOptionToggle,
+            onOpenEmotionSettings = onOpenEmotionOptionSettings,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -128,8 +128,8 @@ private fun JournalMoodEmotionBottomBar(
 
 @Composable
 private fun JournalMoodEmotionContent(
-    emotions: List<EmotionOption>,
-    onEmotionToggled: (String) -> Unit,
+    emotionOptions: List<EmotionOption>,
+    onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -146,9 +146,9 @@ private fun JournalMoodEmotionContent(
 
         LelloOptionPillSelector(
             title = null,
-            options = emotions,
+            options = emotionOptions,
             isSelected = { it.selected },
-            onToggle = { option -> onEmotionToggled(option.description) },
+            onToggle = { option -> onEmotionOptionToggle(option.description) },
             onOpenSettings = onOpenEmotionSettings,
             getLabel = { it.description }
         )
@@ -165,13 +165,13 @@ private fun JournalMoodEmotionContent(
 private fun JournalMoodStepOneScreenPreview() {
     LelloTheme {
         JournalMoodEmotionContainer(
-            emotions = EmotionOptionMock.list,
             entryTime = "12:41",
-            onToggleEmotionSelection = { _ -> },
+            emotionOptions = EmotionOptionMock.list,
+            onEmotionOptionToggle = { _ -> },
+            onOpenEmotionOptionSettings = {},
             onBack = {},
             onNext = {},
-            onFinish = {},
-            onOpenEmotionSettings = {}
+            onFinish = {}
         )
     }
 }

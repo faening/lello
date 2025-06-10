@@ -45,7 +45,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
                 onFinish = { /* conluir diário */ },
-                onOpenEmotionSettings = {
+                onOpenEmotionOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.EMOTION_SETTINGS.replace(
                             oldValue = "{colorScheme}",
