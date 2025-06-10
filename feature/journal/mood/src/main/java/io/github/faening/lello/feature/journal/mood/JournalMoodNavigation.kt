@@ -15,6 +15,7 @@ import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScr
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodHealthScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodReflectionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodSummaryScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 
 object JournalMoodDestinations {
@@ -24,6 +25,7 @@ object JournalMoodDestinations {
     const val DETAILS = "journal_mood_details"
     const val HEALTH = "journal_mood_health"
     const val REFLECTION = "journal_mood_reflection"
+    const val SUMMARY = "journal_mood_summary"
 }
 
 fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
@@ -50,7 +52,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
-                onFinish = { /* conluir diário */ },
+                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                 onOpenEmotionOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.EMOTION_SETTINGS.replace(
@@ -71,7 +73,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onNext = { navController.navigate(JournalMoodDestinations.HEALTH) },
-                onFinish = { /* concluir diário */ },
+                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                 onOpenClimateOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.CLIMATE_SETTINGS.replace(
@@ -108,7 +110,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                  viewModel = viewModel,
                  onBack = { navController.popBackStack() },
                  onNext = { navController.navigate(JournalMoodDestinations.REFLECTION) },
-                 onFinish = { /* concluir diário */ },
+                 onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                  onOpenHealthOptionSettings = {
                      navController.navigate(
                          JournalSettingsDestinations.HEALTH_SETTINGS.replace(
@@ -126,7 +128,16 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
             JournalMoodReflectionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onFinish = { /* concluir diário */ }
+                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) }
+            )
+        }
+
+        // Step 6: Summary screen after completing the mood journal.
+        composable(JournalMoodDestinations.SUMMARY) { backStackEntry ->
+            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+            JournalMoodSummaryScreen(
+                viewModel = viewModel,
+                onExit = { navController.popBackStack(JournalMoodDestinations.GRAPH, inclusive = true) }
             )
         }
     }
