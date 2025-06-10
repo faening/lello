@@ -176,7 +176,7 @@ private fun JournalMoodDetailsContent(
             onOpenSettings = onOpenClimateOptionSettings,
             getLabel = { it.description }
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.Large))
 
         LelloOptionPillSelector(
             title = "Onde você está?",
@@ -186,7 +186,7 @@ private fun JournalMoodDetailsContent(
             onOpenSettings = onOpenLocationOptionSettings,
             getLabel = { it.description }
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.Large))
 
         LelloOptionPillSelector(
             title = "Com quem você está agora?",
@@ -194,7 +194,7 @@ private fun JournalMoodDetailsContent(
             isSelected = { it.selected },
             onToggle = { option -> onSocialOptionToggle(option.description) },
             onOpenSettings = onOpenSocialOptionSettings,
-            getLabel = { it.description }
+            getLabel = { it.description },
         )
     }
 }
