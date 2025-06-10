@@ -22,6 +22,8 @@ object JournalSettingsDestinations {
     const val LOCATION_REGISTER = "journal_settings_location_register"
     const val SOCIAL_SETTINGS = "journal_settings_social/{colorScheme}"
     const val SOCIAl_REGISTER = "journal_settings_social_register"
+    const val HEALTH_SETTINGS = "journal_settings_health/{colorScheme}"
+    const val HEALTH_REGISTER = "journal_settings_health_register"
 }
 
 fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {

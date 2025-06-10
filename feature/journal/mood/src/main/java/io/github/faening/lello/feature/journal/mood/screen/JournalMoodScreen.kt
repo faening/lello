@@ -42,9 +42,6 @@ import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.feature.journal.mood.model.JournalMood
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
-/**
- * Step 1: Seleção do humor do usuário.
- */
 @Composable
 internal fun JournalMoodScreen(
     viewModel: JournalMoodViewModel,

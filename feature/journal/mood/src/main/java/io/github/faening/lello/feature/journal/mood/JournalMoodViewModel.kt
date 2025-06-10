@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
 import io.github.faening.lello.feature.journal.mood.model.JournalMood
@@ -28,7 +30,8 @@ class JournalMoodViewModel @Inject constructor(
     emotionOptionUseCase: EmotionOptionUseCase,
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
-    socialOptionUseCase: SocialOptionUseCase
+    socialOptionUseCase: SocialOptionUseCase,
+    healthOptionUseCase: HealthOptionUseCase
 ) : ViewModel() {
 
     init {
@@ -43,6 +46,9 @@ class JournalMoodViewModel @Inject constructor(
         }
         viewModelScope.launch {
             socialOptionUseCase.getAll().collect { _socialOptions.value = it }
+        }
+        viewModelScope.launch {
+            healthOptionUseCase.getAll().collect { _healthOptions.value = it }
         }
     }
 
@@ -89,6 +95,9 @@ class JournalMoodViewModel @Inject constructor(
     private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
+    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
+    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
+
     fun toggleEmotionSelection(description: String) {
         _emotionOptions.update { list ->
             list.map {
@@ -115,6 +124,14 @@ class JournalMoodViewModel @Inject constructor(
 
     fun toggleSocialSelection(description: String) {
         _socialOptions.update { list ->
+            list.map {
+                if (it.description == description) it.copy(selected = !it.selected) else it
+            }
+        }
+    }
+
+    fun toggleHealthSelection(description: String) {
+        _healthOptions.update { list ->
             list.map {
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }

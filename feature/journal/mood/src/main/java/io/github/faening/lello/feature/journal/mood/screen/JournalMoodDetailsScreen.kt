@@ -37,9 +37,6 @@ import io.github.faening.lello.core.model.journal.SocialOption
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
-/**
- * Step 3: Detalhes adicionais sobre o humor do usuário.
- */
 @Composable
 internal fun JournalMoodDetailsScreen(
     viewModel: JournalMoodViewModel,

@@ -28,29 +28,29 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.domain.mock.EmotionOptionMock
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.domain.mock.HealthOptionMock
+import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
-internal fun JournalMoodEmotionScreen(
+internal fun JournalMoodHealthScreen(
     viewModel: JournalMoodViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
-    onOpenEmotionOptionSettings: () -> Unit
+    onOpenHealthOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
-    val emotionOptions by viewModel.emotionOptions.collectAsState()
+    val healthOptions by viewModel.healthOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodEmotionContainer(
+        JournalMoodHealthContainer(
             entryTime = entryTime,
-            emotionOptions = emotionOptions,
-            onEmotionOptionToggle = viewModel::toggleEmotionSelection,
-            onOpenEmotionOptionSettings = onOpenEmotionOptionSettings,
+            healthOptions = healthOptions,
+            onHealthOptionToggle = viewModel::toggleHealthSelection,
+            onOpenHealthOptionSettings = onOpenHealthOptionSettings,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -59,32 +59,30 @@ internal fun JournalMoodEmotionScreen(
 }
 
 @Composable
-private fun JournalMoodEmotionContainer(
+private fun JournalMoodHealthContainer(
     entryTime: String,
-    emotionOptions: List<EmotionOption>,
-    onEmotionOptionToggle: (String) -> Unit,
-    onOpenEmotionOptionSettings: () -> Unit,
+    healthOptions: List<HealthOption>,
+    onHealthOptionToggle: (String) -> Unit,
+    onOpenHealthOptionSettings: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
 ) {
-    val anySelected = emotionOptions.any { it.selected }
-
     Scaffold(
-        topBar = { JournalMoodEmotionTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodEmotionBottomBar(anySelected, onNext, onFinish) }
+        topBar = { JournalMoodHealthTopBar(entryTime, onBack) },
+        bottomBar = { JournalMoodHealthBottomBar(onNext, onFinish) }
     ) { paddingValues ->
-        JournalMoodEmotionContent(
-            emotionOptions = emotionOptions,
-            onEmotionOptionToggle = onEmotionOptionToggle,
-            onOpenEmotionSettings = onOpenEmotionOptionSettings,
+        JournalMoodHealthContent(
+            healthOptions = healthOptions,
+            onHealthOptionToggle = onHealthOptionToggle,
+            onOpenHealthOptionSettings = onOpenHealthOptionSettings,
             modifier = Modifier.padding(paddingValues)
         )
     }
 }
 
 @Composable
-private fun JournalMoodEmotionTopBar(
+private fun JournalMoodHealthTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -95,8 +93,7 @@ private fun JournalMoodEmotionTopBar(
 }
 
 @Composable
-private fun JournalMoodEmotionBottomBar(
-    enabled: Boolean,
+private fun JournalMoodHealthBottomBar(
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -109,7 +106,6 @@ private fun JournalMoodEmotionBottomBar(
     ) {
         LelloFilledButton(
             label = "Concluir",
-            enabled = enabled,
             onClick = onFinish,
             modifier = Modifier.weight(1f)
         )
@@ -117,17 +113,16 @@ private fun JournalMoodEmotionBottomBar(
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
-            enabled = enabled,
             onClick = onNext
         )
     }
 }
 
 @Composable
-private fun JournalMoodEmotionContent(
-    emotionOptions: List<EmotionOption>,
-    onEmotionOptionToggle: (String) -> Unit,
-    onOpenEmotionSettings: () -> Unit,
+private fun JournalMoodHealthContent(
+    healthOptions: List<HealthOption>,
+    onHealthOptionToggle: (String) -> Unit,
+    onOpenHealthOptionSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -136,17 +131,17 @@ private fun JournalMoodEmotionContent(
             .padding(Dimension.Medium)
     ) {
         Text(
-            text = "Quais emoções fazem mais sentido neste momento?",
+            text = "Percebeu alguma mudança na sua saúde hoje?",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
         LelloOptionPillSelector(
             title = null,
-            options = emotionOptions,
+            options = healthOptions,
             isSelected = { it.selected },
-            onToggle = { option -> onEmotionOptionToggle(option.description) },
-            onOpenSettings = onOpenEmotionSettings,
+            onToggle = { option -> onHealthOptionToggle(option.description) },
+            onOpenSettings = onOpenHealthOptionSettings,
             getLabel = { it.description }
         )
     }
@@ -161,11 +156,11 @@ private fun JournalMoodEmotionContent(
 )
 private fun JournalMoodStepOneScreenPreview() {
     LelloTheme {
-        JournalMoodEmotionContainer(
+        JournalMoodHealthContainer(
             entryTime = "12:41",
-            emotionOptions = EmotionOptionMock.list,
-            onEmotionOptionToggle = { _ -> },
-            onOpenEmotionOptionSettings = {},
+            healthOptions = HealthOptionMock.list,
+            onHealthOptionToggle = { _ -> },
+            onOpenHealthOptionSettings = {},
             onBack = {},
             onNext = {},
             onFinish = {}
