@@ -34,6 +34,32 @@ class JournalMoodViewModel @Inject constructor(
     healthOptionUseCase: HealthOptionUseCase
 ) : ViewModel() {
 
+    private val _currentMood = MutableStateFlow(JournalMood.JOYFUL)
+    val currentMood: StateFlow<JournalMood> = _currentMood
+
+    private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
+    val entryDateTime: StateFlow<String> = _entryDateTime
+        .map { dt -> dt?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "" }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+
+    private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
+    val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
+
+    private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
+    val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
+
+    private val _locationOptions = MutableStateFlow<List<LocationOption>>(emptyList())
+    val locationOptions: StateFlow<List<LocationOption>> = _locationOptions
+
+    private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
+    val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
+
+    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
+    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
+
+    private val _reflection = MutableStateFlow("")
+    val reflection: StateFlow<String> = _reflection
+
     init {
         viewModelScope.launch {
             emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
@@ -52,16 +78,6 @@ class JournalMoodViewModel @Inject constructor(
         }
     }
 
-    // region: Mood State
-
-    private val _currentMood = MutableStateFlow(JournalMood.JOYFUL)
-    val currentMood: StateFlow<JournalMood> = _currentMood
-
-    private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
-    val entryTimeFormatted: StateFlow<String> = _entryDateTime
-        .map { dt -> dt?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "" }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
-
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
@@ -78,25 +94,6 @@ class JournalMoodViewModel @Inject constructor(
             _entryDateTime.value = LocalDateTime.now()
         }
     }
-
-    // endregion
-
-    // region: Options
-
-    private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
-    val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
-
-    private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
-    val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
-
-    private val _locationOptions = MutableStateFlow<List<LocationOption>>(emptyList())
-    val locationOptions: StateFlow<List<LocationOption>> = _locationOptions
-
-    private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
-    val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
-
-    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
-    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
 
     fun toggleEmotionSelection(description: String) {
         _emotionOptions.update { list ->
@@ -138,5 +135,7 @@ class JournalMoodViewModel @Inject constructor(
         }
     }
 
-    //endregion
+    fun updateReflection(text: String) {
+        _reflection.value = text
+    }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.compose.navigation
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodHealthScreen
+import io.github.faening.lello.feature.journal.mood.screen.JournalMoodReflectionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 
@@ -22,6 +23,7 @@ object JournalMoodDestinations {
     const val EMOTION = "journal_mood_emotion"
     const val DETAILS = "journal_mood_details"
     const val HEALTH = "journal_mood_health"
+    const val REFLECTION = "journal_mood_reflection"
 }
 
 fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
@@ -105,7 +107,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
              JournalMoodHealthScreen(
                  viewModel = viewModel,
                  onBack = { navController.popBackStack() },
-                 onNext = { /* próximo passo */ },
+                 onNext = { navController.navigate(JournalMoodDestinations.REFLECTION) },
                  onFinish = { /* concluir diário */ },
                  onOpenHealthOptionSettings = {
                      navController.navigate(
@@ -116,6 +118,16 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                      )
                  }
              )
+        }
+
+        // Step 5: Reflection screen for the user to write about their day.
+        composable(JournalMoodDestinations.REFLECTION) { backStackEntry ->
+            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+            JournalMoodReflectionScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onFinish = { /* concluir diário */ }
+            )
         }
     }
 }

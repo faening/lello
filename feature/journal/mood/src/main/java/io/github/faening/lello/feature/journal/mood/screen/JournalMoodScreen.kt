@@ -49,7 +49,7 @@ internal fun JournalMoodScreen(
     onNext: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
-    val entryTime by viewModel.entryTimeFormatted.collectAsState()
+    val entryTime by viewModel.entryDateTime.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.captureEntryDateTime()
