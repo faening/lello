@@ -42,7 +42,7 @@ internal fun JournalMoodEmotionScreen(
     onOpenEmotionOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
-    val entryTime by viewModel.entryTimeFormatted.collectAsState()
+    val entryTime by viewModel.entryDateTime.collectAsState()
     val emotionOptions by viewModel.emotionOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {

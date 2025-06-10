@@ -48,7 +48,7 @@ internal fun JournalMoodDetailsScreen(
     onOpenSocialOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
-    val entryTime by viewModel.entryTimeFormatted.collectAsState()
+    val entryTime by viewModel.entryDateTime.collectAsState()
     val climateOptions by viewModel.climateOptions.collectAsState()
     val locationOptions by viewModel.locationOptions.collectAsState()
     val socialOptions by viewModel.socialOptions.collectAsState()
