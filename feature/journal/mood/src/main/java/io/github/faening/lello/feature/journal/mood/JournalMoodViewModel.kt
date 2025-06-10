@@ -33,9 +33,16 @@ class JournalMoodViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            emotionOptionUseCase.getAll().collect { options ->
-                _emotions.value = options
-            }
+            emotionOptionUseCase.getAll().collect { _emotions.value = it }
+        }
+        viewModelScope.launch {
+            climateOptionUseCase.getAll().collect { _climateOptions.value = it }
+        }
+        viewModelScope.launch {
+            locationOptionUseCase.getAll().collect { _locationOptions.value = it }
+        }
+        viewModelScope.launch {
+            socialOptionUseCase.getAll().collect { _socialOptions.value = it }
         }
     }
 
@@ -73,26 +80,43 @@ class JournalMoodViewModel @Inject constructor(
     private val _emotions = MutableStateFlow<List<EmotionOption>>(emptyList())
     val emotions: StateFlow<List<EmotionOption>> = _emotions
 
-    val climates: StateFlow<List<ClimateOption>> = climateOptionUseCase
-        .getAll()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
+    val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
 
-    val locations: StateFlow<List<LocationOption>> = locationOptionUseCase
-        .getAll()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private val _locationOptions = MutableStateFlow<List<LocationOption>>(emptyList())
+    val locationOptions: StateFlow<List<LocationOption>> = _locationOptions
 
-    val socials: StateFlow<List<SocialOption>> = socialOptionUseCase
-        .getAll()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
+    val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
-    /**
-     * Alterna a seleção de uma emoção específica.
-     */
     fun toggleEmotionSelection(description: String) {
         _emotions.update { list ->
             list.map {
-                if (it.description == description) it.copy(selected = !it.selected)
-                else it
+                if (it.description == description) it.copy(selected = !it.selected) else it
+            }
+        }
+    }
+
+    fun toggleClimateSelection(description: String) {
+        _climateOptions.update { list ->
+            list.map {
+                if (it.description == description) it.copy(selected = !it.selected) else it
+            }
+        }
+    }
+
+    fun toggleLocationSelection(description: String) {
+        _locationOptions.update { list ->
+            list.map {
+                if (it.description == description) it.copy(selected = !it.selected) else it
+            }
+        }
+    }
+
+    fun toggleSocialSelection(description: String) {
+        _socialOptions.update { list ->
+            list.map {
+                if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
     }

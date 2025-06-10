@@ -16,9 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +28,9 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.ClimateOptionMock
+import io.github.faening.lello.core.domain.mock.LocationOptionMock
+import io.github.faening.lello.core.domain.mock.SocialOptionMock
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
@@ -46,28 +46,31 @@ internal fun JournalMoodDetailsScreen(
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
-    onOpenClimateSettings: () -> Unit,
-    onOpenLocationSettings: () -> Unit,
-    onOpenSocialSettings: () -> Unit
+    onOpenClimateOptionSettings: () -> Unit,
+    onOpenLocationOptionSettings: () -> Unit,
+    onOpenSocialOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryTimeFormatted.collectAsState()
-    val climates by viewModel.climates.collectAsState()
-    val locations by viewModel.locations.collectAsState()
-    val socials by viewModel.socials.collectAsState()
+    val climateOptions by viewModel.climateOptions.collectAsState()
+    val locationOptions by viewModel.locationOptions.collectAsState()
+    val socialOptions by viewModel.socialOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodDetailsContainer(
             entryTime = entryTime,
-            climates = climates,
-            locations = locations,
-            socials = socials,
+            climateOptions = climateOptions,
+            onClimateOptionToggle = viewModel::toggleClimateSelection,
+            onOpenClimateOptionSettings = onOpenClimateOptionSettings,
+            locationOptions = locationOptions,
+            onLocationOptionToggle = viewModel::toggleLocationSelection,
+            onOpenLocationOptionSettings = onOpenLocationOptionSettings,
+            socialOptions = socialOptions,
+            onSocialOptionToggle = viewModel::toggleSocialSelection,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish,
-            onOpenClimateSettings = onOpenClimateSettings,
-            onOpenLocationSettings = onOpenLocationSettings,
-            onOpenSocialSettings = onOpenSocialSettings
+            onOpenSocialOptionSettings = onOpenSocialOptionSettings
         )
     }
 }
@@ -75,27 +78,33 @@ internal fun JournalMoodDetailsScreen(
 @Composable
 private fun JournalMoodDetailsContainer(
     entryTime: String,
-    climates: List<ClimateOption>,
-    locations: List<LocationOption>,
-    socials: List<SocialOption>,
+    climateOptions: List<ClimateOption>,
+    onClimateOptionToggle: (String) -> Unit,
+    onOpenClimateOptionSettings: () -> Unit,
+    locationOptions: List<LocationOption>,
+    onLocationOptionToggle: (String) -> Unit,
+    onOpenLocationOptionSettings: () -> Unit,
+    socialOptions: List<SocialOption>,
+    onSocialOptionToggle: (String) -> Unit,
+    onOpenSocialOptionSettings: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onFinish: () -> Unit,
-    onOpenClimateSettings: () -> Unit,
-    onOpenLocationSettings: () -> Unit,
-    onOpenSocialSettings: () -> Unit
+    onFinish: () -> Unit
 ) {
     Scaffold(
         topBar = { JournalMoodDetailsTopBar(entryTime, onBack) },
         bottomBar = { JournalMoodDetailsBottomBar(onNext, onFinish) }
     ) { paddingValues ->
         JournalMoodDetailsContent(
-            climates = climates,
-            locations = locations,
-            socials = socials,
-            onOpenClimateSettings = onOpenClimateSettings,
-            onOpenLocationSettings = onOpenLocationSettings,
-            onOpenSocialSettings = onOpenSocialSettings,
+            climateOptions = climateOptions,
+            onClimateOptionToggle = onClimateOptionToggle,
+            onOpenClimateOptionSettings = onOpenClimateOptionSettings,
+            locationOptions = locationOptions,
+            onLocationOptionToggle = onLocationOptionToggle,
+            onOpenLocationOptionSettings = onOpenLocationOptionSettings,
+            socialOptions = socialOptions,
+            onSocialOptionToggle = onSocialOptionToggle,
+            onOpenSocialOptionSettings = onOpenSocialOptionSettings,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -140,18 +149,17 @@ private fun JournalMoodDetailsBottomBar(
 
 @Composable
 private fun JournalMoodDetailsContent(
-    climates: List<ClimateOption>,
-    locations: List<LocationOption>,
-    socials: List<SocialOption>,
-    onOpenClimateSettings: () -> Unit,
-    onOpenLocationSettings: () -> Unit,
-    onOpenSocialSettings: () -> Unit,
+    climateOptions: List<ClimateOption>,
+    onClimateOptionToggle: (String) -> Unit,
+    onOpenClimateOptionSettings: () -> Unit,
+    locationOptions: List<LocationOption>,
+    onLocationOptionToggle: (String) -> Unit,
+    onOpenLocationOptionSettings: () -> Unit,
+    socialOptions: List<SocialOption>,
+    onSocialOptionToggle: (String) -> Unit,
+    onOpenSocialOptionSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedClimates by remember { mutableStateOf(setOf<String>()) }
-    var selectedLocations by remember { mutableStateOf(setOf<String>()) }
-    var selectedSocials by remember { mutableStateOf(setOf<String>()) }
-
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -165,45 +173,30 @@ private fun JournalMoodDetailsContent(
 
         LelloOptionPillSelector(
             title = "Como está o clima agora?",
-            options = climates,
-            isSelected = { selectedClimates.contains(it.description) },
-            onToggle = { option ->
-                selectedClimates = if (selectedClimates.contains(option.description))
-                    selectedClimates - option.description
-                else
-                    selectedClimates + option.description
-            },
-            onOpenSettings = onOpenClimateSettings,
+            options = climateOptions,
+            isSelected = { it.selected },
+            onToggle = { option -> onClimateOptionToggle(option.description) },
+            onOpenSettings = onOpenClimateOptionSettings,
             getLabel = { it.description }
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
         LelloOptionPillSelector(
             title = "Onde você está?",
-            options = locations,
-            isSelected = { selectedLocations.contains(it.description) },
-            onToggle = { option ->
-                selectedLocations = if (selectedLocations.contains(option.description))
-                    selectedLocations - option.description
-                else
-                    selectedLocations + option.description
-            },
-            onOpenSettings = onOpenLocationSettings,
+            options = locationOptions,
+            isSelected = { it.selected },
+            onToggle = { option ->  onLocationOptionToggle(option.description) },
+            onOpenSettings = onOpenLocationOptionSettings,
             getLabel = { it.description }
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
         LelloOptionPillSelector(
             title = "Com quem você está agora?",
-            options = socials,
-            isSelected = { selectedSocials.contains(it.description) },
-            onToggle = { option ->
-                selectedSocials = if (selectedSocials.contains(option.description))
-                    selectedSocials - option.description
-                else
-                    selectedSocials + option.description
-            },
-            onOpenSettings = onOpenSocialSettings,
+            options = socialOptions,
+            isSelected = { it.selected },
+            onToggle = { option -> onSocialOptionToggle(option.description) },
+            onOpenSettings = onOpenSocialOptionSettings,
             getLabel = { it.description }
         )
     }
@@ -217,34 +210,21 @@ private fun JournalMoodDetailsContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 private fun JournalMoodDetailsScreenPreview() {
-    val climates = listOf(
-        ClimateOption(id = 1, description = "Céu Limpo", blocked = false, active = true),
-        ClimateOption(id = 2, description = "Chuvoso", blocked = false, active = true),
-        ClimateOption(id = 3, description = "Empoeirado", blocked = false, active = true),
-    )
-    val locations = listOf(
-        LocationOption(id = 1, description = "Academia", blocked = false, active = true),
-        LocationOption(id = 2, description = "Aeroporto", blocked = false, active = true),
-        LocationOption(id = 3, description = "Bar", blocked = false, active = true),
-    )
-    val socials = listOf(
-        SocialOption(id = 1, description = "Amigo(a)", blocked = false, active = true),
-        SocialOption(id = 2, description = "Família(a)", blocked = false, active = true),
-        SocialOption(id = 3, description = "Pet", blocked = false, active = true),
-    )
-
     LelloTheme {
         JournalMoodDetailsContainer(
             entryTime = "09:41",
-            climates = climates,
-            locations = locations,
-            socials = socials,
+            climateOptions = ClimateOptionMock.list,
+            onClimateOptionToggle = { _ -> },
+            onOpenClimateOptionSettings = {},
+            locationOptions = LocationOptionMock.list,
+            onLocationOptionToggle = { _ -> },
+            onOpenLocationOptionSettings = {},
+            socialOptions = SocialOptionMock.list,
+            onSocialOptionToggle = { _ -> },
+            onOpenSocialOptionSettings = {},
             onBack = {},
             onNext = {},
-            onFinish = {},
-            onOpenClimateSettings = {},
-            onOpenLocationSettings = {},
-            onOpenSocialSettings = {}
+            onFinish = {}
         )
     }
 }

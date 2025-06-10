@@ -65,7 +65,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
                 onNext = { /* próximo passo */ },
                 onFinish = { /* concluir diário */ },
-                onOpenClimateSettings = {
+                onOpenClimateOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.CLIMATE_SETTINGS.replace(
                             oldValue = "{colorScheme}",
@@ -73,7 +73,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                         )
                     )
                 },
-                onOpenLocationSettings = {
+                onOpenLocationOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.LOCATION_SETTINGS.replace(
                             oldValue = "{colorScheme}",
@@ -81,7 +81,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                         )
                     )
                 },
-                onOpenSocialSettings = {
+                onOpenSocialOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.SOCIAL_SETTINGS.replace(
                             oldValue = "{colorScheme}",
