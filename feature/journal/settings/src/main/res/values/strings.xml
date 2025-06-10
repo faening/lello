@@ -10,4 +10,8 @@
     <string name="journal_settings_climate_appbar_title">Climas</string>
     <string name="journal_settings_climate_register_button_label">Cadastrar clima</string>
 
+    <!-- Location -->
+    <string name="journal_settings_location_appbar_title">Localizações</string>
+    <string name="journal_settings_location_register_button_label">Cadastrar localização</string>
+
 </resources>
