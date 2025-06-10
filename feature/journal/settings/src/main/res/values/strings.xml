@@ -10,4 +10,8 @@
     <string name="journal_settings_climate_appbar_title">Climas</string>
     <string name="journal_settings_climate_register_button_label">Cadastrar clima</string>
 
+    <!-- Social -->
+    <string name="journal_settings_social_appbar_title">Com quem</string>
+    <string name="journal_settings_social_register_button_label">Cadastrar companhia</string>
+
 </resources>

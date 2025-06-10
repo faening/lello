@@ -13,6 +13,8 @@ import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSe
 import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionScreen
 import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialScreen
 
 object JournalSettingsDestinations {
     const val GRAPH = "journal_settings_graph"
@@ -74,6 +76,29 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
         composable(JournalSettingsDestinations.CLIMATE_REGISTER) { backStackEntry ->
             val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
             JournalSettingsClimateRegisterScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+            )
+        }
+
+        composable(JournalSettingsDestinations.SOCIAL_SETTINGS) { backStackEntry ->
+            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val colorScheme = colorSchemeName
+                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
+                ?: LelloColorScheme.DEFAULT
+
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsSocialScreen(
+                viewModel = viewModel,
+                colorScheme = colorScheme,
+                onBack = { navController.popBackStack() },
+                onRegister = { navController.navigate(JournalSettingsDestinations.SOCIAl_REGISTER) }
+            )
+        }
+
+        composable(JournalSettingsDestinations.SOCIAl_REGISTER) { backStackEntry ->
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsSocialRegisterScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
             )
