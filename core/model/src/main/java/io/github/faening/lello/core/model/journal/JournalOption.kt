@@ -7,4 +7,5 @@ interface JournalOption : Serializable {
     val description: String
     val blocked: Boolean
     val active: Boolean
+    val selected: Boolean
 }

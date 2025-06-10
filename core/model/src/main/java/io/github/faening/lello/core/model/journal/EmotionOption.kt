@@ -4,5 +4,6 @@ data class EmotionOption(
     override val id: Int?,
     override val description: String,
     override val blocked: Boolean = false,
-    override val active: Boolean = true
+    override val active: Boolean = true,
+    override val selected: Boolean = false
 ) : JournalOption
