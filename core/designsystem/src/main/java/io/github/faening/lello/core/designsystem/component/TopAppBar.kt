@@ -107,7 +107,7 @@ private fun TopAppBarActionButton(
 ) {
     Box(modifier = contentPadding) {
         Surface(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier.size(44.dp),
             shape = RoundedCornerShape(8.dp),
             color = background,
             onClick = action.onClick
@@ -118,7 +118,7 @@ private fun TopAppBarActionButton(
                         imageVector = it,
                         contentDescription = action.contentDescription,
                         tint = iconTint,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
