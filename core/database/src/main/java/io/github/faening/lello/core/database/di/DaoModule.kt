@@ -39,4 +39,9 @@ internal object DaoModule {
     fun provideSocialOptionDao(
         database: LelloDatabase,
     ) = database.socialOptionDao()
+
+    @Provides
+    fun provideMoodJournalEntryDao(
+        database: LelloDatabase,
+    ) = database.moodJournalEntryDao()
 }
