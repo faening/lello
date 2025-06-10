@@ -6,4 +6,8 @@
     <string name="journal_settings_emotion_appbar_title">Emoções</string>
     <string name="journal_settings_emotion_register_button_label">Cadastrar emoção</string>
 
+    <!-- Climate -->
+    <string name="journal_settings_climate_appbar_title">Climas</string>
+    <string name="journal_settings_climate_register_button_label">Cadastrar clima</string>
+
 </resources>

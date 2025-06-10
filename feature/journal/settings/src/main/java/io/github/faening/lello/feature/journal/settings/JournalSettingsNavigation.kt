@@ -11,6 +11,8 @@ import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionScreen
+import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateScreen
 
 object JournalSettingsDestinations {
     const val GRAPH = "journal_settings_graph"
@@ -49,6 +51,29 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
         composable(JournalSettingsDestinations.EMOTION_REGISTER) { backStackEntry ->
             val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
             JournalSettingsEmotionRegisterScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+            )
+        }
+
+        composable(JournalSettingsDestinations.CLIMATE_SETTINGS) { backStackEntry ->
+            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val colorScheme = colorSchemeName
+                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
+                ?: LelloColorScheme.DEFAULT
+
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsClimateScreen(
+                viewModel = viewModel,
+                colorScheme = colorScheme,
+                onBack = { navController.popBackStack() },
+                onRegister = { navController.navigate(JournalSettingsDestinations.CLIMATE_REGISTER) }
+            )
+        }
+
+        composable(JournalSettingsDestinations.CLIMATE_REGISTER) { backStackEntry ->
+            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
+            JournalSettingsClimateRegisterScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
             )
