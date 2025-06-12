@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
-import io.github.faening.lello.core.database.model.ClimateOptionEntity
+import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
 import io.github.faening.lello.core.model.journal.ClimateOption
 import jakarta.inject.Inject
 
@@ -10,10 +10,20 @@ class ClimateOptionRepository @Inject constructor(
 ) : OptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
 
     override fun ClimateOptionEntity.toModel(): ClimateOption {
-        return this.toModel()
+        return ClimateOption(
+            id = this.climateOptionId,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun ClimateOption.toEntity(): ClimateOptionEntity {
-        return this.toEntity()
+        return ClimateOptionEntity(
+            climateOptionId = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }

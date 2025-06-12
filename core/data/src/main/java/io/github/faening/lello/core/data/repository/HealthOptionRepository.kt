@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.HealthOptionDao
-import io.github.faening.lello.core.database.model.HealthOptionEntity
+import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.model.journal.HealthOption
 import jakarta.inject.Inject
 
@@ -10,10 +10,20 @@ class HealthOptionRepository @Inject constructor(
 ) : OptionRepository<HealthOption, HealthOptionEntity>(dao) {
 
     override fun HealthOptionEntity.toModel(): HealthOption {
-        return this.toModel()
+        return HealthOption(
+            id = this.healthOptionId,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 
     override fun HealthOption.toEntity(): HealthOptionEntity {
-        return this.toEntity()
+        return HealthOptionEntity(
+            healthOptionId = this.id,
+            description = this.description,
+            blocked = this.blocked,
+            active = this.active
+        )
     }
 }

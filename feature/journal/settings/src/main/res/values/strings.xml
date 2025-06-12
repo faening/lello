@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Commom -->
+
+    <!-- Emotion -->
+    <string name="journal_settings_emotion_appbar_title">Emoções</string>
+    <string name="journal_settings_emotion_register_button_label">Cadastrar emoção</string>
+
+    <!-- Climate -->
+    <string name="journal_settings_climate_appbar_title">Climas</string>
+    <string name="journal_settings_climate_register_button_label">Cadastrar clima</string>
+
+    <!-- Location -->
+    <string name="journal_settings_location_appbar_title">Localizações</string>
+    <string name="journal_settings_location_register_button_label">Cadastrar localização</string>
+
+    <!-- Social -->
+    <string name="journal_settings_social_appbar_title">Interações Sociais</string>
+    <string name="journal_settings_social_register_button_label">Cadastrar interação social</string>
+
+    <!-- Health -->
+    <string name="journal_settings_health_appbar_title">Saúde</string>
+    <string name="journal_settings_health_register_button_label">Cadastrar item de saúde</string>
+
+</resources>

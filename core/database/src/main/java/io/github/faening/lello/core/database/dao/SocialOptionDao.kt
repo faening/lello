@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.SocialOptionEntity
+import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 
@@ -52,14 +52,14 @@ interface SocialOptionDao : OptionResources<SocialOptionEntity> {
     @Query(
         value = """
             SELECT * FROM social_options
-            WHERE id = :id
+            WHERE socialOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<SocialOptionEntity>
+    override fun getById(id: Long): Flow<SocialOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: SocialOptionEntity)
+    override suspend fun insert(item: SocialOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: SocialOptionEntity)

@@ -1,10 +1,9 @@
 package io.github.faening.lello.core.model.journal
 
-import java.io.Serializable
-
 data class SocialOption (
-    val id: Int?,
-    val description: String,
-    val blocked: Boolean = false,
-    val active: Boolean = true
-) : Serializable
+    override val id: Long = 0L,
+    override val description: String,
+    override val blocked: Boolean = false,
+    override val active: Boolean = true,
+    override val selected: Boolean = false
+) : JournalOption

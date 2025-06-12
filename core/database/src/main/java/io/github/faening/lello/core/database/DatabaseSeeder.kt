@@ -2,11 +2,19 @@ package io.github.faening.lello.core.database
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
+import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
+import io.github.faening.lello.core.database.seed.DosageFormOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
+import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
+import io.github.faening.lello.core.database.seed.MealOptionSeed
+import io.github.faening.lello.core.database.seed.PortionOptionSeed
+import io.github.faening.lello.core.database.seed.SensationOptionSeed
+import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
+import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
@@ -25,19 +33,27 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
 
         seedJournalCategory(db)
+        seedAppetiteOptions(db)
         seedClimateOptions(db)
+        seedDosageFormOptions(db)
         seedEmotionOptions(db)
+        seedFoodOptions(db)
         seedHealthOptions(db)
         seedLocationOptions(db)
+        seedMealOptions(db)
+        seedPortionOptions(db)
+        seedSensationOptions(db)
+        seedSleepActivityOptions(db)
+        seedSleepQualityOptions(db)
         seedSocialOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-    fun seedJournalCategory(db: SupportSQLiteDatabase) {
-        for (item in JournalCategorySeed.data) {
-            db.execSQL(
-                sql = """
+fun seedJournalCategory(db: SupportSQLiteDatabase) {
+    for (item in JournalCategorySeed.data) {
+        db.execSQL(
+            sql = """
                         INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
@@ -48,15 +64,47 @@ internal object DatabaseSeeder {
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
                 )
+        )
+    }
+}
+
+    fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
+        for (item in AppetiteOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO appetite_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
             )
         }
     }
 
-    fun seedClimateOptions(db: SupportSQLiteDatabase) {
+fun seedClimateOptions(db: SupportSQLiteDatabase) {
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO climate_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedDosageFormOptions(db: SupportSQLiteDatabase) {
+        for (item in DosageFormOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -84,6 +132,22 @@ internal object DatabaseSeeder {
         }
     }
 
+    fun seedFoodOptions(db: SupportSQLiteDatabase) {
+        for (item in FoodOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO food_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
     fun seedHealthOptions(db: SupportSQLiteDatabase) {
         for (item in HealthOptionSeed.data) {
             db.execSQL(
@@ -100,11 +164,76 @@ internal object DatabaseSeeder {
         }
     }
 
+
     fun seedLocationOptions(db: SupportSQLiteDatabase) {
         for (item in LocationOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO location_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedPortionOptions(db: SupportSQLiteDatabase) {
+        for (item in PortionOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO portion_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSensationOptions(db: SupportSQLiteDatabase) {
+        for (item in SensationOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sensation_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSleepActivityOptions(db: SupportSQLiteDatabase) {
+        for (item in SleepActivityOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sleep_activity_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSleepQualityOptions(db: SupportSQLiteDatabase) {
+        for (item in SleepQualityOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sleep_quality_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
