@@ -8,12 +8,14 @@ import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.database.model.ClimateOptionEntity
 import io.github.faening.lello.core.database.model.EmotionOptionEntity
 import io.github.faening.lello.core.database.model.HealthOptionEntity
 import io.github.faening.lello.core.database.model.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.LocationOptionEntity
+import io.github.faening.lello.core.database.model.MealOptionEntity
 import io.github.faening.lello.core.database.model.SocialOptionEntity
 import io.github.faening.lello.core.database.util.InstantConverters
 
@@ -24,6 +26,7 @@ import io.github.faening.lello.core.database.util.InstantConverters
         EmotionOptionEntity::class,
         HealthOptionEntity::class,
         LocationOptionEntity::class,
+        MealOptionEntity::class,
         SocialOptionEntity::class
     ],
     version = 1,
@@ -38,5 +41,6 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
     abstract fun locationOptionDao() : LocationOptionDao
+    abstract fun mealOptionDao(): MealOptionDao
     abstract fun socialOptionDao() : SocialOptionDao
 }

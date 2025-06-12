@@ -36,6 +36,11 @@ internal object DaoModule {
     ) = database.locationOptionDao()
 
     @Provides
+    fun provideMealOptionDao(
+        database: LelloDatabase,
+    ) = database.mealOptionDao()
+
+    @Provides
     fun provideSocialOptionDao(
         database: LelloDatabase,
     ) = database.socialOptionDao()
