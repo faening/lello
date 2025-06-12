@@ -52,14 +52,14 @@ interface LocationOptionDao : OptionResources<LocationOptionEntity> {
     @Query(
         value = """
             SELECT * FROM location_options
-            WHERE id = :id
+            WHERE locationOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<LocationOptionEntity>
+    override fun getById(id: Long): Flow<LocationOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: LocationOptionEntity)
+    override suspend fun insert(item: LocationOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: LocationOptionEntity)

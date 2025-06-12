@@ -8,6 +8,9 @@ import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
+import io.github.faening.lello.core.database.seed.SensationOptionSeed
+import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
+import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
@@ -31,6 +34,9 @@ internal object DatabaseSeeder {
         seedHealthOptions(db)
         seedLocationOptions(db)
         seedMealOptions(db)
+        seedSensationOptions(db)
+        seedSleepActivityOptions(db)
+        seedSleepQualityOptions(db)
         seedSocialOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
@@ -118,11 +124,43 @@ internal object DatabaseSeeder {
         }
     }
 
-    fun seedMealOptions(db: SupportSQLiteDatabase) {
-        for (item in MealOptionSeed.data) {
+    fun seedSensationOptions(db: SupportSQLiteDatabase) {
+        for (item in SensationOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO meal_options (description, blocked, active)
+                        INSERT INTO sensation_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSleepActivityOptions(db: SupportSQLiteDatabase) {
+        for (item in SleepActivityOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sleep_activity_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSleepQualityOptions(db: SupportSQLiteDatabase) {
+        for (item in SleepQualityOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sleep_quality_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

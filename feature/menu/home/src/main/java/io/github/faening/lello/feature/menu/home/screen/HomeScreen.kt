@@ -25,7 +25,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.journal.meal.navigation.JournalMealDestinations
 import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
-import io.github.faening.lello.feature.journal.mood.navigation.JournalMoodDestinations
+import io.github.faening.lello.feature.journal.mood.JournalMoodDestinations
 import io.github.faening.lello.feature.journal.sleep.navigation.JournalSleepDestinations
 import io.github.faening.lello.feature.menu.home.HomeViewModel
 

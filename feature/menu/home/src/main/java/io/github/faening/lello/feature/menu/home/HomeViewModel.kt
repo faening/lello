@@ -3,7 +3,7 @@ package io.github.faening.lello.feature.menu.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.JournalCategoryUseCase
+import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
 import io.github.faening.lello.core.model.journal.JournalCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

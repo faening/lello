@@ -20,12 +20,12 @@ abstract class OptionRepository<M, E>(
         return dao.getAll().map { list -> list.map { it.toModel() } }
     }
 
-    override fun getById(id: Int): Flow<M>? {
+    override fun getById(id: Long): Flow<M>? {
         return dao.getById(id)?.map { it.toModel() }
     }
 
-    override suspend fun insert(item: M) {
-        dao.insert(item.toEntity())
+    override suspend fun insert(item: M): Long {
+        return dao.insert(item.toEntity())
     }
 
     override suspend fun update(item: M) {

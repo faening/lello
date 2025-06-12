@@ -6,21 +6,21 @@ import io.github.faening.lello.core.model.journal.LocationOption
 
 @Entity(tableName = "location_options")
 data class LocationOptionEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) val locationOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
 ) : OptionEntity()
 
-fun LocationOption.toModel() = LocationOption(
-    id = id,
+fun LocationOptionEntity.toModel() = LocationOption(
+    id = locationOptionId,
     description = description,
     blocked = blocked,
     active = active
 )
 
-fun LocationOption.toEntity() = LocationOption(
-    id = id ?: 0,
+fun LocationOption.toEntity() = LocationOptionEntity(
+    locationOptionId = id,
     description = description,
     blocked = blocked,
     active = active

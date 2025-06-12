@@ -28,7 +28,7 @@ class JournalCategoryRepository @Inject constructor(
             .map { list -> list.map { it.toModel() } }
     }
 
-    override fun getById(id: Int): Flow<JournalCategory>? {
+    override fun getById(id: Long): Flow<JournalCategory>? {
         return journalCategoryDao.getById(id)?.map { it.toModel() }
     }
 }

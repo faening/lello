@@ -1,105 +1,412 @@
 package io.github.faening.lello.core.designsystem.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    // --- Cores Primárias ---
-    primary = Yellow500,           // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
-    onPrimary = Yellow50,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
-    primaryContainer = Yellow300,  // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
-    onPrimaryContainer = Yellow50,   // Cor do texto/ícones que aparece SOBRE containers primários
+enum class LelloColorScheme(
+    private val lightScheme: ColorScheme,
+    private val darkScheme: ColorScheme
+) {
+    DEFAULT(
+        lightScheme = lightColorScheme(
+            primary               = Yellow500,
+            onPrimary             = Grey500,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
 
-    secondary = Blue300,
-    onSecondary = Blue900,
-    secondaryContainer = Blue700,
-    onSecondaryContainer = Blue100,
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey300,
 
-    tertiary = Yellow300,
-    onTertiary = Brown900,
-    tertiaryContainer = Brown700,
-    onTertiaryContainer = Yellow100,
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
 
-    error = Red300,
-    onError = Red900,
-    errorContainer = Red700,
-    onErrorContainer = Red100,
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
 
-    // --- Cores de Fundo e Superfície ---
-    background = Grey500,       // Cor de fundo principal do aplicativo
-    onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
-    surface = Grey500,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
-    onSurface = Neutral100,     // Cor do texto/ícones que aparece SOBRE superfícies
+            surface               = Yellow50,
+            onSurface             = Grey300,
+            surfaceVariant        = Yellow700,
+            onSurfaceVariant      = Grey300,
 
-    // --- Cores de Variante e Contorno ---
-    surfaceVariant = Neutral200,      // Variante sutil da superfície para diferenciar áreas da interface
-    onSurfaceVariant = Neutral300,    // Cor para texto/ícones secundários sobre variantes de superfície
-    outline = Neutral400,                // Cor para bordas e divisores, definindo limites entre elementos
-)
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
 
-private val LightColorScheme = lightColorScheme(
-    // --- Cores Primárias ---
-    primary = Yellow500,            // Cor principal do aplicativo, usada para elementos de ação (botões, interruptores, sliders)
-    onPrimary = Grey500,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor primary
-    primaryContainer = Yellow300,   // Cor para containers/superfícies relacionadas à cor primária, com menor ênfase
-    onPrimaryContainer = Grey300,   // Cor do texto/ícones que aparece SOBRE containers primários
+        darkScheme = darkColorScheme(
+            primary               = Yellow500,
+            onPrimary             = Grey900,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
 
-    // --- Cores Secundárias ---
-    secondary = Blue500,              // Cor secundária para elementos menos proeminentes, mas ainda importantes
-    onSecondary = Neutral50,          // Cor do texto/ícones que aparece SOBRE elementos que usam a cor secondary
-    secondaryContainer = Blue100,     // Containers secundários, menos enfáticos que os primários
-    onSecondaryContainer = Blue900,   // Cor do texto/ícones que aparece SOBRE containers secundários
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
 
-    // --- Cores Terciárias ---
-    tertiary = Yellow500,             // Cor de acento para elementos distintos, complementando a primária e secundária
-    onTertiary = Brown900,            // Cor do texto/ícones que aparece SOBRE elementos que usam a cor tertiary
-    tertiaryContainer = Yellow100,    // Containers terciários para agrupar conteúdo relacionado ao tema terciário
-    onTertiaryContainer = Brown900,   // Cor do texto/ícones que aparece SOBRE containers terciários
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
 
-    // --- Cores de Erro ---
-    error = Red500,              // Cor para indicar estados de erro ou ações destrutivas
-    onError = Neutral50,         // Cor do texto/ícones que aparece SOBRE elementos que usam a cor error
-    errorContainer = Red100,     // Containers para mensagens de erro ou avisos, menos intenso que error
-    onErrorContainer = Red900,   // Cor do texto/ícones que aparece SOBRE containers de erro
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
 
-    // --- Cores de Fundo e Superfície ---
-    background = Yellow50,      // Cor de fundo principal do aplicativo
-    onBackground = Grey500,     // Cor do texto/ícones padrão que aparece SOBRE o fundo do aplicativo
-    surface = Yellow50,          // Cor para cartões, folhas de diálogo e outras superfícies elevadas
-    onSurface = Grey500,        // Cor do texto/ícones que aparece SOBRE superfícies
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Yellow700,
+            onSurfaceVariant      = Grey300,
 
-    // --- Cores de Variante e Contorno ---
-    surfaceVariant = Neutral200,   // Variante sutil da superfície para diferenciar áreas da interface
-    onSurfaceVariant = Grey300,    // Cor para texto/ícones secundários sobre variantes de superfície
-    outline = Grey100,             // Cor para bordas e divisores, definindo limites entre elementos
-)
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
+    ),
+
+    INVERSE(
+        lightScheme = lightColorScheme(
+            primary               = Yellow600,
+            onPrimary             = Grey500,
+            primaryContainer      = Yellow500,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Yellow700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow500,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Yellow600,
+            onPrimary             = Grey500,
+            primaryContainer      = Yellow300,
+            onPrimaryContainer    = Yellow50,
+
+            secondary             = Blue300,
+            onSecondary           = Blue900,
+            secondaryContainer    = Blue700,
+            onSecondaryContainer  = Blue100,
+
+            tertiary              = Yellow300,
+            onTertiary            = Yellow900,
+            tertiaryContainer     = Yellow600,
+            onTertiaryContainer   = Yellow100,
+
+            error                 = Red300,
+            onError               = Red900,
+            errorContainer        = Red700,
+            onErrorContainer      = Red100,
+
+            surface               = Grey500,
+            onSurface             = Grey50,
+            surfaceVariant        = Yellow700,
+            onSurfaceVariant      = Grey50,
+
+            background            = Grey500,
+            onBackground          = Grey500,
+            outline               = Grey900
+        )
+    ),
+
+    AQUAMARINE(
+        lightScheme = lightColorScheme(
+            primary               = Aquamarine500,
+            onPrimary             = Grey500,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Aquamarine700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Aquamarine500,
+            onPrimary             = Grey500,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Aquamarine700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
+    ),
+
+    BLUE(
+        lightScheme = lightColorScheme(
+            primary               = Blue500,
+            onPrimary             = Grey50,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Blue700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Blue500,
+            onPrimary             = Grey50,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Blue700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
+    ),
+
+    ORANGE(
+        lightScheme = lightColorScheme(
+            primary               = Orange500,
+            onPrimary             = Grey500,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Orange700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Orange500,
+            onPrimary             = Grey500,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Orange700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
+    ),
+
+    RED(
+        lightScheme = lightColorScheme(
+            primary               = Red500,
+            onPrimary             = Grey50,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Red700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Red500,
+            onPrimary             = Grey50,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Red700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
+    );
+
+    fun getScheme(darkTheme: Boolean): ColorScheme = if (darkTheme) darkScheme else lightScheme
+}
 
 @Composable
 fun LelloTheme(
+    scheme: LelloColorScheme = LelloColorScheme.DEFAULT,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // Dynamic color is available on Android 12+
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+        colorScheme = scheme.getScheme(darkTheme),
+        typography   = Typography,
+        content      = content
     )
 }

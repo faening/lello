@@ -10,5 +10,5 @@ interface JournalCategoryResources<T> {
         isActive: Boolean = true
     ): Flow<List<T>>
 
-    fun getById(id: Int): Flow<T>?
+    fun getById(id: Long): Flow<T>?
 }

@@ -1,8 +1,8 @@
 package io.github.faening.lello.core.domain.util
 
-internal fun Int.validateId() {
+internal fun Long.validateId() {
     @Suppress("SENSELESS_COMPARISON")
-    if (this == null || this <= 0) {
+    if (this == null || this <= 0L) {
         throw IllegalArgumentException("exception_invalid_id")
     }
 }

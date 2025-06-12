@@ -10,9 +10,9 @@ interface OptionResources<T> {
         isActive: Boolean = true
     ): Flow<List<T>>
 
-    fun getById(id: Int): Flow<T>?
+    fun getById(id: Long): Flow<T>?
 
-    suspend fun insert(item: T)
+    suspend fun insert(item: T) : Long
 
     suspend fun update(item: T)
 

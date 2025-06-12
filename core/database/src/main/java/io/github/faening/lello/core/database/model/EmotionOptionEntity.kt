@@ -6,7 +6,7 @@ import io.github.faening.lello.core.model.journal.EmotionOption
 
 @Entity(tableName = "emotion_options")
 data class EmotionOptionEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) val emotionOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
@@ -14,7 +14,7 @@ data class EmotionOptionEntity(
 
 fun EmotionOptionEntity.toModel(): EmotionOption {
     return EmotionOption(
-        id = id,
+        id = emotionOptionId,
         description = description,
         blocked = blocked,
         active = active
@@ -23,7 +23,7 @@ fun EmotionOptionEntity.toModel(): EmotionOption {
 
 fun EmotionOption.toEntity(): EmotionOptionEntity {
     return EmotionOptionEntity(
-        id = id ?: 0,
+        emotionOptionId = id,
         description = description,
         blocked = blocked,
         active = active

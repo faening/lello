@@ -52,14 +52,14 @@ interface EmotionOptionDao : OptionResources<EmotionOptionEntity> {
     @Query(
         value = """
             SELECT * FROM emotion_options
-            WHERE id = :id
+            WHERE emotionOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<EmotionOptionEntity>
+    override fun getById(id: Long): Flow<EmotionOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: EmotionOptionEntity)
+    override suspend fun insert(item: EmotionOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: EmotionOptionEntity)
