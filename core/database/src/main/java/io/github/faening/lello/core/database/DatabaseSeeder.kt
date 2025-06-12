@@ -7,10 +7,11 @@ import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
+import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.SensationOptionSeed
+import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
-import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 
 /**
  * Classe responsável por centralizar a população de dados iniciais no banco de dados.
@@ -32,6 +33,7 @@ internal object DatabaseSeeder {
         seedEmotionOptions(db)
         seedHealthOptions(db)
         seedLocationOptions(db)
+        seedMealOptions(db)
         seedSensationOptions(db)
         seedSleepActivityOptions(db)
         seedSleepQualityOptions(db)
