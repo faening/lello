@@ -10,6 +10,7 @@ import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.SensationOptionDao
+import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.database.model.ClimateOptionEntity
 import io.github.faening.lello.core.database.model.EmotionOptionEntity
@@ -23,6 +24,7 @@ import io.github.faening.lello.core.database.model.MoodJournalEntityHealthOption
 import io.github.faening.lello.core.database.model.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.SensationOptionEntity
+import io.github.faening.lello.core.database.model.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.SocialOptionEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
@@ -36,6 +38,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         HealthOptionEntity::class,
         LocationOptionEntity::class,
         SensationOptionEntity::class,
+        SleepQualityOptionEntity::class,
         SocialOptionEntity::class,
         MoodJournalEntity::class,
         MoodJournalEntityEmotionOptionEntityCrossRef::class,
@@ -64,5 +67,6 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun healthOptionDao(): HealthOptionDao
     abstract fun locationOptionDao() : LocationOptionDao
     abstract fun sensationOptionDao() : SensationOptionDao
+    abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
     abstract fun socialOptionDao() : SocialOptionDao
 }
