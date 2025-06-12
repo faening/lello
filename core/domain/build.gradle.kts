@@ -11,4 +11,6 @@ dependencies {
     api(projects.core.model)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
