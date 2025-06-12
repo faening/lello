@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
@@ -126,14 +127,9 @@ private fun JournalSettingsLocationContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun JournalSettingsLocationScreenPreview() {
-    val locations = listOf(
-        LocationOption(id = 1, description = "Casa", blocked = false, active = true),
-        LocationOption(id = 2, description = "Trabalho", blocked = false, active = false),
-        LocationOption(id = 3, description = "Parque", blocked = false, active = true)
-    )
     LelloTheme {
         JournalSettingsLocationContainer(
-            locations = locations,
+            locations = LocationOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

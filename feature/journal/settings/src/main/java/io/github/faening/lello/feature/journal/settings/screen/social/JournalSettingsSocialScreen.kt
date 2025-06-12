@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.SocialOptionMock
 import io.github.faening.lello.core.model.journal.SocialOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
@@ -126,14 +127,9 @@ private fun JournalSettingsSocialContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun JournalSettingsSocialScreenPreview() {
-    val socials = listOf(
-        SocialOption(id = 1, description = "Amigo", blocked = false, active = true),
-        SocialOption(id = 2, description = "Família", blocked = false, active = false),
-        SocialOption(id = 3, description = "Colega", blocked = false, active = true)
-    )
     LelloTheme {
         JournalSettingsSocialContainer(
-            socials = socials,
+            socials = SocialOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

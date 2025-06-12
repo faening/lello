@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.HealthOptionMock
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
@@ -126,14 +127,9 @@ private fun JournalSettingsHealthContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun JournalSettingsHealthScreenPreview() {
-    val healthOptions = listOf(
-        HealthOption(id = 1, description = "Dor", blocked = false, active = true),
-        HealthOption(id = 2, description = "Gripado", blocked = false, active = false),
-        HealthOption(id = 3, description = "Cansado", blocked = false, active = true)
-    )
     LelloTheme {
         JournalSettingsHealthContainer(
-            healthOptions = healthOptions,
+            healthOptions = HealthOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

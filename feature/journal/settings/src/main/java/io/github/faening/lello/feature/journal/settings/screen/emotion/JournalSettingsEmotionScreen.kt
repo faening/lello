@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
@@ -126,14 +127,9 @@ private fun JournalSettingsEmotionContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun JournalSettingsEmotionScreenPreview() {
-    val emotions = listOf(
-        EmotionOption(id = 1, description = "Feliz", blocked = false, active = true),
-        EmotionOption(id = 2, description = "Triste", blocked = false, active = false),
-        EmotionOption(id = 3, description = "Ansioso", blocked = false, active = true)
-    )
     LelloTheme {
         JournalSettingsEmotionContainer(
-            emotions = emotions,
+            emotions = EmotionOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

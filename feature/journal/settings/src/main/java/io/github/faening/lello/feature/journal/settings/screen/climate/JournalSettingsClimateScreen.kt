@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.ClimateOptionMock
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.R as settingsR
@@ -126,14 +127,9 @@ private fun JournalSettingsClimateContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun JournalSettingsClimateScreenPreview() {
-    val climates = listOf(
-        ClimateOption(id = 1, description = "Ensolarado", blocked = false, active = true),
-        ClimateOption(id = 2, description = "Chuvoso", blocked = false, active = false),
-        ClimateOption(id = 3, description = "Frio", blocked = false, active = true)
-    )
     LelloTheme {
         JournalSettingsClimateContainer(
-            climates = climates,
+            climates = ClimateOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}
