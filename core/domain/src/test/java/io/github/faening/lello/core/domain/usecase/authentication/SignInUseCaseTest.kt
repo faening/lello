@@ -1,0 +1,34 @@
+package io.github.faening.lello.core.domain.usecase.authentication
+
+import io.github.faening.lello.core.domain.repository.AuthenticationRepository
+import io.github.faening.lello.core.model.authentication.AuthResult
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class SignInUseCaseTest {
+    private val repository: AuthenticationRepository = mockk()
+    private val useCase = SignInUseCase(repository)
+
+    @Test
+    fun `blank credentials returns error`() = runTest {
+        val result = useCase("", "")
+        assertTrue(result is AuthResult.Error)
+        assertEquals("Email e senha não podem estar vazios", (result as AuthResult.Error).message)
+        coVerify(exactly = 0) { repository.signInWithEmailAndPassword(any(), any()) }
+    }
+
+    @Test
+    fun `valid credentials returns success`() = runTest {
+        coEvery { repository.signInWithEmailAndPassword("test@example.com", "123456") } returns AuthResult.Success(Unit)
+
+        val result = useCase("test@example.com", "123456")
+
+        assertTrue(result is AuthResult.Success)
+        coVerify(exactly = 1) { repository.signInWithEmailAndPassword("test@example.com", "123456") }
+    }
+}

@@ -30,6 +30,7 @@ test-junit = "1.2.1"
 test-rules = "1.6.1"
 test-runner = "1.6.2"
 work = "2.10.0"
+mockk = "1.14.2"
 
 [libraries]
 androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -105,6 +106,7 @@ kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "ko
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 # Lifecycle
 # https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=pt-br
