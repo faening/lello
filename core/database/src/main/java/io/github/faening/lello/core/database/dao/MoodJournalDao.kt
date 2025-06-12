@@ -12,10 +12,10 @@ import io.github.faening.lello.core.database.model.MoodJournalEntityEmotionOptio
 import io.github.faening.lello.core.database.model.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.domain.repository.JournalMoodResources
+import io.github.faening.lello.core.domain.repository.MoodJournalResources
 
 @Dao
-interface MoodJournalDao : JournalMoodResources<MoodJournalEntity> {
+interface MoodJournalDao : MoodJournalResources<MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY date DESC")

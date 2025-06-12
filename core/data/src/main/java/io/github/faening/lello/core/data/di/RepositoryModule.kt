@@ -9,7 +9,7 @@ import io.github.faening.lello.core.data.repository.EmotionOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
-import io.github.faening.lello.core.data.repository.JournalMoodRepository
+import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
@@ -19,13 +19,13 @@ import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
-import io.github.faening.lello.core.domain.repository.JournalMoodResources
+import io.github.faening.lello.core.domain.repository.MoodJournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
 import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
-import io.github.faening.lello.core.model.journal.JournalMood
+import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
 
@@ -50,10 +50,10 @@ import io.github.faening.lello.core.model.journal.SocialOption
 object RepositoryModule {
 
     @Provides
-    fun provideJournalMoodRepository(
+    fun provideMoodJournalRepository(
         dao: MoodJournalDao
-    ): JournalMoodResources<JournalMood> {
-        return JournalMoodRepository(dao)
+    ): MoodJournalResources<MoodJournal> {
+        return MoodJournalRepository(dao)
     }
 
     @Provides

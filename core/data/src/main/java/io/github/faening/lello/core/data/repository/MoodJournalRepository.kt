@@ -7,15 +7,15 @@ import io.github.faening.lello.core.database.model.MoodJournalEntity
 import io.github.faening.lello.core.database.model.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.domain.repository.JournalMoodResources
-import io.github.faening.lello.core.model.journal.JournalMood
+import io.github.faening.lello.core.domain.repository.MoodJournalResources
+import io.github.faening.lello.core.model.journal.MoodJournal
 import javax.inject.Inject
 
-class JournalMoodRepository @Inject constructor(
+class MoodJournalRepository @Inject constructor(
     private val dao: MoodJournalDao
-) : JournalMoodResources<JournalMood> {
+) : MoodJournalResources<MoodJournal> {
 
-    override suspend fun insert(entry: JournalMood) : Long {
+    override suspend fun insert(entry: MoodJournal) : Long {
         val moodJournalId = dao.insert(
             MoodJournalEntity(
                 moodJournalId = 0L,
@@ -68,15 +68,15 @@ class JournalMoodRepository @Inject constructor(
         return moodJournalId
     }
 
-    override suspend fun getAll(): List<JournalMood> {
+    override suspend fun getAll(): List<MoodJournal> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getById(id: Long): JournalMood? {
+    override suspend fun getById(id: Long): MoodJournal? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: JournalMood) {
+    override suspend fun delete(id: MoodJournal) {
         TODO("Not yet implemented")
     }
 }
