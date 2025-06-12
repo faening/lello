@@ -22,4 +22,36 @@
     <string name="journal_settings_health_appbar_title">Saúde</string>
     <string name="journal_settings_health_register_button_label">Cadastrar item de saúde</string>
 
+    <!-- Appetite -->
+    <string name="journal_settings_appetite_appbar_title">Apetites</string>
+    <string name="journal_settings_appetite_register_button_label">Cadastrar apetite</string>
+
+    <!-- Dosage Form -->
+    <string name="journal_settings_dosageform_appbar_title">Formas de Dosagem</string>
+    <string name="journal_settings_dosageform_register_button_label">Cadastrar forma de dosagem</string>
+
+    <!-- Food -->
+    <string name="journal_settings_food_appbar_title">Alimentos</string>
+    <string name="journal_settings_food_register_button_label">Cadastrar alimento</string>
+
+    <!-- Meal -->
+    <string name="journal_settings_meal_appbar_title">Refeições</string>
+    <string name="journal_settings_meal_register_button_label">Cadastrar refeição</string>
+
+    <!-- Portion -->
+    <string name="journal_settings_portion_appbar_title">Porções</string>
+    <string name="journal_settings_portion_register_button_label">Cadastrar porção</string>
+
+    <!-- Sensation -->
+    <string name="journal_settings_sensation_appbar_title">Sensações</string>
+    <string name="journal_settings_sensation_register_button_label">Cadastrar sensação</string>
+
+    <!-- Sleep Activity -->
+    <string name="journal_settings_sleepactivity_appbar_title">Atividades de Sono</string>
+    <string name="journal_settings_sleepactivity_register_button_label">Cadastrar atividade de sono</string>
+
+    <!-- Sleep Quality -->
+    <string name="journal_settings_sleepquality_appbar_title">Qualidade do Sono</string>
+    <string name="journal_settings_sleepquality_register_button_label">Cadastrar qualidade do sono</string>
+
 </resources>
