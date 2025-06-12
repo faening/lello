@@ -2,6 +2,7 @@ package io.github.faening.lello.core.database
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
+import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
@@ -29,6 +30,7 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
 
         seedJournalCategory(db)
+        seedAppetiteOptions(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
         seedHealthOptions(db)
@@ -42,10 +44,10 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-    fun seedJournalCategory(db: SupportSQLiteDatabase) {
-        for (item in JournalCategorySeed.data) {
-            db.execSQL(
-                sql = """
+fun seedJournalCategory(db: SupportSQLiteDatabase) {
+    for (item in JournalCategorySeed.data) {
+        db.execSQL(
+            sql = """
                         INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
@@ -53,6 +55,22 @@ internal object DatabaseSeeder {
                     item.name,
                     item.shortDescription,
                     item.longDescription,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+        )
+    }
+}
+
+    fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
+        for (item in AppetiteOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO appetite_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
                 )

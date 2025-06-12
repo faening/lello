@@ -27,6 +27,11 @@ internal object DaoModule {
     // region: Options
 
     @Provides
+    fun provideAppetiteOptionDao(
+        database: LelloDatabase,
+    ) = database.appetiteOptionDao()
+
+    @Provides
     fun provideClimateDao(
         database: LelloDatabase,
     ) = database.climateOptionDao()
