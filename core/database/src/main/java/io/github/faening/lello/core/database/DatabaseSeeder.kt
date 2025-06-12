@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
+import io.github.faening.lello.core.database.seed.DosageFormOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
@@ -34,6 +35,7 @@ internal object DatabaseSeeder {
         seedJournalCategory(db)
         seedAppetiteOptions(db)
         seedClimateOptions(db)
+        seedDosageFormOptions(db)
         seedEmotionOptions(db)
         seedFoodOptions(db)
         seedHealthOptions(db)
@@ -82,11 +84,27 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
         }
     }
 
-    fun seedClimateOptions(db: SupportSQLiteDatabase) {
+fun seedClimateOptions(db: SupportSQLiteDatabase) {
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO climate_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedDosageFormOptions(db: SupportSQLiteDatabase) {
+        for (item in DosageFormOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
