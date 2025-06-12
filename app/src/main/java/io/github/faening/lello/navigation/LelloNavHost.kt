@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import io.github.faening.lello.feature.journal.meal.navigation.journalMealGraph
+import io.github.faening.lello.feature.journal.meal.journalMealGraph
 import io.github.faening.lello.feature.journal.medication.navigation.journalMedicationGraph
 import io.github.faening.lello.feature.journal.mood.journalMoodGraph
 import io.github.faening.lello.feature.journal.settings.journalSettingsGraph
