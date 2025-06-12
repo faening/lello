@@ -6,6 +6,7 @@ import androidx.room.TypeConverters
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
+import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
@@ -18,6 +19,7 @@ import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
 import io.github.faening.lello.core.database.model.ClimateOptionEntity
 import io.github.faening.lello.core.database.model.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.EmotionOptionEntity
+import io.github.faening.lello.core.database.model.FoodOptionEntity
 import io.github.faening.lello.core.database.model.HealthOptionEntity
 import io.github.faening.lello.core.database.model.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.LocationOptionEntity
@@ -42,6 +44,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         AppetiteOptionEntity::class,
         ClimateOptionEntity::class,
         EmotionOptionEntity::class,
+        FoodOptionEntity::class,
         HealthOptionEntity::class,
         LocationOptionEntity::class,
         MealOptionEntity::class,
@@ -75,6 +78,7 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun appetiteOptionDao(): AppetiteOptionDao
     abstract fun climateOptionDao(): ClimateOptionDao
     abstract fun emotionOptionDao(): EmotionOptionDao
+    abstract fun foodOptionDao(): FoodOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
     abstract fun locationOptionDao() : LocationOptionDao
     abstract fun mealOptionDao(): MealOptionDao

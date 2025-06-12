@@ -42,6 +42,11 @@ internal object DaoModule {
     ) = database.emotionOptionDao()
 
     @Provides
+    fun provideFoodOptionDao(
+        database: LelloDatabase,
+    ) = database.foodOptionDao()
+
+    @Provides
     fun provideHealthOptionDao(
         database: LelloDatabase,
     ) = database.healthOptionDao()
