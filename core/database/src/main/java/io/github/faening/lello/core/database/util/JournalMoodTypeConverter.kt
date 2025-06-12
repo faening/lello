@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.database.util
 
 import androidx.room.TypeConverter
-import io.github.faening.lello.core.database.model.MoodType
+import io.github.faening.lello.core.model.journal.MoodType
 
 internal class JournalMoodTypeConverter {
     @TypeConverter

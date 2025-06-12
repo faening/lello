@@ -6,7 +6,7 @@ import io.github.faening.lello.core.model.journal.ClimateOption
 
 @Entity(tableName = "climate_options")
 data class ClimateOptionEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) val climateOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
@@ -14,7 +14,7 @@ data class ClimateOptionEntity(
 
 fun ClimateOptionEntity.toModel() : ClimateOption {
     return ClimateOption(
-        id = id,
+        id = climateOptionId,
         description = description,
         blocked = blocked,
         active = active
@@ -23,7 +23,7 @@ fun ClimateOptionEntity.toModel() : ClimateOption {
 
 fun ClimateOption.toEntity() : ClimateOptionEntity {
     return ClimateOptionEntity(
-        id = id ?: 0,
+        climateOptionId = id,
         description = description,
         blocked = blocked,
         active = active

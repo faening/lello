@@ -6,7 +6,7 @@ import io.github.faening.lello.core.model.journal.HealthOption
 
 @Entity(tableName = "health_options")
 data class HealthOptionEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) val healthOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
@@ -14,7 +14,7 @@ data class HealthOptionEntity(
 
 fun HealthOptionEntity.toModel(): HealthOption {
     return HealthOption(
-        id = id,
+        id = healthOptionId,
         description = description,
         blocked = blocked,
         active = active
@@ -23,7 +23,7 @@ fun HealthOptionEntity.toModel(): HealthOption {
 
 fun HealthOption.toEntity(): HealthOptionEntity {
     return HealthOptionEntity(
-        id = id ?: 0,
+        healthOptionId = id,
         description = description,
         blocked = blocked,
         active = active

@@ -22,7 +22,7 @@ class LocationOptionUseCase @Inject constructor(
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Int): Flow<LocationOption>? {
+    fun getById(id: Long): Flow<LocationOption>? {
         id.validateId()
         return repository.getById(id)
     }
@@ -38,7 +38,7 @@ class LocationOptionUseCase @Inject constructor(
     suspend fun update(vararg items: LocationOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
         }
@@ -48,7 +48,7 @@ class LocationOptionUseCase @Inject constructor(
     suspend fun delete(vararg items: LocationOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
         }
         items.forEach { item -> repository.delete(item) }
     }

@@ -11,7 +11,7 @@ class SocialOptionRepository @Inject constructor(
 
     override fun SocialOptionEntity.toModel(): SocialOption {
         return SocialOption(
-            id = this.id,
+            id = this.socialOptionId,
             description = this.description,
             blocked = this.blocked,
             active = this.active
@@ -20,7 +20,7 @@ class SocialOptionRepository @Inject constructor(
 
     override fun SocialOption.toEntity(): SocialOptionEntity {
         return SocialOptionEntity(
-            id = this.id ?: 0,
+            socialOptionId = this.id,
             description = this.description,
             blocked = this.blocked,
             active = this.active

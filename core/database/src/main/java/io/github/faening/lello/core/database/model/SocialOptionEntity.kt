@@ -6,7 +6,7 @@ import io.github.faening.lello.core.model.journal.SocialOption
 
 @Entity(tableName = "social_options")
 data class SocialOptionEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) val socialOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
@@ -14,7 +14,7 @@ data class SocialOptionEntity(
 
 fun SocialOptionEntity.toModel(): SocialOption {
     return SocialOption(
-        id = id,
+        id = socialOptionId,
         description = description,
         blocked = blocked,
         active = active
@@ -23,7 +23,7 @@ fun SocialOptionEntity.toModel(): SocialOption {
 
 fun SocialOption.toEntity(): SocialOptionEntity {
     return SocialOptionEntity(
-        id = id ?: 0,
+        socialOptionId = id ?: 0,
         description = description,
         blocked = blocked,
         active = active

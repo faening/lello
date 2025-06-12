@@ -11,7 +11,7 @@ class LocationOptionRepository @Inject constructor(
 
     override fun LocationOptionEntity.toModel(): LocationOption {
         return LocationOption(
-            id = this.id,
+            id = this.locationOptionId,
             description = this.description,
             blocked = this.blocked,
             active = this.active
@@ -20,7 +20,7 @@ class LocationOptionRepository @Inject constructor(
 
     override fun LocationOption.toEntity(): LocationOptionEntity {
         return LocationOptionEntity(
-            id = this.id ?: 0,
+            locationOptionId = this.id,
             description = this.description,
             blocked = this.blocked,
             active = this.active

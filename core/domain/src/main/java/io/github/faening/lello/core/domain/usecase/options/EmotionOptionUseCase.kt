@@ -22,7 +22,7 @@ class EmotionOptionUseCase @Inject constructor(
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Int): Flow<EmotionOption>? {
+    fun getById(id: Long): Flow<EmotionOption>? {
         id.validateId()
         return repository.getById(id)
     }
@@ -38,7 +38,7 @@ class EmotionOptionUseCase @Inject constructor(
     suspend fun update(vararg items: EmotionOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
         }
@@ -48,7 +48,7 @@ class EmotionOptionUseCase @Inject constructor(
     suspend fun delete(vararg items: EmotionOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
         }
         items.forEach { item -> repository.delete(item) }
     }

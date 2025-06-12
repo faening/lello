@@ -11,7 +11,7 @@ class ClimateOptionRepository @Inject constructor(
 
     override fun ClimateOptionEntity.toModel(): ClimateOption {
         return ClimateOption(
-            id = this.id,
+            id = this.climateOptionId,
             description = this.description,
             blocked = this.blocked,
             active = this.active
@@ -20,7 +20,7 @@ class ClimateOptionRepository @Inject constructor(
 
     override fun ClimateOption.toEntity(): ClimateOptionEntity {
         return ClimateOptionEntity(
-            id = this.id ?: 0,
+            climateOptionId = this.id,
             description = this.description,
             blocked = this.blocked,
             active = this.active

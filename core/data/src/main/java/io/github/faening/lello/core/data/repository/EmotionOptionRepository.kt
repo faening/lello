@@ -11,7 +11,7 @@ class EmotionOptionRepository @Inject constructor(
 
     override fun EmotionOptionEntity.toModel(): EmotionOption {
         return EmotionOption(
-            id = this.id,
+            id = this.emotionOptionId,
             description = this.description,
             blocked = this.blocked,
             active = this.active
@@ -20,7 +20,7 @@ class EmotionOptionRepository @Inject constructor(
 
     override fun EmotionOption.toEntity(): EmotionOptionEntity {
         return EmotionOptionEntity(
-            id = this.id ?: 0,
+            emotionOptionId = this.id,
             description = this.description,
             blocked = this.blocked,
             active = this.active

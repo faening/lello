@@ -52,14 +52,14 @@ interface SocialOptionDao : OptionResources<SocialOptionEntity> {
     @Query(
         value = """
             SELECT * FROM social_options
-            WHERE id = :id
+            WHERE socialOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<SocialOptionEntity>
+    override fun getById(id: Long): Flow<SocialOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: SocialOptionEntity)
+    override suspend fun insert(item: SocialOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: SocialOptionEntity)

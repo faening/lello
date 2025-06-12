@@ -13,7 +13,7 @@ import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.mood.model.JournalMood
+import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -34,8 +34,8 @@ class JournalMoodViewModel @Inject constructor(
     healthOptionUseCase: HealthOptionUseCase
 ) : ViewModel() {
 
-    private val _currentMood = MutableStateFlow(JournalMood.JOYFUL)
-    val currentMood: StateFlow<JournalMood> = _currentMood
+    private val _currentMood = MutableStateFlow(JournalMoodColorScheme.JOYFUL)
+    val currentMood: StateFlow<JournalMoodColorScheme> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryDateTime: StateFlow<String> = _entryDateTime
@@ -81,7 +81,7 @@ class JournalMoodViewModel @Inject constructor(
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
-    fun updateMood(mood: JournalMood) {
+    fun updateMood(mood: JournalMoodColorScheme) {
         _currentMood.value = mood
     }
 

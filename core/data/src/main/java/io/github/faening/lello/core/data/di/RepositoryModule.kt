@@ -9,12 +9,14 @@ import io.github.faening.lello.core.data.repository.EmotionOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
+import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.OptionResources
@@ -44,6 +46,13 @@ import io.github.faening.lello.core.model.journal.SocialOption
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    @Provides
+    fun provideMoodJournalRepository(
+        dao: MoodJournalDao
+    ): MoodJournalRepository {
+        return MoodJournalRepository(dao)
+    }
 
     @Provides
     fun provideJournalCategoryRepository(

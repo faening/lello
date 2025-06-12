@@ -39,7 +39,7 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
-import io.github.faening.lello.feature.journal.mood.model.JournalMood
+import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
@@ -68,11 +68,11 @@ internal fun JournalMoodScreen(
 
 @Composable
 private fun JournalMoodContainer(
-    mood: JournalMood,
+    mood: JournalMoodColorScheme,
     entryTime: String,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onMoodChange: (JournalMood) -> Unit
+    onMoodChange: (JournalMoodColorScheme) -> Unit
 ) {
     Scaffold(
         topBar = { JournalMoodTopBar(entryTime, onBack) },
@@ -118,8 +118,8 @@ private fun JournalMoodBottomBar(
 
 @Composable
 private fun JournalMoodContent(
-    mood: JournalMood,
-    onMoodChange: (JournalMood) -> Unit,
+    mood: JournalMoodColorScheme,
+    onMoodChange: (JournalMoodColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -144,8 +144,8 @@ private fun JournalMoodContent(
 
 @Composable
 private fun JournalMoodSelectorRow(
-    mood: JournalMood,
-    onMoodChange: (JournalMood) -> Unit,
+    mood: JournalMoodColorScheme,
+    onMoodChange: (JournalMoodColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -171,7 +171,7 @@ private fun MoodLabelColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        JournalMood.entries.forEach {
+        JournalMoodColorScheme.entries.forEach {
             Text(
                 text = it.label,
                 style = MaterialTheme.typography.bodyLarge,
@@ -183,8 +183,8 @@ private fun MoodLabelColumn(
 
 @Composable
 private fun MoodSliderColumn(
-    mood: JournalMood,
-    onMoodChange: (JournalMood) -> Unit,
+    mood: JournalMoodColorScheme,
+    onMoodChange: (JournalMoodColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -194,9 +194,9 @@ private fun MoodSliderColumn(
         horizontalAlignment = Alignment.Start
     ) {
         LelloSliderVertical(
-            steps = JournalMood.entries.size,
-            currentStep = JournalMood.entries.indexOf(mood),
-            onStepSelected = { index -> onMoodChange(JournalMood.entries[index]) },
+            steps = JournalMoodColorScheme.entries.size,
+            currentStep = JournalMoodColorScheme.entries.indexOf(mood),
+            onStepSelected = { index -> onMoodChange(JournalMoodColorScheme.entries[index]) },
             enableStepDrag = true
         )
     }
@@ -212,7 +212,7 @@ private fun MoodIconColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        JournalMood.entries.forEach {
+        JournalMoodColorScheme.entries.forEach {
             Icon(
                 painter = painterResource(it.iconRes),
                 contentDescription = it.label,
@@ -233,7 +233,7 @@ private fun MoodIconColumn(
 fun JournalMoodScreenPreview() {
     LelloTheme {
         JournalMoodContainer(
-            mood = JournalMood.JOYFUL,
+            mood = JournalMoodColorScheme.JOYFUL,
             entryTime = "12:00",
             onBack = {},
             onNext = {},

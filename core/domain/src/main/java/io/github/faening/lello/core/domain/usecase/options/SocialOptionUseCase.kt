@@ -22,7 +22,7 @@ class SocialOptionUseCase @Inject constructor(
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Int): Flow<SocialOption>? {
+    fun getById(id: Long): Flow<SocialOption>? {
         id.validateId()
         return repository.getById(id)
     }
@@ -38,7 +38,7 @@ class SocialOptionUseCase @Inject constructor(
     suspend fun update(vararg items: SocialOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
         }
@@ -48,7 +48,7 @@ class SocialOptionUseCase @Inject constructor(
     suspend fun delete(vararg items: SocialOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
-            item.id?.validateId()
+            item.id.validateId()
         }
         items.forEach { item -> repository.delete(item) }
     }

@@ -11,7 +11,7 @@ class HealthOptionRepository @Inject constructor(
 
     override fun HealthOptionEntity.toModel(): HealthOption {
         return HealthOption(
-            id = this.id,
+            id = this.healthOptionId,
             description = this.description,
             blocked = this.blocked,
             active = this.active
@@ -20,7 +20,7 @@ class HealthOptionRepository @Inject constructor(
 
     override fun HealthOption.toEntity(): HealthOptionEntity {
         return HealthOptionEntity(
-            id = this.id ?: 0,
+            healthOptionId = this.id,
             description = this.description,
             blocked = this.blocked,
             active = this.active

@@ -4,13 +4,13 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class MoodJournalEntryWithOptions(
-    @Embedded val entry: MoodJournalEntryEntity,
+data class MoodJournalEntityWithOptions(
+    @Embedded val entry: MoodJournalEntity,
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = MoodJournalEntryEmotionOptionCrossRef::class,
+            value = MoodJournalEntityEmotionOptionEntityCrossRef::class,
             parentColumn = "entryId",
             entityColumn = "emotionOptionId"
         )
@@ -21,7 +21,7 @@ data class MoodJournalEntryWithOptions(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = MoodJournalEntryClimateOptionCrossRef::class,
+            value = MoodJournalEntityClimateOptionEntityCrossRef::class,
             parentColumn = "entryId",
             entityColumn = "climateOptionId"
         )
@@ -32,7 +32,7 @@ data class MoodJournalEntryWithOptions(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = MoodJournalEntryLocationOptionCrossRef::class,
+            value = MoodJournalEntityLocationOptionEntityCrossRef::class,
             parentColumn = "entryId",
             entityColumn = "locationOptionId"
         )
@@ -43,7 +43,7 @@ data class MoodJournalEntryWithOptions(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = MoodJournalEntrySocialOptionCrossRef::class,
+            value = MoodJournalEntitySocialOptionEntityCrossRef::class,
             parentColumn = "entryId",
             entityColumn = "socialOptionId"
         )
@@ -54,7 +54,7 @@ data class MoodJournalEntryWithOptions(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = MoodJournalEntryHealthOptionCrossRef::class,
+            value = MoodJournalEntityHealthOptionEntityCrossRef::class,
             parentColumn = "entryId",
             entityColumn = "healthOptionId"
         )

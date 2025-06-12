@@ -19,7 +19,7 @@ class JournalCategoryUseCase @Inject constructor(
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Int): Flow<JournalCategory>? {
+    fun getById(id: Long): Flow<JournalCategory>? {
         id.validateId()
         return repository.getById(id)
     }

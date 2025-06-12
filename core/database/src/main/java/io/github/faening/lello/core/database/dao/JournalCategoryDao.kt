@@ -52,5 +52,5 @@ interface JournalCategoryDao : JournalCategoryResources<JournalCategoryEntity> {
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<JournalCategoryEntity>?
+    override fun getById(id: Long): Flow<JournalCategoryEntity>?
 }
