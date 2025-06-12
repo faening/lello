@@ -52,7 +52,7 @@ internal object DaoModule {
     ) = database.sensationOptionDao()
 
     @Provides
-    fun provideSleepActivityDao(
+    fun provideSleepActivityOptionDao(
         database: LelloDatabase,
     ) = database.sleepActivityOptionDao()
 

@@ -35,7 +35,6 @@ internal object DatabaseSeeder {
         seedSensationOptions(db)
         seedSleepActivityOptions(db)
         seedSleepQualityOptions(db)
-        seedSleepActivityOptions(db)
         seedSocialOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
@@ -160,22 +159,6 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO sleep_quality_options (description, blocked, active)
-                        VALUES (?, ?, ?)
-                    """.trimIndent(),
-                bindArgs = arrayOf(
-                    item.description,
-                    if (item.blocked) 1 else 0,
-                    if (item.active) 1 else 0
-                )
-            )
-        }
-    }
-
-    fun seedSleepActivityOptions(db: SupportSQLiteDatabase) {
-        for (item in SleepActivityOptionSeed.data) {
-            db.execSQL(
-                sql = """
-                        INSERT INTO sleep_activity_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

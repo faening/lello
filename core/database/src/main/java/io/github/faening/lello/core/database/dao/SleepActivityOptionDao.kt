@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SleepActivityDao : OptionResources<SleepActivityOptionEntity> {
+interface SleepActivityOptionDao : OptionResources<SleepActivityOptionEntity> {
 
     @Transaction
     @Query(
