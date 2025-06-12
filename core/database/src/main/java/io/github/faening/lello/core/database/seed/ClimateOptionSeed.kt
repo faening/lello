@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.ClimateOptionEntity
+import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
 
 internal object ClimateOptionSeed : Seed<ClimateOptionEntity> {
     override val data = listOf(

@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.model
+package io.github.faening.lello.core.database.model.moodjournal
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

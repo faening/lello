@@ -1,12 +1,12 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.MoodJournalDao
-import io.github.faening.lello.core.database.model.MoodJournalEntityClimateOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.MoodJournalEntityEmotionOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.MoodJournalEntity
-import io.github.faening.lello.core.database.model.MoodJournalEntityHealthOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.MoodJournalEntityLocationOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.MoodJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityClimateOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityEmotionOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntity
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityHealthOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityLocationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.domain.repository.MoodJournalResources
 import io.github.faening.lello.core.model.journal.MoodJournal
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.FoodOptionEntity
+import io.github.faening.lello.core.database.model.option.FoodOptionEntity
 
 object FoodOptionSeed : Seed<FoodOptionEntity> {
     override val data = listOf(

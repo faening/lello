@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.EmotionOptionEntity
+import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
 
 internal object EmotionOptionSeed : Seed<EmotionOptionEntity> {
     override val data = listOf(

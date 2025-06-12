@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.LocationOptionEntity
+import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 
 object LocationOptionSeed : Seed<LocationOptionEntity> {
     override val data = listOf(

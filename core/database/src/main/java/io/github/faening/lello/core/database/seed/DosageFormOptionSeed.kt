@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.DosageFormOptionEntity
+import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
 
 object DosageFormOptionSeed : Seed<DosageFormOptionEntity> {
     override val data = listOf(

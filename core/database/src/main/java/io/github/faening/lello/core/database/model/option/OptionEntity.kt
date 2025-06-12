@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.model
+package io.github.faening.lello.core.database.model.option
 
 open class OptionEntity {
     open val description: String = ""

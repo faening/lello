@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.HealthOptionEntity
+import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 
 object HealthOptionSeed : Seed<HealthOptionEntity> {
     override val data = listOf(

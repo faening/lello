@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.SleepQualityOptionEntity
+import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 
 object SleepQualityOptionSeed : Seed<SleepQualityOptionEntity> {
     override val data = listOf(

@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.LocationOptionDao
-import io.github.faening.lello.core.database.model.LocationOptionEntity
+import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.model.journal.LocationOption
 import jakarta.inject.Inject
 
