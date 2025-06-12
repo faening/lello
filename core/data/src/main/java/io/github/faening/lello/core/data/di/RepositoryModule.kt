@@ -4,29 +4,53 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.data.repository.AppetiteOptionRepository
 import io.github.faening.lello.core.data.repository.ClimateOptionRepository
+import io.github.faening.lello.core.data.repository.DosageFormOptionRepository
 import io.github.faening.lello.core.data.repository.EmotionOptionRepository
+import io.github.faening.lello.core.data.repository.FoodOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
+import io.github.faening.lello.core.data.repository.MealOptionRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
+import io.github.faening.lello.core.data.repository.PortionOptionRepository
+import io.github.faening.lello.core.data.repository.SensationOptionRepository
+import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
+import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
+import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
+import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
+import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
+import io.github.faening.lello.core.database.dao.PortionOptionDao
+import io.github.faening.lello.core.database.dao.SensationOptionDao
+import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
+import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.MoodJournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.model.journal.AppetiteOption
 import io.github.faening.lello.core.model.journal.ClimateOption
+import io.github.faening.lello.core.model.journal.DosageFormOption
 import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.journal.FoodOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
-import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.journal.MealOption
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.PortionOption
+import io.github.faening.lello.core.model.journal.SensationOption
+import io.github.faening.lello.core.model.journal.SleepActivityOption
+import io.github.faening.lello.core.model.journal.SleepQualityOption
 import io.github.faening.lello.core.model.journal.SocialOption
 
 /**
@@ -64,6 +88,13 @@ object RepositoryModule {
     }
 
     @Provides
+    fun provideAppetiteOptionRepository(
+        dao: AppetiteOptionDao
+    ): OptionResources<AppetiteOption> {
+        return AppetiteOptionRepository(dao)
+    }
+
+    @Provides
     fun provideClimateOptionRepository(
         dao: ClimateOptionDao
     ): OptionResources<ClimateOption> {
@@ -71,10 +102,24 @@ object RepositoryModule {
     }
 
     @Provides
+    fun provideDosageFormOptionRepository(
+        dao: DosageFormOptionDao
+    ): OptionResources<DosageFormOption> {
+        return DosageFormOptionRepository(dao)
+    }
+
+    @Provides
     fun provideEmotionOptionRepository(
         dao: EmotionOptionDao
     ): OptionResources<EmotionOption> {
         return EmotionOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideFoodOptionRepository(
+        dao: FoodOptionDao
+    ): OptionResources<FoodOption> {
+        return FoodOptionRepository(dao)
     }
 
     @Provides
@@ -89,6 +134,41 @@ object RepositoryModule {
         dao: LocationOptionDao
     ) : OptionResources<LocationOption> {
         return LocationOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideMealOptionRepository(
+        dao: MealOptionDao
+    ): OptionResources<MealOption> {
+        return MealOptionRepository(dao)
+    }
+
+    @Provides
+    fun providePortionOptionRepository(
+        dao: PortionOptionDao
+    ): OptionResources<PortionOption> {
+        return PortionOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideSensationOptionRepository(
+        dao: SensationOptionDao
+    ): OptionResources<SensationOption> {
+        return SensationOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideSleepActivityOptionRepository(
+        dao: SleepActivityOptionDao
+    ): OptionResources<SleepActivityOption> {
+        return SleepActivityOptionRepository(dao)
+    }
+
+    @Provides
+    fun provideSleepQualityOptionRepository(
+        dao: SleepQualityOptionDao
+    ): OptionResources<SleepQualityOption> {
+        return SleepQualityOptionRepository(dao)
     }
 
     @Provides
