@@ -11,6 +11,11 @@ import io.github.faening.lello.core.database.LelloDatabase
 internal object DaoModule {
 
     @Provides
+    fun provideMoodJournalDao(
+        database: LelloDatabase,
+    ) = database.moodJournalEntryDao()
+
+    @Provides
     fun provideJournalCategoryDao(
         database: LelloDatabase,
     ) = database.journalCategoryDao()
@@ -39,9 +44,4 @@ internal object DaoModule {
     fun provideSocialOptionDao(
         database: LelloDatabase,
     ) = database.socialOptionDao()
-
-    @Provides
-    fun provideMoodJournalDao(
-        database: LelloDatabase,
-    ) = database.moodJournalEntryDao()
 }

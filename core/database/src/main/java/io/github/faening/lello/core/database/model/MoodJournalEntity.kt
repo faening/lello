@@ -7,7 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "mood_journals")
 data class MoodJournalEntity(
-    @PrimaryKey(autoGenerate = true) val moodJournalId: Long = 0L,
+    @PrimaryKey(autoGenerate = true) val moodJournalId: Long,
     val date: Date,
     val mood: MoodType,
     val reflection: String? = null

@@ -1,8 +1,11 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import io.github.faening.lello.core.database.model.MoodJournalEntity
 import io.github.faening.lello.core.database.model.MoodJournalEntityClimateOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.MoodJournalEntityEmotionOptionEntityCrossRef
@@ -13,6 +16,20 @@ import io.github.faening.lello.core.domain.repository.JournalMoodResources
 
 @Dao
 interface MoodJournalDao : JournalMoodResources<MoodJournalEntity> {
+
+    @Transaction
+    @Query("SELECT * FROM mood_journals ORDER BY date DESC")
+    override suspend fun getAll(): List<MoodJournalEntity>
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM mood_journals
+            WHERE moodJournalId = :id
+            LIMIT 1
+        """
+    )
+    override suspend fun getById(id: Long): MoodJournalEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: MoodJournalEntity): Long
@@ -33,13 +50,6 @@ interface MoodJournalDao : JournalMoodResources<MoodJournalEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHealthRefs(refs: List<MoodJournalEntityHealthOptionEntityCrossRef>)
 
-//    // Consulta uma entrada completa por id
-//    @Transaction
-//    @Query("SELECT * FROM mood_journal_entries WHERE id = :entryId")
-//    suspend fun getEntryWithOptions(entryId: Int): MoodJournalEntityWithOptions?
-//
-//    // Consulta todas as entradas completas
-//    @Transaction
-//    @Query("SELECT * FROM mood_journal_entries ORDER BY date DESC")
-//    suspend fun getAllEntriesWithOptions(): List<MoodJournalEntityWithOptions>
+    @Delete
+    override suspend fun delete(id: MoodJournalEntity)
 }

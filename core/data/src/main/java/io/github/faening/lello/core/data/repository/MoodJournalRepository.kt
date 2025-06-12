@@ -17,9 +17,10 @@ class MoodJournalRepository @Inject constructor(
     override suspend fun insert(entry: JournalMood) : Long {
         val moodJournalId = dao.insert(
             MoodJournalEntity(
+                moodJournalId = 0L,
                 date = entry.date,
                 mood = entry.mood,
-                reflection = entry.reflection
+                reflection = entry.reflection ?: "",
             )
         )
 
@@ -70,11 +71,11 @@ class MoodJournalRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getById(id: Int): JournalMood? {
+    override suspend fun getById(id: Long): JournalMood? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: Int) {
+    override suspend fun delete(id: JournalMood) {
         TODO("Not yet implemented")
     }
 }
