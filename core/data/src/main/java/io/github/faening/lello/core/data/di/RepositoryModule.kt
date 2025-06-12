@@ -9,7 +9,7 @@ import io.github.faening.lello.core.data.repository.EmotionOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
-import io.github.faening.lello.core.data.repository.MoodJournalRepository
+import io.github.faening.lello.core.data.repository.JournalMoodRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
@@ -50,10 +50,10 @@ import io.github.faening.lello.core.model.journal.SocialOption
 object RepositoryModule {
 
     @Provides
-    fun provideMoodJournalRepository(
+    fun provideJournalMoodRepository(
         dao: MoodJournalDao
     ): JournalMoodResources<JournalMood> {
-        return MoodJournalRepository(dao)
+        return JournalMoodRepository(dao)
     }
 
     @Provides

@@ -11,9 +11,10 @@ import io.github.faening.lello.core.domain.repository.JournalMoodResources
 import io.github.faening.lello.core.model.journal.JournalMood
 import javax.inject.Inject
 
-class MoodJournalRepository @Inject constructor(
+class JournalMoodRepository @Inject constructor(
     private val dao: MoodJournalDao
 ) : JournalMoodResources<JournalMood> {
+
     override suspend fun insert(entry: JournalMood) : Long {
         val moodJournalId = dao.insert(
             MoodJournalEntity(
