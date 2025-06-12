@@ -7,6 +7,7 @@ import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
+import io.github.faening.lello.core.database.seed.SensationOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
@@ -29,6 +30,7 @@ internal object DatabaseSeeder {
         seedEmotionOptions(db)
         seedHealthOptions(db)
         seedLocationOptions(db)
+        seedSensationOptions(db)
         seedSocialOptions(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
@@ -105,6 +107,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO location_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSensationOptions(db: SupportSQLiteDatabase) {
+        for (item in SensationOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sensation_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

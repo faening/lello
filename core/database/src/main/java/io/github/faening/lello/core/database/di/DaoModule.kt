@@ -10,6 +10,8 @@ import io.github.faening.lello.core.database.LelloDatabase
 @InstallIn(SingletonComponent::class)
 internal object DaoModule {
 
+    // region: Journals
+
     @Provides
     fun provideMoodJournalDao(
         database: LelloDatabase,
@@ -19,6 +21,10 @@ internal object DaoModule {
     fun provideJournalCategoryDao(
         database: LelloDatabase,
     ) = database.journalCategoryDao()
+
+    // endregion
+
+    // region: Options
 
     @Provides
     fun provideClimateDao(
@@ -41,7 +47,14 @@ internal object DaoModule {
     ) = database.locationOptionDao()
 
     @Provides
+    fun provideSensationOptionDao(
+        database: LelloDatabase,
+    ) = database.sensationOptionDao()
+
+    @Provides
     fun provideSocialOptionDao(
         database: LelloDatabase,
     ) = database.socialOptionDao()
+
+    // endregion
 }
