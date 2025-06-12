@@ -234,7 +234,7 @@ fun JournalMoodScreenPreview() {
     LelloTheme {
         JournalMoodContainer(
             mood = JournalMoodColorScheme.JOYFUL,
-            entryTime = "12:00",
+            entryTime = "09:41",
             onBack = {},
             onNext = {},
             onMoodChange = {}

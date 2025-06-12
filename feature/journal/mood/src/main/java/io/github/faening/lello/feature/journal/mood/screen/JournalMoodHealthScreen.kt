@@ -157,7 +157,7 @@ private fun JournalMoodHealthContent(
 private fun JournalMoodStepOneScreenPreview() {
     LelloTheme {
         JournalMoodHealthContainer(
-            entryTime = "12:41",
+            entryTime = "09:41",
             healthOptions = HealthOptionMock.list,
             onHealthOptionToggle = { _ -> },
             onOpenHealthOptionSettings = {},

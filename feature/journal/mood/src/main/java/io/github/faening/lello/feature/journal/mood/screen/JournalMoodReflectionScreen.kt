@@ -131,7 +131,7 @@ private fun JournalMoodReflectionContent(
 private fun JournalMoodStepOneScreenPreview() {
     LelloTheme {
         JournalMoodReflectionContainer(
-            entryTime = "12:41",
+            entryTime = "09:41",
             reflection = "",
             onValueChange = {},
             onBack = {},

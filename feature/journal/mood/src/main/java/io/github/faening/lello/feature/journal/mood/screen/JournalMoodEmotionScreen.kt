@@ -162,7 +162,7 @@ private fun JournalMoodEmotionContent(
 private fun JournalMoodStepOneScreenPreview() {
     LelloTheme {
         JournalMoodEmotionContainer(
-            entryTime = "12:41",
+            entryTime = "09:41",
             emotionOptions = EmotionOptionMock.list,
             onEmotionOptionToggle = { _ -> },
             onOpenEmotionOptionSettings = {},
