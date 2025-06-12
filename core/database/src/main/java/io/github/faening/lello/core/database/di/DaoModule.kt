@@ -5,7 +5,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.database.LelloDatabase
-import io.github.faening.lello.core.database.dao.SleepActivityDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,6 +55,11 @@ internal object DaoModule {
     fun provideSleepActivityDao(
         database: LelloDatabase,
     ) = database.sleepActivityOptionDao()
+
+    @Provides
+    fun provideSleepQualityOptionDao(
+        database: LelloDatabase,
+    ) = database.sleepQualityOptionDao()
 
     @Provides
     fun provideSocialOptionDao(
