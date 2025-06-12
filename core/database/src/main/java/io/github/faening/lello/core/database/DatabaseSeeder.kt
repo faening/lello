@@ -2,15 +2,16 @@ package io.github.faening.lello.core.database
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
+import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.SensationOptionSeed
+import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
-import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 
 /**
  * Classe responsável por centralizar a população de dados iniciais no banco de dados.
@@ -28,6 +29,7 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Iniciando processo de seed do banco de dados")
 
         seedJournalCategory(db)
+        seedAppetiteOptions(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
         seedHealthOptions(db)
@@ -40,10 +42,10 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-    fun seedJournalCategory(db: SupportSQLiteDatabase) {
-        for (item in JournalCategorySeed.data) {
-            db.execSQL(
-                sql = """
+fun seedJournalCategory(db: SupportSQLiteDatabase) {
+    for (item in JournalCategorySeed.data) {
+        db.execSQL(
+            sql = """
                         INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
@@ -51,6 +53,22 @@ internal object DatabaseSeeder {
                     item.name,
                     item.shortDescription,
                     item.longDescription,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+        )
+    }
+}
+
+    fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
+        for (item in AppetiteOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO appetite_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
                 )
