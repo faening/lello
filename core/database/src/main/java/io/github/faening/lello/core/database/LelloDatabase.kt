@@ -40,6 +40,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         HealthOptionEntity::class,
         LocationOptionEntity::class,
         SensationOptionEntity::class,
+        SleepActivityOptionEntity::class,
         SleepQualityOptionEntity::class,
         SleepActivityOptionEntity::class,
         SocialOptionEntity::class,
@@ -70,6 +71,7 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun healthOptionDao(): HealthOptionDao
     abstract fun locationOptionDao() : LocationOptionDao
     abstract fun sensationOptionDao() : SensationOptionDao
+    abstract fun sleepActivityOptionDao() : SleepActivityDao
     abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
     abstract fun sleepActivityOptionDao() : SleepActivityDao
     abstract fun socialOptionDao() : SocialOptionDao
