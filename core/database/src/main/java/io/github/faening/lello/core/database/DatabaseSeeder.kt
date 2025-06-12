@@ -5,6 +5,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
+import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
@@ -33,6 +34,7 @@ internal object DatabaseSeeder {
         seedAppetiteOptions(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
+        seedFoodOptions(db)
         seedHealthOptions(db)
         seedLocationOptions(db)
         seedMealOptions(db)
@@ -99,6 +101,22 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
             db.execSQL(
                 sql = """
                         INSERT INTO emotion_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedFoodOptions(db: SupportSQLiteDatabase) {
+        for (item in FoodOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO food_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
