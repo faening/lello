@@ -9,22 +9,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionScreen
-import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateScreen
-import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationScreen
-import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialScreen
-import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthScreen
 import io.github.faening.lello.feature.journal.settings.screen.appetite.JournalSettingsAppetiteOptionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.appetite.JournalSettingsAppetiteOptionScreen
+import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.climate.JournalSettingsClimateScreen
 import io.github.faening.lello.feature.journal.settings.screen.dosageform.JournalSettingsDosageFormOptionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.dosageform.JournalSettingsDosageFormOptionScreen
+import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.emotion.JournalSettingsEmotionScreen
 import io.github.faening.lello.feature.journal.settings.screen.food.JournalSettingsFoodOptionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.food.JournalSettingsFoodOptionScreen
+import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.health.JournalSettingsHealthScreen
+import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.location.JournalSettingsLocationScreen
 import io.github.faening.lello.feature.journal.settings.screen.meal.JournalSettingsMealOptionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.meal.JournalSettingsMealOptionScreen
 import io.github.faening.lello.feature.journal.settings.screen.portion.JournalSettingsPortionOptionRegisterScreen
@@ -35,6 +33,8 @@ import io.github.faening.lello.feature.journal.settings.screen.sleepactivity.Jou
 import io.github.faening.lello.feature.journal.settings.screen.sleepactivity.JournalSettingsSleepActivityOptionScreen
 import io.github.faening.lello.feature.journal.settings.screen.sleepquality.JournalSettingsSleepQualityOptionRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.sleepquality.JournalSettingsSleepQualityOptionScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.social.JournalSettingsSocialScreen
 
 object JournalSettingsDestinations {
     const val GRAPH = "journal_settings_graph"
@@ -45,31 +45,23 @@ object JournalSettingsDestinations {
     const val LOCATION_SETTINGS = "journal_settings_location/{colorScheme}"
     const val LOCATION_REGISTER = "journal_settings_location_register"
     const val SOCIAL_SETTINGS = "journal_settings_social/{colorScheme}"
-    const val SOCIAl_REGISTER = "journal_settings_social_register"
+    const val SOCIAL_REGISTER = "journal_settings_social_register"
     const val HEALTH_SETTINGS = "journal_settings_health/{colorScheme}"
     const val HEALTH_REGISTER = "journal_settings_health_register"
-
     const val APPETITE_SETTINGS = "journal_settings_appetite/{colorScheme}"
     const val APPETITE_REGISTER = "journal_settings_appetite_register"
-
     const val DOSAGE_FORM_SETTINGS = "journal_settings_dosageform/{colorScheme}"
     const val DOSAGE_FORM_REGISTER = "journal_settings_dosageform_register"
-
     const val FOOD_SETTINGS = "journal_settings_food/{colorScheme}"
     const val FOOD_REGISTER = "journal_settings_food_register"
-
     const val MEAL_SETTINGS = "journal_settings_meal/{colorScheme}"
     const val MEAL_REGISTER = "journal_settings_meal_register"
-
     const val PORTION_SETTINGS = "journal_settings_portion/{colorScheme}"
     const val PORTION_REGISTER = "journal_settings_portion_register"
-
     const val SENSATION_SETTINGS = "journal_settings_sensation/{colorScheme}"
     const val SENSATION_REGISTER = "journal_settings_sensation_register"
-
     const val SLEEP_ACTIVITY_SETTINGS = "journal_settings_sleepactivity/{colorScheme}"
     const val SLEEP_ACTIVITY_REGISTER = "journal_settings_sleepactivity_register"
-
     const val SLEEP_QUALITY_SETTINGS = "journal_settings_sleepquality/{colorScheme}"
     const val SLEEP_QUALITY_REGISTER = "journal_settings_sleepquality_register"
 }
@@ -159,11 +151,11 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
                 viewModel = viewModel,
                 colorScheme = colorScheme,
                 onBack = { navController.popBackStack() },
-                onRegister = { navController.navigate(JournalSettingsDestinations.SOCIAl_REGISTER) }
+                onRegister = { navController.navigate(JournalSettingsDestinations.SOCIAL_REGISTER) }
             )
         }
 
-        composable(JournalSettingsDestinations.SOCIAl_REGISTER) { backStackEntry ->
+        composable(JournalSettingsDestinations.SOCIAL_REGISTER) { backStackEntry ->
             val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
             JournalSettingsSocialRegisterScreen(
                 viewModel = viewModel,
@@ -377,8 +369,6 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
             )
         }
-
-
     }
 }
 
