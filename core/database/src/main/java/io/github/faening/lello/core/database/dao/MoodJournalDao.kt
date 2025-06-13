@@ -12,6 +12,7 @@ import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntity
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityWithOptions
 import io.github.faening.lello.core.domain.repository.MoodJournalResources
 
 @Dao
@@ -30,6 +31,16 @@ interface MoodJournalDao : MoodJournalResources<MoodJournalEntity> {
         """
     )
     override suspend fun getById(id: Long): MoodJournalEntity?
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM mood_journals
+            WHERE moodJournalId = :id
+            LIMIT 1
+        """
+    )
+    suspend fun getByIdWithOptions(id: Long): MoodJournalEntityWithOptions?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: MoodJournalEntity): Long

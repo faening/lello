@@ -3,11 +3,8 @@ package io.github.faening.lello.core.database.model.moodjournal
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
-import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
-import io.github.faening.lello.core.database.model.option.HealthOptionEntity
-import io.github.faening.lello.core.database.model.option.LocationOptionEntity
-import io.github.faening.lello.core.database.model.option.SocialOptionEntity
+import io.github.faening.lello.core.database.model.option.*
+import io.github.faening.lello.core.model.journal.MoodJournal
 
 data class MoodJournalEntityWithOptions(
     @Embedded val entry: MoodJournalEntity,
@@ -65,4 +62,16 @@ data class MoodJournalEntityWithOptions(
         )
     )
     val healthOptions: List<HealthOptionEntity>
+)
+
+fun MoodJournalEntityWithOptions.toModel() = MoodJournal(
+    id = entry.moodJournalId,
+    date = entry.date,
+    mood = entry.mood,
+    reflection = entry.reflection,
+    emotionOptions = emotionOptions.map { it.toModel() },
+    climateOptions = climateOptions.map { it.toModel() },
+    locationOptions = locationOptions.map { it.toModel() },
+    socialOptions = socialOptions.map { it.toModel() },
+    healthOptions = healthOptions.map { it.toModel() }
 )
