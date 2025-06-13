@@ -45,6 +45,16 @@ class PortionOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Updates only the active state of the portion options.
+     */
+    suspend fun updateActiveStatus(vararg items: PortionOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: PortionOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

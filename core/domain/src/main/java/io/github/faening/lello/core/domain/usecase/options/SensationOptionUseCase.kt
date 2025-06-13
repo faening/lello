@@ -45,6 +45,16 @@ class SensationOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update only the active flag of provided sensation options.
+     */
+    suspend fun updateActiveStatus(vararg items: SensationOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: SensationOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

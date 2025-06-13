@@ -45,6 +45,16 @@ class MealOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update only the active property of the provided meal options.
+     */
+    suspend fun updateActiveStatus(vararg items: MealOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: MealOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

@@ -229,20 +229,61 @@ class JournalSettingsViewModel @Inject constructor(
     }
 
     fun toggleOption(type: JournalOptionType, option: JournalOption, active: Boolean) {
-        when (type) {
-            JournalOptionType.EMOTION -> toggleEmotionOption(option as EmotionOption, active)
-            JournalOptionType.CLIMATE -> toggleClimateOption(option as ClimateOption, active)
-            JournalOptionType.LOCATION -> toggleLocationOption(option as LocationOption, active)
-            JournalOptionType.SOCIAL -> toggleSocialOption(option as SocialOption, active)
-            JournalOptionType.HEALTH -> toggleHealthOption(option as HealthOption, active)
-            JournalOptionType.APPETITE -> toggleAppetiteOption(option as AppetiteOption, active)
-            JournalOptionType.DOSAGE_FORM -> toggleDosageFormOption(option as DosageFormOption, active)
-            JournalOptionType.FOOD -> toggleFoodOption(option as FoodOption, active)
-            JournalOptionType.MEAL -> toggleMealOption(option as MealOption, active)
-            JournalOptionType.PORTION -> togglePortionOption(option as PortionOption, active)
-            JournalOptionType.SENSATION -> toggleSensationOption(option as SensationOption, active)
-            JournalOptionType.SLEEP_ACTIVITY -> toggleSleepActivityOption(option as SleepActivityOption, active)
-            JournalOptionType.SLEEP_QUALITY -> toggleSleepQualityOption(option as SleepQualityOption, active)
+        viewModelScope.launch {
+            when (type) {
+                JournalOptionType.EMOTION -> {
+                    emotionOptionUseCase.updateActiveStatus((option as EmotionOption).copy(active = active))
+                    toggleEmotionOption(option, active)
+                }
+                JournalOptionType.CLIMATE -> {
+                    climateOptionUseCase.updateActiveStatus((option as ClimateOption).copy(active = active))
+                    toggleClimateOption(option, active)
+                }
+                JournalOptionType.LOCATION -> {
+                    locationOptionUseCase.updateActiveStatus((option as LocationOption).copy(active = active))
+                    toggleLocationOption(option, active)
+                }
+                JournalOptionType.SOCIAL -> {
+                    socialOptionUseCase.updateActiveStatus((option as SocialOption).copy(active = active))
+                    toggleSocialOption(option, active)
+                }
+                JournalOptionType.HEALTH -> {
+                    healthOptionUseCase.updateActiveStatus((option as HealthOption).copy(active = active))
+                    toggleHealthOption(option, active)
+                }
+                JournalOptionType.APPETITE -> {
+                    appetiteOptionUseCase.updateActiveStatus((option as AppetiteOption).copy(active = active))
+                    toggleAppetiteOption(option, active)
+                }
+                JournalOptionType.DOSAGE_FORM -> {
+                    dosageFormOptionUseCase.updateActiveStatus((option as DosageFormOption).copy(active = active))
+                    toggleDosageFormOption(option, active)
+                }
+                JournalOptionType.FOOD -> {
+                    foodOptionUseCase.updateActiveStatus((option as FoodOption).copy(active = active))
+                    toggleFoodOption(option, active)
+                }
+                JournalOptionType.MEAL -> {
+                    mealOptionUseCase.updateActiveStatus((option as MealOption).copy(active = active))
+                    toggleMealOption(option, active)
+                }
+                JournalOptionType.PORTION -> {
+                    portionOptionUseCase.updateActiveStatus((option as PortionOption).copy(active = active))
+                    togglePortionOption(option, active)
+                }
+                JournalOptionType.SENSATION -> {
+                    sensationOptionUseCase.updateActiveStatus((option as SensationOption).copy(active = active))
+                    toggleSensationOption(option, active)
+                }
+                JournalOptionType.SLEEP_ACTIVITY -> {
+                    sleepActivityOptionUseCase.updateActiveStatus((option as SleepActivityOption).copy(active = active))
+                    toggleSleepActivityOption(option, active)
+                }
+                JournalOptionType.SLEEP_QUALITY -> {
+                    sleepQualityOptionUseCase.updateActiveStatus((option as SleepQualityOption).copy(active = active))
+                    toggleSleepQualityOption(option, active)
+                }
+            }
         }
     }
 
