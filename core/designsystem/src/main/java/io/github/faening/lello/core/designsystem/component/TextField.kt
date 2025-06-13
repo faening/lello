@@ -3,8 +3,10 @@ package io.github.faening.lello.core.designsystem.component
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,7 @@ fun LelloTextField(
     maxLength: Int = 40,
     enabled: Boolean = true,
     singleLine: Boolean = true,
+    showCounter: Boolean = false,
 ) {
     Column(modifier = modifier) {
         if (!label.isNullOrBlank()) {
@@ -40,12 +43,11 @@ fun LelloTextField(
                 fontWeight = FontWeight.ExtraBold,
             )
         }
-
         Box(
             modifier = Modifier
                 .padding(bottom = Dimension.Small, end = Dimension.Small)
         ) {
-            // Fake Shadow
+            // Sombra fake para manter padrão do Lello
             Box(
                 modifier = Modifier
                     .matchParentSize()
@@ -55,7 +57,6 @@ fun LelloTextField(
                         shape = RoundedCornerShape(Dimension.Small)
                     )
             )
-
             OutlinedTextField(
                 value = value,
                 onValueChange = { if (it.length <= maxLength) onValueChange(it) },
@@ -74,11 +75,24 @@ fun LelloTextField(
                 shape = RoundedCornerShape(Dimension.Small),
                 singleLine = singleLine,
                 enabled = enabled,
-                textStyle = MaterialTheme.typography.bodyLarge
+                textStyle = MaterialTheme.typography.bodyLarge,
             )
+        }
+        if (showCounter) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "${value.length}/$maxLength",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
         }
     }
 }
+
 
 @Preview(
     name = "Light",
