@@ -10,15 +10,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodReflectionScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodSummaryScreen
+import io.github.faening.lello.feature.journal.mood.screen.MoodJournalDetailsScreen
+import io.github.faening.lello.feature.journal.mood.screen.MoodJournalEmotionScreen
+import io.github.faening.lello.feature.journal.mood.screen.MoodJournalReflectionScreen
+import io.github.faening.lello.feature.journal.mood.screen.MoodJournalScreen
+import io.github.faening.lello.feature.journal.mood.screen.MoodJournalSummaryScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
-object JournalMoodDestinations {
+object MoodJournalDestinations {
     const val GRAPH = "journal_mood_graph"
     const val HOME = "journal_mood_home"
     const val EMOTION = "journal_mood_emotion"
@@ -27,31 +27,31 @@ object JournalMoodDestinations {
     const val SUMMARY = "journal_mood_summary"
 }
 
-fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
+fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
     navigation(
-        startDestination = JournalMoodDestinations.HOME,
-        route = JournalMoodDestinations.GRAPH
+        startDestination = MoodJournalDestinations.HOME,
+        route = MoodJournalDestinations.GRAPH
     ) {
         // Step 1: Home screen to start the mood journal.
-        composable(JournalMoodDestinations.HOME) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            JournalMoodScreen(
+        composable(MoodJournalDestinations.HOME) { backStackEntry ->
+            val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
+            MoodJournalScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.EMOTION) }
+                onNext = { navController.navigate(MoodJournalDestinations.EMOTION) }
             )
         }
 
         // Step 2: Select an emotion to describe the user's mood.
-        composable(JournalMoodDestinations.EMOTION) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+        composable(MoodJournalDestinations.EMOTION) { backStackEntry ->
+            val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
             val mood by viewModel.currentMood.collectAsState()
 
-            JournalMoodEmotionScreen(
+            MoodJournalEmotionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.DETAILS) },
-                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
+                onNext = { navController.navigate(MoodJournalDestinations.DETAILS) },
+                onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenEmotionOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.listRoute(
@@ -64,15 +64,15 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
         }
 
         // Step 3: Additional details about the user's mood.
-        composable(JournalMoodDestinations.DETAILS) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
+        composable(MoodJournalDestinations.DETAILS) { backStackEntry ->
+            val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
             val mood by viewModel.currentMood.collectAsState()
 
-            JournalMoodDetailsScreen(
+            MoodJournalDetailsScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.REFLECTION) },
-                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
+                onNext = { navController.navigate(MoodJournalDestinations.REFLECTION) },
+                onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenHealthOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.listRoute(
@@ -109,33 +109,33 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
         }
 
         // Step 4: Reflection screen for the user to write about their day.
-        composable(JournalMoodDestinations.REFLECTION) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            JournalMoodReflectionScreen(
+        composable(MoodJournalDestinations.REFLECTION) { backStackEntry ->
+            val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
+            MoodJournalReflectionScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) }
+                onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) }
             )
         }
 
         // Step 5: Summary screen after completing the mood journal.
-        composable(JournalMoodDestinations.SUMMARY) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            JournalMoodSummaryScreen(
+        composable(MoodJournalDestinations.SUMMARY) { backStackEntry ->
+            val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
+            MoodJournalSummaryScreen(
                 viewModel = viewModel,
-                onExit = { navController.popBackStack(JournalMoodDestinations.GRAPH, inclusive = true) }
+                onExit = { navController.popBackStack(MoodJournalDestinations.GRAPH, inclusive = true) }
             )
         }
     }
 }
 
 @Composable
-fun sharedJournalMoodViewModel(
+fun sharedMoodJournalViewModel(
     navController: NavHostController,
     backStackEntry: NavBackStackEntry
-): JournalMoodViewModel {
+): MoodJournalViewModel {
     val parentEntry = remember(backStackEntry) {
-        navController.getBackStackEntry(JournalMoodDestinations.GRAPH)
+        navController.getBackStackEntry(MoodJournalDestinations.GRAPH)
     }
     return hiltViewModel(parentEntry)
 }

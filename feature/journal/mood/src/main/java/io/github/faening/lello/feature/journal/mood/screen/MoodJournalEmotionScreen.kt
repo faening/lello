@@ -30,12 +30,12 @@ import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.journal.EmotionOption
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
+import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
-internal fun JournalMoodEmotionScreen(
-    viewModel: JournalMoodViewModel,
+internal fun MoodJournalEmotionScreen(
+    viewModel: MoodJournalViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
@@ -46,7 +46,7 @@ internal fun JournalMoodEmotionScreen(
     val emotionOptions by viewModel.emotionOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodEmotionContainer(
+        MoodJournalEmotionContainer(
             entryTime = entryTime,
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = viewModel::toggleEmotionSelection,
@@ -59,7 +59,7 @@ internal fun JournalMoodEmotionScreen(
 }
 
 @Composable
-private fun JournalMoodEmotionContainer(
+private fun MoodJournalEmotionContainer(
     entryTime: String,
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
@@ -71,10 +71,10 @@ private fun JournalMoodEmotionContainer(
     val anySelected = emotionOptions.any { it.selected }
 
     Scaffold(
-        topBar = { JournalMoodEmotionTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodEmotionBottomBar(anySelected, onNext, onFinish) }
+        topBar = { MoodJournalEmotionTopBar(entryTime, onBack) },
+        bottomBar = { MoodJournalEmotionBottomBar(anySelected, onNext, onFinish) }
     ) { paddingValues ->
-        JournalMoodEmotionContent(
+        MoodJournalEmotionContent(
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = onEmotionOptionToggle,
             onOpenEmotionSettings = onOpenEmotionOptionSettings,
@@ -84,7 +84,7 @@ private fun JournalMoodEmotionContainer(
 }
 
 @Composable
-private fun JournalMoodEmotionTopBar(
+private fun MoodJournalEmotionTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -95,7 +95,7 @@ private fun JournalMoodEmotionTopBar(
 }
 
 @Composable
-private fun JournalMoodEmotionBottomBar(
+private fun MoodJournalEmotionBottomBar(
     enabled: Boolean,
     onNext: () -> Unit,
     onFinish: () -> Unit,
@@ -124,7 +124,7 @@ private fun JournalMoodEmotionBottomBar(
 }
 
 @Composable
-private fun JournalMoodEmotionContent(
+private fun MoodJournalEmotionContent(
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
@@ -159,9 +159,9 @@ private fun JournalMoodEmotionContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun JournalMoodStepOneScreenPreview() {
+private fun MoodJournalEmotionScreenPreview() {
     LelloTheme {
-        JournalMoodEmotionContainer(
+        MoodJournalEmotionContainer(
             entryTime = "09:41",
             emotionOptions = EmotionOptionMock.list,
             onEmotionOptionToggle = { _ -> },

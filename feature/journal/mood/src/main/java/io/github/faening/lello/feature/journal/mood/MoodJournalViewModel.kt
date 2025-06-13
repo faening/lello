@@ -16,7 +16,7 @@ import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
+import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +31,7 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class JournalMoodViewModel @Inject constructor(
+class MoodJournalViewModel @Inject constructor(
     private val journalMoodUseCase: JournalMoodUseCase,
     emotionOptionUseCase: EmotionOptionUseCase,
     climateOptionUseCase: ClimateOptionUseCase,
@@ -40,8 +40,8 @@ class JournalMoodViewModel @Inject constructor(
     healthOptionUseCase: HealthOptionUseCase
 ) : ViewModel() {
 
-    private val _currentMood = MutableStateFlow(JournalMoodColorScheme.JOYFUL)
-    val currentMood: StateFlow<JournalMoodColorScheme> = _currentMood
+    private val _currentMood = MutableStateFlow(MoodJournalColorScheme.JOYFUL)
+    val currentMood: StateFlow<MoodJournalColorScheme> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryDateTime: StateFlow<String> = _entryDateTime
@@ -99,7 +99,7 @@ class JournalMoodViewModel @Inject constructor(
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
-    fun updateMood(mood: JournalMoodColorScheme) {
+    fun updateMood(mood: MoodJournalColorScheme) {
         _currentMood.value = mood
     }
 
@@ -157,12 +157,12 @@ class JournalMoodViewModel @Inject constructor(
         _reflection.value = text
     }
 
-    private fun JournalMoodColorScheme.toMoodType(): MoodType = when (this) {
-        JournalMoodColorScheme.SERENE -> MoodType.SERENE
-        JournalMoodColorScheme.JOYFUL -> MoodType.JOYFUL
-        JournalMoodColorScheme.BALANCED -> MoodType.BALANCED
-        JournalMoodColorScheme.TROUBLED -> MoodType.TROUBLED
-        JournalMoodColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
+    private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {
+        MoodJournalColorScheme.SERENE -> MoodType.SERENE
+        MoodJournalColorScheme.JOYFUL -> MoodType.JOYFUL
+        MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
+        MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
+        MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
     }
 
     private fun buildMoodJournal(): MoodJournal {
