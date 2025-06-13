@@ -70,7 +70,8 @@ internal object DaoModule {
     fun providePortionOptionDao(
         database: LelloDatabase,
     ) = database.portionOptionDao()
-    
+
+    @Provides
     fun provideSensationOptionDao(
         database: LelloDatabase,
     ) = database.sensationOptionDao()

@@ -45,10 +45,10 @@ interface MealOptionDao : OptionResources<MealOptionEntity> {
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<MealOptionEntity>
+    override fun getById(id: Long): Flow<MealOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: MealOptionEntity)
+    override suspend fun insert(item: MealOptionEntity) : Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: MealOptionEntity)
