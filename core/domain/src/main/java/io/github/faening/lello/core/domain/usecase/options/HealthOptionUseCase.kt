@@ -45,6 +45,16 @@ class HealthOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Only updates the `active` status of the given options.
+     */
+    suspend fun updateActiveStatus(vararg items: HealthOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: HealthOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

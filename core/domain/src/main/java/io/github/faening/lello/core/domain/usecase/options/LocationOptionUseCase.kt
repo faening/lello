@@ -45,6 +45,16 @@ class LocationOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update the active status of the given location options.
+     */
+    suspend fun updateActiveStatus(vararg items: LocationOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: LocationOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

@@ -45,6 +45,17 @@ class EmotionOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Updates only the `active` status of the given options. It just checks if
+     * the ids are valid and persists the received items.
+     */
+    suspend fun updateActiveStatus(vararg items: EmotionOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: EmotionOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
