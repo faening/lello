@@ -38,13 +38,13 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
-import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
+import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
+import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
-internal fun JournalMoodScreen(
-    viewModel: JournalMoodViewModel,
+internal fun MoodJournalScreen(
+    viewModel: MoodJournalViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
@@ -56,7 +56,7 @@ internal fun JournalMoodScreen(
     }
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodContainer(
+        MoodJournalContainer(
             mood = mood,
             entryTime = entryTime,
             onBack = onBack,
@@ -67,18 +67,18 @@ internal fun JournalMoodScreen(
 }
 
 @Composable
-private fun JournalMoodContainer(
-    mood: JournalMoodColorScheme,
+private fun MoodJournalContainer(
+    mood: MoodJournalColorScheme,
     entryTime: String,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onMoodChange: (JournalMoodColorScheme) -> Unit
+    onMoodChange: (MoodJournalColorScheme) -> Unit
 ) {
     Scaffold(
-        topBar = { JournalMoodTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodBottomBar(onNext) }
+        topBar = { MoodJournalTopBar(entryTime, onBack) },
+        bottomBar = { MoodJournalBottomBar(onNext) }
     ) { paddingValues ->
-        JournalMoodContent(
+        MoodJournalContent(
             mood = mood,
             onMoodChange = onMoodChange,
             modifier = Modifier.padding(paddingValues)
@@ -88,7 +88,7 @@ private fun JournalMoodContainer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun JournalMoodTopBar(
+private fun MoodJournalTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -99,7 +99,7 @@ private fun JournalMoodTopBar(
 }
 
 @Composable
-private fun JournalMoodBottomBar(
+private fun MoodJournalBottomBar(
     onNext: () -> Unit
 ) {
     Box(
@@ -117,9 +117,9 @@ private fun JournalMoodBottomBar(
 }
 
 @Composable
-private fun JournalMoodContent(
-    mood: JournalMoodColorScheme,
-    onMoodChange: (JournalMoodColorScheme) -> Unit,
+private fun MoodJournalContent(
+    mood: MoodJournalColorScheme,
+    onMoodChange: (MoodJournalColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -132,20 +132,20 @@ private fun JournalMoodContent(
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
-        JournalMoodSelectorRow(
+        MoodJournalSelectorRow(
             mood = mood,
             onMoodChange = onMoodChange,
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
-        // JournalMoodBottomBar(onNext)
+        // MoodJournalBottomBar(onNext)
     }
 }
 
 @Composable
-private fun JournalMoodSelectorRow(
-    mood: JournalMoodColorScheme,
-    onMoodChange: (JournalMoodColorScheme) -> Unit,
+private fun MoodJournalSelectorRow(
+    mood: MoodJournalColorScheme,
+    onMoodChange: (MoodJournalColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -171,7 +171,7 @@ private fun MoodLabelColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        JournalMoodColorScheme.entries.forEach {
+        MoodJournalColorScheme.entries.forEach {
             Text(
                 text = it.label,
                 style = MaterialTheme.typography.bodyLarge,
@@ -183,8 +183,8 @@ private fun MoodLabelColumn(
 
 @Composable
 private fun MoodSliderColumn(
-    mood: JournalMoodColorScheme,
-    onMoodChange: (JournalMoodColorScheme) -> Unit,
+    mood: MoodJournalColorScheme,
+    onMoodChange: (MoodJournalColorScheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -194,9 +194,9 @@ private fun MoodSliderColumn(
         horizontalAlignment = Alignment.Start
     ) {
         LelloSliderVertical(
-            steps = JournalMoodColorScheme.entries.size,
-            currentStep = JournalMoodColorScheme.entries.indexOf(mood),
-            onStepSelected = { index -> onMoodChange(JournalMoodColorScheme.entries[index]) },
+            steps = MoodJournalColorScheme.entries.size,
+            currentStep = MoodJournalColorScheme.entries.indexOf(mood),
+            onStepSelected = { index -> onMoodChange(MoodJournalColorScheme.entries[index]) },
             enableStepDrag = true
         )
     }
@@ -212,7 +212,7 @@ private fun MoodIconColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        JournalMoodColorScheme.entries.forEach {
+        MoodJournalColorScheme.entries.forEach {
             Icon(
                 painter = painterResource(it.iconRes),
                 contentDescription = it.label,
@@ -230,10 +230,10 @@ private fun MoodIconColumn(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalMoodScreenPreview() {
+fun MoodJournalScreenPreview() {
     LelloTheme {
-        JournalMoodContainer(
-            mood = JournalMoodColorScheme.JOYFUL,
+        MoodJournalContainer(
+            mood = MoodJournalColorScheme.JOYFUL,
             entryTime = "09:41",
             onBack = {},
             onNext = {},

@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.R as designSystemR
 
-enum class JournalMoodColorScheme(
+enum class MoodJournalColorScheme(
     val label: String,
     val colorScheme: LelloColorScheme,
     @DrawableRes val iconRes: Int

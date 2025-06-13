@@ -20,38 +20,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
+import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 
 @Composable
-internal fun JournalMoodSummaryScreen(
-    viewModel: JournalMoodViewModel,
+internal fun MoodJournalSummaryScreen(
+    viewModel: MoodJournalViewModel,
     onExit: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
     // LaunchedEffect(Unit) { viewModel.saveJournal() }
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodSummaryContainer(
+        MoodJournalSummaryContainer(
             onExit = onExit
         )
     }
 }
 
 @Composable
-private fun JournalMoodSummaryContainer(
+private fun MoodJournalSummaryContainer(
     onExit: () -> Unit
 ) {
     Scaffold(
-        bottomBar = { JournalMoodSummaryBottomBar(onExit) }
+        bottomBar = { MoodJournalSummaryBottomBar(onExit) }
     ) { paddingValues ->
-        JournalMoodSummaryContent(
+        MoodJournalSummaryContent(
             modifier = Modifier.padding(paddingValues)
         )
     }
 }
 
 @Composable
-private fun JournalMoodSummaryBottomBar(
+private fun MoodJournalSummaryBottomBar(
     onExit: () -> Unit
 ) {
     Row(
@@ -67,7 +67,7 @@ private fun JournalMoodSummaryBottomBar(
 }
 
 @Composable
-private fun JournalMoodSummaryContent(
+private fun MoodJournalSummaryContent(
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -94,9 +94,9 @@ private fun JournalMoodSummaryContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun JournalMoodSummaryScreenPreview() {
+private fun MoodJournalSummaryScreenPreview() {
     LelloTheme {
-        JournalMoodSummaryContainer(
+        MoodJournalSummaryContainer(
             onExit = {},
         )
     }
