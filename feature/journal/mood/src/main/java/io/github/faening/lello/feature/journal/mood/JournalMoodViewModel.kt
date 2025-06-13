@@ -45,6 +45,9 @@ class JournalMoodViewModel @Inject constructor(
     private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
     val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
 
+    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
+    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
+
     private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
     val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
 
@@ -54,15 +57,15 @@ class JournalMoodViewModel @Inject constructor(
     private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
-    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
-    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
-
     private val _reflection = MutableStateFlow("")
     val reflection: StateFlow<String> = _reflection
 
     init {
         viewModelScope.launch {
             emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
+        }
+        viewModelScope.launch {
+            healthOptionUseCase.getAll().collect { _healthOptions.value = it }
         }
         viewModelScope.launch {
             climateOptionUseCase.getAll().collect { _climateOptions.value = it }
@@ -72,9 +75,6 @@ class JournalMoodViewModel @Inject constructor(
         }
         viewModelScope.launch {
             socialOptionUseCase.getAll().collect { _socialOptions.value = it }
-        }
-        viewModelScope.launch {
-            healthOptionUseCase.getAll().collect { _healthOptions.value = it }
         }
     }
 

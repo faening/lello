@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodDetailsScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodEmotionScreen
-import io.github.faening.lello.feature.journal.mood.screen.JournalMoodHealthScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodReflectionScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodSummaryScreen
@@ -24,7 +23,6 @@ object JournalMoodDestinations {
     const val HOME = "journal_mood_home"
     const val EMOTION = "journal_mood_emotion"
     const val DETAILS = "journal_mood_details"
-    const val HEALTH = "journal_mood_health"
     const val REFLECTION = "journal_mood_reflection"
     const val SUMMARY = "journal_mood_summary"
 }
@@ -73,8 +71,16 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
             JournalMoodDetailsScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(JournalMoodDestinations.HEALTH) },
+                onNext = { navController.navigate(JournalMoodDestinations.REFLECTION) },
                 onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
+                onOpenHealthOptionSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.HEALTH,
+                            mood.colorScheme
+                        )
+                    )
+                },
                 onOpenClimateOptionSettings = {
                     navController.navigate(
                         JournalSettingsDestinations.listRoute(
@@ -102,28 +108,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
             )
         }
 
-        // Step 4: Health options screen (not implemented in this example).
-        composable(JournalMoodDestinations.HEALTH) { backStackEntry ->
-            val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
-            val mood by viewModel.currentMood.collectAsState()
-
-             JournalMoodHealthScreen(
-                 viewModel = viewModel,
-                 onBack = { navController.popBackStack() },
-                 onNext = { navController.navigate(JournalMoodDestinations.REFLECTION) },
-                 onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
-                 onOpenHealthOptionSettings = {
-                     navController.navigate(
-                         JournalSettingsDestinations.listRoute(
-                             JournalOptionType.HEALTH,
-                             mood.colorScheme
-                         )
-                     )
-                }
-             )
-        }
-
-        // Step 5: Reflection screen for the user to write about their day.
+        // Step 4: Reflection screen for the user to write about their day.
         composable(JournalMoodDestinations.REFLECTION) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
             JournalMoodReflectionScreen(
@@ -133,7 +118,7 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
             )
         }
 
-        // Step 6: Summary screen after completing the mood journal.
+        // Step 5: Summary screen after completing the mood journal.
         composable(JournalMoodDestinations.SUMMARY) { backStackEntry ->
             val viewModel = sharedJournalMoodViewModel(navController, backStackEntry)
             JournalMoodSummaryScreen(

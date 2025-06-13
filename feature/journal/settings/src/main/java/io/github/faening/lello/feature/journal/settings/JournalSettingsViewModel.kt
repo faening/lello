@@ -212,7 +212,7 @@ class JournalSettingsViewModel @Inject constructor(
         }
     }
 
-    fun optionsFlow(type: JournalOptionType): StateFlow<List<out JournalOption>> = when (type) {
+    fun optionsFlow(type: JournalOptionType): StateFlow<List<JournalOption>> = when (type) {
         JournalOptionType.EMOTION -> emotionOptions
         JournalOptionType.CLIMATE -> climateOptions
         JournalOptionType.LOCATION -> locationOptions
