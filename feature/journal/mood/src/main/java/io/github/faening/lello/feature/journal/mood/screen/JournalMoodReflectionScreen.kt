@@ -41,6 +41,7 @@ internal fun JournalMoodReflectionScreen(
             entryTime = entryTime,
             reflection = reflection,
             onValueChange = viewModel::updateReflection,
+            onSave = viewModel::saveJournal,
             onBack = onBack,
             onFinish = onFinish
         )
@@ -52,12 +53,13 @@ private fun JournalMoodReflectionContainer(
     entryTime: String,
     reflection: String,
     onValueChange: (String) -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onFinish: () -> Unit
 ) {
     Scaffold(
         topBar = { JournalMoodReflectionTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodReflectionBottomBar(onFinish) }
+        bottomBar = { JournalMoodReflectionBottomBar(onSave, onFinish) }
     ) { paddingValues ->
         JournalMoodReflectionContent(
             reflection = reflection,
@@ -80,6 +82,7 @@ private fun JournalMoodReflectionTopBar(
 
 @Composable
 private fun JournalMoodReflectionBottomBar(
+    onSave: () -> Unit,
     onFinish: () -> Unit,
 ) {
     Row(
@@ -89,7 +92,10 @@ private fun JournalMoodReflectionBottomBar(
     ) {
         LelloFilledButton(
             label = "Concluir",
-            onClick = onFinish
+            onClick = {
+                onSave()
+                onFinish()
+            }
         )
     }
 }
@@ -134,6 +140,7 @@ private fun JournalMoodStepOneScreenPreview() {
             entryTime = "09:41",
             reflection = "",
             onValueChange = {},
+            onSave = {},
             onBack = {},
             onFinish = {}
         )

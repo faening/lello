@@ -14,6 +14,9 @@ import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
 import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.MoodType
+import io.github.faening.lello.core.domain.usecase.journalmood.JournalMoodUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,11 +25,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class JournalMoodViewModel @Inject constructor(
+    private val journalMoodUseCase: JournalMoodUseCase,
     emotionOptionUseCase: EmotionOptionUseCase,
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
@@ -59,6 +65,9 @@ class JournalMoodViewModel @Inject constructor(
 
     private val _reflection = MutableStateFlow("")
     val reflection: StateFlow<String> = _reflection
+
+    private val _moodJournal = MutableStateFlow<MoodJournal?>(null)
+    val moodJournal: StateFlow<MoodJournal?> = _moodJournal
 
     init {
         viewModelScope.launch {
@@ -137,5 +146,40 @@ class JournalMoodViewModel @Inject constructor(
 
     fun updateReflection(text: String) {
         _reflection.value = text
+    }
+
+    private fun JournalMoodColorScheme.toMoodType(): MoodType = when (this) {
+        JournalMoodColorScheme.SERENE -> MoodType.SERENE
+        JournalMoodColorScheme.JOYFUL -> MoodType.JOYFUL
+        JournalMoodColorScheme.BALANCED -> MoodType.BALANCED
+        JournalMoodColorScheme.TROUBLED -> MoodType.TROUBLED
+        JournalMoodColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
+    }
+
+    private fun buildMoodJournal(): MoodJournal {
+        val date = Date.from(
+            (_entryDateTime.value ?: LocalDateTime.now())
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+        )
+        return MoodJournal(
+            date = date,
+            mood = _currentMood.value.toMoodType(),
+            reflection = _reflection.value.ifBlank { null },
+            emotionOptions = _emotionOptions.value.filter { it.selected },
+            climateOptions = _climateOptions.value.filter { it.selected },
+            locationOptions = _locationOptions.value.filter { it.selected },
+            socialOptions = _socialOptions.value.filter { it.selected },
+            healthOptions = _healthOptions.value.filter { it.selected }
+        )
+    }
+
+    fun saveJournal() {
+        if (_moodJournal.value != null) return
+        viewModelScope.launch {
+            val journal = buildMoodJournal()
+            journalMoodUseCase.save(journal)
+            _moodJournal.value = journal
+        }
     }
 }
