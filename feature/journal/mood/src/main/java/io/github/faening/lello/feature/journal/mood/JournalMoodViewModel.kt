@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.journalmood.JournalMoodUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
@@ -12,11 +13,10 @@ import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.MoodType
-import io.github.faening.lello.core.domain.usecase.journalmood.JournalMoodUseCase
+import io.github.faening.lello.core.model.journal.SocialOption
+import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -67,23 +67,32 @@ class JournalMoodViewModel @Inject constructor(
     val reflection: StateFlow<String> = _reflection
 
     private val _moodJournal = MutableStateFlow<MoodJournal?>(null)
-    val moodJournal: StateFlow<MoodJournal?> = _moodJournal
 
     init {
         viewModelScope.launch {
-            emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
+            emotionOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _emotionOptions.value = it }
         }
         viewModelScope.launch {
-            healthOptionUseCase.getAll().collect { _healthOptions.value = it }
+            healthOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _healthOptions.value = it }
         }
         viewModelScope.launch {
-            climateOptionUseCase.getAll().collect { _climateOptions.value = it }
+            climateOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _climateOptions.value = it }
         }
         viewModelScope.launch {
-            locationOptionUseCase.getAll().collect { _locationOptions.value = it }
+            locationOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _locationOptions.value = it }
         }
         viewModelScope.launch {
-            socialOptionUseCase.getAll().collect { _socialOptions.value = it }
+            socialOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _socialOptions.value = it }
         }
     }
 
