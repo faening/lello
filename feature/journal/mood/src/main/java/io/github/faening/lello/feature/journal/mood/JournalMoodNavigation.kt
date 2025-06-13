@@ -17,6 +17,7 @@ import io.github.faening.lello.feature.journal.mood.screen.JournalMoodReflection
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodScreen
 import io.github.faening.lello.feature.journal.mood.screen.JournalMoodSummaryScreen
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
+import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 object JournalMoodDestinations {
     const val GRAPH = "journal_mood_graph"
@@ -55,9 +56,9 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                 onOpenEmotionOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.EMOTION_SETTINGS.replace(
-                            oldValue = "{colorScheme}",
-                            newValue = mood.colorScheme.name
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.EMOTION,
+                            mood.colorScheme
                         )
                     )
                 }
@@ -76,25 +77,25 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                 onOpenClimateOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.CLIMATE_SETTINGS.replace(
-                            oldValue = "{colorScheme}",
-                            newValue = mood.colorScheme.name
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.CLIMATE,
+                            mood.colorScheme
                         )
                     )
                 },
                 onOpenLocationOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.LOCATION_SETTINGS.replace(
-                            oldValue = "{colorScheme}",
-                            newValue = mood.colorScheme.name
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.LOCATION,
+                            mood.colorScheme
                         )
                     )
                 },
                 onOpenSocialOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.SOCIAL_SETTINGS.replace(
-                            oldValue = "{colorScheme}",
-                            newValue = mood.colorScheme.name
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.SOCIAL,
+                            mood.colorScheme
                         )
                     )
                 },
@@ -113,12 +114,12 @@ fun NavGraphBuilder.journalMoodGraph(navController: NavHostController) {
                  onFinish = { navController.navigate(JournalMoodDestinations.SUMMARY) },
                  onOpenHealthOptionSettings = {
                      navController.navigate(
-                         JournalSettingsDestinations.HEALTH_SETTINGS.replace(
-                             oldValue = "{colorScheme}",
-                             newValue = mood.colorScheme.name
+                         JournalSettingsDestinations.listRoute(
+                             JournalOptionType.HEALTH,
+                             mood.colorScheme
                          )
                      )
-                 }
+                }
              )
         }
 
