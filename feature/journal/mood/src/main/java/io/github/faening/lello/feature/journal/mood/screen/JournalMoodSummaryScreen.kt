@@ -28,7 +28,7 @@ internal fun JournalMoodSummaryScreen(
     onExit: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
-    LaunchedEffect(Unit) { viewModel.saveJournal() }
+    // LaunchedEffect(Unit) { viewModel.saveJournal() }
 
     LelloTheme(scheme = mood.colorScheme) {
         JournalMoodSummaryContainer(

@@ -9,55 +9,55 @@ import io.github.faening.lello.core.model.journal.MoodJournal
 data class MoodJournalEntityWithOptions(
     @Embedded val entry: MoodJournalEntity,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "moodJournalId",
+        entityColumn = "emotionOptionId",
         associateBy = Junction(
             value = MoodJournalEntityEmotionOptionEntityCrossRef::class,
-            parentColumn = "entryId",
+            parentColumn = "moodJournalId",
             entityColumn = "emotionOptionId"
         )
     )
     val emotionOptions: List<EmotionOptionEntity>,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "moodJournalId",
+        entityColumn = "climateOptionId",
         associateBy = Junction(
             value = MoodJournalEntityClimateOptionEntityCrossRef::class,
-            parentColumn = "entryId",
+            parentColumn = "moodJournalId",
             entityColumn = "climateOptionId"
         )
     )
     val climateOptions: List<ClimateOptionEntity>,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "moodJournalId",
+        entityColumn = "locationOptionId",
         associateBy = Junction(
             value = MoodJournalEntityLocationOptionEntityCrossRef::class,
-            parentColumn = "entryId",
+            parentColumn = "moodJournalId",
             entityColumn = "locationOptionId"
         )
     )
     val locationOptions: List<LocationOptionEntity>,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "moodJournalId",
+        entityColumn = "socialOptionId",
         associateBy = Junction(
             value = MoodJournalEntitySocialOptionEntityCrossRef::class,
-            parentColumn = "entryId",
+            parentColumn = "moodJournalId",
             entityColumn = "socialOptionId"
         )
     )
     val socialOptions: List<SocialOptionEntity>,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "moodJournalId",
+        entityColumn = "healthOptionId",
         associateBy = Junction(
             value = MoodJournalEntityHealthOptionEntityCrossRef::class,
-            parentColumn = "entryId",
+            parentColumn = "moodJournalId",
             entityColumn = "healthOptionId"
         )
     )
