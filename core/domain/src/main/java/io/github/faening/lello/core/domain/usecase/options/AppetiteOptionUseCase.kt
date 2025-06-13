@@ -45,6 +45,16 @@ class AppetiteOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update only the active status for the provided options.
+     */
+    suspend fun updateActiveStatus(vararg items: AppetiteOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: AppetiteOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

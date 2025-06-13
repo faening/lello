@@ -45,6 +45,16 @@ class SleepActivityOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update only the active state of the sleep activity options.
+     */
+    suspend fun updateActiveStatus(vararg items: SleepActivityOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: SleepActivityOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

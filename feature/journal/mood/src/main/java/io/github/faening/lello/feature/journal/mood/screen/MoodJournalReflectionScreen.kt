@@ -24,11 +24,11 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
+import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 
 @Composable
-internal fun JournalMoodReflectionScreen(
-    viewModel: JournalMoodViewModel,
+internal fun MoodJournalReflectionScreen(
+    viewModel: MoodJournalViewModel,
     onBack: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -37,10 +37,11 @@ internal fun JournalMoodReflectionScreen(
     val reflection by viewModel.reflection.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodReflectionContainer(
+        MoodJournalReflectionContainer(
             entryTime = entryTime,
             reflection = reflection,
             onValueChange = viewModel::updateReflection,
+            onSave = viewModel::saveJournal,
             onBack = onBack,
             onFinish = onFinish
         )
@@ -48,18 +49,19 @@ internal fun JournalMoodReflectionScreen(
 }
 
 @Composable
-private fun JournalMoodReflectionContainer(
+private fun MoodJournalReflectionContainer(
     entryTime: String,
     reflection: String,
     onValueChange: (String) -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onFinish: () -> Unit
 ) {
     Scaffold(
-        topBar = { JournalMoodReflectionTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodReflectionBottomBar(onFinish) }
+        topBar = { MoodJournalReflectionTopBar(entryTime, onBack) },
+        bottomBar = { MoodJournalReflectionBottomBar(onSave, onFinish) }
     ) { paddingValues ->
-        JournalMoodReflectionContent(
+        MoodJournalReflectionContent(
             reflection = reflection,
             onValueChange = onValueChange,
             modifier = Modifier.padding(paddingValues)
@@ -68,7 +70,7 @@ private fun JournalMoodReflectionContainer(
 }
 
 @Composable
-private fun JournalMoodReflectionTopBar(
+private fun MoodJournalReflectionTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -79,7 +81,8 @@ private fun JournalMoodReflectionTopBar(
 }
 
 @Composable
-private fun JournalMoodReflectionBottomBar(
+private fun MoodJournalReflectionBottomBar(
+    onSave: () -> Unit,
     onFinish: () -> Unit,
 ) {
     Row(
@@ -89,13 +92,16 @@ private fun JournalMoodReflectionBottomBar(
     ) {
         LelloFilledButton(
             label = "Concluir",
-            onClick = onFinish
+            onClick = {
+                onSave()
+                onFinish()
+            }
         )
     }
 }
 
 @Composable
-private fun JournalMoodReflectionContent(
+private fun MoodJournalReflectionContent(
     reflection: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -128,12 +134,13 @@ private fun JournalMoodReflectionContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun JournalMoodStepOneScreenPreview() {
+private fun MoodJournalReflectionScreenPreview() {
     LelloTheme {
-        JournalMoodReflectionContainer(
+        MoodJournalReflectionContainer(
             entryTime = "09:41",
             reflection = "",
             onValueChange = {},
+            onSave = {},
             onBack = {},
             onFinish = {}
         )

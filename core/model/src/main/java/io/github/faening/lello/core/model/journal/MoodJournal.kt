@@ -3,6 +3,7 @@ package io.github.faening.lello.core.model.journal
 import java.util.Date
 
 data class MoodJournal(
+    val id: Long? = null,
     val date: Date,
     val mood: MoodType,
     val reflection: String? = null,

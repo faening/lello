@@ -45,6 +45,17 @@ class ClimateOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Updates only the `active` property of the received options after
+     * validating their ids.
+     */
+    suspend fun updateActiveStatus(vararg items: ClimateOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: ClimateOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

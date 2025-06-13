@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.journalmood.JournalMoodUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
@@ -12,8 +13,10 @@ import io.github.faening.lello.core.model.journal.ClimateOption
 import io.github.faening.lello.core.model.journal.EmotionOption
 import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.mood.model.JournalMoodColorScheme
+import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,11 +25,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class JournalMoodViewModel @Inject constructor(
+class MoodJournalViewModel @Inject constructor(
+    private val journalMoodUseCase: JournalMoodUseCase,
     emotionOptionUseCase: EmotionOptionUseCase,
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
@@ -34,8 +40,8 @@ class JournalMoodViewModel @Inject constructor(
     healthOptionUseCase: HealthOptionUseCase
 ) : ViewModel() {
 
-    private val _currentMood = MutableStateFlow(JournalMoodColorScheme.JOYFUL)
-    val currentMood: StateFlow<JournalMoodColorScheme> = _currentMood
+    private val _currentMood = MutableStateFlow(MoodJournalColorScheme.JOYFUL)
+    val currentMood: StateFlow<MoodJournalColorScheme> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryDateTime: StateFlow<String> = _entryDateTime
@@ -44,6 +50,9 @@ class JournalMoodViewModel @Inject constructor(
 
     private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
     val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
+
+    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
+    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
 
     private val _climateOptions = MutableStateFlow<List<ClimateOption>>(emptyList())
     val climateOptions: StateFlow<List<ClimateOption>> = _climateOptions
@@ -54,34 +63,43 @@ class JournalMoodViewModel @Inject constructor(
     private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
-    private val _healthOptions = MutableStateFlow<List<HealthOption>>(emptyList())
-    val healthOptions: StateFlow<List<HealthOption>> = _healthOptions
-
     private val _reflection = MutableStateFlow("")
     val reflection: StateFlow<String> = _reflection
 
+    private val _moodJournal = MutableStateFlow<MoodJournal?>(null)
+
     init {
         viewModelScope.launch {
-            emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
+            emotionOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _emotionOptions.value = it }
         }
         viewModelScope.launch {
-            climateOptionUseCase.getAll().collect { _climateOptions.value = it }
+            healthOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _healthOptions.value = it }
         }
         viewModelScope.launch {
-            locationOptionUseCase.getAll().collect { _locationOptions.value = it }
+            climateOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _climateOptions.value = it }
         }
         viewModelScope.launch {
-            socialOptionUseCase.getAll().collect { _socialOptions.value = it }
+            locationOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _locationOptions.value = it }
         }
         viewModelScope.launch {
-            healthOptionUseCase.getAll().collect { _healthOptions.value = it }
+            socialOptionUseCase.getAll()
+                .map { list -> list.filter { it.active } }
+                .collect { _socialOptions.value = it }
         }
     }
 
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
-    fun updateMood(mood: JournalMoodColorScheme) {
+    fun updateMood(mood: MoodJournalColorScheme) {
         _currentMood.value = mood
     }
 
@@ -137,5 +155,40 @@ class JournalMoodViewModel @Inject constructor(
 
     fun updateReflection(text: String) {
         _reflection.value = text
+    }
+
+    private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {
+        MoodJournalColorScheme.SERENE -> MoodType.SERENE
+        MoodJournalColorScheme.JOYFUL -> MoodType.JOYFUL
+        MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
+        MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
+        MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
+    }
+
+    private fun buildMoodJournal(): MoodJournal {
+        val date = Date.from(
+            (_entryDateTime.value ?: LocalDateTime.now())
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+        )
+        return MoodJournal(
+            date = date,
+            mood = _currentMood.value.toMoodType(),
+            reflection = _reflection.value.ifBlank { null },
+            emotionOptions = _emotionOptions.value.filter { it.selected },
+            climateOptions = _climateOptions.value.filter { it.selected },
+            locationOptions = _locationOptions.value.filter { it.selected },
+            socialOptions = _socialOptions.value.filter { it.selected },
+            healthOptions = _healthOptions.value.filter { it.selected }
+        )
+    }
+
+    fun saveJournal() {
+        if (_moodJournal.value != null) return
+        viewModelScope.launch {
+            val journal = buildMoodJournal()
+            journalMoodUseCase.save(journal)
+            _moodJournal.value = journal
+        }
     }
 }

@@ -1,10 +1,12 @@
 package io.github.faening.lello.core.database.model.moodjournal
 
 import androidx.room.Entity
+import androidx.room.Index
 
 @Entity(
     tableName = "mood_journals_social_options_cross_ref",
-    primaryKeys = ["moodJournalId", "socialOptionId"]
+    primaryKeys = ["moodJournalId", "socialOptionId"],
+    indices = [Index(value = ["socialOptionId"])]
 )
 data class MoodJournalEntitySocialOptionEntityCrossRef(
     val moodJournalId: Long,

@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.journal.settings.screen.dosageform
+package io.github.faening.lello.feature.journal.settings.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -22,23 +22,26 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.journal.DosageFormOption
+import io.github.faening.lello.core.domain.mock.EmotionOptionMock
+import io.github.faening.lello.core.model.journal.JournalOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
-import io.github.faening.lello.feature.journal.settings.R as settingsR
+import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 @Composable
-internal fun JournalSettingsDosageFormOptionScreen(
+internal fun JournalSettingsScreen(
     viewModel: JournalSettingsViewModel,
+    optionType: JournalOptionType,
     colorScheme: LelloColorScheme,
     onBack: () -> Unit,
     onRegister: () -> Unit
 ) {
-    val options by viewModel.dosageFormOptions.collectAsState()
+    val options by viewModel.optionsFlow(optionType).collectAsState()
 
     LelloTheme(scheme = colorScheme) {
-        JournalSettingsDosageFormOptionContainer(
+        JournalSettingsContainer(
+            optionType = optionType,
             options = options,
-            onToggle = { option, active -> viewModel.toggleDosageFormOption(option, active) },
+            onToggle = { option, active -> viewModel.toggleOption(optionType, option, active) },
             onBack = onBack,
             onRegister = onRegister
         )
@@ -46,17 +49,18 @@ internal fun JournalSettingsDosageFormOptionScreen(
 }
 
 @Composable
-private fun JournalSettingsDosageFormOptionContainer(
-    options: List<DosageFormOption>,
-    onToggle: (DosageFormOption, Boolean) -> Unit,
+private fun JournalSettingsContainer(
+    optionType: JournalOptionType,
+    options: List<JournalOption>,
+    onToggle: (JournalOption, Boolean) -> Unit,
     onBack: () -> Unit,
     onRegister: () -> Unit
 ) {
     Scaffold(
-        topBar = { JournalSettingsDosageFormOptionTopBar(onBack) },
-        bottomBar = { JournalSettingsDosageFormOptionBottomBar(onRegister) }
+        topBar = { JournalSettingsTopBar(optionType, onBack) },
+        bottomBar = { JournalSettingsBottomBar(optionType, onRegister) }
     ) { paddingValues ->
-        JournalSettingsDosageFormOptionContent(
+        JournalSettingsContent(
             options = options,
             onToggle = onToggle,
             modifier = Modifier.padding(paddingValues)
@@ -65,10 +69,11 @@ private fun JournalSettingsDosageFormOptionContainer(
 }
 
 @Composable
-private fun JournalSettingsDosageFormOptionTopBar(
+private fun JournalSettingsTopBar(
+    optionType: JournalOptionType,
     onBack: () -> Unit
 ) {
-    val title = settingsR.string.journal_settings_dosageform_appbar_title
+    val title = optionType.titleRes
     LelloTopAppBar(
         title = TopAppBarTitle(title),
         navigateUp = TopAppBarAction(onClick = onBack),
@@ -76,10 +81,11 @@ private fun JournalSettingsDosageFormOptionTopBar(
 }
 
 @Composable
-private fun JournalSettingsDosageFormOptionBottomBar(
+private fun JournalSettingsBottomBar(
+    optionType: JournalOptionType,
     onRegister: () -> Unit
 ) {
-    val label = stringResource(settingsR.string.journal_settings_dosageform_register_button_label)
+    val label = stringResource(optionType.registerLabelRes)
     Row(
         modifier = Modifier.padding(Dimension.Medium)
     ) {
@@ -91,9 +97,9 @@ private fun JournalSettingsDosageFormOptionBottomBar(
 }
 
 @Composable
-private fun JournalSettingsDosageFormOptionContent(
-    options: List<DosageFormOption>,
-    onToggle: (DosageFormOption, Boolean) -> Unit,
+private fun JournalSettingsContent(
+    options: List<JournalOption>,
+    onToggle: (JournalOption, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -110,25 +116,24 @@ private fun JournalSettingsDosageFormOptionContent(
 
         LelloOptionList(
             options = options,
-            onToggle = { option, active ->
-                onToggle(option as DosageFormOption, active)
-            },
+            onToggle = onToggle,
             modifier = Modifier.weight(1f)
         )
     }
 }
 
-@Composable
 @Preview(
     name = "Light",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalSettingsDosageFormOptionScreenPreview() {
+@Composable
+fun JournalSettingsScreenPreview() {
     LelloTheme {
-        JournalSettingsDosageFormOptionContainer(
-            options = listOf(),
+        JournalSettingsContainer(
+            optionType = JournalOptionType.EMOTION,
+            options = EmotionOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

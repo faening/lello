@@ -29,33 +29,40 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.ClimateOptionMock
+import io.github.faening.lello.core.domain.mock.HealthOptionMock
 import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.domain.mock.SocialOptionMock
 import io.github.faening.lello.core.model.journal.ClimateOption
+import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.mood.JournalMoodViewModel
+import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
-internal fun JournalMoodDetailsScreen(
-    viewModel: JournalMoodViewModel,
+internal fun MoodJournalDetailsScreen(
+    viewModel: MoodJournalViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
+    onOpenHealthOptionSettings: () -> Unit,
     onOpenClimateOptionSettings: () -> Unit,
     onOpenLocationOptionSettings: () -> Unit,
     onOpenSocialOptionSettings: () -> Unit
 ) {
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryDateTime.collectAsState()
+    val healthOptions by viewModel.healthOptions.collectAsState()
     val climateOptions by viewModel.climateOptions.collectAsState()
     val locationOptions by viewModel.locationOptions.collectAsState()
     val socialOptions by viewModel.socialOptions.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
-        JournalMoodDetailsContainer(
+        MoodJournalDetailsContainer(
             entryTime = entryTime,
+            healthOptions = healthOptions,
+            onHealthOptionToggle = viewModel::toggleHealthSelection,
+            onOpenHealthOptionSettings = onOpenHealthOptionSettings,
             climateOptions = climateOptions,
             onClimateOptionToggle = viewModel::toggleClimateSelection,
             onOpenClimateOptionSettings = onOpenClimateOptionSettings,
@@ -73,8 +80,11 @@ internal fun JournalMoodDetailsScreen(
 }
 
 @Composable
-private fun JournalMoodDetailsContainer(
+private fun MoodJournalDetailsContainer(
     entryTime: String,
+    healthOptions: List<HealthOption>,
+    onHealthOptionToggle: (String) -> Unit,
+    onOpenHealthOptionSettings: () -> Unit,
     climateOptions: List<ClimateOption>,
     onClimateOptionToggle: (String) -> Unit,
     onOpenClimateOptionSettings: () -> Unit,
@@ -89,10 +99,13 @@ private fun JournalMoodDetailsContainer(
     onFinish: () -> Unit
 ) {
     Scaffold(
-        topBar = { JournalMoodDetailsTopBar(entryTime, onBack) },
-        bottomBar = { JournalMoodDetailsBottomBar(onNext, onFinish) }
+        topBar = { MoodJournalDetailsTopBar(entryTime, onBack) },
+        bottomBar = { MoodJournalDetailsBottomBar(onNext, onFinish) }
     ) { paddingValues ->
-        JournalMoodDetailsContent(
+        MoodJournalDetailsContent(
+            healthOptions = healthOptions,
+            onHealthOptionToggle = onHealthOptionToggle,
+            onOpenHealthOptionSettings = onOpenHealthOptionSettings,
             climateOptions = climateOptions,
             onClimateOptionToggle = onClimateOptionToggle,
             onOpenClimateOptionSettings = onOpenClimateOptionSettings,
@@ -108,7 +121,7 @@ private fun JournalMoodDetailsContainer(
 }
 
 @Composable
-private fun JournalMoodDetailsTopBar(
+private fun MoodJournalDetailsTopBar(
     entryTime: String,
     onBack: () -> Unit
 ) {
@@ -119,7 +132,7 @@ private fun JournalMoodDetailsTopBar(
 }
 
 @Composable
-private fun JournalMoodDetailsBottomBar(
+private fun MoodJournalDetailsBottomBar(
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -145,7 +158,10 @@ private fun JournalMoodDetailsBottomBar(
 }
 
 @Composable
-private fun JournalMoodDetailsContent(
+private fun MoodJournalDetailsContent(
+    healthOptions: List<HealthOption>,
+    onHealthOptionToggle: (String) -> Unit,
+    onOpenHealthOptionSettings: () -> Unit,
     climateOptions: List<ClimateOption>,
     onClimateOptionToggle: (String) -> Unit,
     onOpenClimateOptionSettings: () -> Unit,
@@ -169,7 +185,17 @@ private fun JournalMoodDetailsContent(
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
         LelloOptionPillSelector(
-            title = "Como está o clima agora?",
+            title = "Como está a sua saúde?",
+            options = healthOptions,
+            isSelected = { it.selected },
+            onToggle = { option -> onHealthOptionToggle(option.description) },
+            onOpenSettings = onOpenHealthOptionSettings,
+            getLabel = { it.description }
+        )
+        Spacer(modifier = Modifier.height(Dimension.Large))
+
+        LelloOptionPillSelector(
+            title = "Como está o clima?",
             options = climateOptions,
             isSelected = { it.selected },
             onToggle = { option -> onClimateOptionToggle(option.description) },
@@ -206,10 +232,13 @@ private fun JournalMoodDetailsContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun JournalMoodDetailsScreenPreview() {
+private fun MoodJournalDetailsScreenPreview() {
     LelloTheme {
-        JournalMoodDetailsContainer(
+        MoodJournalDetailsContainer(
             entryTime = "09:41",
+            healthOptions = HealthOptionMock.list,
+            onHealthOptionToggle = { _ -> },
+            onOpenHealthOptionSettings = {},
             climateOptions = ClimateOptionMock.list,
             onClimateOptionToggle = { _ -> },
             onOpenClimateOptionSettings = {},

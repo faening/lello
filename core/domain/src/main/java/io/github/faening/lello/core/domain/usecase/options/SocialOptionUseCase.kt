@@ -45,6 +45,16 @@ class SocialOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Update only the active flag for the provided social options.
+     */
+    suspend fun updateActiveStatus(vararg items: SocialOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: SocialOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()

@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
-import io.github.faening.lello.core.database.model.option.toModel
+import io.github.faening.lello.core.database.model.toModel
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.model.journal.JournalCategory
 import kotlinx.coroutines.flow.Flow

@@ -45,6 +45,16 @@ class DosageFormOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.update(item) }
     }
 
+    /**
+     * Persist only the new active status of the given options.
+     */
+    suspend fun updateActiveStatus(vararg items: DosageFormOption) {
+        items.forEach { item ->
+            item.id.validateId()
+        }
+        items.forEach { item -> repository.update(item) }
+    }
+
     suspend fun delete(vararg items: DosageFormOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
