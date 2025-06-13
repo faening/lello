@@ -10,7 +10,6 @@ import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
-import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SensationOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
@@ -164,12 +163,27 @@ fun seedClimateOptions(db: SupportSQLiteDatabase) {
         }
     }
 
-
     fun seedLocationOptions(db: SupportSQLiteDatabase) {
         for (item in LocationOptionSeed.data) {
             db.execSQL(
                 sql = """
                         INSERT INTO location_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedMealOptions(db: SupportSQLiteDatabase) {
+        for (item in LocationOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO meal_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

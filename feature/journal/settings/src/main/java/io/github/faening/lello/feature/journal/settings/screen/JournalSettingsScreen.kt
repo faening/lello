@@ -11,8 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,11 +22,10 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.journal.JournalOption
 import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
-import io.github.faening.lello.feature.journal.settings.R as settingsR
 
 @Composable
 internal fun JournalSettingsScreen(
@@ -136,7 +133,7 @@ fun JournalSettingsScreenPreview() {
     LelloTheme {
         JournalSettingsContainer(
             optionType = JournalOptionType.EMOTION,
-            options = listOf<JournalOption>(EmotionOption(description = "Feliz")),
+            options = EmotionOptionMock.list,
             onToggle = { _, _ -> },
             onBack = {},
             onRegister = {}

@@ -54,7 +54,6 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         LocationOptionEntity::class,
         MealOptionEntity::class,
         PortionOptionEntity::class,
-        SocialOptionEntity::class,
         SensationOptionEntity::class,
         SleepActivityOptionEntity::class,
         SleepQualityOptionEntity::class,
