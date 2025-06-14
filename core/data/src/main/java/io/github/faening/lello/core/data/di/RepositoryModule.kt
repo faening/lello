@@ -35,7 +35,7 @@ import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
-import io.github.faening.lello.core.domain.repository.MoodJournalResources
+import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
 import io.github.faening.lello.core.model.journal.AppetiteOption
 import io.github.faening.lello.core.model.journal.ClimateOption
@@ -76,7 +76,7 @@ object RepositoryModule {
     @Provides
     fun provideMoodJournalRepository(
         dao: MoodJournalDao
-    ): MoodJournalResources<MoodJournal> {
+    ): JournalResources<MoodJournal> {
         return MoodJournalRepository(dao)
     }
 
