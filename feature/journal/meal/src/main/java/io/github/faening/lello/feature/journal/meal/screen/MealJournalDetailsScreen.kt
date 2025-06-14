@@ -68,6 +68,7 @@ internal fun MealJournalDetailsScreen(
             socialOptions = socialOptions,
             onSocialOptionToggle = viewModel::toggleSocialSelection,
             onOpenSocialOptionSettings = onOpenSocialOptionSettings,
+            onSave = viewModel::saveMealJournal,
             onBack = onBack,
             onFinish = onFinish
         )
@@ -90,12 +91,13 @@ private fun MealJournalDetailsContainer(
     socialOptions: List<SocialOption>,
     onSocialOptionToggle: (String) -> Unit,
     onOpenSocialOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onFinish: () -> Unit,
 ) {
     Scaffold(
         topBar = { MealJournalDetailsTopBar(onBack) },
-        bottomBar = { MealJournalDetailsBottomBar(onFinish) }
+        bottomBar = { MealJournalDetailsBottomBar(onSave, onFinish) }
     ) { paddingValues ->
         MealJournalDetailsContent(
             mealTime = mealTime,
@@ -129,6 +131,7 @@ private fun MealJournalDetailsTopBar(
 
 @Composable
 private fun MealJournalDetailsBottomBar(
+    onSave: () -> Unit,
     onFinish: () -> Unit
 ) {
     Row(
@@ -140,8 +143,10 @@ private fun MealJournalDetailsBottomBar(
     ) {
         LelloFilledButton(
             label = "Concluir",
-            onClick = onFinish,
-            modifier = Modifier.weight(1f)
+            onClick = {
+                onSave()
+                onFinish()
+            },
         )
     }
 }
@@ -255,6 +260,7 @@ fun MealJournalDetailsScreenPreview() {
             socialOptions = SocialOptionMock.list,
             onSocialOptionToggle = { _ -> },
             onOpenSocialOptionSettings = {},
+            onSave = {},
             onBack = {},
             onFinish = {},
         )

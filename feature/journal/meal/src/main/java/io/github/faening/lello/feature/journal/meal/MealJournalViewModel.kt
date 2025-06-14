@@ -12,6 +12,7 @@ import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.model.journal.AppetiteOption
 import io.github.faening.lello.core.model.journal.FoodOption
 import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MealOption
 import io.github.faening.lello.core.model.journal.PortionOption
 import io.github.faening.lello.core.model.journal.SocialOption
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,6 +54,8 @@ class MealJournalViewModel @Inject constructor(
 
     private val _socialOptions = MutableStateFlow<List<SocialOption>>(emptyList())
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
+
+    private val _mealJournal = MutableStateFlow<MealJournal?>(null)
 
     init {
         viewModelScope.launch {
@@ -137,5 +141,25 @@ class MealJournalViewModel @Inject constructor(
         }
     }
 
+    private fun buildMealournal(): MealJournal {
+        return MealJournal(
+            mealTime = Date(),
+            mealOptions = mealOptions.value.filter { it.selected },
+            appetiteOptions = appetiteOptions.value.filter { it.selected },
+            foodOptions = foodOptions.value.filter { it.selected },
+            portionOptions = portionOptions.value.filter { it.selected },
+            locationOptions = locationOptions.value.filter { it.selected },
+            socialOptions = socialOptions.value.filter { it.selected },
+        ).also {
+            _mealJournal.value = it
+        }
+    }
 
+    fun saveMealJournal() {
+        if (_mealJournal.value != null) return
+        viewModelScope.launch {
+            val journal = buildMealournal()
+            // mealJournalUseCase.save(journal)
+        }
+    }
 }
