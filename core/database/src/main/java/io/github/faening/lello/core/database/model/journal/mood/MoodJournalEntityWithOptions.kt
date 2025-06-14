@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.model.moodjournal
+package io.github.faening.lello.core.database.model.journal.mood
 
 import androidx.room.Embedded
 import androidx.room.Junction
