@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
+import io.github.faening.lello.core.designsystem.component.LelloTextField
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
@@ -53,6 +54,8 @@ internal fun MealJournalDetailsScreen(
 
     LelloTheme {
         MealJournalDetailsContainer(
+            mealTime = viewModel.mealTime.collectAsState().value,
+            onMealTimeChange = viewModel::updateMealTime,
             foodOptions = foodOptions,
             onFoodOptionToggle = viewModel::toggleFoodSelection,
             onOpenFoodOptionSettings = onOpenFoodOptionSettings,
@@ -73,6 +76,8 @@ internal fun MealJournalDetailsScreen(
 
 @Composable
 private fun MealJournalDetailsContainer(
+    mealTime: String,
+    onMealTimeChange: (String) -> Unit,
     foodOptions: List<FoodOption>,
     onFoodOptionToggle: (String) -> Unit,
     onOpenFoodOptionSettings: () -> Unit,
@@ -93,6 +98,8 @@ private fun MealJournalDetailsContainer(
         bottomBar = { MealJournalDetailsBottomBar(onFinish) }
     ) { paddingValues ->
         MealJournalDetailsContent(
+            mealTime = mealTime,
+            onMealTimeChange = onMealTimeChange,
             foodOptions = foodOptions,
             onFoodOptionToggle = onFoodOptionToggle,
             onOpenFoodOptionSettings = onOpenFoodOptionSettings,
@@ -141,6 +148,8 @@ private fun MealJournalDetailsBottomBar(
 
 @Composable
 private fun MealJournalDetailsContent(
+    mealTime: String,
+    onMealTimeChange: (String) -> Unit,
     foodOptions: List<FoodOption>,
     onFoodOptionToggle: (String) -> Unit,
     onOpenFoodOptionSettings: () -> Unit,
@@ -163,6 +172,21 @@ private fun MealJournalDetailsContent(
         Text(
             text = "Gostaria de adicionar mais detalhes sobre a sua alimentação?",
             style = MaterialTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+
+        Text(
+            text = "Que horas foi a refeição?",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = Dimension.Medium)
+        )
+        LelloTextField(
+            value = mealTime,
+            onValueChange = onMealTimeChange,
+            placeholder = "Ex: 30min",
+            maxLength = 10,
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
@@ -217,6 +241,8 @@ private fun MealJournalDetailsContent(
 fun MealJournalDetailsScreenPreview() {
     LelloTheme {
         MealJournalDetailsContainer(
+            mealTime = "",
+            onMealTimeChange = { _ -> },
             foodOptions = FoodOptionMock.list,
             onFoodOptionToggle = { _ -> },
             onOpenFoodOptionSettings = {},

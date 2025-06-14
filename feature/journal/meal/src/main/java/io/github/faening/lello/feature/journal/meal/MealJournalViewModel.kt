@@ -32,6 +32,9 @@ class MealJournalViewModel @Inject constructor(
     socialOptionUseCase: SocialOptionUseCase
 ) : ViewModel() {
 
+    private val _mealTime = MutableStateFlow("")
+    val mealTime: StateFlow<String> = _mealTime
+
     private val _mealOptions = MutableStateFlow<List<MealOption>>(emptyList())
     val mealOptions: StateFlow<List<MealOption>> = _mealOptions
 
@@ -81,6 +84,10 @@ class MealJournalViewModel @Inject constructor(
                 .map { list -> list.filter { it.active } }
                 .collect { _socialOptions.value = it }
         }
+    }
+    
+    fun updateMealTime(time: String) {
+        _mealTime.value = time
     }
 
     fun toggleMealSelection(description: String) {
