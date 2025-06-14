@@ -41,7 +41,7 @@ internal fun MoodJournalReflectionScreen(
             entryTime = entryTime,
             reflection = reflection,
             onValueChange = viewModel::updateReflection,
-            onSave = viewModel::saveJournal,
+            onSave = viewModel::saveMoodJournal,
             onBack = onBack,
             onFinish = onFinish
         )

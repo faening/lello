@@ -183,7 +183,7 @@ class MoodJournalViewModel @Inject constructor(
         )
     }
 
-    fun saveJournal() {
+    fun saveMoodJournal() {
         if (_moodJournal.value != null) return
         viewModelScope.launch {
             val journal = buildMoodJournal()
