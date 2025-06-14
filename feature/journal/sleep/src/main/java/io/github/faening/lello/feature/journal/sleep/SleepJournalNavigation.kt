@@ -11,6 +11,7 @@ import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
+import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalDetailsScreen
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalMoodScreen
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalScreen
 
@@ -18,7 +19,7 @@ object SleepJournalDestinations {
     const val GRAPH = "journal_sleep_graph"
     const val HOME = "journal_sleep_home"
     const val MOOD = "journal_sleep_mood"
-
+    const val DETAILS = "journal_sleep_details"
     const val SUMMARY = "journal_sleep_summary"
 }
 
@@ -43,7 +44,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
             SleepJournalMoodScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = {  },
+                onNext = { navController.navigate(SleepJournalDestinations.DETAILS) },
                 onFinish = { navController.navigate(SleepJournalDestinations.SUMMARY) },
                 onOpenSleepSensationOptionSettings = {
                     navController.navigate(
@@ -56,8 +57,41 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
             )
         }
 
+        // Step 3: Details screen to provide more information about the sleep journal entry.
+        composable(SleepJournalDestinations.DETAILS) { backStackEntry ->
+            val viewModel = sharedSleepJournalViewModel(navController, backStackEntry)
+            SleepJournalDetailsScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onFinish = { navController.navigate(SleepJournalDestinations.SUMMARY) },
+                onOpenSleepQualityOptionSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.listRoute(
+                            type = JournalOptionType.SLEEP_QUALITY,
+                            scheme = LelloColorScheme.DEFAULT
+                        )
+                    )
+                },
+                onOpenSleepActivityOptionSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.listRoute(
+                            type = JournalOptionType.SLEEP_ACTIVITY,
+                            scheme = LelloColorScheme.DEFAULT
+                        )
+                    )
+                },
+                onOpenLocationOptionSettings = {
+                    navController.navigate(
+                        JournalSettingsDestinations.listRoute(
+                            JournalOptionType.LOCATION,
+                            scheme = LelloColorScheme.DEFAULT
+                        )
+                    )
+                }
+            )
+        }
 
-
+        // Step 4: Summary screen to review the sleep journal entry.
     }
 }
 
