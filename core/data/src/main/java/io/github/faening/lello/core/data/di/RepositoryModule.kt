@@ -15,7 +15,7 @@ import io.github.faening.lello.core.data.repository.LocationOptionRepository
 import io.github.faening.lello.core.data.repository.MealOptionRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.PortionOptionRepository
-import io.github.faening.lello.core.data.repository.SensationOptionRepository
+import io.github.faening.lello.core.data.repository.SleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
 import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
@@ -30,7 +30,7 @@ import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
-import io.github.faening.lello.core.database.dao.SensationOptionDao
+import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
@@ -48,7 +48,7 @@ import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.MealOption
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.PortionOption
-import io.github.faening.lello.core.model.journal.SensationOption
+import io.github.faening.lello.core.model.journal.SleepSensationOption
 import io.github.faening.lello.core.model.journal.SleepActivityOption
 import io.github.faening.lello.core.model.journal.SleepQualityOption
 import io.github.faening.lello.core.model.journal.SocialOption
@@ -151,10 +151,10 @@ object RepositoryModule {
     }
 
     @Provides
-    fun provideSensationOptionRepository(
-        dao: SensationOptionDao
-    ): OptionResources<SensationOption> {
-        return SensationOptionRepository(dao)
+    fun provideSleepSensationOptionRepository(
+        dao: SleepSensationOptionDao
+    ): OptionResources<SleepSensationOption> {
+        return SleepSensationOptionRepository(dao)
     }
 
     @Provides

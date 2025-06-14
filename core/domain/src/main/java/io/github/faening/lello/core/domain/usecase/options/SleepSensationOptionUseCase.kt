@@ -5,12 +5,12 @@ import io.github.faening.lello.core.domain.util.capitalizeFirst
 import io.github.faening.lello.core.domain.util.validateDescription
 import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.domain.util.validateNotBlocked
-import io.github.faening.lello.core.model.journal.SensationOption
+import io.github.faening.lello.core.model.journal.SleepSensationOption
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SensationOptionUseCase @Inject constructor(
-    private val repository: OptionResources<SensationOption>
+class SleepSensationOptionUseCase @Inject constructor(
+    private val repository: OptionResources<SleepSensationOption>
 ) {
 
     fun getAll(
@@ -18,16 +18,16 @@ class SensationOptionUseCase @Inject constructor(
         isBlocked: Boolean = true,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ): Flow<List<SensationOption>> {
+    ): Flow<List<SleepSensationOption>> {
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Long): Flow<SensationOption>? {
+    fun getById(id: Long): Flow<SleepSensationOption>? {
         id.validateId()
         return repository.getById(id)
     }
 
-    suspend fun save(vararg items: SensationOption) {
+    suspend fun save(vararg items: SleepSensationOption) {
         val formattedItems = items.map { item ->
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
@@ -35,7 +35,7 @@ class SensationOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.insert(item) }
     }
 
-    suspend fun update(vararg items: SensationOption) {
+    suspend fun update(vararg items: SleepSensationOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
             item.id.validateId()
@@ -48,14 +48,14 @@ class SensationOptionUseCase @Inject constructor(
     /**
      * Update only the active flag of provided sensation options.
      */
-    suspend fun updateActiveStatus(vararg items: SensationOption) {
+    suspend fun updateActiveStatus(vararg items: SleepSensationOption) {
         items.forEach { item ->
             item.id.validateId()
         }
         items.forEach { item -> repository.update(item) }
     }
 
-    suspend fun delete(vararg items: SensationOption) {
+    suspend fun delete(vararg items: SleepSensationOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
             item.id.validateId()

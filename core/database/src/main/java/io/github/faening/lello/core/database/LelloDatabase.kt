@@ -14,7 +14,7 @@ import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
-import io.github.faening.lello.core.database.dao.SensationOptionDao
+import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
@@ -34,7 +34,7 @@ import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntity
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.option.SensationOptionEntity
+import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
@@ -54,9 +54,9 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         LocationOptionEntity::class,
         MealOptionEntity::class,
         PortionOptionEntity::class,
-        SensationOptionEntity::class,
         SleepActivityOptionEntity::class,
         SleepQualityOptionEntity::class,
+        SleepSensationOptionEntity::class,
         SocialOptionEntity::class,
         MoodJournalEntity::class,
         MoodJournalEntityEmotionOptionEntityCrossRef::class,
@@ -89,8 +89,8 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun locationOptionDao() : LocationOptionDao
     abstract fun mealOptionDao(): MealOptionDao
     abstract fun portionOptionDao(): PortionOptionDao
-    abstract fun sensationOptionDao() : SensationOptionDao
     abstract fun sleepActivityOptionDao() : SleepActivityOptionDao
     abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
+    abstract fun sleepSensationOptionDao() : SleepSensationOptionDao
     abstract fun socialOptionDao() : SocialOptionDao
 }

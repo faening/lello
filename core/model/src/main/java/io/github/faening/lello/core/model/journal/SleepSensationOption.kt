@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.model.journal
 
-data class SensationOption(
+data class SleepSensationOption(
     override val id: Long = 0L,
     override val description: String,
     override val blocked: Boolean = false,

@@ -72,11 +72,6 @@ internal object DaoModule {
     ) = database.portionOptionDao()
 
     @Provides
-    fun provideSensationOptionDao(
-        database: LelloDatabase,
-    ) = database.sensationOptionDao()
-
-    @Provides
     fun provideSleepActivityOptionDao(
         database: LelloDatabase,
     ) = database.sleepActivityOptionDao()
@@ -85,6 +80,11 @@ internal object DaoModule {
     fun provideSleepQualityOptionDao(
         database: LelloDatabase,
     ) = database.sleepQualityOptionDao()
+
+    @Provides
+    fun provideSleepSensationOptionDao(
+        database: LelloDatabase,
+    ) = database.sleepSensationOptionDao()
 
     @Provides
     fun provideSocialOptionDao(
