@@ -8,7 +8,7 @@ import io.github.faening.lello.feature.journal.meal.journalMealGraph
 import io.github.faening.lello.feature.journal.medication.navigation.journalMedicationGraph
 import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.journalSettingsGraph
-import io.github.faening.lello.feature.journal.sleep.navigation.journalSleepGraph
+import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.menu.achievement.navigation.achievementGraph
 import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
 import io.github.faening.lello.feature.menu.home.navigation.homeGraph
@@ -33,7 +33,7 @@ fun LelloNavHost(
         journalMealGraph(navController = navController)
         journalMedicationGraph(navController = navController)
         moodJournalGraph(navController = navController)
-        journalSleepGraph(navController = navController)
+        sleepJournalGraph(navController = navController)
         journalSettingsGraph(navController = navController)
     }
 }

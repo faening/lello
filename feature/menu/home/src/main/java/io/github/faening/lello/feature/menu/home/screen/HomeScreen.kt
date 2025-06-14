@@ -26,7 +26,7 @@ import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
 import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
 import io.github.faening.lello.feature.journal.mood.MoodJournalDestinations
-import io.github.faening.lello.feature.journal.sleep.navigation.JournalSleepDestinations
+import io.github.faening.lello.feature.journal.sleep.SleepJournalDestinations
 import io.github.faening.lello.feature.menu.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,7 +95,7 @@ private fun JournalContent(
                     onClick = {
                         when (category.name) {
                             "Diário de Humor" -> onNavigateToModule(MoodJournalDestinations.GRAPH)
-                            "Diário de Sono" -> onNavigateToModule(JournalSleepDestinations.GRAPH)
+                            "Diário de Sono" -> onNavigateToModule(SleepJournalDestinations.GRAPH)
                             "Diário de Medicamentos" -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
                             "Diário de Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
 
