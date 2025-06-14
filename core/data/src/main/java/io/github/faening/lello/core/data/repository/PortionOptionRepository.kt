@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.model.option.PortionOptionEntity
-import io.github.faening.lello.core.model.journal.PortionOption
+import io.github.faening.lello.core.model.option.PortionOption
 import jakarta.inject.Inject
 
 class PortionOptionRepository @Inject constructor(

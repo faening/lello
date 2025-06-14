@@ -29,9 +29,9 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.domain.mock.SleepActivityOptionMock
 import io.github.faening.lello.core.domain.mock.SleepQualityOptionMock
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.SleepActivityOption
-import io.github.faening.lello.core.model.journal.SleepQualityOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.SleepActivityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 
 @Composable

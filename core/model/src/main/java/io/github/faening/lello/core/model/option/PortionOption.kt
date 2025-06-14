@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.model.journal
+package io.github.faening.lello.core.model.option
 
 data class PortionOption(
     override val id: Long = 0L,

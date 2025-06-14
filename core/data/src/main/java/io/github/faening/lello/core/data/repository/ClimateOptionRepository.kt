@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
-import io.github.faening.lello.core.model.journal.ClimateOption
+import io.github.faening.lello.core.model.option.ClimateOption
 import jakarta.inject.Inject
 
 class ClimateOptionRepository @Inject constructor(

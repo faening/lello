@@ -1,6 +1,6 @@
-package io.github.faening.lello.core.model.journal
+package io.github.faening.lello.core.model.option
 
-data class SleepQualityOption(
+data class HealthOption(
     override val id: Long = 0L,
     override val description: String,
     override val blocked: Boolean = false,

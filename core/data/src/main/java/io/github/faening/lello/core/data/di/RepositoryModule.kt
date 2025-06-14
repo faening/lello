@@ -39,22 +39,22 @@ import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
-import io.github.faening.lello.core.model.journal.AppetiteOption
-import io.github.faening.lello.core.model.journal.ClimateOption
-import io.github.faening.lello.core.model.journal.DosageFormOption
-import io.github.faening.lello.core.model.journal.EmotionOption
-import io.github.faening.lello.core.model.journal.FoodOption
-import io.github.faening.lello.core.model.journal.HealthOption
+import io.github.faening.lello.core.model.option.AppetiteOption
+import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.DosageFormOption
+import io.github.faening.lello.core.model.option.EmotionOption
+import io.github.faening.lello.core.model.option.FoodOption
+import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.MealOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
-import io.github.faening.lello.core.model.journal.PortionOption
-import io.github.faening.lello.core.model.journal.SleepSensationOption
-import io.github.faening.lello.core.model.journal.SleepActivityOption
-import io.github.faening.lello.core.model.journal.SleepQualityOption
-import io.github.faening.lello.core.model.journal.SocialOption
+import io.github.faening.lello.core.model.option.PortionOption
+import io.github.faening.lello.core.model.option.SleepSensationOption
+import io.github.faening.lello.core.model.option.SleepActivityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
+import io.github.faening.lello.core.model.option.SocialOption
 
 /**
  * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.

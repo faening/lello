@@ -31,10 +31,10 @@ import io.github.faening.lello.core.domain.mock.FoodOptionMock
 import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.domain.mock.PortionOptionMock
 import io.github.faening.lello.core.domain.mock.SocialOptionMock
-import io.github.faening.lello.core.model.journal.FoodOption
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.PortionOption
-import io.github.faening.lello.core.model.journal.SocialOption
+import io.github.faening.lello.core.model.option.FoodOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.PortionOption
+import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
 
 @Composable

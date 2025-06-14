@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.mock
 
-import io.github.faening.lello.core.model.journal.PortionOption
+import io.github.faening.lello.core.model.option.PortionOption
 
 object PortionOptionMock {
     val list = listOf(

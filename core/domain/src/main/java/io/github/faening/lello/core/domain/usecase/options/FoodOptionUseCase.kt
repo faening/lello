@@ -5,7 +5,7 @@ import io.github.faening.lello.core.domain.util.capitalizeFirst
 import io.github.faening.lello.core.domain.util.validateDescription
 import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.domain.util.validateNotBlocked
-import io.github.faening.lello.core.model.journal.FoodOption
+import io.github.faening.lello.core.model.option.FoodOption
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

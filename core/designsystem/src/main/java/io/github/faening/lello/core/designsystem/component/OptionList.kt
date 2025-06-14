@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.journal.EmotionOption
-import io.github.faening.lello.core.model.journal.JournalOption
+import io.github.faening.lello.core.model.option.EmotionOption
+import io.github.faening.lello.core.model.option.JournalOption
 
 @Composable
 fun LelloOptionList(

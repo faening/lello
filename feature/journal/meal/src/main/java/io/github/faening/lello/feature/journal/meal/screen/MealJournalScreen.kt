@@ -29,7 +29,7 @@ import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.MealOptionMock
-import io.github.faening.lello.core.model.journal.MealOption
+import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 

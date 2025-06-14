@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.option.EmotionOption
 
 @Entity(tableName = "emotion_options")
 data class EmotionOptionEntity(

@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
-import io.github.faening.lello.core.model.journal.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
 import jakarta.inject.Inject
 
 class SleepQualityOptionRepository @Inject constructor(

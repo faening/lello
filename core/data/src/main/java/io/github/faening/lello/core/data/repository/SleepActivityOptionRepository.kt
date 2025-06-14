@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
-import io.github.faening.lello.core.model.journal.SleepActivityOption
+import io.github.faening.lello.core.model.option.SleepActivityOption
 import jakarta.inject.Inject
 
 class SleepActivityOptionRepository @Inject constructor(

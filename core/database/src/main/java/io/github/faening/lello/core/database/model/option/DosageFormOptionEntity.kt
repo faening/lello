@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.DosageFormOption
+import io.github.faening.lello.core.model.option.DosageFormOption
 
 @Entity(tableName = "dosage_form_options")
 data class DosageFormOptionEntity(

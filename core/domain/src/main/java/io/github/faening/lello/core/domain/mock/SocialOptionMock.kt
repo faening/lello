@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.domain.mock
 
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.SocialOption
+import io.github.faening.lello.core.model.option.SocialOption
 
 object SocialOptionMock {
     val list = listOf(
