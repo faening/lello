@@ -53,9 +53,9 @@ private fun SleepJournalContainer(
 ) {
     Scaffold(
         topBar = { SleepJournalTopBar(onBack) },
-        bottomBar = { SleepJournalMoodBottomBar(onNext) }
+        bottomBar = { SleepJournalBottomBar(onNext) }
     ) { paddingValues ->
-        MealJournalContent(
+        SleepJournalContent(
             sleepDuration = sleepDuration,
             onSleepDurationChange = onSleepDurationChange,
             modifier = Modifier.padding(paddingValues)
@@ -74,7 +74,7 @@ private fun SleepJournalTopBar(
 }
 
 @Composable
-private fun SleepJournalMoodBottomBar(
+private fun SleepJournalBottomBar(
     onNext: () -> Unit
 ) {
     Box(
@@ -92,7 +92,7 @@ private fun SleepJournalMoodBottomBar(
 }
 
 @Composable
-private fun MealJournalContent(
+private fun SleepJournalContent(
     sleepDuration: String,
     onSleepDurationChange: (String) -> Unit,
     modifier: Modifier = Modifier
