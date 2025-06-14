@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import io.github.faening.lello.feature.journal.meal.journalMealGraph
+import io.github.faening.lello.feature.journal.meal.mealJournalGraph
 import io.github.faening.lello.feature.journal.medication.navigation.journalMedicationGraph
 import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.journalSettingsGraph
@@ -30,10 +30,10 @@ fun LelloNavHost(
         profileGraph(navController = navController)
 
         // Journals
-        journalMealGraph(navController = navController)
+        mealJournalGraph(navController = navController)
         journalMedicationGraph(navController = navController)
         moodJournalGraph(navController = navController)
-        sleepJournalGraph(navController = navController)
         journalSettingsGraph(navController = navController)
+        sleepJournalGraph(navController = navController)
     }
 }

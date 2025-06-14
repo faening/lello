@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -14,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,15 +26,19 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.FoodOptionMock
+import io.github.faening.lello.core.domain.mock.LocationOptionMock
+import io.github.faening.lello.core.domain.mock.PortionOptionMock
+import io.github.faening.lello.core.domain.mock.SocialOptionMock
 import io.github.faening.lello.core.model.journal.FoodOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.PortionOption
 import io.github.faening.lello.core.model.journal.SocialOption
-import io.github.faening.lello.feature.journal.meal.JournalMealViewModel
+import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
 
 @Composable
-internal fun JournalMealDetailsScreen(
-    viewModel: JournalMealViewModel,
+internal fun MealJournalDetailsScreen(
+    viewModel: MealJournalViewModel,
     onBack: () -> Unit,
     onFinish: () -> Unit,
     onOpenFoodOptionSettings: () -> Unit,
@@ -40,24 +46,24 @@ internal fun JournalMealDetailsScreen(
     onOpenLocationOptionSettings: () -> Unit,
     onOpenSocialOptionSettings: () -> Unit,
 ) {
-    val foodOptions = mutableListOf<FoodOption>()
-    val portionOptions = mutableListOf<PortionOption>()
-    val locationOptions = mutableListOf<LocationOption>()
-    val socialOptions = mutableListOf<SocialOption>()
+    val foodOptions by viewModel.foodOptions.collectAsState()
+    val portionOptions by viewModel.portionOptions.collectAsState()
+    val locationOptions by viewModel.locationOptions.collectAsState()
+    val socialOptions by viewModel.socialOptions.collectAsState()
 
     LelloTheme {
-        JournalMealDetailsContainer(
+        MealJournalDetailsContainer(
             foodOptions = foodOptions,
-            onFoodOptionToggle = { _ -> },
+            onFoodOptionToggle = viewModel::toggleFoodSelection,
             onOpenFoodOptionSettings = onOpenFoodOptionSettings,
             portionOptions = portionOptions,
-            onPortionOptionToggle = { _ -> },
+            onPortionOptionToggle = viewModel::togglePortionSelection,
             onOpenPortionOptionSettings = onOpenPortionOptionSettings,
             locationOptions = locationOptions,
-            onLocationOptionToggle = { _ -> },
+            onLocationOptionToggle = viewModel::toggleLocationSelection,
             onOpenLocationOptionSettings = onOpenLocationOptionSettings,
             socialOptions = socialOptions,
-            onSocialOptionToggle = { _ -> },
+            onSocialOptionToggle = viewModel::toggleSocialSelection,
             onOpenSocialOptionSettings = onOpenSocialOptionSettings,
             onBack = onBack,
             onFinish = onFinish
@@ -66,7 +72,7 @@ internal fun JournalMealDetailsScreen(
 }
 
 @Composable
-private fun JournalMealDetailsContainer(
+private fun MealJournalDetailsContainer(
     foodOptions: List<FoodOption>,
     onFoodOptionToggle: (String) -> Unit,
     onOpenFoodOptionSettings: () -> Unit,
@@ -83,10 +89,10 @@ private fun JournalMealDetailsContainer(
     onFinish: () -> Unit,
 ) {
     Scaffold(
-        topBar = { JournalMealDetailsTopBar(onBack) },
-        bottomBar = { JournalMealDetailsBottomBar(onFinish) }
+        topBar = { MealJournalDetailsTopBar(onBack) },
+        bottomBar = { MealJournalDetailsBottomBar(onFinish) }
     ) { paddingValues ->
-        JournalMealDetailsContent(
+        MealJournalDetailsContent(
             foodOptions = foodOptions,
             onFoodOptionToggle = onFoodOptionToggle,
             onOpenFoodOptionSettings = onOpenFoodOptionSettings,
@@ -105,7 +111,7 @@ private fun JournalMealDetailsContainer(
 }
 
 @Composable
-private fun JournalMealDetailsTopBar(
+private fun MealJournalDetailsTopBar(
     onBack: () -> Unit
 ) {
     LelloTopAppBar(
@@ -115,7 +121,7 @@ private fun JournalMealDetailsTopBar(
 }
 
 @Composable
-private fun JournalMealDetailsBottomBar(
+private fun MealJournalDetailsBottomBar(
     onFinish: () -> Unit
 ) {
     Row(
@@ -134,7 +140,7 @@ private fun JournalMealDetailsBottomBar(
 }
 
 @Composable
-private fun JournalMealDetailsContent(
+private fun MealJournalDetailsContent(
     foodOptions: List<FoodOption>,
     onFoodOptionToggle: (String) -> Unit,
     onOpenFoodOptionSettings: () -> Unit,
@@ -208,19 +214,19 @@ private fun JournalMealDetailsContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalMealDetailsScreenPreview() {
+fun MealJournalDetailsScreenPreview() {
     LelloTheme {
-        JournalMealDetailsContainer(
-            foodOptions = mutableListOf(),
+        MealJournalDetailsContainer(
+            foodOptions = FoodOptionMock.list,
             onFoodOptionToggle = { _ -> },
             onOpenFoodOptionSettings = {},
-            portionOptions = mutableListOf(),
+            portionOptions = PortionOptionMock.list,
             onPortionOptionToggle = { _ -> },
             onOpenPortionOptionSettings = {},
-            locationOptions = mutableListOf(),
+            locationOptions = LocationOptionMock.list,
             onLocationOptionToggle = { _ -> },
             onOpenLocationOptionSettings = {},
-            socialOptions = mutableListOf(),
+            socialOptions = SocialOptionMock.list,
             onSocialOptionToggle = { _ -> },
             onOpenSocialOptionSettings = {},
             onBack = {},

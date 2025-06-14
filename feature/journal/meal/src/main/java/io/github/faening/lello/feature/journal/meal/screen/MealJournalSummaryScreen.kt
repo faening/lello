@@ -16,37 +16,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.journal.meal.JournalMealViewModel
+import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
 
 @Composable
-internal fun JournalMealSummaryScreen(
-    viewModel: JournalMealViewModel,
+internal fun MealJournalSummaryScreen(
+    viewModel: MealJournalViewModel,
     onExit: () -> Unit
 ) {
 
-    LelloTheme {
-        JournalMealSummaryContainer(
+    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+        MealJournalSummaryContainer(
             onExit = onExit
         )
     }
 }
 
 @Composable
-private fun JournalMealSummaryContainer(
+private fun MealJournalSummaryContainer(
     onExit: () -> Unit
 ) {
     Scaffold(
-        bottomBar = { JournalMealSummaryBottomBar(onExit) }
+        bottomBar = { MealJournalSummaryBottomBar(onExit) }
     ) { paddingValues ->
-        JournalMealSummaryContent(
+        MealJournalSummaryContent(
             modifier = Modifier.padding(paddingValues)
         )
     }
 }
 
 @Composable
-private fun JournalMealSummaryBottomBar(
+private fun MealJournalSummaryBottomBar(
     onExit: () -> Unit
 ) {
     Row(
@@ -62,7 +63,7 @@ private fun JournalMealSummaryBottomBar(
 }
 
 @Composable
-private fun JournalMealSummaryContent(
+private fun MealJournalSummaryContent(
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -89,9 +90,9 @@ private fun JournalMealSummaryContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun JournalMealSummaryScreenPreview() {
+private fun MealJournalSummaryScreenPreview() {
     LelloTheme {
-        JournalMealSummaryContainer(
+        MealJournalSummaryContainer(
             onExit = {},
         )
     }

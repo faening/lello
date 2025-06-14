@@ -1,23 +1,24 @@
 package io.github.faening.lello.feature.journal.meal.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
@@ -25,59 +26,58 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.journal.AppetiteOption
-import io.github.faening.lello.feature.journal.meal.JournalMealViewModel
+import io.github.faening.lello.core.domain.mock.MealOptionMock
+import io.github.faening.lello.core.model.journal.MealOption
+import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
-internal fun JournalMealAppetiteScreen(
-    viewModel: JournalMealViewModel,
+internal fun MealJournalScreen(
+    viewModel: MealJournalViewModel,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onFinish: () -> Unit,
-    onOpenAppetiteOptionSettings: () -> Unit,
+    onOpenMealOptionSettings: () -> Unit,
 ) {
-    val appetiteOptions = mutableListOf<AppetiteOption>()
+    val mealOptions by viewModel.mealOptions.collectAsState()
 
-    LelloTheme {
-        JournalMealAppetiteContainer(
-            appetiteOptions = appetiteOptions,
-            onAppetiteOptionToggle = { _ -> },
-            onOpenAppetiteOptionSettings = onOpenAppetiteOptionSettings,
+    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+        MealJournalContainer(
+            mealOptions = mealOptions,
+            onMealOptionToggle = viewModel::toggleMealSelection,
+            onOpenMealOptionSettings = onOpenMealOptionSettings,
             onBack = onBack,
-            onNext = onNext,
-            onFinish = onFinish
+            onNext = onNext
         )
     }
 }
 
 @Composable
-private fun JournalMealAppetiteContainer(
-    appetiteOptions: List<AppetiteOption>,
-    onAppetiteOptionToggle: (String) -> Unit,
-    onOpenAppetiteOptionSettings: () -> Unit,
+private fun MealJournalContainer(
+    mealOptions: List<MealOption>,
+    onMealOptionToggle: (String) -> Unit,
+    onOpenMealOptionSettings: () -> Unit,
     onBack: () -> Unit,
-    onNext: () -> Unit,
-    onFinish: () -> Unit,
+    onNext: () -> Unit
 ) {
-    val anySelected = appetiteOptions.any { it.selected }
+    val anySelected = mealOptions.any { it.selected }
 
     Scaffold(
-        topBar = { JournalMealAppetiteTopBar(onBack) },
-        bottomBar = { JournalMealAppetiteBottomBar(anySelected, onNext, onFinish) }
+        topBar = { MealJournalTopBar(onBack) },
+        bottomBar = { MealJournalBottomBar(anySelected, onNext) }
     ) { paddingValues ->
-        JournalMealAppetiteContent(
-            appetiteOptions = appetiteOptions,
-            onAppetiteOptionToggle = onAppetiteOptionToggle,
-            onOpenAppetiteOptionSettings = onOpenAppetiteOptionSettings,
+        MealJournalContent(
+            mealOptions = mealOptions,
+            onMealOptionToggle = onMealOptionToggle,
+            onOpenMealOptionSettings = onOpenMealOptionSettings,
             modifier = Modifier.padding(paddingValues)
         )
     }
 }
 
 @Composable
-private fun JournalMealAppetiteTopBar(
+private fun MealJournalTopBar(
     onBack: () -> Unit
 ) {
     LelloTopAppBar(
@@ -87,38 +87,30 @@ private fun JournalMealAppetiteTopBar(
 }
 
 @Composable
-private fun JournalMealAppetiteBottomBar(
+private fun MealJournalBottomBar(
     enabled: Boolean,
-    onNext: () -> Unit,
-    onFinish: () -> Unit
+    onNext: () -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
-        verticalAlignment = Alignment.CenterVertically
+            .wrapContentWidth(Alignment.End)
+            .padding(Dimension.Medium)
     ) {
-        LelloFilledButton(
-            label = "Concluir",
-            enabled = enabled,
-            onClick = onFinish,
-            modifier = Modifier.weight(1f)
-        )
-
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
+            enabled = enabled,
             onClick = onNext
         )
     }
 }
 
 @Composable
-private fun JournalMealAppetiteContent(
-    appetiteOptions: List<AppetiteOption>,
-    onAppetiteOptionToggle: (String) -> Unit,
-    onOpenAppetiteOptionSettings: () -> Unit,
+private fun MealJournalContent(
+    mealOptions: List<MealOption>,
+    onMealOptionToggle: (String) -> Unit,
+    onOpenMealOptionSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -134,10 +126,10 @@ private fun JournalMealAppetiteContent(
 
         LelloOptionPillSelector(
             title = null,
-            options = appetiteOptions,
+            options = mealOptions,
             isSelected = { it.selected },
-            onToggle = { option -> onAppetiteOptionToggle(option.description) },
-            onOpenSettings = onOpenAppetiteOptionSettings,
+            onToggle = { option -> onMealOptionToggle(option.description) },
+            onOpenSettings = onOpenMealOptionSettings,
             getLabel = { it.description }
         )
     }
@@ -150,15 +142,14 @@ private fun JournalMealAppetiteContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun JournalMealAppetiteScreenPreview() {
+private fun MealJournalScreenPreview() {
     LelloTheme {
-        JournalMealAppetiteContainer(
-            appetiteOptions = mutableListOf(),
-            onAppetiteOptionToggle = { _ -> },
-            onOpenAppetiteOptionSettings = {},
+        MealJournalContainer(
+            mealOptions = MealOptionMock.list,
+            onMealOptionToggle = { _ -> },
+            onOpenMealOptionSettings = {},
             onBack = {},
             onNext = {},
-            onFinish = {},
         )
     }
 }
