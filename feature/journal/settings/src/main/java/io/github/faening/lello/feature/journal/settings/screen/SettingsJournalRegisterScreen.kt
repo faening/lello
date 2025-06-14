@@ -22,12 +22,12 @@ import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
+import io.github.faening.lello.feature.journal.settings.SettingsJournalViewModel
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 @Composable
-internal fun JournalSettingsRegisterScreen(
-    viewModel: JournalSettingsViewModel,
+internal fun SettingsJournalRegisterScreen(
+    viewModel: SettingsJournalViewModel,
     optionType: JournalOptionType,
     colorScheme: LelloColorScheme,
     onBack: () -> Unit
@@ -35,7 +35,7 @@ internal fun JournalSettingsRegisterScreen(
     val textState = remember { mutableStateOf("") }
 
     LelloTheme(scheme = colorScheme) {
-        JournalSettingsRegisterContainer(
+        SettingsJournalRegisterContainer(
             optionType = optionType,
             text = textState.value,
             onTextChange = { textState.value = it },
@@ -49,7 +49,7 @@ internal fun JournalSettingsRegisterScreen(
 }
 
 @Composable
-private fun JournalSettingsRegisterContainer(
+private fun SettingsJournalRegisterContainer(
     optionType: JournalOptionType,
     text: String,
     onTextChange: (String) -> Unit,
@@ -57,15 +57,15 @@ private fun JournalSettingsRegisterContainer(
     onBack: () -> Unit
 ) {
     Scaffold(
-        topBar = { JournalSettingsRegisterTopBar(optionType, onBack) },
+        topBar = { SettingsJournalRegisterTopBar(optionType, onBack) },
         bottomBar = {
-            JournalSettingsRegisterBottomBar(
+            SettingsJournalRegisterBottomBar(
                 enabled = text.trim().isNotEmpty(),
                 onSave = onSave
             )
         }
     ) { paddingValues ->
-        JournalSettingsRegisterContent(
+        SettingsJournalRegisterContent(
             text = text,
             onTextChange = onTextChange,
             modifier = Modifier.padding(paddingValues)
@@ -74,7 +74,7 @@ private fun JournalSettingsRegisterContainer(
 }
 
 @Composable
-private fun JournalSettingsRegisterTopBar(
+private fun SettingsJournalRegisterTopBar(
     optionType: JournalOptionType,
     onBack: () -> Unit
 ) {
@@ -86,7 +86,7 @@ private fun JournalSettingsRegisterTopBar(
 }
 
 @Composable
-private fun JournalSettingsRegisterBottomBar(
+private fun SettingsJournalRegisterBottomBar(
     enabled: Boolean,
     onSave: () -> Unit
 ) {
@@ -106,7 +106,7 @@ private fun JournalSettingsRegisterBottomBar(
 }
 
 @Composable
-private fun JournalSettingsRegisterContent(
+private fun SettingsJournalRegisterContent(
     text: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -140,9 +140,9 @@ private fun JournalSettingsRegisterContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-fun JournalSettingsRegisterScreenPreview() {
+fun SettingsJournalRegisterScreenPreview() {
     LelloTheme {
-        JournalSettingsRegisterContainer(
+        SettingsJournalRegisterContainer(
             optionType = JournalOptionType.EMOTION,
             text = "",
             onTextChange = {},

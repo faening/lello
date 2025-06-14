@@ -10,10 +10,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
-import io.github.faening.lello.feature.journal.settings.screen.JournalSettingsRegisterScreen
-import io.github.faening.lello.feature.journal.settings.screen.JournalSettingsScreen
+import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalRegisterScreen
+import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalScreen
 
-object JournalSettingsDestinations {
+object SettingsJournalDestinations {
     const val GRAPH = "journal_settings_graph"
     const val SETTINGS = "journal_settings/{option}/{colorScheme}"
     const val REGISTER = "journal_settings_register/{option}/{colorScheme}"
@@ -25,12 +25,12 @@ object JournalSettingsDestinations {
         "journal_settings_register/${type.name}/${scheme.name}"
 }
 
-fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
+fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
     navigation(
-        startDestination = JournalSettingsDestinations.SETTINGS,
-        route = JournalSettingsDestinations.GRAPH
+        startDestination = SettingsJournalDestinations.SETTINGS,
+        route = SettingsJournalDestinations.GRAPH
     ) {
-        composable(JournalSettingsDestinations.SETTINGS) { backStackEntry ->
+        composable(SettingsJournalDestinations.SETTINGS) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
             val optionType = optionName?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
@@ -39,19 +39,19 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
                 ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
                 ?: LelloColorScheme.DEFAULT
 
-            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
-            JournalSettingsScreen(
+            val viewModel = sharedSettingsJournalViewModel(navController, backStackEntry)
+            SettingsJournalScreen(
                 viewModel = viewModel,
                 optionType = optionType,
                 colorScheme = colorScheme,
                 onBack = { navController.popBackStack() },
                 onRegister = {
-                    navController.navigate(JournalSettingsDestinations.registerRoute(optionType, colorScheme))
+                    navController.navigate(SettingsJournalDestinations.registerRoute(optionType, colorScheme))
                 }
             )
         }
 
-        composable(JournalSettingsDestinations.REGISTER) { backStackEntry ->
+        composable(SettingsJournalDestinations.REGISTER) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
             val optionType = optionName?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
@@ -60,8 +60,8 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
                 ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
                 ?: LelloColorScheme.DEFAULT
 
-            val viewModel = sharedJournalSettingsViewModel(navController, backStackEntry)
-            JournalSettingsRegisterScreen(
+            val viewModel = sharedSettingsJournalViewModel(navController, backStackEntry)
+            SettingsJournalRegisterScreen(
                 viewModel = viewModel,
                 optionType = optionType,
                 colorScheme = colorScheme,
@@ -72,12 +72,12 @@ fun NavGraphBuilder.journalSettingsGraph(navController: NavHostController) {
 }
 
 @Composable
-fun sharedJournalSettingsViewModel(
+fun sharedSettingsJournalViewModel(
     navController: NavHostController,
     backStackEntry: NavBackStackEntry
-): JournalSettingsViewModel {
+): SettingsJournalViewModel {
     val parentEntry = remember(backStackEntry) {
-        navController.getBackStackEntry(JournalSettingsDestinations.GRAPH)
+        navController.getBackStackEntry(SettingsJournalDestinations.GRAPH)
     }
     return hiltViewModel(parentEntry)
 }

@@ -13,7 +13,7 @@ import io.github.faening.lello.feature.journal.meal.screen.MealJournalAppetiteSc
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalDetailsScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalSummaryScreen
-import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
+import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 object JournalMealDestinations {
@@ -38,7 +38,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 onNext = { navController.navigate(JournalMealDestinations.APPETITE) },
                 onOpenMealOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.MEAL,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -57,7 +57,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(JournalMealDestinations.SUMMARY) },
                 onOpenAppetiteOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.APPETITE,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -75,7 +75,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(JournalMealDestinations.SUMMARY) },
                 onOpenFoodOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.FOOD,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -83,7 +83,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 },
                 onOpenPortionOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.PORTION,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -91,7 +91,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 },
                 onOpenLocationOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.LOCATION,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -99,7 +99,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                 },
                 onOpenSocialOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SOCIAL,
                             scheme = LelloColorScheme.DEFAULT
                         )

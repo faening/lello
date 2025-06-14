@@ -24,12 +24,12 @@ import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.journal.JournalOption
-import io.github.faening.lello.feature.journal.settings.JournalSettingsViewModel
+import io.github.faening.lello.feature.journal.settings.SettingsJournalViewModel
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 @Composable
-internal fun JournalSettingsScreen(
-    viewModel: JournalSettingsViewModel,
+internal fun SettingsJournalScreen(
+    viewModel: SettingsJournalViewModel,
     optionType: JournalOptionType,
     colorScheme: LelloColorScheme,
     onBack: () -> Unit,
@@ -38,7 +38,7 @@ internal fun JournalSettingsScreen(
     val options by viewModel.optionsFlow(optionType).collectAsState()
 
     LelloTheme(scheme = colorScheme) {
-        JournalSettingsContainer(
+        SettingsJournalContainer(
             optionType = optionType,
             options = options,
             onToggle = { option, active -> viewModel.toggleOption(optionType, option, active) },
@@ -49,7 +49,7 @@ internal fun JournalSettingsScreen(
 }
 
 @Composable
-private fun JournalSettingsContainer(
+private fun SettingsJournalContainer(
     optionType: JournalOptionType,
     options: List<JournalOption>,
     onToggle: (JournalOption, Boolean) -> Unit,
@@ -57,10 +57,10 @@ private fun JournalSettingsContainer(
     onRegister: () -> Unit
 ) {
     Scaffold(
-        topBar = { JournalSettingsTopBar(optionType, onBack) },
-        bottomBar = { JournalSettingsBottomBar(optionType, onRegister) }
+        topBar = { SettingsJournalTopBar(optionType, onBack) },
+        bottomBar = { SettingsJournalBottomBar(optionType, onRegister) }
     ) { paddingValues ->
-        JournalSettingsContent(
+        SettingsJournalContent(
             options = options,
             onToggle = onToggle,
             modifier = Modifier.padding(paddingValues)
@@ -69,7 +69,7 @@ private fun JournalSettingsContainer(
 }
 
 @Composable
-private fun JournalSettingsTopBar(
+private fun SettingsJournalTopBar(
     optionType: JournalOptionType,
     onBack: () -> Unit
 ) {
@@ -81,7 +81,7 @@ private fun JournalSettingsTopBar(
 }
 
 @Composable
-private fun JournalSettingsBottomBar(
+private fun SettingsJournalBottomBar(
     optionType: JournalOptionType,
     onRegister: () -> Unit
 ) {
@@ -97,7 +97,7 @@ private fun JournalSettingsBottomBar(
 }
 
 @Composable
-private fun JournalSettingsContent(
+private fun SettingsJournalContent(
     options: List<JournalOption>,
     onToggle: (JournalOption, Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -129,9 +129,9 @@ private fun JournalSettingsContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-fun JournalSettingsScreenPreview() {
+fun SettingsJournalScreenPreview() {
     LelloTheme {
-        JournalSettingsContainer(
+        SettingsJournalContainer(
             optionType = JournalOptionType.EMOTION,
             options = EmotionOptionMock.list,
             onToggle = { _, _ -> },

@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class JournalSettingsViewModel @Inject constructor(
+class SettingsJournalViewModel @Inject constructor(
     private val emotionOptionUseCase: EmotionOptionUseCase,
     private val climateOptionUseCase: ClimateOptionUseCase,
     private val locationOptionUseCase: LocationOptionUseCase,
