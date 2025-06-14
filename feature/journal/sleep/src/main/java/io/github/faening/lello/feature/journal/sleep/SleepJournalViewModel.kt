@@ -8,11 +8,11 @@ import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.SleepActivityOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.journal.SleepJournal
-import io.github.faening.lello.core.model.journal.SleepQualityOption
-import io.github.faening.lello.core.model.journal.SleepSensationOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepSensationOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

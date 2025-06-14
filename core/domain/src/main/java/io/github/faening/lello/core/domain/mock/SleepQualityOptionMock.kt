@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.mock
 
-import io.github.faening.lello.core.model.journal.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
 
 object SleepQualityOptionMock {
     val list = listOf(

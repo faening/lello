@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.option.EmotionOption
 import jakarta.inject.Inject
 
 class EmotionOptionRepository @Inject constructor(

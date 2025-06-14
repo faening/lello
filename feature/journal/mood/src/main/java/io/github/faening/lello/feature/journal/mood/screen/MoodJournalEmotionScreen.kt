@@ -29,7 +29,7 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 

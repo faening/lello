@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.LocationOption
+import io.github.faening.lello.core.model.option.LocationOption
 
 @Entity(tableName = "location_options")
 data class LocationOptionEntity(

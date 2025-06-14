@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.model.option.HealthOptionEntity
-import io.github.faening.lello.core.model.journal.HealthOption
+import io.github.faening.lello.core.model.option.HealthOption
 import jakarta.inject.Inject
 
 class HealthOptionRepository @Inject constructor(

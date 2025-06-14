@@ -1,5 +1,10 @@
 package io.github.faening.lello.core.model.journal
 
+import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.EmotionOption
+import io.github.faening.lello.core.model.option.HealthOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.SocialOption
 import java.util.Date
 
 data class MoodJournal(

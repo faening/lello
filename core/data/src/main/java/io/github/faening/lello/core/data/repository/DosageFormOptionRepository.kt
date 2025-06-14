@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
-import io.github.faening.lello.core.model.journal.DosageFormOption
+import io.github.faening.lello.core.model.option.DosageFormOption
 import jakarta.inject.Inject
 
 class DosageFormOptionRepository @Inject constructor(

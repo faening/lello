@@ -15,7 +15,7 @@ import io.github.faening.lello.feature.journal.mood.screen.MoodJournalEmotionScr
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalReflectionScreen
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalScreen
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalSummaryScreen
-import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
+import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
 object MoodJournalDestinations {
@@ -54,7 +54,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenEmotionOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.EMOTION,
                             mood.colorScheme
                         )
@@ -75,7 +75,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenHealthOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.HEALTH,
                             mood.colorScheme
                         )
@@ -83,7 +83,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 },
                 onOpenClimateOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.CLIMATE,
                             mood.colorScheme
                         )
@@ -91,7 +91,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 },
                 onOpenLocationOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.LOCATION,
                             mood.colorScheme
                         )
@@ -99,7 +99,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 },
                 onOpenSocialOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.SOCIAL,
                             mood.colorScheme
                         )

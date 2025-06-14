@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.model.option.FoodOptionEntity
-import io.github.faening.lello.core.model.journal.FoodOption
+import io.github.faening.lello.core.model.option.FoodOption
 import jakarta.inject.Inject
 
 class FoodOptionRepository @Inject constructor(

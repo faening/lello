@@ -32,10 +32,10 @@ import io.github.faening.lello.core.domain.mock.ClimateOptionMock
 import io.github.faening.lello.core.domain.mock.HealthOptionMock
 import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.domain.mock.SocialOptionMock
-import io.github.faening.lello.core.model.journal.ClimateOption
-import io.github.faening.lello.core.model.journal.HealthOption
-import io.github.faening.lello.core.model.journal.LocationOption
-import io.github.faening.lello.core.model.journal.SocialOption
+import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.HealthOption
+import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 

@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.MealOption
+import io.github.faening.lello.core.model.option.MealOption
 
 @Entity(tableName = "meal_options")
 data class MealOptionEntity(

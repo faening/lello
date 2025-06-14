@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.mock
 
-import io.github.faening.lello.core.model.journal.ClimateOption
+import io.github.faening.lello.core.model.option.ClimateOption
 
 object ClimateOptionMock {
     val list = listOf(

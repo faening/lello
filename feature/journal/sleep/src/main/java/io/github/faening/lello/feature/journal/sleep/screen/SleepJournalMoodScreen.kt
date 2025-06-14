@@ -29,7 +29,7 @@ import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.SleepSensationOptionMock
-import io.github.faening.lello.core.model.journal.SleepSensationOption
+import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 

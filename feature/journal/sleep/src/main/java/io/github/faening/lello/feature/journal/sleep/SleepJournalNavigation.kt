@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.feature.journal.settings.JournalSettingsDestinations
+import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalDetailsScreen
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalMoodScreen
@@ -49,7 +49,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(SleepJournalDestinations.SUMMARY) },
                 onOpenSleepSensationOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_SENSATION,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -67,7 +67,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(SleepJournalDestinations.SUMMARY) },
                 onOpenSleepQualityOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_QUALITY,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -75,7 +75,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                 },
                 onOpenSleepActivityOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_ACTIVITY,
                             scheme = LelloColorScheme.DEFAULT
                         )
@@ -83,7 +83,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                 },
                 onOpenLocationOptionSettings = {
                     navController.navigate(
-                        JournalSettingsDestinations.listRoute(
+                        SettingsJournalDestinations.listRoute(
                             JournalOptionType.LOCATION,
                             scheme = LelloColorScheme.DEFAULT
                         )

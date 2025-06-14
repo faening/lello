@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.mock
 
-import io.github.faening.lello.core.model.journal.EmotionOption
+import io.github.faening.lello.core.model.option.EmotionOption
 
 object EmotionOptionMock {
     val list = listOf(

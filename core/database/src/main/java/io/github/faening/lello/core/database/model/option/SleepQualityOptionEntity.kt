@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
 
 @Entity(tableName = "sleep_quality_options")
 data class SleepQualityOptionEntity(

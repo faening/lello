@@ -2,7 +2,7 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.journal.ClimateOption
+import io.github.faening.lello.core.model.option.ClimateOption
 
 @Entity(tableName = "climate_options")
 data class ClimateOptionEntity(
