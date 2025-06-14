@@ -60,7 +60,7 @@ internal fun SleepJournalDetailsScreen(
             onOpenLocationOptionSettings = onOpenLocationOptionSettings,
             sleeplessTime = viewModel.sleeplessTime.collectAsState().value,
             onSleeplessTimeChange = viewModel::updateSleeplessTime,
-            onSave = {},
+            onSave = viewModel::saveSleepJournal,
             onBack = onBack,
             onFinish = onFinish
         )

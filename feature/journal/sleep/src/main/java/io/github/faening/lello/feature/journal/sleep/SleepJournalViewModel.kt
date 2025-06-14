@@ -9,6 +9,7 @@ import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUse
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.SleepActivityOption
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.journal.SleepQualityOption
 import io.github.faening.lello.core.model.journal.SleepSensationOption
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.map
 
 @HiltViewModel
 class SleepJournalViewModel @Inject constructor(
@@ -44,6 +44,8 @@ class SleepJournalViewModel @Inject constructor(
 
     private val _sleeplessTime = MutableStateFlow("")
     val sleeplessTime: StateFlow<String> = _sleeplessTime
+
+    private val _sleepJournal = MutableStateFlow<SleepJournal?>(null)
 
     init {
         viewModelScope.launch {
@@ -110,6 +112,28 @@ class SleepJournalViewModel @Inject constructor(
             list.map {
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
+        }
+    }
+
+    private fun buildSleepJournal(): SleepJournal {
+        return SleepJournal(
+            date = System.currentTimeMillis(),
+            duration = _sleepDuration.value.toIntOrNull() ?: 0,
+            sleeplessTime = _sleeplessTime.value.toIntOrNull() ?: 0,
+            sleepSensationOptions = _sleepSensationOptions.value.filter { it.selected },
+            sleepQualityOptions = _sleepQualityOptions.value.filter { it.selected },
+            sleepActivityOptions = _sleepActivityOptions.value.filter { it.selected },
+            locationOptions = _locationOptions.value.filter { it.selected }
+        ).also {
+            _sleepJournal.value = it
+        }
+    }
+
+    fun saveSleepJournal() {
+        if (_sleepJournal != null) return
+        viewModelScope.launch {
+            val journal = buildSleepJournal()
+            // Add sleepJournalUseCase.save(journal)
         }
     }
 }
