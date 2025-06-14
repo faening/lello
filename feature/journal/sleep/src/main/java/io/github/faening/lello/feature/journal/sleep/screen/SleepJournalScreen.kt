@@ -53,7 +53,7 @@ private fun SleepJournalContainer(
 ) {
     Scaffold(
         topBar = { SleepJournalTopBar(onBack) },
-        bottomBar = { SleepJournaBottomBar(onNext) }
+        bottomBar = { SleepJournalMoodBottomBar(onNext) }
     ) { paddingValues ->
         MealJournalContent(
             sleepDuration = sleepDuration,
@@ -74,7 +74,7 @@ private fun SleepJournalTopBar(
 }
 
 @Composable
-private fun SleepJournaBottomBar(
+private fun SleepJournalMoodBottomBar(
     onNext: () -> Unit
 ) {
     Box(
@@ -134,7 +134,7 @@ private fun MealJournalContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun SleepJournalScreenPreview() {
+private fun SleepJournalScreenPreview() {
     LelloTheme {
         SleepJournalContainer(
             sleepDuration = "7h 30m",

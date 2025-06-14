@@ -223,7 +223,7 @@ class JournalSettingsViewModel @Inject constructor(
         JournalOptionType.FOOD -> foodOptions
         JournalOptionType.MEAL -> mealOptions
         JournalOptionType.PORTION -> portionOptions
-        JournalOptionType.SENSATION -> sensationOptions
+        JournalOptionType.SLEEP_SENSATION -> sensationOptions
         JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptions
         JournalOptionType.SLEEP_QUALITY -> sleepQualityOptions
     }
@@ -271,7 +271,7 @@ class JournalSettingsViewModel @Inject constructor(
                     portionOptionUseCase.updateActiveStatus((option as PortionOption).copy(active = active))
                     togglePortionOption(option, active)
                 }
-                JournalOptionType.SENSATION -> {
+                JournalOptionType.SLEEP_SENSATION -> {
                     sensationOptionUseCase.updateActiveStatus((option as SleepSensationOption).copy(active = active))
                     toggleSensationOption(option, active)
                 }
@@ -300,7 +300,7 @@ class JournalSettingsViewModel @Inject constructor(
                 JournalOptionType.FOOD -> foodOptionUseCase.save(FoodOption(description = description))
                 JournalOptionType.MEAL -> mealOptionUseCase.save(MealOption(description = description))
                 JournalOptionType.PORTION -> portionOptionUseCase.save(PortionOption(description = description))
-                JournalOptionType.SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))
+                JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))
                 JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptionUseCase.save(SleepActivityOption(description = description))
                 JournalOptionType.SLEEP_QUALITY -> sleepQualityOptionUseCase.save(SleepQualityOption(description = description))
             }
