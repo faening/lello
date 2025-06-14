@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.HealthOptionEntity
+import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 
@@ -52,14 +52,14 @@ interface HealthOptionDao : OptionResources<HealthOptionEntity> {
     @Query(
         value = """
             SELECT * FROM health_options
-            WHERE id = :id
+            WHERE healthOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<HealthOptionEntity>
+    override fun getById(id: Long): Flow<HealthOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: HealthOptionEntity)
+    override suspend fun insert(item: HealthOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: HealthOptionEntity)

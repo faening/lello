@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "io.github.faening.lello.core.designsystem"
 }
+
+dependencies {
+    api(projects.core.model)
+}

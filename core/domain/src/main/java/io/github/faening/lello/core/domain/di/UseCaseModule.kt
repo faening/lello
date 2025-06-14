@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
-import io.github.faening.lello.core.domain.usecase.JournalCategoryUseCase
+import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
 import io.github.faening.lello.core.model.journal.JournalCategory
 
 @Module

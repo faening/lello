@@ -10,10 +10,36 @@ import io.github.faening.lello.core.database.LelloDatabase
 @InstallIn(SingletonComponent::class)
 internal object DaoModule {
 
+    // region: Journals
+
+    @Provides
+    fun provideMoodJournalDao(
+        database: LelloDatabase,
+    ) = database.moodJournalEntryDao()
+
+    @Provides
+    fun provideMealJournalDao(
+        database: LelloDatabase,
+    ) = database.mealJournalDao()
+
+    @Provides
+    fun provideSleepJournalDao(
+        database: LelloDatabase,
+    ) = database.sleepJournalDao()
+
     @Provides
     fun provideJournalCategoryDao(
         database: LelloDatabase,
     ) = database.journalCategoryDao()
+
+    // endregion
+
+    // region: Options
+
+    @Provides
+    fun provideAppetiteOptionDao(
+        database: LelloDatabase,
+    ) = database.appetiteOptionDao()
 
     @Provides
     fun provideClimateDao(
@@ -21,9 +47,19 @@ internal object DaoModule {
     ) = database.climateOptionDao()
 
     @Provides
+    fun provideDosageFormOptionDao(
+        database: LelloDatabase,
+    ) = database.dosageFormOptionDao()
+
+    @Provides
     fun provideEmotionDao(
         database: LelloDatabase,
     ) = database.emotionOptionDao()
+
+    @Provides
+    fun provideFoodOptionDao(
+        database: LelloDatabase,
+    ) = database.foodOptionDao()
 
     @Provides
     fun provideHealthOptionDao(
@@ -36,7 +72,34 @@ internal object DaoModule {
     ) = database.locationOptionDao()
 
     @Provides
+    fun provideMealOptionDao(
+        database: LelloDatabase,
+    ) = database.mealOptionDao()
+
+    @Provides
+    fun providePortionOptionDao(
+        database: LelloDatabase,
+    ) = database.portionOptionDao()
+
+    @Provides
+    fun provideSleepActivityOptionDao(
+        database: LelloDatabase,
+    ) = database.sleepActivityOptionDao()
+
+    @Provides
+    fun provideSleepQualityOptionDao(
+        database: LelloDatabase,
+    ) = database.sleepQualityOptionDao()
+
+    @Provides
+    fun provideSleepSensationOptionDao(
+        database: LelloDatabase,
+    ) = database.sleepSensationOptionDao()
+
+    @Provides
     fun provideSocialOptionDao(
         database: LelloDatabase,
     ) = database.socialOptionDao()
+
+    // endregion
 }

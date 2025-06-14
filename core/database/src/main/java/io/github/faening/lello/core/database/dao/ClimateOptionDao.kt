@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.ClimateOptionEntity
+import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
 import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 
@@ -38,7 +38,7 @@ interface ClimateOptionDao : OptionResources<ClimateOptionEntity> {
                 CASE WHEN :useActiveFilter
                     THEN active = :isActive
                     ELSE 1 END
-            ORDER BY id ASC
+            ORDER BY description ASC
         """
     )
     override fun getAll(
@@ -52,14 +52,14 @@ interface ClimateOptionDao : OptionResources<ClimateOptionEntity> {
     @Query(
         value = """
             SELECT * FROM climate_options
-            WHERE id = :id
+            WHERE climateOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Int): Flow<ClimateOptionEntity>
+    override fun getById(id: Long): Flow<ClimateOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: ClimateOptionEntity)
+    override suspend fun insert(item: ClimateOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
     override suspend fun update(item: ClimateOptionEntity)

@@ -3,7 +3,7 @@ package io.github.faening.lello.core.model.journal
 import java.io.Serializable
 
 data class JournalCategory(
-    val id: Int?,
+    val id: Long?,
     val name: String,
     val shortDescription: String,
     val longDescription: String,
