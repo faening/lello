@@ -7,13 +7,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.option.SensationOptionEntity
+import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
 import io.github.faening.lello.core.domain.repository.OptionResources
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SensationOptionDao : OptionResources<SensationOptionEntity> {
+interface SleepSensationOptionDao : OptionResources<SleepSensationOptionEntity> {
 
     /**
      * Busca recursos de localização que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser
@@ -24,12 +24,12 @@ interface SensationOptionDao : OptionResources<SensationOptionEntity> {
      * @param useActiveFilter Ativa o filtro com base na propriedade `active`. O padrão é `false`.
      * @param isActive Define se os itens devem estar com o status `active` `true` ou `false`. O padrão é `false`.
      *
-     * @return Uma lista de objetos [SensationOptionEntity] que correspondem aos critérios de filtro fornecidos.
+     * @return Uma lista de objetos [SleepSensationOptionEntity] que correspondem aos critérios de filtro fornecidos.
      */
     @Transaction
     @Query(
         value = """
-            SELECT * FROM sensation_options
+            SELECT * FROM sleep_sensation_options
             WHERE 
                 CASE WHEN :useBlockedFilter
                     THEN blocked = :isBlocked
@@ -46,24 +46,24 @@ interface SensationOptionDao : OptionResources<SensationOptionEntity> {
         isBlocked: Boolean,
         useActiveFilter: Boolean,
         isActive: Boolean
-    ): Flow<List<SensationOptionEntity>>
+    ): Flow<List<SleepSensationOptionEntity>>
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM sensation_options
-            WHERE sensationOptionId = :id
+            SELECT * FROM sleep_sensation_options
+            WHERE sleepSensationOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Long): Flow<SensationOptionEntity>
+    override fun getById(id: Long): Flow<SleepSensationOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
-    override suspend fun insert(item: SensationOptionEntity): Long
+    override suspend fun insert(item: SleepSensationOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.Companion.REPLACE)
-    override suspend fun update(item: SensationOptionEntity)
+    override suspend fun update(item: SleepSensationOptionEntity)
 
     @Delete
-    override suspend fun delete(item: SensationOptionEntity)
+    override suspend fun delete(item: SleepSensationOptionEntity)
 }

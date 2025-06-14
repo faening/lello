@@ -1,11 +1,11 @@
-package io.github.faening.lello.core.domain.usecase.journalmood
+package io.github.faening.lello.core.domain.usecase.journal
 
-import io.github.faening.lello.core.domain.repository.MoodJournalResources
+import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.model.journal.MoodJournal
 import javax.inject.Inject
 
-class JournalMoodUseCase @Inject constructor(
-    private val repository: MoodJournalResources<MoodJournal>
+class MoodJournalUseCase @Inject constructor(
+    private val repository: JournalResources<MoodJournal>
 ) {
     suspend fun getAll(): List<MoodJournal> {
         return repository.getAll()

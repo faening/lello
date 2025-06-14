@@ -12,7 +12,7 @@ import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SensationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
@@ -25,7 +25,7 @@ import io.github.faening.lello.core.model.journal.HealthOption
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.MealOption
 import io.github.faening.lello.core.model.journal.PortionOption
-import io.github.faening.lello.core.model.journal.SensationOption
+import io.github.faening.lello.core.model.journal.SleepSensationOption
 import io.github.faening.lello.core.model.journal.SleepActivityOption
 import io.github.faening.lello.core.model.journal.SleepQualityOption
 import io.github.faening.lello.core.model.journal.SocialOption
@@ -48,7 +48,7 @@ class JournalSettingsViewModel @Inject constructor(
     private val foodOptionUseCase: FoodOptionUseCase,
     private val mealOptionUseCase: MealOptionUseCase,
     private val portionOptionUseCase: PortionOptionUseCase,
-    private val sensationOptionUseCase: SensationOptionUseCase,
+    private val sensationOptionUseCase: SleepSensationOptionUseCase,
     private val sleepActivityOptionUseCase: SleepActivityOptionUseCase,
     private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
 ) : ViewModel() {
@@ -83,8 +83,8 @@ class JournalSettingsViewModel @Inject constructor(
     private val _portionOptions = MutableStateFlow<List<PortionOption>>(emptyList())
     val portionOptions: StateFlow<List<PortionOption>> = _portionOptions
 
-    private val _sensationOptions = MutableStateFlow<List<SensationOption>>(emptyList())
-    val sensationOptions: StateFlow<List<SensationOption>> = _sensationOptions
+    private val _sensationOptions = MutableStateFlow<List<SleepSensationOption>>(emptyList())
+    val sensationOptions: StateFlow<List<SleepSensationOption>> = _sensationOptions
 
     private val _sleepActivityOptions = MutableStateFlow<List<SleepActivityOption>>(emptyList())
     val sleepActivityOptions: StateFlow<List<SleepActivityOption>> = _sleepActivityOptions
@@ -194,7 +194,7 @@ class JournalSettingsViewModel @Inject constructor(
         }
     }
 
-    fun toggleSensationOption(option: SensationOption, active: Boolean) {
+    fun toggleSensationOption(option: SleepSensationOption, active: Boolean) {
         _sensationOptions.value = _sensationOptions.value.map {
             if (it.id == option.id) it.copy(active = active) else it
         }
@@ -223,7 +223,7 @@ class JournalSettingsViewModel @Inject constructor(
         JournalOptionType.FOOD -> foodOptions
         JournalOptionType.MEAL -> mealOptions
         JournalOptionType.PORTION -> portionOptions
-        JournalOptionType.SENSATION -> sensationOptions
+        JournalOptionType.SLEEP_SENSATION -> sensationOptions
         JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptions
         JournalOptionType.SLEEP_QUALITY -> sleepQualityOptions
     }
@@ -271,8 +271,8 @@ class JournalSettingsViewModel @Inject constructor(
                     portionOptionUseCase.updateActiveStatus((option as PortionOption).copy(active = active))
                     togglePortionOption(option, active)
                 }
-                JournalOptionType.SENSATION -> {
-                    sensationOptionUseCase.updateActiveStatus((option as SensationOption).copy(active = active))
+                JournalOptionType.SLEEP_SENSATION -> {
+                    sensationOptionUseCase.updateActiveStatus((option as SleepSensationOption).copy(active = active))
                     toggleSensationOption(option, active)
                 }
                 JournalOptionType.SLEEP_ACTIVITY -> {
@@ -300,7 +300,7 @@ class JournalSettingsViewModel @Inject constructor(
                 JournalOptionType.FOOD -> foodOptionUseCase.save(FoodOption(description = description))
                 JournalOptionType.MEAL -> mealOptionUseCase.save(MealOption(description = description))
                 JournalOptionType.PORTION -> portionOptionUseCase.save(PortionOption(description = description))
-                JournalOptionType.SENSATION -> sensationOptionUseCase.save(SensationOption(description = description))
+                JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))
                 JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptionUseCase.save(SleepActivityOption(description = description))
                 JournalOptionType.SLEEP_QUALITY -> sleepQualityOptionUseCase.save(SleepQualityOption(description = description))
             }

@@ -6,17 +6,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntity
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityClimateOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityEmotionOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityHealthOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityLocationOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.moodjournal.MoodJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.MoodJournalResources
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntity
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityClimateOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityEmotionOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityHealthOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityWithOptions
+import io.github.faening.lello.core.domain.repository.JournalResources
 
 @Dao
-interface MoodJournalDao : MoodJournalResources<MoodJournalEntity> {
+interface MoodJournalDao : JournalResources<MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY date DESC")

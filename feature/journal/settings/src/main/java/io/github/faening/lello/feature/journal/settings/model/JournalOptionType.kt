@@ -47,7 +47,7 @@ enum class JournalOptionType(
         R.string.journal_settings_portion_appbar_title,
         R.string.journal_settings_portion_register_button_label
     ),
-    SENSATION(
+    SLEEP_SENSATION(
         R.string.journal_settings_sensation_appbar_title,
         R.string.journal_settings_sensation_register_button_label
     ),
