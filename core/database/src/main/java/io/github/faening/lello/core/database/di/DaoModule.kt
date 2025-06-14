@@ -18,6 +18,11 @@ internal object DaoModule {
     ) = database.moodJournalEntryDao()
 
     @Provides
+    fun provideSleepJournalDao(
+        database: LelloDatabase,
+    ) = database.sleepJournalDao()
+
+    @Provides
     fun provideJournalCategoryDao(
         database: LelloDatabase,
     ) = database.journalCategoryDao()

@@ -14,6 +14,7 @@ import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
 import io.github.faening.lello.core.data.repository.MealOptionRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
+import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.data.repository.PortionOptionRepository
 import io.github.faening.lello.core.data.repository.SleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
@@ -29,6 +30,7 @@ import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
+import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
@@ -47,6 +49,7 @@ import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.LocationOption
 import io.github.faening.lello.core.model.journal.MealOption
 import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.journal.PortionOption
 import io.github.faening.lello.core.model.journal.SleepSensationOption
 import io.github.faening.lello.core.model.journal.SleepActivityOption
@@ -78,6 +81,13 @@ object RepositoryModule {
         dao: MoodJournalDao
     ): JournalResources<MoodJournal> {
         return MoodJournalRepository(dao)
+    }
+
+    @Provides
+    fun provideSleepJournalRepository(
+        dao: SleepJournalDao
+    ): JournalResources<SleepJournal> {
+        return SleepJournalRepository(dao)
     }
 
     @Provides

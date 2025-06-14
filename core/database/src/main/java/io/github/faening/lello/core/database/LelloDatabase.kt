@@ -14,6 +14,7 @@ import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
+import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
@@ -34,6 +35,11 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntity
+import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepActivityOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
@@ -58,6 +64,11 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         SleepQualityOptionEntity::class,
         SleepSensationOptionEntity::class,
         SocialOptionEntity::class,
+        SleepJournalEntity::class,
+        SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
+        SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
+        SleepJournalEntitySleepActivityOptionEntityCrossRef::class,
+        SleepJournalEntityLocationOptionEntityCrossRef::class,
         MoodJournalEntity::class,
         MoodJournalEntityEmotionOptionEntityCrossRef::class,
         MoodJournalEntityClimateOptionEntityCrossRef::class,
@@ -77,6 +88,7 @@ abstract class LelloDatabase : RoomDatabase() {
 
     // journals
     abstract fun moodJournalEntryDao(): MoodJournalDao
+    abstract fun sleepJournalDao(): SleepJournalDao
     abstract fun journalCategoryDao(): JournalCategoryDao
 
     // options

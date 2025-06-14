@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.sleep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
@@ -25,6 +26,7 @@ class SleepJournalViewModel @Inject constructor(
     sleepQualityOptionUseCase: SleepQualityOptionUseCase,
     sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
+    private val sleepJournalUseCase: SleepJournalUseCase,
 ) : ViewModel() {
 
     private val _sleepDuration = MutableStateFlow("")
@@ -130,10 +132,10 @@ class SleepJournalViewModel @Inject constructor(
     }
 
     fun saveSleepJournal() {
-        if (_sleepJournal != null) return
+        if (_sleepJournal.value != null) return
         viewModelScope.launch {
             val journal = buildSleepJournal()
-            // Add sleepJournalUseCase.save(journal)
+            sleepJournalUseCase.save(journal)
         }
     }
 }
