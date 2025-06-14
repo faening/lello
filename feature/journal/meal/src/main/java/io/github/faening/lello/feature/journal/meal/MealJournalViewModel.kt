@@ -9,6 +9,7 @@ import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.LocationOption
@@ -26,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MealJournalViewModel @Inject constructor(
+    private val mealJournalUseCase: MealJournalUseCase,
     mealOptionUseCase: MealOptionUseCase,
     appetiteOptionUseCase: AppetiteOptionUseCase,
     foodOptionUseCase: FoodOptionUseCase,
@@ -159,7 +161,7 @@ class MealJournalViewModel @Inject constructor(
         if (_mealJournal.value != null) return
         viewModelScope.launch {
             val journal = buildMealournal()
-            // mealJournalUseCase.save(journal)
+            mealJournalUseCase.save(journal)
         }
     }
 }

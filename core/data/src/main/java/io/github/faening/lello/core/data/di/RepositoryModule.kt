@@ -13,6 +13,7 @@ import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
 import io.github.faening.lello.core.data.repository.MealOptionRepository
+import io.github.faening.lello.core.data.repository.MealJournalRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.data.repository.PortionOptionRepository
@@ -29,6 +30,7 @@ import io.github.faening.lello.core.database.dao.HealthOptionDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
@@ -48,6 +50,7 @@ import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
+import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.PortionOption
@@ -81,6 +84,13 @@ object RepositoryModule {
         dao: MoodJournalDao
     ): JournalResources<MoodJournal> {
         return MoodJournalRepository(dao)
+    }
+
+    @Provides
+    fun provideMealJournalRepository(
+        dao: MealJournalDao
+    ): JournalResources<MealJournal> {
+        return MealJournalRepository(dao)
     }
 
     @Provides

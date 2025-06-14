@@ -1,0 +1,69 @@
+package io.github.faening.lello.core.database.dao
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityFoodOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityLocationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityMealOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityPortionOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityWithOptions
+import io.github.faening.lello.core.domain.repository.JournalResources
+
+@Dao
+interface MealJournalDao : JournalResources<MealJournalEntity> {
+
+    @Transaction
+    @Query("SELECT * FROM meal_journals ORDER BY mealTime DESC")
+    override suspend fun getAll(): List<MealJournalEntity>
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM meal_journals
+            WHERE mealJournalId = :id
+            LIMIT 1
+        """
+    )
+    override suspend fun getById(id: Long): MealJournalEntity?
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM meal_journals
+            WHERE mealJournalId = :id
+            LIMIT 1
+        """
+    )
+    suspend fun getByIdWithOptions(id: Long): MealJournalEntityWithOptions?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun insert(entry: MealJournalEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMealRefs(refs: List<MealJournalEntityMealOptionEntityCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAppetiteRefs(refs: List<MealJournalEntityAppetiteOptionEntityCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFoodRefs(refs: List<MealJournalEntityFoodOptionEntityCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPortionRefs(refs: List<MealJournalEntityPortionOptionEntityCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocationRefs(refs: List<MealJournalEntityLocationOptionEntityCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSocialRefs(refs: List<MealJournalEntitySocialOptionEntityCrossRef>)
+
+    @Delete
+    override suspend fun delete(id: MealJournalEntity)
+}
