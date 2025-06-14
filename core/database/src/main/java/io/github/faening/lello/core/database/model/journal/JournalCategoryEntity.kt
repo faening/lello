@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.database.model
+package io.github.faening.lello.core.database.model.journal
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

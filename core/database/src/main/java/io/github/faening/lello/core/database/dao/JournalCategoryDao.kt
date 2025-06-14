@@ -3,7 +3,7 @@ package io.github.faening.lello.core.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import io.github.faening.lello.core.database.model.JournalCategoryEntity
+import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import kotlinx.coroutines.flow.Flow
 
