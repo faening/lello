@@ -7,6 +7,7 @@ import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
+import io.github.faening.lello.core.database.model.option.toModel
 import io.github.faening.lello.core.model.journal.SleepJournal
 
 data class SleepJournalEntityWithOptions(
