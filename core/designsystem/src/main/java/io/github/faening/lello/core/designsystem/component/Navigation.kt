@@ -2,8 +2,16 @@
 
 package io.github.faening.lello.core.designsystem.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -13,13 +21,23 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import io.github.faening.lello.core.designsystem.R
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Grey300
+import io.github.faening.lello.core.designsystem.theme.Grey500
+import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.Yellow100
+import io.github.faening.lello.core.designsystem.theme.Yellow200
+import io.github.faening.lello.core.designsystem.theme.Yellow500
 
 @Composable
 fun LelloNavigationBar(
@@ -88,61 +106,39 @@ fun RowScope.LelloNavigationBarItem(
 }
 
 @Composable
-private fun MobileNavigationBarContent() {
-    val items = listOf("Início", "Conquistas", "Perfil")
-    val icons = listOf(
-        LelloIcons.Home,
-        LelloIcons.Achievements,
-        LelloIcons.Profile,
-    )
-    val selectedIcons = listOf(
-        LelloIcons.HomeBorder,
-        LelloIcons.AchievementsBorder,
-        LelloIcons.ProfileBorder,
-    )
-
-    LelloNavigationBar {
-        items.forEachIndexed { index, item ->
-            LelloNavigationBarItem(
-                icon = {
-                    Icon(
-                        imageVector = icons[index],
-                        contentDescription = item,
-                    )
-                },
-                selectedIcon = {
-                    Icon(
-                        imageVector = selectedIcons[index],
-                        contentDescription = item,
-                    )
-                },
-                label = {
-                    Text(
-                        text = item,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                selected = index == 0,
-                onClick = { },
-            )
+fun CentralNavigationBarItem(
+    icon: ImageVector,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .padding(vertical = 4.dp)
+            .wrapContentSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .background(
+                    color = if (isSelected) Yellow500 else Yellow100,
+                    shape = RoundedCornerShape(24.dp)
+                )
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .clickable(onClick = { onClick() } ),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                modifier = Modifier.padding(start = 4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Achievements",
+                    tint = if (isSelected) Grey700 else Grey500,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
         }
-    }
-}
-
-@Preview(name = "Light Theme", showBackground = true)
-@Composable
-private fun NavigationBarLightPreview() {
-    LelloTheme(darkTheme = false) {
-        MobileNavigationBarContent()
-    }
-}
-
-@Preview(name = "Dark Theme", showBackground = true)
-@Composable
-private fun NavigationBarDarkPreview() {
-    LelloTheme(darkTheme = true) {
-        MobileNavigationBarContent()
     }
 }
 
@@ -187,3 +183,82 @@ private object NavigationDefaults {
         return MaterialTheme.colorScheme.surface
     }
 }
+
+// region: Navigation Preview
+
+@Composable
+private fun MobileNavigationBarContent() {
+    val items = listOf("Início", "Diários", "Lello", "Remédios", "Perfil")
+    val icons = listOf(
+        LelloIcons.customIcon(R.drawable.ic_home_outlined),
+        LelloIcons.customIcon(R.drawable.ic_book_open_outlined),
+        LelloIcons.customIcon(R.drawable.ic_achievements),
+        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_outlined),
+        LelloIcons.customIcon(R.drawable.ic_profile_outlined)
+    )
+    val selectedIcons = listOf(
+        LelloIcons.customIcon(R.drawable.ic_home_filled),
+        LelloIcons.customIcon(R.drawable.ic_book_open_filled),
+        LelloIcons.customIcon(R.drawable.ic_achievements),
+        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_filled),
+        LelloIcons.customIcon(R.drawable.ic_profile_filled),
+    )
+
+    LelloNavigationBar {
+        items.forEachIndexed { index, item ->
+            // Achievements Button
+            if (index == 2) {
+                CentralNavigationBarItem(
+                    icon = icons[index],
+                    isSelected = false,
+                    onClick = {}
+                )
+            } else {
+                LelloNavigationBarItem(
+                    icon = {
+                        Icon(
+                            imageVector = icons[index],
+                            contentDescription = item,
+                            tint = Grey300
+                        )
+                    },
+                    selectedIcon = {
+                        Icon(
+                            imageVector = selectedIcons[index],
+                            contentDescription = item,
+                            tint = Grey700
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = item,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Grey300
+                        )
+                    },
+                    selected = index == 0,
+                    onClick = { /* ação */ },
+                )
+            }
+        }
+    }
+}
+
+@Preview(name = "Light Theme", showBackground = true)
+@Composable
+private fun NavigationBarLightPreview() {
+    LelloTheme(darkTheme = false) {
+        MobileNavigationBarContent()
+    }
+}
+
+@Preview(name = "Dark Theme", showBackground = true)
+@Composable
+private fun NavigationBarDarkPreview() {
+    LelloTheme(darkTheme = true) {
+        MobileNavigationBarContent()
+    }
+}
+
+// endregion

@@ -38,9 +38,7 @@ fun HomeScreen(
     val journalCategories by viewModel.journalCategories.collectAsState()
 
     Scaffold(
-        topBar = {
-            HomeScreenTopAppBar()
-        }
+        topBar = { HomeScreenTopAppBar() }
     ) { paddingValues ->
         Column(
             modifier = Modifier

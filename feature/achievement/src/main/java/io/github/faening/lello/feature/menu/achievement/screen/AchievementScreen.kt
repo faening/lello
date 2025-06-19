@@ -1,29 +1,46 @@
 package io.github.faening.lello.feature.menu.achievement.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
-import io.github.faening.lello.feature.menu.achievement.R
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.feature.menu.achievement.AchievementViewModel
+import io.github.faening.lello.feature.achievement.R as achievementR
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AchievementScreen(
+    viewModel: AchievementViewModel,
     onBack: () -> Unit = {}
+) {
+
+    LelloTheme {
+        AchievementContainer(
+            onBack = onBack
+        )
+    }
+}
+
+@Composable
+private fun AchievementContainer(
+    onBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            AchievementScreenTopAppBar(onBack = onBack)
+            AchievementTopAppBar(onBack = onBack)
         }
     ) { paddingValues ->
         Column(
@@ -42,13 +59,28 @@ fun AchievementScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AchievementScreenTopAppBar(
+private fun AchievementTopAppBar(
     onBack: () -> Unit = {}
 ) {
-    val title = R.string.achievements_topappbar_title
+    val title = stringResource(achievementR.string.achievements_topappbar_title)
     LelloTopAppBar(
-        title = TopAppBarTitle(textRes = title)
+        title = TopAppBarTitle(text = title),
+        navigateUp = TopAppBarAction(onClick = onBack),
     )
+}
+
+@Composable
+@Preview(
+    name = "Light",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+fun AchievementScreenPreview() {
+    LelloTheme {
+        AchievementContainer(
+            onBack = {}
+        )
+    }
 }
