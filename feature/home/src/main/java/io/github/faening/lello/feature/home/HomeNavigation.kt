@@ -1,10 +1,10 @@
-package io.github.faening.lello.feature.menu.home
+package io.github.faening.lello.feature.home
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import io.github.faening.lello.feature.menu.home.screen.HomeScreen
+import io.github.faening.lello.feature.home.screen.HomeScreen
 
 object HomeDestinations {
     const val GRAPH = "home_graph"

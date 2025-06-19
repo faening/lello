@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.home
+package io.github.faening.lello.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

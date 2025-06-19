@@ -10,8 +10,8 @@ import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.settingsJournalGraph
 import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.menu.achievement.achievementGraph
-import io.github.faening.lello.feature.menu.home.HomeDestinations
-import io.github.faening.lello.feature.menu.home.homeGraph
+import io.github.faening.lello.feature.home.HomeDestinations
+import io.github.faening.lello.feature.home.homeGraph
 import io.github.faening.lello.feature.menu.profile.profileGraph
 
 @Composable

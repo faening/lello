@@ -23,8 +23,8 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.menu.achievement.AchievementDestinations
-import io.github.faening.lello.feature.menu.home.HomeDestinations
 import io.github.faening.lello.feature.menu.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
 import io.github.faening.lello.core.designsystem.R as designsystemR
