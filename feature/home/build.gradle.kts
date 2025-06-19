@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "io.github.faening.lello.feature.menu.home"
+    namespace = "io.github.faening.lello.feature.home"
 }
 
 dependencies {

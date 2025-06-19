@@ -24,13 +24,13 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBarIte
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.menu.achievement.AchievementDestinations
-import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
+import io.github.faening.lello.feature.menu.home.HomeDestinations
 import io.github.faening.lello.feature.menu.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
-import io.github.faening.lello.feature.achievement.R as achievementR
-import io.github.faening.lello.feature.menu.home.R as homeR
-import io.github.faening.lello.feature.profile.R as profileR
 import io.github.faening.lello.core.designsystem.R as designsystemR
+import io.github.faening.lello.feature.achievement.R as achievementR
+import io.github.faening.lello.feature.home.R as homeR
+import io.github.faening.lello.feature.profile.R as profileR
 
 @Composable
 fun LelloApp() {
