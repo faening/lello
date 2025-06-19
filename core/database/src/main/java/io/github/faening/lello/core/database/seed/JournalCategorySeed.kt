@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.JournalCategoryEntity
+import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 
 internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
     override val data = listOf(

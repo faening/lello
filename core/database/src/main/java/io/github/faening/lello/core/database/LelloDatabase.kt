@@ -26,7 +26,7 @@ import io.github.faening.lello.core.database.model.option.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
 import io.github.faening.lello.core.database.model.option.FoodOptionEntity
 import io.github.faening.lello.core.database.model.option.HealthOptionEntity
-import io.github.faening.lello.core.database.model.JournalCategoryEntity
+import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.MealOptionEntity
 import io.github.faening.lello.core.database.model.option.PortionOptionEntity
