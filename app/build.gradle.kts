@@ -29,7 +29,7 @@ dependencies {
     api(projects.core.domain)
     api(projects.feature.achievement)
     api(projects.feature.menu.home)
-    api(projects.feature.menu.profile)
+    api(projects.feature.profile)
     api(projects.feature.journal.meal)
     api(projects.feature.journal.medication)
     api(projects.feature.journal.mood)

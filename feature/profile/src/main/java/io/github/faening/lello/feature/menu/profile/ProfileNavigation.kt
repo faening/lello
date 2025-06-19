@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.profile.navigation
+package io.github.faening.lello.feature.menu.profile
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController

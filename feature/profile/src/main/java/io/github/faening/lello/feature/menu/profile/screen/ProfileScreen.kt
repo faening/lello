@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
-import io.github.faening.lello.feature.menu.profile.R
+import io.github.faening.lello.feature.profile.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

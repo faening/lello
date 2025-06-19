@@ -12,7 +12,7 @@ import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.menu.achievement.achievementGraph
 import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
 import io.github.faening.lello.feature.menu.home.navigation.homeGraph
-import io.github.faening.lello.feature.menu.profile.navigation.profileGraph
+import io.github.faening.lello.feature.menu.profile.profileGraph
 
 @Composable
 fun LelloNavHost(
