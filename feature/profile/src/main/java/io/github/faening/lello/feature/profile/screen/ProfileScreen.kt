@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.profile.screen
+package io.github.faening.lello.feature.profile.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

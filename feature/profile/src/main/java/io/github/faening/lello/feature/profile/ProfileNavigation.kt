@@ -1,10 +1,10 @@
-package io.github.faening.lello.feature.menu.profile
+package io.github.faening.lello.feature.profile
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import io.github.faening.lello.feature.menu.profile.screen.ProfileScreen
+import io.github.faening.lello.feature.profile.screen.ProfileScreen
 
 object ProfileDestinations {
     const val GRAPH = "profile_graph"

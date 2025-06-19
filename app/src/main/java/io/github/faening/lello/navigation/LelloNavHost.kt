@@ -12,7 +12,7 @@ import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.achievement.achievementGraph
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.home.homeGraph
-import io.github.faening.lello.feature.menu.profile.profileGraph
+import io.github.faening.lello.feature.profile.profileGraph
 
 @Composable
 fun LelloNavHost(
@@ -33,7 +33,7 @@ fun LelloNavHost(
         mealJournalGraph(navController = navController)
         journalMedicationGraph(navController = navController)
         moodJournalGraph(navController = navController)
-        settingsJournalGraph(navController = navController)
         sleepJournalGraph(navController = navController)
+        settingsJournalGraph(navController = navController)
     }
 }
