@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.achievement
+package io.github.faening.lello.feature.achievement
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import io.github.faening.lello.feature.menu.achievement.screen.AchievementScreen
+import io.github.faening.lello.feature.achievement.screen.AchievementScreen
 
 object AchievementDestinations {
     const val GRAPH = "achievement_graph"

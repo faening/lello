@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.achievement
+package io.github.faening.lello.feature.achievement
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

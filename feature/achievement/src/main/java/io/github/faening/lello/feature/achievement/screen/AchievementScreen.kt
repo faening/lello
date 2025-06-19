@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.menu.achievement.screen
+package io.github.faening.lello.feature.achievement.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.menu.achievement.AchievementViewModel
+import io.github.faening.lello.feature.achievement.AchievementViewModel
 import io.github.faening.lello.feature.achievement.R as achievementR
 
 @Composable
