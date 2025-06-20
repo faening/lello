@@ -35,8 +35,8 @@ import io.github.faening.lello.core.designsystem.theme.Grey300
 import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.Yellow100
 import io.github.faening.lello.core.designsystem.theme.Yellow200
+import io.github.faening.lello.core.designsystem.theme.Yellow300
 import io.github.faening.lello.core.designsystem.theme.Yellow500
 
 @Composable
@@ -108,7 +108,6 @@ fun RowScope.LelloNavigationBarItem(
 @Composable
 fun CentralNavigationBarItem(
     icon: ImageVector,
-    isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Box(
@@ -120,7 +119,7 @@ fun CentralNavigationBarItem(
             modifier = Modifier
                 .align(Alignment.Center)
                 .background(
-                    color = if (isSelected) Yellow500 else Yellow100,
+                    color = Yellow500,
                     shape = RoundedCornerShape(24.dp)
                 )
                 .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -134,7 +133,7 @@ fun CentralNavigationBarItem(
                 Icon(
                     imageVector = icon,
                     contentDescription = "Achievements",
-                    tint = if (isSelected) Grey700 else Grey500,
+                    tint = Grey500,
                     modifier = Modifier.size(40.dp)
                 )
             }
@@ -152,7 +151,7 @@ private object NavigationDefaults {
     }
 
     /**
-     * Cor para itens não selecionados na barra de navegação (Grey500)
+     * Cor para itens não selecionados na barra de navegação
      */
     @Composable
     fun unselectedItemColor(): Color {
@@ -172,7 +171,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun indicatorColor(): Color {
-        return MaterialTheme.colorScheme.primary
+        return MaterialTheme.colorScheme.tertiaryContainer
     }
 
     /**
@@ -210,7 +209,6 @@ private fun MobileNavigationBarContent() {
             if (index == 2) {
                 CentralNavigationBarItem(
                     icon = icons[index],
-                    isSelected = false,
                     onClick = {}
                 )
             } else {

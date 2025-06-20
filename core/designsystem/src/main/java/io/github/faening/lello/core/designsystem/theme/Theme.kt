@@ -25,7 +25,7 @@ enum class LelloColorScheme(
 
             tertiary              = Yellow600,
             onTertiary            = Yellow50,
-            tertiaryContainer     = Yellow100,
+            tertiaryContainer     = Yellow300,
             onTertiaryContainer   = Yellow900,
 
             error                 = Red500,

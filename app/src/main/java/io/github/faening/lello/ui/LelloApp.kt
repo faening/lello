@@ -99,7 +99,6 @@ private fun LelloAppBottomBar(
             if (index == 1) {
                 CentralNavigationBarItem(
                     icon = if (selected) item.selectedIcon else item.unselectedIcon,
-                    isSelected = selected,
                     onClick = {
                         navController.navigate(item.route) {
                             // Evita múltiplas cópias da mesma rota na pilha
