@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,15 +20,18 @@ class HomeViewModel @Inject constructor(
     private val _journalCategories = MutableStateFlow<List<JournalCategory>>(emptyList())
     val journalCategories: StateFlow<List<JournalCategory>> = _journalCategories.asStateFlow()
 
-    init {
-        getJournalCategories()
-    }
+    private val _selectedDate = MutableStateFlow(LocalDate.now())
+    val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
-    private fun getJournalCategories() {
+    init {
         viewModelScope.launch {
             journalCategoryUseCase.getAll().collect { categories ->
                 _journalCategories.value = categories
             }
         }
+    }
+
+    fun setSelectedDate(date: LocalDate) {
+        _selectedDate.value = date
     }
 }

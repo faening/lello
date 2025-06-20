@@ -32,13 +32,36 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToModule: (String) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToModule: (String) -> Unit
 ) {
     val journalCategories by viewModel.journalCategories.collectAsState()
+    val selectedDate by viewModel.selectedDate.collectAsState()
 
+    LelloTheme {
+        HomeScreenContainer(
+            journalCategories = journalCategories,
+            onNavigateToModule = onNavigateToModule,
+            selectedDate = selectedDate,
+            onSelectDate = viewModel::setSelectedDate
+        )
+    }
+}
+
+@Composable
+private fun HomeScreenContainer(
+    journalCategories: List<JournalCategory>,
+    onNavigateToModule: (String) -> Unit,
+    selectedDate: LocalDate,
+    onSelectDate: (LocalDate) -> Unit = {}
+) {
     Scaffold(
-        topBar = { HomeScreenTopAppBar() }
+        topBar = {
+            HomeScreenTopAppBar(
+                selectedDate = selectedDate,
+                onDateSelected = onSelectDate
+            )
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -57,10 +80,13 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeScreenTopAppBar() {
+private fun HomeScreenTopAppBar(
+    selectedDate: LocalDate,
+    onDateSelected: (LocalDate) -> Unit = {}
+) {
     LelloCalendarTopAppBar(
-        selectedDate = LocalDate.now(),
-        onDateSelected = {}
+        selectedDate = selectedDate,
+        onDateSelected = onDateSelected
     )
 }
 
@@ -94,7 +120,10 @@ private fun JournalContent(
                         when (category.name) {
                             "Diário de Humor" -> onNavigateToModule(MoodJournalDestinations.GRAPH)
                             "Diário de Sono" -> onNavigateToModule(SleepJournalDestinations.GRAPH)
-                            "Diário de Medicamentos" -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
+                            "Diário de Medicamentos" -> onNavigateToModule(
+                                JournalMedicationDestinations.GRAPH
+                            )
+
                             "Diário de Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
 
                         }
