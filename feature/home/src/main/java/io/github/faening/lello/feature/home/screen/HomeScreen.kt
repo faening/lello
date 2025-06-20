@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCard
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCardConfig
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.home.HomeViewModel
@@ -28,6 +27,7 @@ import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
 import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
 import io.github.faening.lello.feature.journal.mood.MoodJournalDestinations
 import io.github.faening.lello.feature.journal.sleep.SleepJournalDestinations
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,9 +58,9 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenTopAppBar() {
-    val title = "Hoje"
-    LelloTopAppBar(
-        title = TopAppBarTitle(text = title)
+    LelloCalendarTopAppBar(
+        selectedDate = LocalDate.now(),
+        onDateSelected = {}
     )
 }
 
