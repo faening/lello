@@ -98,22 +98,19 @@ private fun JournalContent(
                 JournalCategoryCard(
                     title = category.name,
                     description = category.shortDescription,
+                    badgeText = "21h 41m",
                     configuration = JournalCategoryCardConfig.fromName(category.name),
                     onClick = {
                         when (category.name) {
-                            "Diário de Humor" -> onNavigateToModule(MoodJournalDestinations.GRAPH)
-                            "Diário de Sono" -> onNavigateToModule(SleepJournalDestinations.GRAPH)
-                            "Diário de Medicamentos" -> onNavigateToModule(
-                                JournalMedicationDestinations.GRAPH
-                            )
-
-                            "Diário de Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
-
+                            "Humor" -> onNavigateToModule(MoodJournalDestinations.GRAPH)
+                            "Sono" -> onNavigateToModule(SleepJournalDestinations.GRAPH)
+                            "Medicamentos" -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
+                            "Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
                         }
                     }
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }

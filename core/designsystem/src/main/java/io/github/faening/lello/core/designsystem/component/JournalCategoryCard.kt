@@ -25,25 +25,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Blue100
 import io.github.faening.lello.core.designsystem.theme.Blue300
 import io.github.faening.lello.core.designsystem.theme.Blue700
-import io.github.faening.lello.core.designsystem.theme.Blue900
 import io.github.faening.lello.core.designsystem.theme.Green100
 import io.github.faening.lello.core.designsystem.theme.Green300
 import io.github.faening.lello.core.designsystem.theme.Green700
-import io.github.faening.lello.core.designsystem.theme.Green900
 import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.Yellow100
-import io.github.faening.lello.core.designsystem.theme.Yellow500
+import io.github.faening.lello.core.designsystem.theme.Yellow300
 import io.github.faening.lello.core.designsystem.theme.Yellow700
-import io.github.faening.lello.core.designsystem.theme.Yellow800
-import io.github.faening.lello.core.designsystem.theme.Yellow900
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,7 +66,6 @@ fun JournalCategoryCard(
                 )
         )
 
-        // Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,48 +81,52 @@ fun JournalCategoryCard(
                 Image(
                     painter = painterResource(id = configuration.iconRes),
                     contentDescription = null,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier.size(56.dp)
                 )
-
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = configuration.titleColor,
-                        maxLines = 1,
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp)
+                    ) {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = configuration.titleColor,
+                            maxLines = 1,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (badgeText != null) {
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        color = configuration.badgeBackgroundColor,
+                                        shape = RoundedCornerShape(50)
+                                    )
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text(
+                                    text = badgeText,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = configuration.badgeTextColor
+                                )
+                            }
+                        }
+                    }
 
-                    Spacer(modifier = Modifier.height(8.dp))
-
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = description,
                         style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Bold,
                         color = configuration.textColor,
-                        minLines = 3,
-                        maxLines = 3,
+                        maxLines = 2,
                     )
-                }
-
-                if (badgeText != null) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = configuration.badgeBackgroundColor,
-                                shape = RoundedCornerShape(50)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
-                    ) {
-                        Text(
-                            text = badgeText,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = configuration.badgeTextColor
-                        )
-                    }
                 }
             }
         }
@@ -144,38 +142,38 @@ sealed class JournalCategoryCardConfig(
     val iconRes: Int
 ) {
     object Mood : JournalCategoryCardConfig(
-        cardBackgroundColor = Blue300,
-        badgeBackgroundColor = Blue100,
+        cardBackgroundColor = Blue100,
+        badgeBackgroundColor = Blue300,
         badgeTextColor = Blue700,
-        titleColor = Blue900,
-        textColor = Blue700,
+        titleColor = Grey500,
+        textColor = Grey500,
         iconRes = designsystemR.drawable.ic_journal_mood
     )
 
     object Sleep : JournalCategoryCardConfig(
-        cardBackgroundColor = Blue300,
-        badgeBackgroundColor = Blue100,
+        cardBackgroundColor = Blue100,
+        badgeBackgroundColor = Blue300,
         badgeTextColor = Blue700,
-        titleColor = Blue900,
-        textColor = Blue700,
+        titleColor = Grey500,
+        textColor = Grey500,
         iconRes = designsystemR.drawable.ic_journal_sleep
     )
 
     object Meal : JournalCategoryCardConfig(
-        cardBackgroundColor = Yellow500,
-        badgeBackgroundColor = Yellow100,
+        cardBackgroundColor = Yellow100,
+        badgeBackgroundColor = Yellow300,
         badgeTextColor = Yellow700,
-        titleColor = Yellow900,
-        textColor = Yellow800,
+        titleColor = Grey500,
+        textColor = Grey500,
         iconRes = designsystemR.drawable.ic_journal_meal
     )
 
     object Medication : JournalCategoryCardConfig(
-        cardBackgroundColor = Green300,
-        badgeBackgroundColor = Green100,
+        cardBackgroundColor = Green100,
+        badgeBackgroundColor = Green300,
         badgeTextColor = Green700,
-        titleColor = Green900,
-        textColor = Green700,
+        titleColor = Grey500,
+        textColor = Grey500,
         iconRes = designsystemR.drawable.ic_journal_medication
     )
 
@@ -192,15 +190,17 @@ sealed class JournalCategoryCardConfig(
     }
 }
 
+// region: Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(name = "Journa Mood - Light Theme", showBackground = true)
 private fun PreviewJournalMoodCard() {
     LelloTheme {
         JournalCategoryCard(
-            title = "Diário de Humor",
+            title = "Humor",
             description = "Registre suas emoções e compreenda melhor seus estados emocionais ao longo do dia",
-            badgeText = null,
+            badgeText = "1h 16m",
             configuration = JournalCategoryCardConfig.fromName("Humor"),
             onClick = {}
         )
@@ -213,9 +213,9 @@ private fun PreviewJournalMoodCard() {
 private fun PreviewJournalMedicationCard() {
     LelloTheme {
         JournalCategoryCard(
-            title = "Diário de Medicamentos",
+            title = "Medicamentos",
             description = "Acompanhe sua medicação diária e monitore sua adaptação ao tratamento",
-            badgeText = null,
+            badgeText = "1h 16m",
             configuration = JournalCategoryCardConfig.fromName("Medicamentos"),
             onClick = {}
         )
@@ -228,9 +228,9 @@ private fun PreviewJournalMedicationCard() {
 private fun PreviewJournalSleepCard() {
     LelloTheme {
         JournalCategoryCard(
-            title = "Diário de Sono",
+            title = "Sono",
             description = "Monitore seu sono e descubra como ele impacta seu bem-estar emocional",
-            badgeText = null,
+            badgeText = "1h 16m",
             configuration = JournalCategoryCardConfig.fromName("Sono"),
             onClick = {}
         )
@@ -243,11 +243,13 @@ private fun PreviewJournalSleepCard() {
 private fun PreviewJournalMealCard() {
     LelloTheme {
         JournalCategoryCard(
-            title = "Diário de Sono",
+            title = "Alimentação",
             description = "Registre sua alimentação e compreenda como ela afeta sua saúde emocional",
-            badgeText = null,
+            badgeText = "1h 16m",
             configuration = JournalCategoryCardConfig.fromName("Alimentação"),
             onClick = {}
         )
     }
 }
+
+// endregion
