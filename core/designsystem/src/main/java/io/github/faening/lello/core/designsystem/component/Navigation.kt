@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -35,8 +37,6 @@ import io.github.faening.lello.core.designsystem.theme.Grey300
 import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.Yellow200
-import io.github.faening.lello.core.designsystem.theme.Yellow300
 import io.github.faening.lello.core.designsystem.theme.Yellow500
 
 @Composable
@@ -113,6 +113,8 @@ fun CentralNavigationBarItem(
     Box(
         modifier = Modifier
             .padding(vertical = 4.dp)
+            .height(60.dp)
+            .width(60.dp)
             .wrapContentSize()
     ) {
         Box(
@@ -120,7 +122,7 @@ fun CentralNavigationBarItem(
                 .align(Alignment.Center)
                 .background(
                     color = Yellow500,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .padding(horizontal = 12.dp, vertical = 8.dp)
                 .clickable(onClick = { onClick() } ),
@@ -171,7 +173,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun indicatorColor(): Color {
-        return MaterialTheme.colorScheme.tertiaryContainer
+        return MaterialTheme.colorScheme.primary
     }
 
     /**

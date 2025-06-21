@@ -16,7 +16,7 @@ enum class LelloColorScheme(
             primary               = Yellow500,
             onPrimary             = Grey500,
             primaryContainer      = Yellow50,
-            onPrimaryContainer    = Grey500,
+            onPrimaryContainer    = Grey300,
 
             secondary             = Grey500,
             onSecondary           = Grey50,
