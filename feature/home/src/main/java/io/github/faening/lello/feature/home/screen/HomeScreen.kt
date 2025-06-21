@@ -17,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.faening.lello.core.designsystem.component.JournalCategoryCard
-import io.github.faening.lello.core.designsystem.component.JournalCategoryCardConfig
+import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCard
+import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCardConfig
 import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
+import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.home.HomeViewModel
@@ -85,6 +86,11 @@ private fun JournalContent(
             .padding(bottom = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        CheckInDailyCard(
+            currentStep = 2
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+
         Text(
             text = "Meus diários",
             style = MaterialTheme.typography.titleLarge,

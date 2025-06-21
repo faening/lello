@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.designsystem.component
+package io.github.faening.lello.core.designsystem.component.card
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
