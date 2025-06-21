@@ -23,13 +23,15 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.achievement.AchievementDestinations
+import io.github.faening.lello.feature.diary.DiaryDestinations
+import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
 import io.github.faening.lello.core.designsystem.R as designsystemR
 import io.github.faening.lello.feature.achievement.R as achievementR
 import io.github.faening.lello.feature.home.R as homeR
+import io.github.faening.lello.feature.diary.R as diaryR
 import io.github.faening.lello.feature.profile.R as profileR
 
 @Composable
@@ -43,6 +45,12 @@ fun LelloApp() {
             route = HomeDestinations.HOME,
             selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_filled),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined)
+        ),
+        NavigationItem(
+            title = diaryR.string.diary_title,
+            route = DiaryDestinations.HOME,
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_filled),
+            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined)
         ),
         NavigationItem(
             title = achievementR.string.achievements_title,
@@ -96,13 +104,15 @@ private fun LelloAppBottomBar(
         items.forEachIndexed { index, item ->
             val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
 
-            if (index == 1) {
+            if (index == 2) {
                 CentralNavigationBarItem(
                     icon = if (selected) item.selectedIcon else item.unselectedIcon,
                     onClick = {
                         navController.navigate(item.route) {
                             // Evita múltiplas cópias da mesma rota na pilha
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
 
                             // Evita múltiplas cópias do mesmo destino
                             launchSingleTop = true
@@ -131,7 +141,9 @@ private fun LelloAppBottomBar(
                     onClick = {
                         navController.navigate(item.route) {
                             // Evita múltiplas cópias da mesma rota na pilha
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
 
                             // Evita múltiplas cópias do mesmo destino
                             launchSingleTop = true

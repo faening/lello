@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCard
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCardConfig
-import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.home.HomeViewModel
@@ -27,7 +28,6 @@ import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
 import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
 import io.github.faening.lello.feature.journal.mood.MoodJournalDestinations
 import io.github.faening.lello.feature.journal.sleep.SleepJournalDestinations
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,14 +36,11 @@ fun HomeScreen(
     onNavigateToModule: (String) -> Unit
 ) {
     val journalCategories by viewModel.journalCategories.collectAsState()
-    val selectedDate by viewModel.selectedDate.collectAsState()
 
     LelloTheme {
         HomeScreenContainer(
             journalCategories = journalCategories,
-            onNavigateToModule = onNavigateToModule,
-            selectedDate = selectedDate,
-            onSelectDate = viewModel::setSelectedDate
+            onNavigateToModule = onNavigateToModule
         )
     }
 }
@@ -51,17 +48,10 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContainer(
     journalCategories: List<JournalCategory>,
-    onNavigateToModule: (String) -> Unit,
-    selectedDate: LocalDate,
-    onSelectDate: (LocalDate) -> Unit = {}
+    onNavigateToModule: (String) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            HomeScreenTopAppBar(
-                selectedDate = selectedDate,
-                onDateSelected = onSelectDate
-            )
-        }
+        topBar = { HomeScreenTopAppBar() }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -80,13 +70,9 @@ private fun HomeScreenContainer(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeScreenTopAppBar(
-    selectedDate: LocalDate,
-    onDateSelected: (LocalDate) -> Unit = {}
-) {
-    LelloCalendarTopAppBar(
-        selectedDate = selectedDate,
-        onDateSelected = onDateSelected
+private fun HomeScreenTopAppBar() {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Lello")
     )
 }
 

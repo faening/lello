@@ -20,18 +20,11 @@ class HomeViewModel @Inject constructor(
     private val _journalCategories = MutableStateFlow<List<JournalCategory>>(emptyList())
     val journalCategories: StateFlow<List<JournalCategory>> = _journalCategories.asStateFlow()
 
-    private val _selectedDate = MutableStateFlow(LocalDate.now())
-    val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
-
     init {
         viewModelScope.launch {
             journalCategoryUseCase.getAll().collect { categories ->
                 _journalCategories.value = categories
             }
         }
-    }
-
-    fun setSelectedDate(date: LocalDate) {
-        _selectedDate.value = date
     }
 }
