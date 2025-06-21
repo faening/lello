@@ -88,7 +88,7 @@ fun CheckInDailyCard(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra",
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = Grey500
                     )
                     Spacer(modifier = Modifier.height(16.dp))

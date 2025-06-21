@@ -123,7 +123,7 @@ fun JournalCategoryCard(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = description,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = configuration.textColor,
                         maxLines = 2,
                     )
