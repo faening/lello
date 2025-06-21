@@ -56,7 +56,7 @@ fun LelloOptionList(
                     Text(
                         text = option.description,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Switch(
                         checked = option.active,
@@ -64,12 +64,12 @@ fun LelloOptionList(
                             onToggle(option, checked)
                         },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = MaterialTheme.colorScheme.primaryContainer,
+                            checkedThumbColor = Color.White,
                             checkedTrackColor = MaterialTheme.colorScheme.primary,
                             checkedBorderColor = Color.Transparent,
 
-                            uncheckedThumbColor = MaterialTheme.colorScheme.primaryContainer,
-                            uncheckedTrackColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            uncheckedThumbColor = Color.White,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
                             uncheckedBorderColor = Color.Transparent,
                         )
                     )

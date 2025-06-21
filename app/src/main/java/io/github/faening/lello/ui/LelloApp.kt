@@ -45,13 +45,13 @@ fun LelloApp() {
         NavigationItem(
             title = homeR.string.home_title,
             route = HomeDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_filled),
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined)
         ),
         NavigationItem(
             title = diaryR.string.diary_title,
             route = DiaryDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_filled),
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined)
         ),
         NavigationItem(
@@ -63,13 +63,13 @@ fun LelloApp() {
         NavigationItem(
             title = medicationR.string.medication_title,
             route = MedicationDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_filled),
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
         ),
         NavigationItem(
             title = profileR.string.profile_title,
             route = ProfileDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_filled),
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined)
         )
     )

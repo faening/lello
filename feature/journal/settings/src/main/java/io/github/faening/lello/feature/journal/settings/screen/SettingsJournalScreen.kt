@@ -110,7 +110,7 @@ private fun SettingsJournalContent(
         Text(
             text = "Gerencie os itens disponíveis para preenchimento em seus diários",
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.padding(bottom = Dimension.ExtraLarge)
         )
 

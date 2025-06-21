@@ -119,7 +119,7 @@ private fun SettingsJournalRegisterContent(
         Text(
             text = "Crie um novo item para usar em seus diários",
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.padding(bottom = Dimension.ExtraLarge)
         )
 

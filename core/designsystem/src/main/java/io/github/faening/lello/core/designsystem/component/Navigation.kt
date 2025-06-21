@@ -157,7 +157,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun unselectedItemColor(): Color {
-        return MaterialTheme.colorScheme.onPrimaryContainer
+        return MaterialTheme.colorScheme.secondaryContainer
     }
 
     /**
