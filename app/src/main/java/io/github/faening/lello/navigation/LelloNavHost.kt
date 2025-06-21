@@ -13,6 +13,7 @@ import io.github.faening.lello.feature.achievement.achievementGraph
 import io.github.faening.lello.feature.diary.diaryGraph
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.home.homeGraph
+import io.github.faening.lello.feature.medication.medicationGraph
 import io.github.faening.lello.feature.profile.profileGraph
 
 @Composable
@@ -29,6 +30,7 @@ fun LelloNavHost(
         homeGraph(navController = navController)
         diaryGraph(navController = navController)
         achievementGraph(navController = navController)
+        medicationGraph(navController = navController)
         profileGraph(navController = navController)
 
         // Journals

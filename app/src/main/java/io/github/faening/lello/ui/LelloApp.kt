@@ -26,12 +26,14 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.achievement.AchievementDestinations
 import io.github.faening.lello.feature.diary.DiaryDestinations
 import io.github.faening.lello.feature.home.HomeDestinations
+import io.github.faening.lello.feature.medication.MedicationDestinations
 import io.github.faening.lello.feature.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
 import io.github.faening.lello.core.designsystem.R as designsystemR
 import io.github.faening.lello.feature.achievement.R as achievementR
 import io.github.faening.lello.feature.home.R as homeR
 import io.github.faening.lello.feature.diary.R as diaryR
+import io.github.faening.lello.feature.medication.R as medicationR
 import io.github.faening.lello.feature.profile.R as profileR
 
 @Composable
@@ -57,6 +59,12 @@ fun LelloApp() {
             route = AchievementDestinations.GRAPH,
             selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements),
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements)
+        ),
+        NavigationItem(
+            title = medicationR.string.medication_title,
+            route = MedicationDestinations.HOME,
+            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_filled),
+            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
         ),
         NavigationItem(
             title = profileR.string.profile_title,
