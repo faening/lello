@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCard
 import io.github.faening.lello.core.designsystem.component.JournalCategoryCardConfig
-import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.home.HomeViewModel
@@ -71,9 +70,7 @@ private fun HomeScreenContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenTopAppBar() {
-    LelloTopAppBar(
-        title = TopAppBarTitle(text = "Lello")
-    )
+    LelloImageTopAppBar()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

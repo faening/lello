@@ -3,9 +3,7 @@ package io.github.faening.lello.core.designsystem.component.appbar
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ColorScheme
@@ -19,9 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.R
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
@@ -81,45 +77,6 @@ private fun TopAppBarTitle(
             style = it.style ?: MaterialTheme.typography.titleLarge,
             color = colorScheme.onPrimaryContainer
         )
-    }
-}
-
-@Composable
-private fun TopAppBarNavigationIcon(
-    navigateUp: TopAppBarAction? = null,
-    colorScheme: ColorScheme
-) {
-    navigateUp?.let {
-        Box(modifier = Modifier.padding(start = Dimension.Small)) {
-            TopAppBarActionButton(
-                action = it.also {
-                    it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
-                    it.contentDescription = "Voltar"
-                },
-                iconTint = colorScheme.onPrimary,
-                background = colorScheme.primary
-            )
-        }
-    }
-}
-
-@Composable
-private fun TopAppBarActionIcon(
-    actions: List<TopAppBarAction> = emptyList(),
-    colorScheme: ColorScheme
-) {
-    actions.forEachIndexed { index, action ->
-        Box(
-            modifier = Modifier.padding(
-                end = Dimension.Small
-            )
-        ) {
-            TopAppBarActionButton(
-                action = action,
-                iconTint = colorScheme.onPrimary,
-                background = colorScheme.primary
-            )
-        }
     }
 }
 

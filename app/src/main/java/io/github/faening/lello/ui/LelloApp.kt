@@ -1,5 +1,6 @@
 package io.github.faening.lello.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -39,9 +40,40 @@ import io.github.faening.lello.feature.profile.R as profileR
 @Composable
 fun LelloApp() {
     val navController = rememberNavController()
+    val items = SetupNavigationItems()
 
-    // Principais destinos
-    val items = listOf(
+    // Lista de rotas de alto nível onde o menu deve aparecer
+    val topLevelRoutes = items.map { it.route }.toSet()
+
+    // Verificar se estamos em uma rota de alto nível para mostrar o menu
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val showBottomBar = currentDestination?.route in topLevelRoutes
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
+        bottomBar = {
+            if (showBottomBar) {
+                LelloAppBottomBar(
+                    items = items,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
+        }
+    ) { innerPadding ->
+        LelloNavHost(
+            navController = navController,
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
+
+@SuppressLint("ComposableNaming")
+@Composable
+private fun SetupNavigationItems() : List<NavigationItem> {
+    return listOf(
         NavigationItem(
             title = homeR.string.home_title,
             route = HomeDestinations.HOME,
@@ -73,33 +105,6 @@ fun LelloApp() {
             unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined)
         )
     )
-
-    // Lista de rotas de alto nível onde o menu deve aparecer
-    val topLevelRoutes = items.map { it.route }.toSet()
-
-    // Verificar se estamos em uma rota de alto nível para mostrar o menu
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-    val showBottomBar = currentDestination?.route in topLevelRoutes
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            if (showBottomBar) {
-                LelloAppBottomBar(
-                    items = items,
-                    currentDestination = currentDestination,
-                    navController = navController
-                )
-            }
-        }
-    ) { innerPadding ->
-        LelloNavHost(
-            navController = navController,
-            modifier = Modifier.padding(innerPadding)
-        )
-    }
 }
 
 @Composable

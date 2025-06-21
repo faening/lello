@@ -2,11 +2,9 @@ package io.github.faening.lello.core.designsystem.component.appbar
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -18,7 +16,6 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -32,9 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.R
-import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import java.time.Instant
@@ -52,6 +46,7 @@ fun LelloCalendarTopAppBar(
     onDateSelected: (LocalDate) -> Unit
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
+    val colorScheme = MaterialTheme.colorScheme
 
     CenterAlignedTopAppBar(
         modifier = Modifier
@@ -64,13 +59,15 @@ fun LelloCalendarTopAppBar(
             )
         },
         navigationIcon = {
-            CalendarTopAppBarNavigationIcon(
-                navigateUp = navigateUp
+            TopAppBarNavigationIcon(
+                navigateUp = navigateUp,
+                colorScheme = colorScheme
             )
         },
         actions = {
-            CalendarTopAppBarActionIcon(
-                actions = actions
+            TopAppBarActionIcon(
+                actions = actions,
+                colorScheme = colorScheme
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -114,24 +111,6 @@ private fun CalendarTopAppBarTitle(
     }
 }
 
-@Composable
-private fun CalendarTopAppBarNavigationIcon(
-    navigateUp: TopAppBarAction? = null
-) {
-    navigateUp?.let {
-        Box(modifier = Modifier.padding(start = Dimension.Small)) {
-            TopAppBarActionButton(
-                action = it.also {
-                    it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
-                    it.contentDescription = "Voltar"
-                },
-                iconTint = colorScheme.onPrimary,
-                background = colorScheme.primary
-            )
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CalendarTopAppBarDatePickerDialog(
@@ -166,25 +145,6 @@ private fun CalendarTopAppBarDatePickerDialog(
             }
         ) {
             DatePicker(state = state)
-        }
-    }
-}
-
-@Composable
-private fun CalendarTopAppBarActionIcon(
-    actions: List<TopAppBarAction> = emptyList()
-) {
-    actions.forEachIndexed { index, action ->
-        Box(
-            modifier = Modifier.padding(
-                end = Dimension.Small
-            )
-        ) {
-            TopAppBarActionButton(
-                action = action,
-                iconTint = colorScheme.onPrimary,
-                background = colorScheme.primary
-            )
         }
     }
 }
