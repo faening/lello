@@ -19,4 +19,10 @@ object Dimension {
 
     // Buttons
     val buttonHeight = 56.dp
+
+    // Card
+    val cardBorderStrokeWidth = 2.dp
+    val cardRadiusSmall = 8.dp
+    val cardRadiusMedium = 12.dp
+    val cardRadiusLarge = 16.dp
 }

@@ -61,7 +61,7 @@ fun JournalCategoryCard(
                 .offset(x = Dimension.Small, y = Dimension.Small)
                 .background(
                     color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
-                    shape = RoundedCornerShape(Dimension.cardRadiusMedium)
+                    shape = RoundedCornerShape(Dimension.cardRadiusLarge)
                 )
         )
 
@@ -70,7 +70,7 @@ fun JournalCategoryCard(
                 .fillMaxWidth()
                 .clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = configuration.cardBackgroundColor),
-            shape = RoundedCornerShape(Dimension.cardRadiusMedium),
+            shape = RoundedCornerShape(Dimension.cardRadiusLarge),
             border = BorderStroke(
                 width = Dimension.cardBorderStrokeWidth,
                 color = Grey500
@@ -96,6 +96,7 @@ fun JournalCategoryCard(
                             .fillMaxWidth()
                             .padding(bottom = Dimension.ExtraSmall)
                     ) {
+                        // Título
                         Text(
                             text = title,
                             style = MaterialTheme.typography.titleLarge,
@@ -104,6 +105,7 @@ fun JournalCategoryCard(
                             modifier = Modifier.weight(1f)
                         )
 
+                        // Badge
                         if (badgeText != null) {
                             Spacer(modifier = Modifier.width(Dimension.Small))
                             Box(
@@ -113,7 +115,7 @@ fun JournalCategoryCard(
                                         shape = RoundedCornerShape(Dimension.Huge)
                                     )
                                     .padding(
-                                        horizontal = Dimension.Small,
+                                        horizontal = Dimension.Medium,
                                         vertical = Dimension.Small
                                     )
                             ) {
@@ -125,8 +127,9 @@ fun JournalCategoryCard(
                             }
                         }
                     }
-
                     Spacer(modifier = Modifier.height(Dimension.ExtraSmall))
+
+                    // Descrição
                     Text(
                         text = description,
                         style = MaterialTheme.typography.bodyMedium,

@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.R
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Grey50
 import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
@@ -39,35 +40,35 @@ fun CheckInDailyCard(
     currentStep: Int, // 1..4
     modifier: Modifier = Modifier
 ) {
-    val radius = 16.dp
     val progressTotal = 4
     val activeColor = Yellow500
     val inactiveColor = Grey50
 
     Box(
-        modifier = modifier
-            .padding(bottom = 8.dp, end = 8.dp)
+        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = 8.dp, y = 8.dp)
+                .offset(x = Dimension.Small, y = Dimension.Small)
                 .background(
-                    color = Grey700.copy(alpha = 0.25f),
-                    shape = RoundedCornerShape(radius)
+                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
+                    shape = RoundedCornerShape(Dimension.cardRadiusLarge)
                 )
         )
 
         Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(radius),
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(Dimension.cardRadiusLarge),
             colors = CardDefaults.cardColors(containerColor = Color.White),
-            border = BorderStroke(2.dp, Grey500),
+            border = BorderStroke(
+                width = Dimension.cardBorderStrokeWidth,
+                color = Grey500
+            )
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Dimension.Medium),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -75,7 +76,7 @@ fun CheckInDailyCard(
                     contentDescription = "Bônus de moedas",
                     modifier = Modifier.size(60.dp)
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(Dimension.Medium))
 
                 Column(
                     modifier = Modifier.weight(1f)
@@ -85,28 +86,29 @@ fun CheckInDailyCard(
                         style = MaterialTheme.typography.titleLarge,
                         color = Grey500
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(Dimension.Small))
+
                     Text(
                         text = "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey500
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(Dimension.Medium))
 
                     // Progress bar
                     Row {
                         repeat(progressTotal) { i ->
                             Box(
                                 modifier = Modifier
-                                    .height(8.dp)
+                                    .height(Dimension.Small)
                                     .weight(1f)
                                     .background(
                                         color = if (i < currentStep) activeColor else inactiveColor,
-                                        shape = RoundedCornerShape(8.dp)
+                                        shape = RoundedCornerShape(Dimension.Small)
                                     )
                             )
                             if (i < progressTotal - 1) {
-                                Spacer(modifier = Modifier.width(8.dp))
+                                Spacer(modifier = Modifier.width(Dimension.Small))
                             }
                         }
                     }
