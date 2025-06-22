@@ -9,12 +9,13 @@ import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUs
 import io.github.faening.lello.core.domain.usecase.options.SleepDurationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
-import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.SleepDurationOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SleepSensationOption
+import io.github.faening.lello.core.model.option.SleeplessTimeOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -24,12 +25,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SleepJournalViewModel @Inject constructor(
-    sleepSensationOptionUseCase: SleepSensationOptionUseCase,
-    sleepQualityOptionUseCase: SleepQualityOptionUseCase,
-    sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
-    sleepDurationOptionUseCase: SleepDurationOptionUseCase,
-    locationOptionUseCase: LocationOptionUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
+    private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
+    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
+    private val sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
+    private val sleepDurationOptionUseCase: SleepDurationOptionUseCase,
+    private val locationOptionUseCase: LocationOptionUseCase
 ) : ViewModel() {
 
     private val _currentSleepDuration = MutableStateFlow<SleepDurationOption?>(null)
@@ -49,22 +50,38 @@ class SleepJournalViewModel @Inject constructor(
     private val _sleepSensationOptions = MutableStateFlow<List<SleepSensationOption>>(emptyList())
     val sleepSensationOptions: StateFlow<List<SleepSensationOption>> = _sleepSensationOptions
 
-    private val _sleeplessTime = MutableStateFlow("")
-    val sleeplessTime: StateFlow<String> = _sleeplessTime
+    private val _sleeplessTimeOption = MutableStateFlow<SleeplessTimeOption?>(null)
+    val sleeplessTimeOption: StateFlow<SleeplessTimeOption?> = _sleeplessTimeOption
 
     private val _sleepJournal = MutableStateFlow<SleepJournal?>(null)
 
     init {
+        loadLocationOptions()
+        loadSleepActivityOptions()
+        loadSleepDurationOptions()
+        loadSleepQualityOptions()
+        loadSleepSensationOptions()
+    }
+
+    // region: Load options
+
+    private fun loadLocationOptions() {
         viewModelScope.launch {
             locationOptionUseCase.getAll()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }
+    }
+
+    private fun loadSleepActivityOptions() {
         viewModelScope.launch {
             sleepAcitivityOptionUseCase.getAll()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepActivityOptions.value = it }
         }
+    }
+
+    private fun loadSleepDurationOptions() {
         viewModelScope.launch {
             sleepDurationOptionUseCase.getAll()
                 .map { list ->
@@ -78,17 +95,25 @@ class SleepJournalViewModel @Inject constructor(
                     _currentSleepDuration.value = options.firstOrNull { it.selected }
                 }
         }
+    }
+
+    private fun loadSleepQualityOptions() {
         viewModelScope.launch {
             sleepQualityOptionUseCase.getAll()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepQualityOptions.value = it }
         }
+    }
+
+    private fun loadSleepSensationOptions() {
         viewModelScope.launch {
             sleepSensationOptionUseCase.getAll()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepSensationOptions.value = it }
         }
     }
+
+    // endregion
 
     fun toggleLocationSelection(description: String) {
         _locationOptions.update { list ->
@@ -104,6 +129,13 @@ class SleepJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+    }
+
+    fun toggleSleepDurationSelection(option: SleepDurationOption) {
+        _sleepDurationOptions.update { list ->
+            list.map { it.copy(selected = it.id == option.id) }
+        }
+        _currentSleepDuration.value = option
     }
 
     fun toggleSleepQualitySelection(description: String) {
@@ -122,22 +154,15 @@ class SleepJournalViewModel @Inject constructor(
         }
     }
 
-    fun updateCurrentSleepDuration(option: SleepDurationOption) {
-        _sleepDurationOptions.update { list ->
-            list.map { it.copy(selected = it.id == option.id) }
-        }
-        _currentSleepDuration.value = option
-    }
-
-    fun updateSleeplessTime(time: String) {
-        _sleeplessTime.value = time
+    fun toggleSleeplessTimeOption(option: SleeplessTimeOption) {
+        _sleeplessTimeOption.value = option
     }
 
     private fun buildSleepJournal(): SleepJournal {
         return SleepJournal(
             date = System.currentTimeMillis(),
             sleepDuration = _sleepDurationOptions.value.firstOrNull { it.selected },
-            sleeplessTime = _sleeplessTime.value.toIntOrNull() ?: 0,
+            sleeplessTime = sleeplessTimeOption.value?.minutes ?: 0,
             sleepSensationOptions = _sleepSensationOptions.value.filter { it.selected },
             sleepQualityOptions = _sleepQualityOptions.value.filter { it.selected },
             sleepActivityOptions = _sleepActivityOptions.value.filter { it.selected },

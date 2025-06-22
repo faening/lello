@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
@@ -32,6 +31,8 @@ import io.github.faening.lello.core.domain.mock.SleepQualityOptionMock
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleeplessTimeOption
+import io.github.faening.lello.core.model.option.SleeplessTimeOptions
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 
 @Composable
@@ -46,6 +47,7 @@ internal fun SleepJournalDetailsScreen(
     val sleepQualityOptions by viewModel.sleepQualityOptions.collectAsState()
     val sleepActivityOptions by viewModel.sleepActivityOptions.collectAsState()
     val locationOptions by viewModel.locationOptions.collectAsState()
+    val sleeplessTimeOption by viewModel.sleeplessTimeOption.collectAsState()
 
     LelloTheme(scheme = LelloColorScheme.DEFAULT) {
         SleepJournalDetailsContainer(
@@ -58,8 +60,8 @@ internal fun SleepJournalDetailsScreen(
             locationOptions = locationOptions,
             onLocationOptionToggle = viewModel::toggleLocationSelection,
             onOpenLocationOptionSettings = onOpenLocationOptionSettings,
-            sleeplessTime = viewModel.sleeplessTime.collectAsState().value,
-            onSleeplessTimeChange = viewModel::updateSleeplessTime,
+            sleeplessTimeOption = sleeplessTimeOption,
+            onSleeplessTimeOptionToggle = viewModel::toggleSleeplessTimeOption,
             onSave = viewModel::saveSleepJournal,
             onBack = onBack,
             onFinish = onFinish
@@ -78,8 +80,8 @@ private fun SleepJournalDetailsContainer(
     locationOptions: List<LocationOption>,
     onLocationOptionToggle: (String) -> Unit,
     onOpenLocationOptionSettings: () -> Unit,
-    sleeplessTime: String,
-    onSleeplessTimeChange: (String) -> Unit,
+    sleeplessTimeOption: SleeplessTimeOption?,
+    onSleeplessTimeOptionToggle: (SleeplessTimeOption) -> Unit,
     onSave: () -> Unit,
     onBack: () -> Unit,
     onFinish: () -> Unit
@@ -98,8 +100,8 @@ private fun SleepJournalDetailsContainer(
             locationOptions = locationOptions,
             onLocationOptionToggle = onLocationOptionToggle,
             onOpenLocationOptionSettings = onOpenLocationOptionSettings,
-            sleeplessTime = sleeplessTime,
-            onSleeplessTimeChange = onSleeplessTimeChange,
+            sleeplessTimeOption = sleeplessTimeOption,
+            onSleeplessTimeOptionToggle = onSleeplessTimeOptionToggle,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -146,8 +148,8 @@ private fun SleepJournalDetailsContent(
     locationOptions: List<LocationOption>,
     onLocationOptionToggle: (String) -> Unit,
     onOpenLocationOptionSettings: () -> Unit,
-    sleeplessTime: String,
-    onSleeplessTimeChange: (String) -> Unit,
+    sleeplessTimeOption: SleeplessTimeOption?,
+    onSleeplessTimeOptionToggle: (SleeplessTimeOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -191,18 +193,12 @@ private fun SleepJournalDetailsContent(
         )
         Spacer(modifier = Modifier.height(Dimension.Large))
 
-        Text(
-            text = "Quanto tempo você ficou acordado?",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = Dimension.Medium)
-        )
-        LelloTextField(
-            value = sleeplessTime,
-            onValueChange = onSleeplessTimeChange,
-            placeholder = "Ex: 30min",
-            maxLength = 10,
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+        LelloOptionPillSelector(
+            title = "Quanto tempo você ficou acordado?",
+            options = SleeplessTimeOptions,
+            isSelected = { it == sleeplessTimeOption },
+            onToggle = { option -> onSleeplessTimeOptionToggle(option) },
+            getLabel = { it.label }
         )
     }
 }
@@ -226,8 +222,8 @@ private fun SleepJournalDetailsScreenPreview() {
             locationOptions = LocationOptionMock.list,
             onLocationOptionToggle = { _ -> },
             onOpenLocationOptionSettings = {},
-            sleeplessTime = "2h",
-            onSleeplessTimeChange = {},
+            sleeplessTimeOption = SleeplessTimeOptions.first(),
+            onSleeplessTimeOptionToggle = {},
             onSave = {},
             onBack = {},
             onFinish = {}

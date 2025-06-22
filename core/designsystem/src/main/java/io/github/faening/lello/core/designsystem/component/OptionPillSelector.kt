@@ -25,7 +25,7 @@ fun <T> LelloOptionPillSelector(
     options: List<T>,
     isSelected: (T) -> Boolean,
     onToggle: (T) -> Unit,
-    onOpenSettings: () -> Unit,
+    onOpenSettings: (() -> Unit)? = null,
     getLabel: (T) -> String,
 ) {
     Column(
@@ -52,9 +52,11 @@ fun <T> LelloOptionPillSelector(
                     onClick = { onToggle(option) }
                 )
             }
-            LelloFlowItemButton(
-                onClick = onOpenSettings
-            )
+            if (onOpenSettings != null) {
+                LelloFlowItemButton(
+                    onClick = onOpenSettings
+                )
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ internal fun SleepJournalScreen(
     LelloTheme {
         SleepJournalContainer(
             sleepDurationOptions = viewModel.sleepDurationOptions.collectAsState().value,
-            onSleepDurationChange = viewModel::updateCurrentSleepDuration,
+            onSleepDurationChange = viewModel::toggleSleepDurationSelection,
             onBack = onBack,
             onNext = onNext
         )
