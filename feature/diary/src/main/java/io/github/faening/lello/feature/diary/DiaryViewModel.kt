@@ -12,6 +12,7 @@ import io.github.faening.lello.core.model.journal.SleepJournal
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -41,32 +42,36 @@ class DiaryViewModel @Inject constructor(
         loadSleepJournal()
     }
 
-    fun setSelectedDate(date: LocalDate) {
-        _selectedDate.value = date
-    }
+    // region: Load journals
 
     private fun loadMoodJournals() {
         viewModelScope.launch {
             moodJournalUseCase
                 .getAll()
-//                .collect { _moodJournal.value = it }
+                .collect { _moodJournal.value = it }
         }
     }
 
     private fun loadMealJournal() {
         viewModelScope.launch {
-            mealJournalUseCase.getAll()
-//                .collect { _mealJournal.value = it.firstOrNull() }
+            mealJournalUseCase
+                .getAll()
+                .collect { _mealJournal.value = it }
         }
     }
 
     private fun loadSleepJournal() {
         viewModelScope.launch {
-            sleepJournalUseCase.getAll()
-//                .collect { _sleepJournal.value = it.firstOrNull() }
+            sleepJournalUseCase
+                .getAll()
+                .collect { _sleepJournal.value = it }
         }
     }
 
+    // endregion
 
+    fun setSelectedDate(date: LocalDate) {
+        _selectedDate.value = date
+    }
 
 }

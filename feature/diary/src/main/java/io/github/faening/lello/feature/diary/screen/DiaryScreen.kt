@@ -8,6 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.feature.diary.DiaryViewModel
 import java.time.LocalDate
 
@@ -16,10 +19,16 @@ fun DiaryScreen(
     viewModel: DiaryViewModel
 ) {
     val selectedDate by viewModel.selectedDate.collectAsState()
+    val moodJournal by viewModel.moodJournal.collectAsState()
+    val mealJournal by viewModel.mealJournal.collectAsState()
+    val sleepJournal by viewModel.sleepJournal.collectAsState()
 
     LelloTheme {
         DiaryContainer(
             selectedDate = selectedDate,
+            moodJournals = moodJournal,
+            mealJournals = mealJournal,
+            sleepJournals = sleepJournal,
             onSelectDate = viewModel::setSelectedDate
         )
     }
@@ -28,6 +37,9 @@ fun DiaryScreen(
 @Composable
 private fun DiaryContainer(
     selectedDate: LocalDate,
+    moodJournals: List<MoodJournal>,
+    mealJournals: List<MealJournal>,
+    sleepJournals: List<SleepJournal>,
     onSelectDate: (LocalDate) -> Unit = {}
 ) {
     Scaffold(
@@ -39,6 +51,9 @@ private fun DiaryContainer(
         },
     ) { paddingValues ->
         DiaryContent(
+            moodJournals = moodJournals,
+            mealJournals = mealJournals,
+            sleepJournals = sleepJournals,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -57,6 +72,9 @@ private fun DiaryTopAppBar(
 
 @Composable
 private fun DiaryContent(
+    moodJournals: List<MoodJournal>,
+    mealJournals: List<MealJournal>,
+    sleepJournals: List<SleepJournal>,
     modifier: Modifier = Modifier
 ) {
 

@@ -13,13 +13,14 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntityWithOptions
 import io.github.faening.lello.core.domain.repository.JournalResources
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SleepJournalDao : JournalResources<SleepJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM sleep_journals ORDER BY date DESC")
-    override suspend fun getAll(): List<SleepJournalEntity>
+    override fun getAll(): Flow<List<SleepJournalEntity>>
 
     @Transaction
     @Query(
@@ -29,7 +30,7 @@ interface SleepJournalDao : JournalResources<SleepJournalEntity> {
             LIMIT 1
         """
     )
-    override suspend fun getById(id: Long): SleepJournalEntity?
+    override fun getById(id: Long): Flow<SleepJournalEntity>?
 
     @Transaction
     @Query(
@@ -39,7 +40,7 @@ interface SleepJournalDao : JournalResources<SleepJournalEntity> {
             LIMIT 1
         """
     )
-    suspend fun getByIdWithOptions(id: Long): SleepJournalEntityWithOptions?
+    fun getByIdWithOptions(id: Long): Flow<SleepJournalEntityWithOptions>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: SleepJournalEntity): Long

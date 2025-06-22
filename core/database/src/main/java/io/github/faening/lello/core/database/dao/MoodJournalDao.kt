@@ -14,13 +14,14 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityWithOptions
 import io.github.faening.lello.core.domain.repository.JournalResources
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoodJournalDao : JournalResources<MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY date DESC")
-    override suspend fun getAll(): List<MoodJournalEntity>
+    override fun getAll(): Flow<List<MoodJournalEntity>>
 
     @Transaction
     @Query(
@@ -30,7 +31,7 @@ interface MoodJournalDao : JournalResources<MoodJournalEntity> {
             LIMIT 1
         """
     )
-    override suspend fun getById(id: Long): MoodJournalEntity?
+    override fun getById(id: Long): Flow<MoodJournalEntity>?
 
     @Transaction
     @Query(
@@ -40,7 +41,7 @@ interface MoodJournalDao : JournalResources<MoodJournalEntity> {
             LIMIT 1
         """
     )
-    suspend fun getByIdWithOptions(id: Long): MoodJournalEntityWithOptions?
+    fun getByIdWithOptions(id: Long): Flow<MoodJournalEntityWithOptions>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: MoodJournalEntity): Long

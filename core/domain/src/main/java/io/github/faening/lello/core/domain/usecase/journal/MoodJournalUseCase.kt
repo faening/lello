@@ -2,16 +2,17 @@ package io.github.faening.lello.core.domain.usecase.journal
 
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.model.journal.MoodJournal
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MoodJournalUseCase @Inject constructor(
     private val repository: JournalResources<MoodJournal>
 ) {
-    suspend fun getAll(): List<MoodJournal> {
+    fun getAll(): Flow<List<MoodJournal>> {
         return repository.getAll()
     }
 
-    suspend fun getById(id: Long): MoodJournal? {
+    fun getById(id: Long): Flow<MoodJournal>? {
         return repository.getById(id)
     }
 

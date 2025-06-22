@@ -15,13 +15,14 @@ import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntit
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityWithOptions
 import io.github.faening.lello.core.domain.repository.JournalResources
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealJournalDao : JournalResources<MealJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM meal_journals ORDER BY mealTime DESC")
-    override suspend fun getAll(): List<MealJournalEntity>
+    override fun getAll(): Flow<List<MealJournalEntity>>
 
     @Transaction
     @Query(
@@ -31,7 +32,7 @@ interface MealJournalDao : JournalResources<MealJournalEntity> {
             LIMIT 1
         """
     )
-    override suspend fun getById(id: Long): MealJournalEntity?
+    override fun getById(id: Long): Flow<MealJournalEntity>?
 
     @Transaction
     @Query(
@@ -41,7 +42,7 @@ interface MealJournalDao : JournalResources<MealJournalEntity> {
             LIMIT 1
         """
     )
-    suspend fun getByIdWithOptions(id: Long): MealJournalEntityWithOptions?
+    fun getByIdWithOptions(id: Long): Flow<MealJournalEntityWithOptions>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: MealJournalEntity): Long
