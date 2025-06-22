@@ -8,6 +8,7 @@ import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
+import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -15,6 +16,7 @@ import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SleepSensationOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -29,8 +31,8 @@ class SleepJournalViewModel @Inject constructor(
     private val sleepJournalUseCase: SleepJournalUseCase,
 ) : ViewModel() {
 
-    private val _sleepDuration = MutableStateFlow("")
-    val sleepDuration: StateFlow<String> = _sleepDuration
+    private val _sleepDuration = MutableStateFlow(SleepDurationOption.BETWEEN_7_AND_9)
+    val sleepDuration = _sleepDuration.asStateFlow()
 
     private val _sleepSensationOptions = MutableStateFlow<List<SleepSensationOption>>(emptyList())
     val sleepSensationOptions: StateFlow<List<SleepSensationOption>> = _sleepSensationOptions
@@ -77,8 +79,8 @@ class SleepJournalViewModel @Inject constructor(
      *
      * @param duration The new sleep duration to set.
      */
-    fun updateSleepDuration(duration: String) {
-        _sleepDuration.value = duration
+    fun updateSleepDuration(option: SleepDurationOption) {
+        _sleepDuration.value = option
     }
 
     fun updateSleeplessTime(time: String) {
@@ -120,7 +122,7 @@ class SleepJournalViewModel @Inject constructor(
     private fun buildSleepJournal(): SleepJournal {
         return SleepJournal(
             date = System.currentTimeMillis(),
-            duration = _sleepDuration.value.toIntOrNull() ?: 0,
+            duration = 0,
             sleeplessTime = _sleeplessTime.value.toIntOrNull() ?: 0,
             sleepSensationOptions = _sleepSensationOptions.value.filter { it.selected },
             sleepQualityOptions = _sleepQualityOptions.value.filter { it.selected },

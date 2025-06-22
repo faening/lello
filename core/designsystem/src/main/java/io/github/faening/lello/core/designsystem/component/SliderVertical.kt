@@ -128,6 +128,8 @@ fun LelloSliderVertical(
     }
 }
 
+// region: Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     name = "Light",
@@ -173,3 +175,5 @@ private fun LelloSliderVerticalAquamarineLightPreview() {
         )
     }
 }
+
+// endregion

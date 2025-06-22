@@ -1,13 +1,16 @@
 package io.github.faening.lello.feature.journal.sleep.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,15 +19,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
-import io.github.faening.lello.core.designsystem.component.LelloTextField
+import io.github.faening.lello.core.designsystem.component.LelloSliderVertical
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
@@ -46,8 +52,8 @@ internal fun SleepJournalScreen(
 
 @Composable
 private fun SleepJournalContainer(
-    sleepDuration: String,
-    onSleepDurationChange: (String) -> Unit,
+    sleepDuration: SleepDurationOption,
+    onSleepDurationChange: (SleepDurationOption) -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
@@ -93,10 +99,14 @@ private fun SleepJournalBottomBar(
 
 @Composable
 private fun SleepJournalContent(
-    sleepDuration: String,
-    onSleepDurationChange: (String) -> Unit,
+    sleepDuration: SleepDurationOption,
+    onSleepDurationChange: (SleepDurationOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val sleepDurationOptions = SleepDurationOption.entries
+    val options = sleepDurationOptions
+    val selectedIndex = options.indexOf(sleepDuration).coerceAtLeast(0)
+
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -107,23 +117,62 @@ private fun SleepJournalContent(
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
-
-        LelloTextField(
-            value = sleepDuration,
-            onValueChange = onSleepDurationChange,
-            placeholder = "Ex: 7h 30min",
-            maxLength = 10,
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+        SleepDurationSelector(
+            sleepValues = options.map { it.label },
+            selectedIndex = selectedIndex,
+            onValueSelected = { index -> onSleepDurationChange(options[index]) }
         )
+    }
+}
 
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+@Composable
+fun SleepDurationSelector(
+    sleepValues: List<String>,
+    selectedIndex: Int,
+    onValueSelected: (Int) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxHeight(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Labels
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.End
+        ) {
+            sleepValues.forEachIndexed { index, label ->
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = if (index == selectedIndex) FontWeight.Bold else FontWeight.Normal
+                )
+            }
+        }
+        Spacer(modifier = Modifier.width(16.dp))
 
-        Text(
-            text = "Dica: Considere apenas o tempo efetivamente dormido.",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        // Slider vertical
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f),
+            contentAlignment = Alignment.Center
+        ) {
+            LelloSliderVertical(
+                steps = sleepValues.size,
+                currentStep = selectedIndex,
+                enableStepDrag = true,
+                onStepSelected = onValueSelected
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+
+        // Fake Space
+        Column(
+            modifier = Modifier.weight(1f)
+        ) { }
     }
 }
 
@@ -137,7 +186,7 @@ private fun SleepJournalContent(
 private fun SleepJournalScreenPreview() {
     LelloTheme {
         SleepJournalContainer(
-            sleepDuration = "7h 30m",
+            sleepDuration = SleepDurationOption.BETWEEN_3_AND_5,
             onSleepDurationChange = {},
             onBack = {},
             onNext = {},

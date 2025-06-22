@@ -153,7 +153,7 @@ private fun MoodJournalSelectorRow(
             .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        MoodLabelColumn(modifier = Modifier.weight(1f))
+        MoodLabelColumn(mood = mood, modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.width(Dimension.Medium))
         MoodSliderColumn(mood = mood, onMoodChange = onMoodChange, modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.width(Dimension.Medium))
@@ -163,6 +163,7 @@ private fun MoodJournalSelectorRow(
 
 @Composable
 private fun MoodLabelColumn(
+    mood: MoodJournalColorScheme,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -171,11 +172,12 @@ private fun MoodLabelColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MoodJournalColorScheme.entries.forEach {
+        MoodJournalColorScheme.entries.forEachIndexed { index, it ->
             Text(
                 text = it.label,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = if (index == MoodJournalColorScheme.entries.indexOf(mood)) FontWeight.Bold
+                             else FontWeight.Normal
             )
         }
     }
