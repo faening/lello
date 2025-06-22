@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Blue100
 import io.github.faening.lello.core.designsystem.theme.Blue300
 import io.github.faening.lello.core.designsystem.theme.Blue700
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Green100
 import io.github.faening.lello.core.designsystem.theme.Green300
 import io.github.faening.lello.core.designsystem.theme.Green700
@@ -50,19 +51,17 @@ fun JournalCategoryCard(
     configuration: JournalCategoryCardConfig,
     onClick: () -> Unit
 ) {
-    val radius = 8.dp
-
     Box(
-        modifier = Modifier.padding(bottom = 8.dp, end = 8.dp)
+        modifier = Modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = 8.dp, y = 8.dp)
+                .offset(x = Dimension.Small, y = Dimension.Small)
                 .background(
-                    color = Grey700.copy(alpha = 0.25f),
-                    shape = RoundedCornerShape(radius)
+                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
+                    shape = RoundedCornerShape(Dimension.cardRadiusMedium)
                 )
         )
 
@@ -71,11 +70,14 @@ fun JournalCategoryCard(
                 .fillMaxWidth()
                 .clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = configuration.cardBackgroundColor),
-            shape = RoundedCornerShape(radius),
-            border = BorderStroke(2.dp, Grey500),
+            shape = RoundedCornerShape(Dimension.cardRadiusMedium),
+            border = BorderStroke(
+                width = Dimension.cardBorderStrokeWidth,
+                color = Grey500
+            ),
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(Dimension.Medium),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -83,7 +85,7 @@ fun JournalCategoryCard(
                     contentDescription = null,
                     modifier = Modifier.size(56.dp)
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(Dimension.Medium))
 
                 Column(
                     modifier = Modifier.weight(1f)
@@ -92,7 +94,7 @@ fun JournalCategoryCard(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 4.dp)
+                            .padding(bottom = Dimension.ExtraSmall)
                     ) {
                         Text(
                             text = title,
@@ -101,15 +103,19 @@ fun JournalCategoryCard(
                             maxLines = 1,
                             modifier = Modifier.weight(1f)
                         )
+
                         if (badgeText != null) {
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.width(Dimension.Small))
                             Box(
                                 modifier = Modifier
                                     .background(
                                         color = configuration.badgeBackgroundColor,
-                                        shape = RoundedCornerShape(50)
+                                        shape = RoundedCornerShape(Dimension.Huge)
                                     )
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .padding(
+                                        horizontal = Dimension.Small,
+                                        vertical = Dimension.Small
+                                    )
                             ) {
                                 Text(
                                     text = badgeText,
@@ -120,7 +126,7 @@ fun JournalCategoryCard(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(Dimension.ExtraSmall))
                     Text(
                         text = description,
                         style = MaterialTheme.typography.bodyMedium,
