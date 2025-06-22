@@ -12,9 +12,10 @@ import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
-import io.github.faening.lello.core.database.seed.SleepSensationOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
+import io.github.faening.lello.core.database.seed.SleepDurationOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
+import io.github.faening.lello.core.database.seed.SleepSensationOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
@@ -43,6 +44,7 @@ internal object DatabaseSeeder {
         seedMealOptions(db)
         seedPortionOptions(db)
         seedSleepActivityOptions(db)
+        seedSleepDurationOptions(db)
         seedSleepQualityOptions(db)
         seedSleepSensationOptions(db)
         seedSocialOptions(db)
@@ -50,10 +52,10 @@ internal object DatabaseSeeder {
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-fun seedJournalCategory(db: SupportSQLiteDatabase) {
-    for (item in JournalCategorySeed.data) {
-        db.execSQL(
-            sql = """
+    fun seedJournalCategory(db: SupportSQLiteDatabase) {
+        for (item in JournalCategorySeed.data) {
+            db.execSQL(
+                sql = """
                         INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
@@ -64,9 +66,9 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
                 )
-        )
+            )
+        }
     }
-}
 
     fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
         for (item in AppetiteOptionSeed.data) {
@@ -84,7 +86,7 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
         }
     }
 
-fun seedClimateOptions(db: SupportSQLiteDatabase) {
+    fun seedClimateOptions(db: SupportSQLiteDatabase) {
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
@@ -217,6 +219,22 @@ fun seedClimateOptions(db: SupportSQLiteDatabase) {
             db.execSQL(
                 sql = """
                         INSERT INTO sleep_activity_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    fun seedSleepDurationOptions(db: SupportSQLiteDatabase) {
+        for (item in SleepDurationOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO sleep_duration_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

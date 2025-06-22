@@ -8,7 +8,6 @@ import io.github.faening.lello.core.model.journal.SleepJournal
 data class SleepJournalEntity(
     @PrimaryKey(autoGenerate = true) val sleepJournalId: Long,
     val date: Long,
-    val duration: Int = 0, // in minutes
     val sleeplessTime: Int = 0, // in minutes
 )
 
@@ -16,7 +15,7 @@ fun SleepJournalEntity.toModel(): SleepJournal {
     return SleepJournal(
         id = sleepJournalId,
         date = date,
-        duration = duration,
+        sleepDuration = null,
         sleeplessTime = sleeplessTime,
         sleepSensationOptions = emptyList(),
         sleepQualityOptions = emptyList(),
@@ -29,7 +28,6 @@ fun SleepJournal.toEntity(): SleepJournalEntity {
     return SleepJournalEntity(
         sleepJournalId = id ?: 0L,
         date = date,
-        duration = duration,
         sleeplessTime = sleeplessTime,
     )
 }
