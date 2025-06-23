@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.DiaryCard
 import io.github.faening.lello.core.designsystem.component.card.DiaryCardProperties
@@ -32,6 +33,7 @@ fun DiaryScreen(
     val moodJournal by viewModel.moodJournal.collectAsState()
     val mealJournal by viewModel.mealJournal.collectAsState()
     val sleepJournal by viewModel.sleepJournal.collectAsState()
+    // val filteredMoodJournals by viewModel.filteredMoodJournals.collectAsState()
 
     // Força o filtro ao montar a tela
     LaunchedEffect(Unit) {
