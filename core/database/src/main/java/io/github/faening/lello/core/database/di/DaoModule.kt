@@ -87,11 +87,6 @@ internal object DaoModule {
     ) = database.sleepActivityOptionDao()
 
     @Provides
-    fun provideSleepDurationOptionDao(
-        database: LelloDatabase,
-    ) = database.sleepDurationOptionDao()
-
-    @Provides
     fun provideSleepQualityOptionDao(
         database: LelloDatabase,
     ) = database.sleepQualityOptionDao()

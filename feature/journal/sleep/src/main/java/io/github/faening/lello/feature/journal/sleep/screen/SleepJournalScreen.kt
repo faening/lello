@@ -30,7 +30,7 @@ import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.model.option.SleepDurationOption
+import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
@@ -40,9 +40,13 @@ internal fun SleepJournalScreen(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
+    val sleepOptions = viewModel.sleepDurationOptions
+    val selected = viewModel.currentSleepDuration.collectAsState().value
+
     LelloTheme {
         SleepJournalContainer(
-            sleepDurationOptions = viewModel.sleepDurationOptions.collectAsState().value,
+            sleepDurationOptions = sleepOptions,
+            selectedOption = selected,
             onSleepDurationChange = viewModel::toggleSleepDurationSelection,
             onBack = onBack,
             onNext = onNext
@@ -53,6 +57,7 @@ internal fun SleepJournalScreen(
 @Composable
 private fun SleepJournalContainer(
     sleepDurationOptions: List<SleepDurationOption>,
+    selectedOption: SleepDurationOption,
     onSleepDurationChange: (SleepDurationOption) -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit
@@ -63,6 +68,7 @@ private fun SleepJournalContainer(
     ) { paddingValues ->
         SleepJournalContent(
             sleepDurationOptions = sleepDurationOptions,
+            selectedOption = selectedOption,
             onSleepDurationChange = onSleepDurationChange,
             modifier = Modifier.padding(paddingValues)
         )
@@ -100,10 +106,11 @@ private fun SleepJournalBottomBar(
 @Composable
 private fun SleepJournalContent(
     sleepDurationOptions: List<SleepDurationOption>,
+    selectedOption: SleepDurationOption,
     onSleepDurationChange: (SleepDurationOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val selectedIndex = sleepDurationOptions.indexOfFirst { it.selected }.coerceAtLeast(0)
+    val selectedIndex = sleepDurationOptions.indexOf(selectedOption).coerceAtLeast(0)
 
     Column(
         modifier = modifier
@@ -119,7 +126,7 @@ private fun SleepJournalContent(
             sleepValues = sleepDurationOptions.map { it.description },
             selectedIndex = selectedIndex,
             onValueSelected = { index ->
-                sleepDurationOptions.getOrNull(index)?.let { onSleepDurationChange(it) }
+                sleepDurationOptions.getOrNull(index)?.let(onSleepDurationChange)
             }
         )
     }
@@ -187,6 +194,7 @@ private fun SleepJournalScreenPreview() {
     LelloTheme {
         SleepJournalContainer(
             sleepDurationOptions = emptyList(),
+            selectedOption = SleepDurationOption.BETWEEN_6_TO_8_HOURS,
             onSleepDurationChange = {},
             onBack = {},
             onNext = {},

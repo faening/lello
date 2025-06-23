@@ -13,7 +13,6 @@ import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
-import io.github.faening.lello.core.database.seed.SleepDurationOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepSensationOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
@@ -44,7 +43,6 @@ internal object DatabaseSeeder {
         seedMealOptions(db)
         seedPortionOptions(db)
         seedSleepActivityOptions(db)
-        seedSleepDurationOptions(db)
         seedSleepQualityOptions(db)
         seedSleepSensationOptions(db)
         seedSocialOptions(db)
@@ -219,22 +217,6 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO sleep_activity_options (description, blocked, active)
-                        VALUES (?, ?, ?)
-                    """.trimIndent(),
-                bindArgs = arrayOf(
-                    item.description,
-                    if (item.blocked) 1 else 0,
-                    if (item.active) 1 else 0
-                )
-            )
-        }
-    }
-
-    fun seedSleepDurationOptions(db: SupportSQLiteDatabase) {
-        for (item in SleepDurationOptionSeed.data) {
-            db.execSQL(
-                sql = """
-                        INSERT INTO sleep_duration_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

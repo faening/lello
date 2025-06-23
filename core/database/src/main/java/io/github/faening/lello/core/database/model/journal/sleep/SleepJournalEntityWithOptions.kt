@@ -5,7 +5,6 @@ import androidx.room.Junction
 import androidx.room.Relation
 import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
-import io.github.faening.lello.core.database.model.option.SleepDurationOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
 import io.github.faening.lello.core.database.model.option.toModel
@@ -38,17 +37,6 @@ data class SleepJournalEntityWithOptions(
 
     @Relation(
         parentColumn = "sleepJournalId",
-        entityColumn = "sleepDurationOptionId",
-        associateBy = Junction(
-            value = SleepJournalEntitySleepDurationOptionEntityCrossRef::class,
-            parentColumn = "sleepJournalId",
-            entityColumn = "sleepDurationOptionId"
-        )
-    )
-    val sleepDurationOptions: SleepDurationOptionEntity,
-
-    @Relation(
-        parentColumn = "sleepJournalId",
         entityColumn = "sleepQualityOptionId",
         associateBy = Junction(
             value = SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
@@ -72,7 +60,7 @@ data class SleepJournalEntityWithOptions(
 
 fun SleepJournalEntityWithOptions.toModel() = SleepJournal(
     id = entry.sleepJournalId,
-    sleepDuration = sleepDurationOptions.toModel(),
+    sleepDuration = entry.sleepDuration,
     sleeplessTime = entry.sleeplessTime,
     sleepSensationOptions = sleepSensationOptions.map { it.toModel() },
     sleepQualityOptions = sleepQualityOptions.map { it.toModel() },

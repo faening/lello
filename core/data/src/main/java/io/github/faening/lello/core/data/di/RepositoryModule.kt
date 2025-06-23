@@ -19,7 +19,6 @@ import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.data.repository.PortionOptionRepository
 import io.github.faening.lello.core.data.repository.SleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
-import io.github.faening.lello.core.data.repository.SleepDurationOptionRepository
 import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
@@ -37,7 +36,6 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
-import io.github.faening.lello.core.database.dao.SleepDurationOptionDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
@@ -58,7 +56,6 @@ import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
-import io.github.faening.lello.core.model.option.SleepDurationOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SocialOption
 
@@ -185,13 +182,6 @@ object RepositoryModule {
         dao: SleepActivityOptionDao
     ): OptionResources<SleepActivityOption> {
         return SleepActivityOptionRepository(dao)
-    }
-
-    @Provides
-    fun provideSleepDurationOptionRepository(
-        dao: SleepDurationOptionDao
-    ): OptionResources<SleepDurationOption> {
-        return SleepDurationOptionRepository(dao)
     }
 
     @Provides

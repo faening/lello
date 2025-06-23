@@ -3,19 +3,28 @@ package io.github.faening.lello.core.database.model.journal.sleep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.core.model.journal.SleepJournal
 
 @Entity(tableName = "sleep_journals")
 data class SleepJournalEntity(
-    @PrimaryKey(autoGenerate = true) val sleepJournalId: Long,
+    @PrimaryKey(autoGenerate = true)
+    val sleepJournalId: Long,
+
+    @ColumnInfo(name = "sleep_duration")
+    val sleepDuration: SleepDurationOption,
+
+    @ColumnInfo(name = "sleepless_time")
     val sleeplessTime: Int = 0, // in minutes
-    @ColumnInfo(name = "created_at") val createdAt: Long,
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long,
 )
 
 fun SleepJournalEntity.toModel(): SleepJournal {
     return SleepJournal(
         id = sleepJournalId,
-        sleepDuration = null,
+        sleepDuration = sleepDuration,
         sleeplessTime = sleeplessTime,
         sleepSensationOptions = emptyList(),
         sleepQualityOptions = emptyList(),
@@ -28,6 +37,7 @@ fun SleepJournalEntity.toModel(): SleepJournal {
 fun SleepJournal.toEntity(): SleepJournalEntity {
     return SleepJournalEntity(
         sleepJournalId = id ?: 0L,
+        sleepDuration = sleepDuration,
         sleeplessTime = sleeplessTime,
         createdAt = createdAt,
     )
