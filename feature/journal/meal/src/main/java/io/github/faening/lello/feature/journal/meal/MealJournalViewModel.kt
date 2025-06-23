@@ -3,17 +3,18 @@ package io.github.faening.lello.feature.journal.meal
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
-import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
+import io.github.faening.lello.core.domain.util.toEpochMillis
+import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.LocationOption
-import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SocialOption
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Date
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -144,8 +145,11 @@ class MealJournalViewModel @Inject constructor(
     }
 
     private fun buildMealournal(): MealJournal {
+        val millis = LocalDateTime.now().toEpochMillis()
+
         return MealJournal(
-            mealTime = Date(),
+            mealTime = millis,
+            createdAt = millis,
             mealOptions = mealOptions.value.filter { it.selected },
             appetiteOptions = appetiteOptions.value.filter { it.selected },
             foodOptions = foodOptions.value.filter { it.selected },

@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.Flow
 interface MealJournalDao : JournalResources<MealJournalEntity> {
 
     @Transaction
-    @Query("SELECT * FROM meal_journals ORDER BY mealTime DESC")
+    @Query("SELECT * FROM meal_journals ORDER BY meal_time DESC")
     override fun getAll(): Flow<List<MealJournalEntity>>
 
     @Transaction
