@@ -48,6 +48,7 @@ internal fun MealJournalAppetiteScreen(
             appetiteOptions = appetiteOptions,
             onAppetiteOptionToggle = viewModel::toggleAppetiteSelection,
             onOpenAppetiteOptionSettings = onOpenAppetiteOptionSettings,
+            onSave = viewModel::saveMealJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -60,6 +61,7 @@ private fun MealJournalAppetiteContainer(
     appetiteOptions: List<AppetiteOption>,
     onAppetiteOptionToggle: (String) -> Unit,
     onOpenAppetiteOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
@@ -68,7 +70,14 @@ private fun MealJournalAppetiteContainer(
 
     Scaffold(
         topBar = { MealJournalAppetiteTopBar(onBack) },
-        bottomBar = { MealJournalAppetiteBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            MealJournalAppetiteBottomBar(
+            enabled = anySelected,
+            onNext = onNext,
+            onSave = onSave,
+            onFinish = onFinish)
+
+        }
     ) { paddingValues ->
         MealJournalAppetiteContent(
             appetiteOptions = appetiteOptions,
@@ -92,6 +101,7 @@ private fun MealJournalAppetiteTopBar(
 @Composable
 private fun MealJournalAppetiteBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -105,7 +115,10 @@ private fun MealJournalAppetiteBottomBar(
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -160,6 +173,7 @@ fun MealJournalAppetiteScreenPreview() {
             appetiteOptions = AppetiteOptionMock.list,
             onAppetiteOptionToggle = { _ -> },
             onOpenAppetiteOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {},
