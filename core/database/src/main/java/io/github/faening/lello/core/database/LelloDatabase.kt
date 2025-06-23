@@ -102,10 +102,10 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
 abstract class LelloDatabase : RoomDatabase() {
 
     // journals
-    abstract fun moodJournalEntryDao(): MoodJournalDao
-    abstract fun journalCategoryDao(): JournalCategoryDao
     abstract fun mealJournalDao(): MealJournalDao
     abstract fun sleepJournalDao(): SleepJournalDao
+    abstract fun moodJournalEntryDao(): MoodJournalDao
+    abstract fun journalCategoryDao(): JournalCategoryDao
 
     // options
     abstract fun appetiteOptionDao(): AppetiteOptionDao

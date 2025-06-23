@@ -167,14 +167,14 @@ class MoodJournalViewModel @Inject constructor(
     private fun buildMoodJournal(): MoodJournal {
         val millis = (_entryDateTime.value ?: LocalDateTime.now()).toEpochMillis()
         return MoodJournal(
+            mood = currentMood.value.toMoodType(),
+            reflection = reflection.value,
+            emotionOptions = emotionOptions.value.filter { it.selected },
+            climateOptions = climateOptions.value.filter { it.selected },
+            locationOptions = locationOptions.value.filter { it.selected },
+            socialOptions = socialOptions.value.filter { it.selected },
+            healthOptions = healthOptions.value.filter { it.selected },
             createdAt = millis,
-            mood = _currentMood.value.toMoodType(),
-            reflection = _reflection.value.ifBlank { null },
-            emotionOptions = _emotionOptions.value.filter { it.selected },
-            climateOptions = _climateOptions.value.filter { it.selected },
-            locationOptions = _locationOptions.value.filter { it.selected },
-            socialOptions = _socialOptions.value.filter { it.selected },
-            healthOptions = _healthOptions.value.filter { it.selected }
         )
     }
 

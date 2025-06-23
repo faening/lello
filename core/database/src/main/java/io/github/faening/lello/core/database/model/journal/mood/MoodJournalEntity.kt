@@ -17,22 +17,22 @@ data class MoodJournalEntity(
 fun MoodJournalEntity.toModel(): MoodJournal {
     return MoodJournal(
         id = moodJournalId,
-        createdAt = createdAt,
         mood = mood,
         reflection = reflection,
         emotionOptions = emptyList(),
         climateOptions = emptyList(),
         locationOptions = emptyList(),
         socialOptions = emptyList(),
-        healthOptions = emptyList()
+        healthOptions = emptyList(),
+        createdAt = createdAt,
     )
 }
 
 fun MoodJournal.toEntity(): MoodJournalEntity {
     return MoodJournalEntity(
         moodJournalId = id ?: 0L,
-        createdAt = createdAt,
         mood = mood,
-        reflection = reflection
+        reflection = reflection,
+        createdAt = createdAt,
     )
 }

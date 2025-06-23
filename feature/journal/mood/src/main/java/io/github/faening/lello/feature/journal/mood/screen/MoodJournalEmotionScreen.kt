@@ -51,6 +51,7 @@ internal fun MoodJournalEmotionScreen(
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = viewModel::toggleEmotionSelection,
             onOpenEmotionOptionSettings = onOpenEmotionOptionSettings,
+            onSave = viewModel::saveMoodJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -64,6 +65,7 @@ private fun MoodJournalEmotionContainer(
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
@@ -72,7 +74,14 @@ private fun MoodJournalEmotionContainer(
 
     Scaffold(
         topBar = { MoodJournalEmotionTopBar(entryTime, onBack) },
-        bottomBar = { MoodJournalEmotionBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            MoodJournalEmotionBottomBar(
+                enabled = anySelected,
+                onSave = onSave,
+                onNext = onNext,
+                onFinish = onFinish
+            )
+        }
     ) { paddingValues ->
         MoodJournalEmotionContent(
             emotionOptions = emotionOptions,
@@ -97,6 +106,7 @@ private fun MoodJournalEmotionTopBar(
 @Composable
 private fun MoodJournalEmotionBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -110,7 +120,10 @@ private fun MoodJournalEmotionBottomBar(
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -166,6 +179,7 @@ private fun MoodJournalEmotionScreenPreview() {
             emotionOptions = EmotionOptionMock.list,
             onEmotionOptionToggle = { _ -> },
             onOpenEmotionOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {}

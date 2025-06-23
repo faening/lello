@@ -71,6 +71,7 @@ internal fun MoodJournalDetailsScreen(
             onOpenLocationOptionSettings = onOpenLocationOptionSettings,
             socialOptions = socialOptions,
             onSocialOptionToggle = viewModel::toggleSocialSelection,
+            onSave = viewModel::saveMoodJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish,
@@ -94,13 +95,20 @@ private fun MoodJournalDetailsContainer(
     socialOptions: List<SocialOption>,
     onSocialOptionToggle: (String) -> Unit,
     onOpenSocialOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
 ) {
     Scaffold(
         topBar = { MoodJournalDetailsTopBar(entryTime, onBack) },
-        bottomBar = { MoodJournalDetailsBottomBar(onNext, onFinish) }
+        bottomBar = {
+            MoodJournalDetailsBottomBar(
+                onSave = onSave,
+                onNext = onNext,
+                onFinish = onFinish
+            )
+        }
     ) { paddingValues ->
         MoodJournalDetailsContent(
             healthOptions = healthOptions,
@@ -133,6 +141,7 @@ private fun MoodJournalDetailsTopBar(
 
 @Composable
 private fun MoodJournalDetailsBottomBar(
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -145,7 +154,10 @@ private fun MoodJournalDetailsBottomBar(
     ) {
         LelloFilledButton(
             label = "Concluir",
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -248,6 +260,7 @@ private fun MoodJournalDetailsScreenPreview() {
             socialOptions = SocialOptionMock.list,
             onSocialOptionToggle = { _ -> },
             onOpenSocialOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {}
