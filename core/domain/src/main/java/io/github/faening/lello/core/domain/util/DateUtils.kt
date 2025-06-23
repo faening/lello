@@ -1,6 +1,7 @@
 package io.github.faening.lello.core.domain.util
 
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -13,3 +14,8 @@ fun Long.toLocalDateTime(zone: ZoneId = ZoneId.systemDefault()): LocalDateTime =
 
 fun LocalDateTime.toEpochMillis(zone: ZoneId = ZoneId.systemDefault()): Long =
     this.atZone(zone).toInstant().toEpochMilli()
+
+fun Long.isSameDay(date: LocalDate): Boolean {
+    val thisDate = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
+    return thisDate == date
+}
