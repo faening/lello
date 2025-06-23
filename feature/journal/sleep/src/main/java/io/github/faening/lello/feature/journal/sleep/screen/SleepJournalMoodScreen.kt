@@ -48,6 +48,7 @@ internal fun SleepJournalMoodScreen(
             sleepSensationOptions = sleepSensationOptions,
             onSleepSensationOptionToggle = viewModel::toggleSleepSensationSelection,
             onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
+            onSave = viewModel::saveSleepJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -60,6 +61,7 @@ private fun SleepJournalMoodContainer(
     sleepSensationOptions: List<SleepSensationOption>,
     onSleepSensationOptionToggle: (String) -> Unit,
     onOpenSleepSensationOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
@@ -68,7 +70,14 @@ private fun SleepJournalMoodContainer(
 
     Scaffold(
         topBar = { SleepJournalMoodTopBar(onBack) },
-        bottomBar = { SleepJournaBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            SleepJournaBottomBar(
+            enabled = anySelected,
+            onSave = onSave,
+            onNext = onNext,
+            onFinish = onFinish
+            )
+        }
     ) { paddingValues ->
         SleepJournalMoodContent(
             sleepSensationOptions = sleepSensationOptions,
@@ -92,6 +101,7 @@ private fun SleepJournalMoodTopBar(
 @Composable
 private fun SleepJournaBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -105,7 +115,10 @@ private fun SleepJournaBottomBar(
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -160,6 +173,7 @@ private fun SleepJournalMoodScreenPreview() {
             sleepSensationOptions = SleepSensationOptionMock.list,
             onSleepSensationOptionToggle = { _ -> },
             onOpenSleepSensationOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {}
