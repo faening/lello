@@ -72,11 +72,11 @@ data class SleepJournalEntityWithOptions(
 
 fun SleepJournalEntityWithOptions.toModel() = SleepJournal(
     id = entry.sleepJournalId,
-    date = entry.date,
     sleepDuration = sleepDurationOptions.toModel(),
     sleeplessTime = entry.sleeplessTime,
     sleepSensationOptions = sleepSensationOptions.map { it.toModel() },
     sleepQualityOptions = sleepQualityOptions.map { it.toModel() },
     sleepActivityOptions = sleepActivityOptions.map { it.toModel() },
-    locationOptions = locationOptions.map { it.toModel() }
+    locationOptions = locationOptions.map { it.toModel() },
+    createdAt = entry.createdAt,
 )

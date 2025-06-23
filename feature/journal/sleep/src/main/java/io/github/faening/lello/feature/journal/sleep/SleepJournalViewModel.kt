@@ -9,6 +9,7 @@ import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUs
 import io.github.faening.lello.core.domain.usecase.options.SleepDurationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
+import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -159,14 +161,16 @@ class SleepJournalViewModel @Inject constructor(
     }
 
     private fun buildSleepJournal(): SleepJournal {
+        val millis = LocalDateTime.now().toEpochMillis()
+
         return SleepJournal(
-            date = System.currentTimeMillis(),
             sleepDuration = _sleepDurationOptions.value.firstOrNull { it.selected },
             sleeplessTime = sleeplessTimeOption.value?.minutes ?: 0,
             sleepSensationOptions = _sleepSensationOptions.value.filter { it.selected },
             sleepQualityOptions = _sleepQualityOptions.value.filter { it.selected },
             sleepActivityOptions = _sleepActivityOptions.value.filter { it.selected },
-            locationOptions = _locationOptions.value.filter { it.selected }
+            locationOptions = _locationOptions.value.filter { it.selected },
+            createdAt = millis,
         ).also {
             _sleepJournal.value = it
         }

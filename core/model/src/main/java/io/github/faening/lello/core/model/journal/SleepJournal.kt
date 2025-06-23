@@ -8,11 +8,11 @@ import io.github.faening.lello.core.model.option.SleepSensationOption
 
 data class SleepJournal(
     val id: Long? = null,
-    val date: Long,
     val sleepDuration: SleepDurationOption?,
     val sleeplessTime: Int = 0, //  in minutes
     val sleepSensationOptions: List<SleepSensationOption>,
     val sleepQualityOptions: List<SleepQualityOption>,
     val sleepActivityOptions: List<SleepActivityOption>,
-    val locationOptions: List<LocationOption>
+    val locationOptions: List<LocationOption>,
+    val createdAt: Long
 )

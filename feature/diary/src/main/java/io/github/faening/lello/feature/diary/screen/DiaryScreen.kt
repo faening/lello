@@ -82,8 +82,8 @@ private fun DiaryContent(
     sleepJournals: List<SleepJournal>,
     modifier: Modifier = Modifier
 ) {
-    val lastSleep = sleepJournals.maxByOrNull { it.date }
-    val lastMeal = mealJournals.maxByOrNull { it.mealTime }
+    val lastSleep = sleepJournals.maxByOrNull { it.createdAt }
+    val lastMeal = mealJournals.maxByOrNull { it.createdAt }
     val lastMood = moodJournals.maxByOrNull { it.createdAt }
 
     Column(modifier = modifier.padding(Dimension.Medium)) {
