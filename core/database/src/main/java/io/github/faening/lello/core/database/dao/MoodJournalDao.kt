@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.Flow
 interface MoodJournalDao : JournalResources<MoodJournalEntity> {
 
     @Transaction
-    @Query("SELECT * FROM mood_journals ORDER BY date DESC")
+    @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
     override fun getAll(): Flow<List<MoodJournalEntity>>
 
     @Transaction

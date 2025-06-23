@@ -35,7 +35,7 @@ class MoodJournalRepository @Inject constructor(
         val moodJournalId = dao.insert(
             MoodJournalEntity(
                 moodJournalId = 0L,
-                date = entry.date,
+                createdAt = entry.createdAt,
                 mood = entry.mood,
                 reflection = entry.reflection ?: "",
             )

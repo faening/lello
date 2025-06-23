@@ -66,7 +66,7 @@ data class MoodJournalEntityWithOptions(
 
 fun MoodJournalEntityWithOptions.toModel() = MoodJournal(
     id = entry.moodJournalId,
-    date = entry.date,
+    createdAt = entry.createdAt,
     mood = entry.mood,
     reflection = entry.reflection,
     emotionOptions = emotionOptions.map { it.toModel() },

@@ -9,12 +9,13 @@ import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.util.toEpochMillis
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
-import io.github.faening.lello.core.model.journal.MoodJournal
-import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,9 +26,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -166,13 +165,9 @@ class MoodJournalViewModel @Inject constructor(
     }
 
     private fun buildMoodJournal(): MoodJournal {
-        val date = Date.from(
-            (_entryDateTime.value ?: LocalDateTime.now())
-                .atZone(ZoneId.systemDefault())
-                .toInstant()
-        )
+        val millis = (_entryDateTime.value ?: LocalDateTime.now()).toEpochMillis()
         return MoodJournal(
-            date = date,
+            createdAt = millis,
             mood = _currentMood.value.toMoodType(),
             reflection = _reflection.value.ifBlank { null },
             emotionOptions = _emotionOptions.value.filter { it.selected },
