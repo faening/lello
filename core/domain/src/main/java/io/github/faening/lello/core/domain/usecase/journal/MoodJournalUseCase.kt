@@ -46,15 +46,14 @@ class MoodJournalUseCase @Inject constructor(
                 val amountCoins = (currentBalance?.totalCoins ?: 0) + rewardAmount
 
                 // Atualizar balance com o novo saldo e novo lastMoodReward
-                val balance = RewardBalance(
+                val updatedBalance = currentBalance?.copy(
                     totalCoins = amountCoins,
-                    lastMoodReward = now,
-                    lastMealReward = currentBalance?.lastMealReward,
-                    lastSleepReward = currentBalance?.lastSleepReward,
-                    lastMedicationReward = currentBalance?.lastMedicationReward,
-                    lastDailyAchievementReward = currentBalance?.lastDailyAchievementReward
+                    lastMoodReward = now
+                ) ?: RewardBalance(
+                    totalCoins = amountCoins,
+                    lastMoodReward = now
                 )
-                rewardBalanceUseCase.insertOrUpdate(balance)
+                rewardBalanceUseCase.insertOrUpdate(updatedBalance)
 
                 // Registrar histórico
                 val history = RewardHistory(

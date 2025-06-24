@@ -2,6 +2,7 @@ package io.github.faening.lello.core.domain.service
 
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardPoints
 import javax.inject.Inject
 
@@ -33,5 +34,15 @@ class RewardCalculatorService @Inject constructor() {
         return reward
     }
 
-    // Outros métodos: calculateForMealJournal, etc...
+    fun calculateForSleepJournal(sleepJournal: SleepJournal): Int {
+        val rewardPoints = RewardPoints.SLEEP_JOURNAL
+        var reward = rewardPoints.basePoints
+
+        if (sleepJournal.sleeplessTime > 0) reward += rewardPoints.extraPoints
+        if (sleepJournal.sleepQualityOptions.isNotEmpty()) reward += rewardPoints.extraPoints
+        if (sleepJournal.sleepActivityOptions.isNotEmpty()) reward += rewardPoints.extraPoints
+        if (sleepJournal.locationOptions.isNotEmpty()) reward += rewardPoints.extraPoints
+
+        return reward
+    }
 }
