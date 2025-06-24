@@ -15,6 +15,8 @@ import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
+import io.github.faening.lello.core.database.dao.RewardBalanceDao
+import io.github.faening.lello.core.database.dao.RewardHistoryDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
 import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
@@ -52,6 +54,8 @@ import io.github.faening.lello.core.database.model.option.SleepActivityOptionEnt
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
+import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
+import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
 import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
@@ -89,7 +93,9 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         MealJournalEntityFoodOptionEntityCrossRef::class,
         MealJournalEntityPortionOptionEntityCrossRef::class,
         MealJournalEntityLocationOptionEntityCrossRef::class,
-        MealJournalEntitySocialOptionEntityCrossRef::class
+        MealJournalEntitySocialOptionEntityCrossRef::class,
+        RewardHistoryEntity::class,
+        RewardBalanceEntity::class,
     ],
     version = 1,
     exportSchema = true
@@ -121,4 +127,8 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
     abstract fun sleepSensationOptionDao() : SleepSensationOptionDao
     abstract fun socialOptionDao() : SocialOptionDao
+
+    // rewrds
+    abstract fun rewardHistoryDao() : RewardHistoryDao
+    abstract fun rewardBalanceDao() : RewardBalanceDao
 }

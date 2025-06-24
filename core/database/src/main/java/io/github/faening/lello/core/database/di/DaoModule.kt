@@ -102,4 +102,18 @@ internal object DaoModule {
     ) = database.socialOptionDao()
 
     // endregion
+
+    // region: Rewards
+
+    @Provides
+    fun provideRewardHistoryDao(
+        database: LelloDatabase,
+    ) = database.rewardBalanceDao()
+
+    @Provides
+    fun provideRewardBalanceDao(
+        database: LelloDatabase,
+    ) = database.rewardHistoryDao()
+
+    // endregion
 }
