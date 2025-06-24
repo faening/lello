@@ -22,6 +22,7 @@ import io.github.faening.lello.core.designsystem.component.card.JournalCategoryC
 import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.feature.home.HomeViewModel
 import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
@@ -36,10 +37,12 @@ fun HomeScreen(
     onNavigateToModule: (String) -> Unit
 ) {
     val journalCategories by viewModel.journalCategories.collectAsState()
+    val bonusState by viewModel.journalBonusState.collectAsState()
 
     LelloTheme {
         HomeScreenContainer(
             journalCategories = journalCategories,
+            bonusState = bonusState,
             onNavigateToModule = onNavigateToModule
         )
     }
@@ -48,6 +51,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContainer(
     journalCategories: List<JournalCategory>,
+    bonusState: JournalBonusState,
     onNavigateToModule: (String) -> Unit
 ) {
     Scaffold(
@@ -62,6 +66,7 @@ private fun HomeScreenContainer(
         ) {
             JournalContent(
                 journalCategories = journalCategories,
+                bonusState = bonusState,
                 onNavigateToModule = onNavigateToModule
             )
         }
@@ -78,6 +83,7 @@ private fun HomeScreenTopAppBar() {
 @Composable
 private fun JournalContent(
     journalCategories: List<JournalCategory> = emptyList(),
+    bonusState: JournalBonusState,
     onNavigateToModule: (String) -> Unit
 ) {
     Column(
@@ -101,10 +107,18 @@ private fun JournalContent(
             Text("Carregando...")
         } else {
             journalCategories.forEach { category ->
+                val badgeText = when (category.name) {
+                    "Humor" -> formatToHourMinute(bonusState.moodRemaining)
+                    "Sono" -> formatToHourMinute(bonusState.sleepRemaining)
+                    "Medicamentos" -> formatToHourMinute(bonusState.medicationRemaining)
+                    "Alimentação" -> formatToHourMinute(bonusState.mealRemaining)
+                    else -> ""
+                }
+
                 JournalCategoryCard(
                     title = category.name,
                     description = category.shortDescription,
-                    badgeText = "21h 41m",
+                    badgeText = badgeText,
                     configuration = JournalCategoryCardConfig.fromName(category.name),
                     onClick = {
                         when (category.name) {
@@ -120,6 +134,13 @@ private fun JournalContent(
             }
         }
     }
+}
+
+private fun formatToHourMinute(millis: Long): String {
+    val totalMinutes = (millis / 1000 / 60).coerceAtLeast(0)
+    val hours = totalMinutes / 60
+    val minutes = totalMinutes % 60
+    return String.format("%dh %02dm", hours, minutes)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
