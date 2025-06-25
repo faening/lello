@@ -46,6 +46,7 @@ internal object DatabaseSeeder {
         seedSleepQualityOptions(db)
         seedSleepSensationOptions(db)
         seedSocialOptions(db)
+        seedRewardBalance(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
@@ -274,5 +275,32 @@ internal object DatabaseSeeder {
                 )
             )
         }
+    }
+
+    fun seedRewardBalance(db: SupportSQLiteDatabase) {
+        val now = System.currentTimeMillis()
+        val initialTime = now - 48L * 60L * 60L * 1000L
+        db.execSQL(
+            sql = """
+                INSERT INTO reward_balance (
+                    id,
+                    total_coins,
+                    last_mood_reward,
+                    last_meal_reward,
+                    last_sleep_reward,
+                    last_medication_reward,
+                    last_daily_achievement_reward
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            """.trimIndent(),
+            bindArgs = arrayOf(
+                1,
+                0,
+                initialTime,
+                initialTime,
+                initialTime,
+                initialTime,
+                initialTime
+            )
+        )
     }
 }
