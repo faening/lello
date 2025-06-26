@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.sleep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
@@ -30,7 +31,8 @@ class SleepJournalViewModel @Inject constructor(
     private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
     private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
     private val sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
-    private val locationOptionUseCase: LocationOptionUseCase
+    private val locationOptionUseCase: LocationOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
     private val _currentSleepDuration = MutableStateFlow<SleepDurationOption>(SleepDurationOption.BETWEEN_6_TO_8_HOURS)
@@ -54,6 +56,9 @@ class SleepJournalViewModel @Inject constructor(
     val sleeplessTimeOption: StateFlow<SleeplessTimeOption?> = _sleeplessTimeOption
 
     private val _sleepJournal = MutableStateFlow<SleepJournal?>(null)
+
+    private val _coinsAcquired = MutableStateFlow<Int>(50)
+    val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
     init {
         loadLocationOptions()
@@ -108,6 +113,7 @@ class SleepJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSleepActivitySelection(description: String) {
@@ -116,6 +122,7 @@ class SleepJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSleepQualitySelection(description: String) {
@@ -124,6 +131,7 @@ class SleepJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSleepSensationSelection(description: String) {
@@ -132,10 +140,26 @@ class SleepJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSleeplessTimeOption(option: SleeplessTimeOption) {
         _sleeplessTimeOption.value = option
+        updateCoinsAcquired()
+    }
+
+    private fun updateCoinsAcquired() {
+        val sleepJournal = buildSleepJournal()
+        val points = rewardCalculatorService.calculateForSleepJournal(sleepJournal)
+        _coinsAcquired.value = points
+    }
+
+    fun saveSleepJournal() {
+        if (_sleepJournal.value != null) return
+        viewModelScope.launch {
+            val journal = buildSleepJournal()
+            sleepJournalUseCase.save(journal)
+        }
     }
 
     private fun buildSleepJournal(): SleepJournal {
@@ -150,14 +174,6 @@ class SleepJournalViewModel @Inject constructor(
             createdAt = millis,
         ).also {
             _sleepJournal.value = it
-        }
-    }
-
-    fun saveSleepJournal() {
-        if (_sleepJournal.value != null) return
-        viewModelScope.launch {
-            val journal = buildSleepJournal()
-            sleepJournalUseCase.save(journal)
         }
     }
 }
