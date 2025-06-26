@@ -14,6 +14,8 @@ import io.github.faening.lello.feature.diary.diaryGraph
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.home.homeGraph
 import io.github.faening.lello.feature.medication.medicationGraph
+import io.github.faening.lello.feature.onboarding.OnboardingDestinations
+import io.github.faening.lello.feature.onboarding.onboardingGraph
 import io.github.faening.lello.feature.profile.profileGraph
 
 @Composable
@@ -23,9 +25,15 @@ fun LelloNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.GRAPH,
+        startDestination = OnboardingDestinations.GRAPH,
         modifier = modifier
     ) {
+        // Starting
+        onboardingGraph(
+            navController = navController,
+            onOnboardingFinish = { navController.navigate(HomeDestinations.GRAPH) }
+        )
+
         // Menu
         homeGraph(navController = navController)
         diaryGraph(navController = navController)

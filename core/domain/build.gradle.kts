@@ -9,6 +9,7 @@ android {
 
 dependencies {
     api(projects.core.model)
+    api(projects.core.designsystem)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

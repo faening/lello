@@ -29,6 +29,7 @@ dependencies {
     api(projects.core.domain)
     api(projects.feature.home)
     api(projects.feature.diary)
+    api(projects.feature.onboarding)
     api(projects.feature.achievement)
     api(projects.feature.medication)
     api(projects.feature.profile)
@@ -37,4 +38,8 @@ dependencies {
     api(projects.feature.journal.mood)
     api(projects.feature.journal.sleep)
     api(projects.feature.journal.settings)
+
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
 }
