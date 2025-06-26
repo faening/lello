@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.DiaryCard
 import io.github.faening.lello.core.designsystem.component.card.DiaryCardProperties
@@ -21,6 +21,7 @@ import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.reward.RewardOrigin
 import io.github.faening.lello.feature.diary.DiaryViewModel
 import java.time.LocalDate
 import java.util.Date
@@ -46,7 +47,8 @@ fun DiaryScreen(
             moodJournals = moodJournal,
             mealJournals = mealJournal,
             sleepJournals = sleepJournal,
-            onSelectDate = viewModel::setSelectedDate
+            onSelectDate = viewModel::setSelectedDate,
+            getRewardAmount = viewModel::getRewardAmount
         )
     }
 }
@@ -57,7 +59,8 @@ private fun DiaryContainer(
     moodJournals: List<MoodJournal>,
     mealJournals: List<MealJournal>,
     sleepJournals: List<SleepJournal>,
-    onSelectDate: (LocalDate) -> Unit = {}
+    onSelectDate: (LocalDate) -> Unit = {},
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
     Scaffold(
         topBar = {
@@ -72,7 +75,8 @@ private fun DiaryContainer(
             moodJournals = moodJournals,
             mealJournals = mealJournals,
             sleepJournals = sleepJournals,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues),
+            getRewardAmount = getRewardAmount
         )
     }
 }
@@ -94,7 +98,8 @@ private fun DiaryContent(
     moodJournals: List<MoodJournal>,
     mealJournals: List<MealJournal>,
     sleepJournals: List<SleepJournal>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
     val scrollState = rememberScrollState()
 
@@ -117,10 +122,14 @@ private fun DiaryContent(
         // Sono
         if (daySleepJournals.isNotEmpty()) {
             daySleepJournals.forEach { journal ->
+                val journalId = journal.id ?: 0L
+                val reward by produceState(initialValue = 0, journalId) {
+                    value = getRewardAmount(RewardOrigin.SLEEP_JOURNAL, journalId)
+                }
                 DiaryCard(
                     properties = DiaryCardProperties.SleepJournal,
                     dateTime = Date(journal.createdAt),
-                    reward = 100 // coloque a regra do reward que faz sentido
+                    reward = reward
                 )
                 Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
             }
@@ -129,10 +138,14 @@ private fun DiaryContent(
         // Alimentação
         if (dayMealJournals.isNotEmpty()) {
             dayMealJournals.forEach { journal ->
+                val journalId = journal.id ?: 0L
+                val reward by produceState(initialValue = 0, journalId) {
+                    value = getRewardAmount(RewardOrigin.MEAL_JOURNAL, journalId)
+                }
                 DiaryCard(
                     properties = DiaryCardProperties.MealJournal,
                     dateTime = Date(journal.createdAt),
-                    reward = 100 // coloque a regra do reward que faz sentido
+                    reward = reward
                 )
                 Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
             }
@@ -141,6 +154,10 @@ private fun DiaryContent(
         // Humor
         if (dayMoodJournals.isNotEmpty()) {
             dayMoodJournals.forEach { journal ->
+                val journalId = journal.id ?: 0L
+                val reward by produceState(initialValue = 0, journalId) {
+                    value = getRewardAmount(RewardOrigin.MOOD_JOURNAL, journalId)
+                }
                 DiaryCard(
                     properties = when (journal.mood.name) { // ou outro critério para icone
                         "SERENE" -> DiaryCardProperties.MoodJournalSerene
@@ -151,7 +168,7 @@ private fun DiaryContent(
                         else -> DiaryCardProperties.MoodJournalBalanced
                     },
                     dateTime = Date(journal.createdAt),
-                    reward = 100 // coloque a regra do reward que faz sentido
+                    reward = reward
                 )
                 Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
             }

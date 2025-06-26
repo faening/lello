@@ -33,6 +33,10 @@ class RewardHistoryRepository @Inject constructor(
             .map { it.toModel() }
     }
 
+    override suspend fun getRewardAmountByOrigin(origin: RewardOrigin, originId: Long): Int? {
+        return dao.getRewardAmountByOrigin(origin, originId)
+    }
+
     override suspend fun insert(history: RewardHistory) {
         val entity = history.toEntity()
         dao.insert(entity)
