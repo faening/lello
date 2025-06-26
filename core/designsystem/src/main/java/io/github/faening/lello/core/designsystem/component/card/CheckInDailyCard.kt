@@ -38,6 +38,7 @@ import io.github.faening.lello.core.designsystem.theme.Yellow500
 @Composable
 fun CheckInDailyCard(
     currentStep: Int, // 1..4
+    subtitle: String,
     modifier: Modifier = Modifier
 ) {
     val progressTotal = 4
@@ -89,7 +90,7 @@ fun CheckInDailyCard(
                     Spacer(modifier = Modifier.height(Dimension.Small))
 
                     Text(
-                        text = "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra",
+                        text = subtitle,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey500
                     )
@@ -128,7 +129,8 @@ fun CheckInDailyCard(
 private fun CheckInDailyCardPreview() {
     LelloTheme {
         CheckInDailyCard(
-            currentStep = 2
+            currentStep = 2,
+            subtitle = "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra"
         )
     }
 }

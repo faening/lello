@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.DailyCheckInUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.core.model.reward.DailyCheckInState
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardCooldown
 import kotlinx.coroutines.delay
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val journalCategoryUseCase: JournalCategoryUseCase,
-    private val rewardBalanceUseCase: RewardBalanceUseCase
+    private val rewardBalanceUseCase: RewardBalanceUseCase,
+    private val dailyCheckInUseCase: DailyCheckInUseCase
 ) : ViewModel() {
 
     private val _journalCategories = MutableStateFlow<List<JournalCategory>>(emptyList())
@@ -27,6 +30,9 @@ class HomeViewModel @Inject constructor(
 
     private val _journalBonusState = MutableStateFlow(JournalBonusState(0, 0, 0, 0))
     val journalBonusState: StateFlow<JournalBonusState> = _journalBonusState.asStateFlow()
+
+    private val _dailyCheckInState = MutableStateFlow(DailyCheckInState())
+    val dailyCheckInState: StateFlow<DailyCheckInState> = _dailyCheckInState.asStateFlow()
 
     // Mantém o último balance para o timer usar sempre o valor mais recente
     private var lastRewardBalance: RewardBalance? = null
@@ -44,6 +50,12 @@ class HomeViewModel @Inject constructor(
             rewardBalanceUseCase.observeBalance().collect { balance ->
                 lastRewardBalance = balance
                 _journalBonusState.value = mapToBonusState(balance)
+            }
+        }
+
+        viewModelScope.launch {
+            dailyCheckInUseCase.observeDailyCheckIn().collect { state ->
+                _dailyCheckInState.value = state
             }
         }
 
