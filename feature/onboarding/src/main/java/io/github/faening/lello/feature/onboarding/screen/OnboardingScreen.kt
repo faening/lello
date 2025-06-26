@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -215,8 +216,11 @@ private fun OnboardingPageView(
                     checked = checked,
                     onCheckedChange = onCheckedChange
                 )
-                Spacer(modifier = Modifier.width(Dimension.Small))
-                Text(text = "Não mostrar mais a tela de boas-vindas")
+                // Spacer(modifier = Modifier.width(Dimension.ExtraSmall))
+                Text(
+                    text = "Não mostrar mais a tela de boas-vindas",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
         }
     }

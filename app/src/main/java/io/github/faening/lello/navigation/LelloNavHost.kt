@@ -20,12 +20,13 @@ import io.github.faening.lello.feature.medication.medicationGraph
 import io.github.faening.lello.feature.onboarding.OnboardingDestinations
 import io.github.faening.lello.feature.onboarding.onboardingGraph
 import io.github.faening.lello.feature.profile.profileGraph
+import io.github.faening.lello.startup.StartupViewModel
 
 @Composable
 fun LelloNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    viewModel: io.github.faening.lello.startup.StartupViewModel = hiltViewModel()
+    viewModel: StartupViewModel = hiltViewModel()
 ) {
     val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
     val start = if (hasSeen) HomeDestinations.GRAPH else OnboardingDestinations.GRAPH
