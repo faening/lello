@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -115,23 +116,31 @@ private fun MealJournalContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(Dimension.Medium)
     ) {
+        // Header
         Text(
             text = "Qual refeição você fez?",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = mealOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onMealOptionToggle(option.description) },
-            onOpenSettings = onOpenMealOptionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = mealOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onMealOptionToggle(option.description) },
+                onOpenSettings = onOpenMealOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
