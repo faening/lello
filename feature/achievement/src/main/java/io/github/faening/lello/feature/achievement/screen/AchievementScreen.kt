@@ -22,7 +22,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.audio.AudioManager
 import io.github.faening.lello.core.audio.AudioTrack
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
@@ -87,18 +86,33 @@ private fun AchievementContainer(
                 )
             }
         ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // Lello Here...
-
-            }
+            AchievementContent(
+                modifier = Modifier.padding(paddingValues)
+            )
         }
+    }
+}
+
+@Composable
+private fun AchievementContent(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // No topo, adicionar informações de vitalidade e barra de cansaço
+
+
+        // Mascote aqui
+        val mascot = LelloIcons.customIcon(designsystemR.drawable.mascot_lello_bard)
+
+        // Lojas aqui
+        // 2 icones na vertical
+        val iconshop = LelloIcons.customIcon(designsystemR.drawable.ic_shop)
+        val iconInventory = LelloIcons.customIcon(designsystemR.drawable.ic_inventory)
     }
 }
 
