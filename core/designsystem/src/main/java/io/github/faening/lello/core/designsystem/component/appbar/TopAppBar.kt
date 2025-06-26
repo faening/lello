@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,7 +28,8 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 fun LelloTopAppBar(
     title: TopAppBarTitle? = null,
     navigateUp: TopAppBarAction? = null,
-    actions: List<TopAppBarAction> = emptyList()
+    actions: List<TopAppBarAction> = emptyList(),
+    backgroundColor: Color? = null
 ) {
     val colorScheme = MaterialTheme.colorScheme
 
@@ -54,7 +56,7 @@ fun LelloTopAppBar(
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = colorScheme.primaryContainer,
+            containerColor = backgroundColor ?: colorScheme.primaryContainer,
             titleContentColor = colorScheme.onPrimaryContainer,
             navigationIconContentColor = colorScheme.onPrimary,
             actionIconContentColor = colorScheme.primary

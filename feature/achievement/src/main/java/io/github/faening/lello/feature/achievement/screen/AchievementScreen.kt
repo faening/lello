@@ -1,13 +1,13 @@
 package io.github.faening.lello.feature.achievement.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.audio.AudioManager
@@ -28,7 +30,6 @@ import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.achievement.AchievementViewModel
-import io.github.faening.lello.feature.achievement.R as achievementR
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
@@ -64,27 +65,35 @@ private fun AchievementContainer(
     onMuteToggle: () -> Unit,
     onBack: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            AchievementTopAppBar(
-                isMuted = isMuted,
-                onMuteToggle = onMuteToggle,
-                onBack = onBack
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Achievement",
-                style = MaterialTheme.typography.headlineSmall
-            )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = designsystemR.drawable.img_achievements),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        Scaffold(
+            containerColor = androidx.compose.ui.graphics.Color.Transparent,
+            topBar = {
+                AchievementTopAppBar(
+                    isMuted = isMuted,
+                    onMuteToggle = onMuteToggle,
+                    onBack = onBack
+                )
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Lello Here...
+
+            }
         }
     }
 }
@@ -95,9 +104,8 @@ private fun AchievementTopAppBar(
     onMuteToggle: () -> Unit,
     onBack: () -> Unit = {}
 ) {
-    val title = stringResource(achievementR.string.achievements_topappbar_title)
     LelloTopAppBar(
-        title = TopAppBarTitle(text = title),
+        title = TopAppBarTitle(text = "Lello"),
         navigateUp = TopAppBarAction(onClick = onBack),
         actions = listOf(
             TopAppBarAction(
@@ -109,7 +117,8 @@ private fun AchievementTopAppBar(
                 contentDescription = "Icone de Áudio",
                 onClick = onMuteToggle
             )
-        )
+        ),
+        backgroundColor = Color.Transparent
     )
 }
 
