@@ -97,7 +97,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         RewardHistoryEntity::class,
         RewardBalanceEntity::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = true
 )
 @TypeConverters(
