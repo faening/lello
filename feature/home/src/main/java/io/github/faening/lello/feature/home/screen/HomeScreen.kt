@@ -24,6 +24,7 @@ import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.core.model.reward.DailyCheckInState
 import io.github.faening.lello.feature.home.HomeViewModel
 import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
 import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
@@ -38,11 +39,13 @@ fun HomeScreen(
 ) {
     val journalCategories by viewModel.journalCategories.collectAsState()
     val bonusState by viewModel.journalBonusState.collectAsState()
+    val checkInState by viewModel.dailyCheckInState.collectAsState()
 
     LelloTheme {
         HomeScreenContainer(
             journalCategories = journalCategories,
             bonusState = bonusState,
+            checkInState = checkInState,
             onNavigateToModule = onNavigateToModule
         )
     }
@@ -52,6 +55,7 @@ fun HomeScreen(
 private fun HomeScreenContainer(
     journalCategories: List<JournalCategory>,
     bonusState: JournalBonusState,
+    checkInState: DailyCheckInState,
     onNavigateToModule: (String) -> Unit
 ) {
     Scaffold(
@@ -67,6 +71,7 @@ private fun HomeScreenContainer(
             JournalContent(
                 journalCategories = journalCategories,
                 bonusState = bonusState,
+                checkInState = checkInState,
                 onNavigateToModule = onNavigateToModule
             )
         }
@@ -84,6 +89,7 @@ private fun HomeScreenTopAppBar() {
 private fun JournalContent(
     journalCategories: List<JournalCategory> = emptyList(),
     bonusState: JournalBonusState,
+    checkInState: DailyCheckInState,
     onNavigateToModule: (String) -> Unit
 ) {
     Column(
@@ -93,7 +99,12 @@ private fun JournalContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CheckInDailyCard(
-            currentStep = 2
+            currentStep = checkInState.currentStep,
+            subtitle = if (checkInState.bonusReceived) {
+                "Parabéns! Você adquiriu moedas extra hoje."
+            } else {
+                "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra"
+            }
         )
         Spacer(modifier = Modifier.height(32.dp))
 
