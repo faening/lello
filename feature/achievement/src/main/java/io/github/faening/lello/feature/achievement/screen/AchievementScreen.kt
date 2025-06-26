@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -77,7 +78,7 @@ private fun AchievementContainer(
         )
 
         Scaffold(
-            containerColor = androidx.compose.ui.graphics.Color.Transparent,
+            containerColor = Color.Transparent,
             topBar = {
                 AchievementTopAppBar(
                     isMuted = isMuted,
@@ -113,9 +114,9 @@ private fun AchievementTopAppBar(
         actions = listOf(
             TopAppBarAction(
                 icon = if (isMuted) {
-                    LelloIcons.customIcon(designsystemR.drawable.ic_sound)
-                } else {
                     LelloIcons.customIcon(designsystemR.drawable.ic_sound_off)
+                } else {
+                    LelloIcons.customIcon(designsystemR.drawable.ic_sound)
                 },
                 contentDescription = "Icone de Áudio",
                 onClick = onMuteToggle

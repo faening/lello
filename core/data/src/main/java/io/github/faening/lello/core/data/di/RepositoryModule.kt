@@ -25,7 +25,6 @@ import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.data.repository.OnboardingPreferencesRepository
 import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
-import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.preferences.OnboardingPreferences
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
