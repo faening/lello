@@ -1,22 +1,24 @@
 package io.github.faening.lello.core.data.repository
 
+import io.github.faening.lello.core.database.dao.MascotStatusDao
+import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
+import io.github.faening.lello.core.database.model.mascot.toEntity
+import io.github.faening.lello.core.database.model.mascot.toModel
 import io.github.faening.lello.core.domain.repository.MascotRepository
-import io.github.faening.lello.core.domain.repository.MascotStatusResource
-import io.github.faening.lello.core.domain.repository.MascotVitalityResource
 import io.github.faening.lello.core.model.mascot.MascotStatus
 import io.github.faening.lello.core.model.mascot.MascotVitalityHistory
 import javax.inject.Inject
 
 class MascotRepositoryImpl @Inject constructor(
-    private val statusResource: MascotStatusResource<MascotStatus>,
-    private val vitalityResource: MascotVitalityResource<MascotVitalityHistory>
+    private val statusDao: MascotStatusDao,
+    private val historyDao: MascotVitalityHistoryDao
 ) : MascotRepository {
 
     override suspend fun getMascotStatus(): MascotStatus {
-        return statusResource.getStatus() ?: run {
+        return statusDao.getStatus()?.toModel() ?: run {
             val now = System.currentTimeMillis()
             val status = MascotStatus(vitality = 100, lastUpdatedAt = now)
-            statusResource.insertOrUpdate(status)
+            statusDao.insertOrUpdate(status.toEntity())
             status
         }
     }
@@ -26,7 +28,7 @@ class MascotRepositoryImpl @Inject constructor(
         val delta = newVitality - current.vitality
         val now = System.currentTimeMillis()
         val updated = current.copy(vitality = newVitality, lastUpdatedAt = now)
-        statusResource.insertOrUpdate(updated)
+        statusDao.insertOrUpdate(updated.toEntity())
 
         val changeType = when {
             delta > 0 -> "increase"
@@ -40,11 +42,11 @@ class MascotRepositoryImpl @Inject constructor(
             source = source,
             createdAt = now
         )
-        vitalityResource.insert(history)
+        historyDao.insert(history.toEntity())
         return updated
     }
 
     override suspend fun getVitalityHistory(): List<MascotVitalityHistory> {
-        return vitalityResource.getHistory()
+        return historyDao.getHistory().map { it.toModel() }
     }
 }

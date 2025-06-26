@@ -25,8 +25,7 @@ import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
 import io.github.faening.lello.core.data.repository.OnboardingPreferencesRepository
 import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
-import io.github.faening.lello.core.data.repository.MascotStatusRepository
-import io.github.faening.lello.core.data.repository.MascotVitalityRepository
+import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.preferences.OnboardingPreferences
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
@@ -55,8 +54,6 @@ import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
-import io.github.faening.lello.core.domain.repository.MascotStatusResource
-import io.github.faening.lello.core.domain.repository.MascotVitalityResource
 import io.github.faening.lello.core.domain.repository.MascotRepository as IMascotRepository
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
@@ -77,8 +74,6 @@ import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
-import io.github.faening.lello.core.model.mascot.MascotStatus
-import io.github.faening.lello.core.model.mascot.MascotVitalityHistory
 
 /**
  * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.
@@ -259,25 +254,11 @@ object RepositoryModule {
     // region: Mascot
 
     @Provides
-    fun provideMascotStatusRepository(
-        dao: MascotStatusDao
-    ): MascotStatusResource<MascotStatus> {
-        return MascotStatusRepository(dao)
-    }
-
-    @Provides
-    fun provideMascotVitalityRepository(
-        dao: MascotVitalityHistoryDao
-    ): MascotVitalityResource<MascotVitalityHistory> {
-        return MascotVitalityRepository(dao)
-    }
-
-    @Provides
     fun provideMascotRepository(
-        statusResource: MascotStatusResource<MascotStatus>,
-        vitalityResource: MascotVitalityResource<MascotVitalityHistory>
+        statusDao: MascotStatusDao,
+        historyDao: MascotVitalityHistoryDao
     ): IMascotRepository {
-        return MascotRepositoryImpl(statusResource, vitalityResource)
+        return MascotRepositoryImpl(statusDao, historyDao)
     }
 
     // endregion
