@@ -13,6 +13,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ fun AchievementScreen(
 ) {
     val context = LocalContext.current
     var isMuted by remember { mutableStateOf(false) }
+    val vitality by viewModel.vitality.collectAsState()
 
     // Inicia a música ao entrar, para ao sair
     DisposableEffect(isMuted) {
@@ -52,6 +54,7 @@ fun AchievementScreen(
 
     LelloTheme {
         AchievementContainer(
+            vitality = vitality,
             isMuted = isMuted,
             onMuteToggle = { isMuted = !isMuted },
             onBack = onBack
@@ -61,6 +64,7 @@ fun AchievementScreen(
 
 @Composable
 private fun AchievementContainer(
+    vitality: Int,
     isMuted: Boolean,
     onMuteToggle: () -> Unit,
     onBack: () -> Unit
@@ -74,7 +78,7 @@ private fun AchievementContainer(
         )
 
         Scaffold(
-            containerColor = androidx.compose.ui.graphics.Color.Transparent,
+            containerColor = Color.Transparent,
             topBar = {
                 AchievementTopAppBar(
                     isMuted = isMuted,
@@ -110,9 +114,9 @@ private fun AchievementTopAppBar(
         actions = listOf(
             TopAppBarAction(
                 icon = if (isMuted) {
-                    LelloIcons.customIcon(designsystemR.drawable.ic_sound)
-                } else {
                     LelloIcons.customIcon(designsystemR.drawable.ic_sound_off)
+                } else {
+                    LelloIcons.customIcon(designsystemR.drawable.ic_sound)
                 },
                 contentDescription = "Icone de Áudio",
                 onClick = onMuteToggle
@@ -132,6 +136,7 @@ private fun AchievementTopAppBar(
 fun AchievementScreenPreview() {
     LelloTheme {
         AchievementContainer(
+            vitality = 50,
             isMuted = false,
             onMuteToggle = {},
             onBack = {}

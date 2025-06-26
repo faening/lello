@@ -47,6 +47,7 @@ internal object DatabaseSeeder {
         seedSleepSensationOptions(db)
         seedSocialOptions(db)
         seedRewardBalance(db)
+        seedMascotStatus(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
@@ -300,6 +301,24 @@ internal object DatabaseSeeder {
                 initialTime,
                 initialTime,
                 initialTime
+            )
+        )
+    }
+
+    fun seedMascotStatus(db: SupportSQLiteDatabase) {
+        val now = System.currentTimeMillis()
+        db.execSQL(
+            sql = """
+                INSERT INTO mascot_status (
+                    id,
+                    vitality,
+                    last_updated_at
+                ) VALUES (?, ?, ?)
+            """.trimIndent(),
+            bindArgs = arrayOf(
+                1,
+                100,
+                now
             )
         )
     }
