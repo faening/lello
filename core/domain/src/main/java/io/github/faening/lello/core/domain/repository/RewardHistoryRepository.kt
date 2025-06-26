@@ -7,6 +7,7 @@ interface RewardHistoryRepository<T> {
     fun observeHistory(): Flow<List<T>>
     suspend fun getHistory(): List<T>
     suspend fun getHistoryByOrigin(origin: RewardOrigin): List<T>
+    suspend fun getRewardAmountByOrigin(origin: RewardOrigin, originId: Long): Int?
     suspend fun insert(history: T)
     suspend fun clearHistory()
 }

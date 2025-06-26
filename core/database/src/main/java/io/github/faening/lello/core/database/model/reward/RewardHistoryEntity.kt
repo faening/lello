@@ -11,6 +11,9 @@ data class RewardHistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
 
+    @ColumnInfo(name = "origin_id")
+    val originId: Long? = null,
+
     @ColumnInfo(name = "reward_origin")
     val rewardOrigin: RewardOrigin,
 
@@ -23,6 +26,7 @@ data class RewardHistoryEntity(
 
 fun RewardHistoryEntity.toModel() = RewardHistory(
     id = id,
+    originId = originId,
     rewardOrigin = rewardOrigin,
     rewardAmount = rewardAmount,
     createdAt = createdAt
@@ -30,6 +34,7 @@ fun RewardHistoryEntity.toModel() = RewardHistory(
 
 fun RewardHistory.toEntity() = RewardHistoryEntity(
     id = id,
+    originId = originId,
     rewardOrigin = rewardOrigin,
     rewardAmount = rewardAmount,
     createdAt = createdAt

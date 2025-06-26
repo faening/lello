@@ -22,6 +22,10 @@ class RewardHistoryUseCase @Inject constructor(
         return repository.getHistoryByOrigin(origin)
     }
 
+    suspend fun getRewardAmountByOrigin(origin: RewardOrigin, originId: Long): Int? {
+        return repository.getRewardAmountByOrigin(origin, originId)
+    }
+
     suspend fun insert(history: RewardHistory) {
         repository.insert(history)
     }

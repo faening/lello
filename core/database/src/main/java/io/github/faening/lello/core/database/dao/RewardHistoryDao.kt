@@ -22,6 +22,9 @@ interface RewardHistoryDao : RewardHistoryRepository<RewardHistoryEntity> {
     @Query("SELECT * FROM reward_history WHERE reward_origin = :origin ORDER BY created_at DESC")
     override suspend fun getHistoryByOrigin(origin: RewardOrigin): List<RewardHistoryEntity>
 
+    @Query("SELECT reward_amount FROM reward_history WHERE reward_origin = :origin AND origin_id = :originId LIMIT 1")
+    override suspend fun getRewardAmountByOrigin(origin: RewardOrigin, originId: Long): Int?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(history: RewardHistoryEntity)
 

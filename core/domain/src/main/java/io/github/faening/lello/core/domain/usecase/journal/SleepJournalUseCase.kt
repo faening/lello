@@ -31,7 +31,7 @@ class SleepJournalUseCase @Inject constructor(
         val cooldown = RewardCooldown.SLEEP_JOURNAL.millis
 
         entries.forEach { entry ->
-            repository.insert(entry)
+            val entryId = repository.insert(entry)
 
             // Buscar balance atual
             val currentBalance = rewardBalanceUseCase.getBalance()
@@ -57,6 +57,7 @@ class SleepJournalUseCase @Inject constructor(
 
                 // Registrar histórico
                 val history = RewardHistory(
+                    originId = entryId,
                     rewardOrigin = RewardOrigin.SLEEP_JOURNAL,
                     rewardAmount = rewardAmount,
                     createdAt = now

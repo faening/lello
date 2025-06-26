@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
+import io.github.faening.lello.core.model.reward.RewardOrigin
 import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
@@ -28,7 +30,8 @@ import kotlin.collections.sortedByDescending
 class DiaryViewModel @Inject constructor(
     private val moodJournalUseCase: MoodJournalUseCase,
     private val mealJournalUseCase: MealJournalUseCase,
-    private val sleepJournalUseCase: SleepJournalUseCase
+    private val sleepJournalUseCase: SleepJournalUseCase,
+    private val rewardHistoryUseCase: RewardHistoryUseCase
 ) : ViewModel() {
 
     private val _selectedDate = MutableStateFlow(LocalDate.now())
@@ -79,6 +82,10 @@ class DiaryViewModel @Inject constructor(
 
     fun setSelectedDate(date: LocalDate) {
         _selectedDate.value = date
+    }
+
+    suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {
+        return rewardHistoryUseCase.getRewardAmountByOrigin(origin, originId) ?: 0
     }
 
 }

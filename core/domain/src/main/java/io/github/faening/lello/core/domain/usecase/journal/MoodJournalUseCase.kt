@@ -31,7 +31,7 @@ class MoodJournalUseCase @Inject constructor(
         val cooldown = RewardCooldown.MOOD_JOURNAL.millis
 
         entries.forEach { entry ->
-            repository.insert(entry)
+            val entryId = repository.insert(entry)
 
             // Buscar balance atual
             val currentBalance = rewardBalanceUseCase.getBalance()
@@ -57,6 +57,7 @@ class MoodJournalUseCase @Inject constructor(
 
                 // Registrar histórico
                 val history = RewardHistory(
+                    originId = entryId,
                     rewardOrigin = RewardOrigin.MOOD_JOURNAL,
                     rewardAmount = rewardAmount,
                     createdAt = now
