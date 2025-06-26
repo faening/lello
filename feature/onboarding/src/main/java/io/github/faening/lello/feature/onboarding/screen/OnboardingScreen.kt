@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -21,9 +22,16 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -40,6 +48,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.Yellow500
 import io.github.faening.lello.core.domain.mock.OnboardingPageMock
 import io.github.faening.lello.core.model.onboarding.OnboardingPage
+import io.github.faening.lello.feature.onboarding.OnboardingViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import io.github.faening.lello.core.designsystem.R as designsystemR
@@ -48,17 +57,25 @@ import io.github.faening.lello.core.designsystem.R as designsystemR
 @Composable
 fun OnboardingScreen(
     pages: List<OnboardingPage>,
-    onFinish: () -> Unit
+    onFinish: () -> Unit,
+    viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()
+    val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
+    var dontShowAgain by remember { mutableStateOf(hasSeen) }
 
     LelloTheme {
         OnboardingContainer(
             pagerState = pagerState,
             pages = pages,
             coroutineScope = coroutineScope,
-            onFinish = onFinish
+            dontShowAgain = dontShowAgain,
+            onDontShowAgainChange = { dontShowAgain = it },
+            onFinish = {
+                if (dontShowAgain) viewModel.setHasSeenOnboarding()
+                onFinish()
+            }
         )
     }
 }
@@ -68,6 +85,8 @@ private fun OnboardingContainer(
     pagerState: PagerState,
     pages: List<OnboardingPage>,
     coroutineScope: CoroutineScope,
+    dontShowAgain: Boolean,
+    onDontShowAgainChange: (Boolean) -> Unit,
     onFinish: () -> Unit
 ) {
     Scaffold(
@@ -83,6 +102,8 @@ private fun OnboardingContainer(
         OnboardingContent(
             pagerState = pagerState,
             pages = pages,
+            dontShowAgain = dontShowAgain,
+            onDontShowAgainChange = onDontShowAgainChange,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -125,6 +146,8 @@ private fun OnboardingBottomBar(
 private fun OnboardingContent(
     pagerState: PagerState,
     pages: List<OnboardingPage>,
+    dontShowAgain: Boolean,
+    onDontShowAgainChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -134,7 +157,12 @@ private fun OnboardingContent(
             state = pagerState,
             modifier = Modifier.weight(1f)
         ) { page ->
-            OnboardingPageView(page = pages[page])
+            OnboardingPageView(
+                page = pages[page],
+                showCheckbox = page == pages.lastIndex,
+                checked = dontShowAgain,
+                onCheckedChange = onDontShowAgainChange
+            )
         }
 
         OnboardingHorizontalPagerIndicator(
@@ -145,7 +173,12 @@ private fun OnboardingContent(
 }
 
 @Composable
-private fun OnboardingPageView(page: OnboardingPage) {
+private fun OnboardingPageView(
+    page: OnboardingPage,
+    showCheckbox: Boolean,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -174,7 +207,22 @@ private fun OnboardingPageView(page: OnboardingPage) {
             textAlign = TextAlign.Center
         )
 
-        // Adicionar a checkbox aqui...
+        if (showCheckbox) {
+            Spacer(modifier = Modifier.height(Dimension.Large))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange
+                )
+                // Spacer(modifier = Modifier.width(Dimension.ExtraSmall))
+                Text(
+                    text = "Não mostrar mais a tela de boas-vindas",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        }
     }
 }
 
@@ -212,6 +260,8 @@ private fun OnboardingScreenPreview() {
             pagerState = rememberPagerState(pageCount = { pages.size }),
             pages = pages,
             coroutineScope = rememberCoroutineScope(),
+            dontShowAgain = false,
+            onDontShowAgainChange = {},
             onFinish = {}
         )
     }
