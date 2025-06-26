@@ -116,4 +116,18 @@ internal object DaoModule {
     ) = database.rewardHistoryDao()
 
     // endregion
+
+    // region: Mascot
+
+    @Provides
+    fun provideMascotStatusDao(
+        database: LelloDatabase,
+    ) = database.mascotStatusDao()
+
+    @Provides
+    fun provideMascotVitalityHistoryDao(
+        database: LelloDatabase,
+    ) = database.mascotVitalityHistoryDao()
+
+    // endregion
 }
