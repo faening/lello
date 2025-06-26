@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class PurchaseHistoryRepository @Inject constructor(
     private val dao: PurchaseHistoryDao
-) : PurchaseHistoryResource {
+) : PurchaseHistoryResource<PurchaseHistory> {
     override suspend fun addPurchase(itemId: String, amount: Int, price: Int): PurchaseHistory {
         return dao.addPurchase(itemId, amount, price).toModel()
     }

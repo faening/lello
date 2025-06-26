@@ -79,6 +79,9 @@ import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
+import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.InventoryItem
+import io.github.faening.lello.core.model.store.PurchaseHistory
 import io.github.faening.lello.core.domain.repository.store.ItemResource
 import io.github.faening.lello.core.domain.repository.store.InventoryResource
 import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
@@ -276,21 +279,21 @@ object RepositoryModule {
     @Provides
     fun provideItemRepository(
         dao: ItemCatalogDao
-    ): ItemResource {
+    ): ItemResource<Item> {
         return ItemRepository(dao)
     }
 
     @Provides
     fun provideInventoryRepository(
         dao: InventoryDao
-    ): InventoryResource {
+    ): InventoryResource<InventoryItem> {
         return InventoryRepository(dao)
     }
 
     @Provides
     fun providePurchaseHistoryRepository(
         dao: PurchaseHistoryDao
-    ): PurchaseHistoryResource {
+    ): PurchaseHistoryResource<PurchaseHistory> {
         return PurchaseHistoryRepository(dao)
     }
 

@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class InventoryRepository @Inject constructor(
     private val dao: InventoryDao
-) : InventoryResource {
+) : InventoryResource<InventoryItem> {
     override suspend fun getInventory(): List<InventoryItem> {
         return dao.getInventory().map { it.toModel() }
     }

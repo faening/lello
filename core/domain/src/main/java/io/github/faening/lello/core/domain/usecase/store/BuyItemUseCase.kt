@@ -5,13 +5,15 @@ import io.github.faening.lello.core.domain.repository.store.ItemResource
 import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.model.reward.RewardBalance
+import io.github.faening.lello.core.model.store.InventoryItem
+import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 
 class BuyItemUseCase @Inject constructor(
-    private val itemResource: ItemResource,
-    private val inventoryResource: InventoryResource,
-    private val purchaseHistoryResource: PurchaseHistoryResource,
+    private val itemResource: ItemResource<Item>,
+    private val inventoryResource: InventoryResource<InventoryItem>,
+    private val purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
     private val rewardBalanceUseCase: RewardBalanceUseCase
 ) {
     suspend operator fun invoke(itemId: String, amount: Int): PurchaseHistory {

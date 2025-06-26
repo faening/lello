@@ -4,11 +4,12 @@ import io.github.faening.lello.core.domain.repository.store.InventoryResource
 import io.github.faening.lello.core.domain.repository.store.ItemResource
 import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.ItemType
+import io.github.faening.lello.core.model.store.InventoryItem
 import javax.inject.Inject
 
 class GetStoreItemsUseCase @Inject constructor(
-    private val itemResource: ItemResource,
-    private val inventoryResource: InventoryResource
+    private val itemResource: ItemResource<Item>,
+    private val inventoryResource: InventoryResource<InventoryItem>
 ) {
     suspend operator fun invoke(): List<Item> {
         val allItems = itemResource.getAllItems()

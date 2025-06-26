@@ -26,6 +26,9 @@ import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingPreferen
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
+import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.InventoryItem
+import io.github.faening.lello.core.model.store.PurchaseHistory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -68,25 +71,25 @@ object UseCaseModule {
 
     @Provides
     fun provideGetStoreItemsUseCase(
-        itemResource: ItemResource,
-        inventoryResource: InventoryResource
+        itemResource: ItemResource<Item>,
+        inventoryResource: InventoryResource<InventoryItem>
     ) = GetStoreItemsUseCase(itemResource, inventoryResource)
 
     @Provides
     fun provideGetInventoryItemsUseCase(
-        inventoryResource: InventoryResource
+        inventoryResource: InventoryResource<InventoryItem>
     ) = GetInventoryItemsUseCase(inventoryResource)
 
     @Provides
     fun provideBuyItemUseCase(
-        itemResource: ItemResource,
-        inventoryResource: InventoryResource,
-        purchaseHistoryResource: PurchaseHistoryResource,
+        itemResource: ItemResource<Item>,
+        inventoryResource: InventoryResource<InventoryItem>,
+        purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
         rewardBalanceUseCase: RewardBalanceUseCase
     ) = BuyItemUseCase(itemResource, inventoryResource, purchaseHistoryResource, rewardBalanceUseCase)
 
     @Provides
     fun provideGetPurchaseHistoryUseCase(
-        purchaseHistoryResource: PurchaseHistoryResource
+        purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>
     ) = GetPurchaseHistoryUseCase(purchaseHistoryResource)
 }

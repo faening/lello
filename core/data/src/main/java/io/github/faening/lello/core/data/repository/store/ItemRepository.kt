@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ItemRepository @Inject constructor(
     private val dao: ItemCatalogDao
-) : ItemResource {
+) : ItemResource<Item> {
     override suspend fun getAllItems(): List<Item> {
         return dao.getAllItems().map { it.toModel() }
     }

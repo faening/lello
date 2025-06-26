@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.github.faening.lello.core.database.model.store.InventoryEntity
-import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.store.InventoryResource
 
 @Dao
-interface InventoryDao : InventoryResource {
+interface InventoryDao : InventoryResource<InventoryEntity> {
     @Query("SELECT * FROM inventory")
     override suspend fun getInventory(): List<InventoryEntity>
 

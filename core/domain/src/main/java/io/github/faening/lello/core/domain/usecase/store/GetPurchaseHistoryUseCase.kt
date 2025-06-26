@@ -5,7 +5,7 @@ import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 
 class GetPurchaseHistoryUseCase @Inject constructor(
-    private val purchaseHistoryResource: PurchaseHistoryResource
+    private val purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>
 ) {
     suspend operator fun invoke(): List<PurchaseHistory> {
         return purchaseHistoryResource.getPurchaseHistory()
