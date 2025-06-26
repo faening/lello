@@ -5,12 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
+import io.github.faening.lello.core.domain.repository.MascotStatusResource
 
 @Dao
-interface MascotStatusDao {
+interface MascotStatusDao : MascotStatusResource<MascotStatusEntity> {
     @Query("SELECT * FROM mascot_status WHERE id = 1")
-    suspend fun getStatus(): MascotStatusEntity?
+    override suspend fun getStatus(): MascotStatusEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrUpdate(status: MascotStatusEntity)
+    override suspend fun insertOrUpdate(status: MascotStatusEntity)
 }
