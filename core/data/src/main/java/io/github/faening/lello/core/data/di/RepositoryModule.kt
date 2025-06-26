@@ -23,8 +23,11 @@ import io.github.faening.lello.core.data.repository.SleepSensationOptionReposito
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
 import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
+import io.github.faening.lello.core.data.repository.OnboardingPreferencesRepository
+import io.github.faening.lello.core.data.preferences.OnboardingPreferences
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
+import io.github.faening.lello.core.domain.repository.OnboardingPreferencesRepository as IOnboardingPreferencesRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.DosageFormOptionDao
@@ -210,6 +213,17 @@ object RepositoryModule {
         dao: SocialOptionDao
     ) : OptionResources<SocialOption> {
         return SocialOptionRepository(dao)
+    }
+
+    // endregion
+
+    // region: Preferences
+
+    @Provides
+    fun provideOnboardingPreferencesRepository(
+        preferences: OnboardingPreferences
+    ): IOnboardingPreferencesRepository {
+        return OnboardingPreferencesRepository(preferences)
     }
 
     // endregion

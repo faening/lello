@@ -1,6 +1,9 @@
 package io.github.faening.lello.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -21,11 +24,15 @@ import io.github.faening.lello.feature.profile.profileGraph
 @Composable
 fun LelloNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: io.github.faening.lello.startup.StartupViewModel = hiltViewModel()
 ) {
+    val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
+    val start = if (hasSeen) HomeDestinations.GRAPH else OnboardingDestinations.GRAPH
+
     NavHost(
         navController = navController,
-        startDestination = OnboardingDestinations.GRAPH,
+        startDestination = start,
         modifier = modifier
     ) {
         // Starting
