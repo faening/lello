@@ -24,6 +24,9 @@ import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
+import io.github.faening.lello.core.database.dao.ItemCatalogDao
+import io.github.faening.lello.core.database.dao.InventoryDao
+import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
@@ -60,6 +63,9 @@ import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
 import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
 import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
 import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
+import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
+import io.github.faening.lello.core.database.model.store.InventoryEntity
+import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
 import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
@@ -102,8 +108,11 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         RewardBalanceEntity::class,
         MascotStatusEntity::class,
         MascotVitalityHistoryEntity::class,
+        ItemCatalogEntity::class,
+        InventoryEntity::class,
+        PurchaseHistoryEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(
@@ -141,4 +150,9 @@ abstract class LelloDatabase : RoomDatabase() {
     // mascot
     abstract fun mascotStatusDao(): MascotStatusDao
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
+
+    // store
+    abstract fun itemCatalogDao(): ItemCatalogDao
+    abstract fun inventoryDao(): InventoryDao
+    abstract fun purchaseHistoryDao(): PurchaseHistoryDao
 }

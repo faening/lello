@@ -23,6 +23,9 @@ import io.github.faening.lello.core.data.repository.SleepSensationOptionReposito
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
 import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
+import io.github.faening.lello.core.data.repository.store.ItemRepository
+import io.github.faening.lello.core.data.repository.store.InventoryRepository
+import io.github.faening.lello.core.data.repository.store.PurchaseHistoryRepository
 import io.github.faening.lello.core.data.repository.OnboardingPreferencesRepository
 import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.preferences.OnboardingPreferences
@@ -50,6 +53,9 @@ import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
+import io.github.faening.lello.core.database.dao.ItemCatalogDao
+import io.github.faening.lello.core.database.dao.InventoryDao
+import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
@@ -73,6 +79,12 @@ import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
+import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.InventoryItem
+import io.github.faening.lello.core.model.store.PurchaseHistory
+import io.github.faening.lello.core.domain.repository.store.ItemResource
+import io.github.faening.lello.core.domain.repository.store.InventoryResource
+import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
 
 /**
  * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.
@@ -258,6 +270,31 @@ object RepositoryModule {
         historyDao: MascotVitalityHistoryDao
     ): IMascotRepository {
         return MascotRepositoryImpl(statusDao, historyDao)
+    }
+
+    // endregion
+
+    // region: Store
+
+    @Provides
+    fun provideItemRepository(
+        dao: ItemCatalogDao
+    ): ItemResource<Item> {
+        return ItemRepository(dao)
+    }
+
+    @Provides
+    fun provideInventoryRepository(
+        dao: InventoryDao
+    ): InventoryResource<InventoryItem> {
+        return InventoryRepository(dao)
+    }
+
+    @Provides
+    fun providePurchaseHistoryRepository(
+        dao: PurchaseHistoryDao
+    ): PurchaseHistoryResource<PurchaseHistory> {
+        return PurchaseHistoryRepository(dao)
     }
 
     // endregion
