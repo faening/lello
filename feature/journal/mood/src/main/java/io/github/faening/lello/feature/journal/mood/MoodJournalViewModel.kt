@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
@@ -36,7 +37,8 @@ class MoodJournalViewModel @Inject constructor(
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
     socialOptionUseCase: SocialOptionUseCase,
-    healthOptionUseCase: HealthOptionUseCase
+    healthOptionUseCase: HealthOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
     private val _currentMood = MutableStateFlow(MoodJournalColorScheme.JOYFUL)
@@ -66,6 +68,9 @@ class MoodJournalViewModel @Inject constructor(
     val reflection: StateFlow<String> = _reflection
 
     private val _moodJournal = MutableStateFlow<MoodJournal?>(null)
+
+    private val _coinsAcquired = MutableStateFlow<Int>(50)
+    val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
     init {
         viewModelScope.launch {
@@ -118,6 +123,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleClimateSelection(description: String) {
@@ -126,6 +132,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleLocationSelection(description: String) {
@@ -134,6 +141,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSocialSelection(description: String) {
@@ -142,6 +150,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleHealthSelection(description: String) {
@@ -150,18 +159,27 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun updateReflection(text: String) {
         _reflection.value = text
+        updateCoinsAcquired()
     }
 
-    private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {
-        MoodJournalColorScheme.SERENE -> MoodType.SERENE
-        MoodJournalColorScheme.JOYFUL -> MoodType.JOYFUL
-        MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
-        MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
-        MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
+    private fun updateCoinsAcquired() {
+        val moodJournal = buildMoodJournal()
+        val points = rewardCalculatorService.calculateForMoodJournal(moodJournal)
+        _coinsAcquired.value = points
+    }
+
+    fun saveMoodJournal() {
+        if (_moodJournal.value != null) return
+        viewModelScope.launch {
+            val journal = buildMoodJournal()
+            moodJournalUseCase.save(journal)
+            _moodJournal.value = journal
+        }
     }
 
     private fun buildMoodJournal(): MoodJournal {
@@ -178,12 +196,11 @@ class MoodJournalViewModel @Inject constructor(
         )
     }
 
-    fun saveMoodJournal() {
-        if (_moodJournal.value != null) return
-        viewModelScope.launch {
-            val journal = buildMoodJournal()
-            moodJournalUseCase.save(journal)
-            _moodJournal.value = journal
-        }
+    private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {
+        MoodJournalColorScheme.SERENE -> MoodType.SERENE
+        MoodJournalColorScheme.JOYFUL -> MoodType.JOYFUL
+        MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
+        MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
+        MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
     }
 }

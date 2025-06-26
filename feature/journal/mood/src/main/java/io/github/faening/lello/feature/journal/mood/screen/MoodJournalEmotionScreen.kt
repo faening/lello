@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,10 +45,12 @@ internal fun MoodJournalEmotionScreen(
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryDateTime.collectAsState()
     val emotionOptions by viewModel.emotionOptions.collectAsState()
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         MoodJournalEmotionContainer(
             entryTime = entryTime,
+            coinsAcquired = coinsAcquired,
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = viewModel::toggleEmotionSelection,
             onOpenEmotionOptionSettings = onOpenEmotionOptionSettings,
@@ -62,6 +65,7 @@ internal fun MoodJournalEmotionScreen(
 @Composable
 private fun MoodJournalEmotionContainer(
     entryTime: String,
+    coinsAcquired: Int,
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionOptionSettings: () -> Unit,
@@ -84,6 +88,7 @@ private fun MoodJournalEmotionContainer(
         }
     ) { paddingValues ->
         MoodJournalEmotionContent(
+            coinsAcquired = coinsAcquired,
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = onEmotionOptionToggle,
             onOpenEmotionSettings = onOpenEmotionOptionSettings,
@@ -138,6 +143,7 @@ private fun MoodJournalEmotionBottomBar(
 
 @Composable
 private fun MoodJournalEmotionContent(
+    coinsAcquired: Int,
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
@@ -145,23 +151,37 @@ private fun MoodJournalEmotionContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(Dimension.Medium)
     ) {
+        // Header
         Text(
             text = "Quais emoções fazem mais sentido neste momento?",
             style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(Dimension.Medium))
+
+        Text(
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
+        )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = emotionOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onEmotionOptionToggle(option.description) },
-            onOpenSettings = onOpenEmotionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = emotionOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onEmotionOptionToggle(option.description) },
+                onOpenSettings = onOpenEmotionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
@@ -176,6 +196,7 @@ private fun MoodJournalEmotionScreenPreview() {
     LelloTheme {
         MoodJournalEmotionContainer(
             entryTime = "09:41",
+            coinsAcquired = 100,
             emotionOptions = EmotionOptionMock.list,
             onEmotionOptionToggle = { _ -> },
             onOpenEmotionOptionSettings = {},

@@ -35,6 +35,7 @@ internal fun MoodJournalReflectionScreen(
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryDateTime.collectAsState()
     val reflection by viewModel.reflection.collectAsState()
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         MoodJournalReflectionContainer(
@@ -43,7 +44,8 @@ internal fun MoodJournalReflectionScreen(
             onValueChange = viewModel::updateReflection,
             onSave = viewModel::saveMoodJournal,
             onBack = onBack,
-            onFinish = onFinish
+            onFinish = onFinish,
+            coinsAcquired = coinsAcquired
         )
     }
 }
@@ -55,7 +57,8 @@ private fun MoodJournalReflectionContainer(
     onValueChange: (String) -> Unit,
     onSave: () -> Unit,
     onBack: () -> Unit,
-    onFinish: () -> Unit
+    onFinish: () -> Unit,
+    coinsAcquired: Int,
 ) {
     Scaffold(
         topBar = { MoodJournalReflectionTopBar(entryTime, onBack) },
@@ -64,6 +67,7 @@ private fun MoodJournalReflectionContainer(
         MoodJournalReflectionContent(
             reflection = reflection,
             onValueChange = onValueChange,
+            coinsAcquired = coinsAcquired,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -104,6 +108,7 @@ private fun MoodJournalReflectionBottomBar(
 private fun MoodJournalReflectionContent(
     reflection: String,
     onValueChange: (String) -> Unit,
+    coinsAcquired: Int,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -115,7 +120,14 @@ private fun MoodJournalReflectionContent(
             text = "Quer anotar algum detalhe importante ou uma reflexão neste diário?",
             style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(Dimension.Medium))
+
+        Text(
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
+        )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+
         LelloTextArea(
             value = reflection,
             onValueChange = onValueChange,
@@ -142,7 +154,8 @@ private fun MoodJournalReflectionScreenPreview() {
             onValueChange = {},
             onSave = {},
             onBack = {},
-            onFinish = {}
+            onFinish = {},
+            coinsAcquired = 100
         )
     }
 }
