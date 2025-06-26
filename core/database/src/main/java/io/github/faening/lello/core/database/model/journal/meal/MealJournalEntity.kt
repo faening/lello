@@ -1,19 +1,21 @@
 package io.github.faening.lello.core.database.model.journal.meal
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.github.faening.lello.core.model.journal.MealJournal
-import java.util.Date
 
 @Entity(tableName = "meal_journals")
 data class MealJournalEntity(
     @PrimaryKey(autoGenerate = true) val mealJournalId: Long,
-    val mealTime: Date
+    @ColumnInfo(name = "meal_time") val mealTime: Long,
+    @ColumnInfo(name = "created_at") val createdAt: Long,
 )
 
 fun MealJournalEntity.toModel() = MealJournal(
     id = mealJournalId,
     mealTime = mealTime,
+    createdAt = createdAt,
     mealOptions = emptyList(),
     appetiteOptions = emptyList(),
     foodOptions = emptyList(),
@@ -24,5 +26,6 @@ fun MealJournalEntity.toModel() = MealJournal(
 
 fun MealJournal.toEntity() = MealJournalEntity(
     mealJournalId = id ?: 0L,
-    mealTime = mealTime
+    mealTime = mealTime,
+    createdAt = createdAt
 )

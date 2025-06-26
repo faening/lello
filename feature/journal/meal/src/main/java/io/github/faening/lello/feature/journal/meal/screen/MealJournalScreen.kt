@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
@@ -115,23 +116,31 @@ private fun MealJournalContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(Dimension.Medium)
     ) {
+        // Header
         Text(
             text = "Qual refeição você fez?",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = mealOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onMealOptionToggle(option.description) },
-            onOpenSettings = onOpenMealOptionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = mealOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onMealOptionToggle(option.description) },
+                onOpenSettings = onOpenMealOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 

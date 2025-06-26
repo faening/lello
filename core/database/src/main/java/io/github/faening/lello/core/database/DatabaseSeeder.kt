@@ -12,9 +12,9 @@ import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
-import io.github.faening.lello.core.database.seed.SleepSensationOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
+import io.github.faening.lello.core.database.seed.SleepSensationOptionSeed
 import io.github.faening.lello.core.database.seed.SocialOptionSeed
 
 /**
@@ -46,14 +46,15 @@ internal object DatabaseSeeder {
         seedSleepQualityOptions(db)
         seedSleepSensationOptions(db)
         seedSocialOptions(db)
+        seedRewardBalance(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
 
-fun seedJournalCategory(db: SupportSQLiteDatabase) {
-    for (item in JournalCategorySeed.data) {
-        db.execSQL(
-            sql = """
+    fun seedJournalCategory(db: SupportSQLiteDatabase) {
+        for (item in JournalCategorySeed.data) {
+            db.execSQL(
+                sql = """
                         INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
@@ -64,9 +65,9 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
                 )
-        )
+            )
+        }
     }
-}
 
     fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
         for (item in AppetiteOptionSeed.data) {
@@ -84,7 +85,7 @@ fun seedJournalCategory(db: SupportSQLiteDatabase) {
         }
     }
 
-fun seedClimateOptions(db: SupportSQLiteDatabase) {
+    fun seedClimateOptions(db: SupportSQLiteDatabase) {
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
@@ -274,5 +275,32 @@ fun seedClimateOptions(db: SupportSQLiteDatabase) {
                 )
             )
         }
+    }
+
+    fun seedRewardBalance(db: SupportSQLiteDatabase) {
+        val now = System.currentTimeMillis()
+        val initialTime = now - 48L * 60L * 60L * 1000L
+        db.execSQL(
+            sql = """
+                INSERT INTO reward_balance (
+                    id,
+                    total_coins,
+                    last_mood_reward,
+                    last_meal_reward,
+                    last_sleep_reward,
+                    last_medication_reward,
+                    last_daily_achievement_reward
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            """.trimIndent(),
+            bindArgs = arrayOf(
+                1,
+                0,
+                initialTime,
+                initialTime,
+                initialTime,
+                initialTime,
+                initialTime
+            )
+        )
     }
 }

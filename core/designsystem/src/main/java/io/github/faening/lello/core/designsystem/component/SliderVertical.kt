@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +50,7 @@ fun LelloSliderVertical(
     val baseModifier = Modifier
         .fillMaxHeight()
         .fillMaxWidth()
+        .padding(vertical = 32.dp)
         .then(
             if (enableStepDrag) Modifier.pointerInput(steps, currentStep) {
                 detectVerticalDragGestures { _, dragAmount ->
@@ -128,6 +130,8 @@ fun LelloSliderVertical(
     }
 }
 
+// region: Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     name = "Light",
@@ -173,3 +177,5 @@ private fun LelloSliderVerticalAquamarineLightPreview() {
         )
     }
 }
+
+// endregion

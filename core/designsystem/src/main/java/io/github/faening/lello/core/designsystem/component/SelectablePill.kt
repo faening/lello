@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -30,7 +31,7 @@ fun LelloSelectablePill(
     Surface(
         modifier = Modifier.clickable { onClick() },
         shape = RoundedCornerShape(shapeRadius),
-        color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer,
+        color = if (selected) MaterialTheme.colorScheme.primary else Color.White,
         contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
         border = BorderStroke(
             width = 1.dp,
@@ -46,6 +47,8 @@ fun LelloSelectablePill(
         )
     }
 }
+
+// region: Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
@@ -296,3 +299,5 @@ private fun LelloSelectablePillRedDarkPreview() {
         )
     }
 }
+
+// endregion

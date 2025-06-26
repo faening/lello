@@ -79,6 +79,7 @@ data class MealJournalEntityWithOptions(
 fun MealJournalEntityWithOptions.toModel() = MealJournal(
     id = entry.mealJournalId,
     mealTime = entry.mealTime,
+    createdAt = entry.createdAt,
     mealOptions = mealOptions.map { it.toModel() },
     appetiteOptions = appetiteOptions.map { it.toModel() },
     foodOptions = foodOptions.map { it.toModel() },

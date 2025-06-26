@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -42,12 +43,15 @@ internal fun MealJournalAppetiteScreen(
     onOpenAppetiteOptionSettings: () -> Unit,
 ) {
     val appetiteOptions by viewModel.appetiteOptions.collectAsState()
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
     LelloTheme {
         MealJournalAppetiteContainer(
+            coinsAcquired = coinsAcquired,
             appetiteOptions = appetiteOptions,
             onAppetiteOptionToggle = viewModel::toggleAppetiteSelection,
             onOpenAppetiteOptionSettings = onOpenAppetiteOptionSettings,
+            onSave = viewModel::saveMealJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -57,9 +61,11 @@ internal fun MealJournalAppetiteScreen(
 
 @Composable
 private fun MealJournalAppetiteContainer(
+    coinsAcquired: Int,
     appetiteOptions: List<AppetiteOption>,
     onAppetiteOptionToggle: (String) -> Unit,
     onOpenAppetiteOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
@@ -68,9 +74,17 @@ private fun MealJournalAppetiteContainer(
 
     Scaffold(
         topBar = { MealJournalAppetiteTopBar(onBack) },
-        bottomBar = { MealJournalAppetiteBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            MealJournalAppetiteBottomBar(
+            enabled = anySelected,
+            onNext = onNext,
+            onSave = onSave,
+            onFinish = onFinish)
+
+        }
     ) { paddingValues ->
         MealJournalAppetiteContent(
+            coinsAcquired = coinsAcquired,
             appetiteOptions = appetiteOptions,
             onAppetiteOptionToggle = onAppetiteOptionToggle,
             onOpenAppetiteOptionSettings = onOpenAppetiteOptionSettings,
@@ -92,6 +106,7 @@ private fun MealJournalAppetiteTopBar(
 @Composable
 private fun MealJournalAppetiteBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
 ) {
@@ -105,7 +120,10 @@ private fun MealJournalAppetiteBottomBar(
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -120,6 +138,7 @@ private fun MealJournalAppetiteBottomBar(
 
 @Composable
 private fun MealJournalAppetiteContent(
+    coinsAcquired: Int,
     appetiteOptions: List<AppetiteOption>,
     onAppetiteOptionToggle: (String) -> Unit,
     onOpenAppetiteOptionSettings: () -> Unit,
@@ -127,23 +146,37 @@ private fun MealJournalAppetiteContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(Dimension.Medium)
     ) {
+        // Header
         Text(
             text = "Como estava seu apetite?",
             style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(Dimension.Medium))
+
+        Text(
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
+        )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = appetiteOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onAppetiteOptionToggle(option.description) },
-            onOpenSettings = onOpenAppetiteOptionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = appetiteOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onAppetiteOptionToggle(option.description) },
+                onOpenSettings = onOpenAppetiteOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
@@ -157,9 +190,11 @@ private fun MealJournalAppetiteContent(
 fun MealJournalAppetiteScreenPreview() {
     LelloTheme {
         MealJournalAppetiteContainer(
+            coinsAcquired = 100,
             appetiteOptions = AppetiteOptionMock.list,
             onAppetiteOptionToggle = { _ -> },
             onOpenAppetiteOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {},

@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.SleepJournalDao
-import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntity
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepActivityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
@@ -10,11 +9,25 @@ import io.github.faening.lello.core.database.model.journal.sleep.toEntity
 import io.github.faening.lello.core.database.model.journal.sleep.toModel
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.model.journal.SleepJournal
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SleepJournalRepository @Inject constructor(
     private val dao: SleepJournalDao
 ) : JournalResources<SleepJournal> {
+
+    override fun getAll(): Flow<List<SleepJournal>> {
+        return dao
+            .getAll()
+            .map { list -> list.map { it.toModel() } }
+    }
+
+    override fun getById(id: Long): Flow<SleepJournal>? {
+        return dao
+            .getByIdWithOptions(id)
+            ?.map { it.toModel() }
+    }
 
     override suspend fun insert(entry: SleepJournal): Long {
         val sleepJournalId = dao.insert(entry.toEntity())
@@ -52,14 +65,6 @@ class SleepJournalRepository @Inject constructor(
         }
 
         return sleepJournalId
-    }
-
-    override suspend fun getAll(): List<SleepJournal> {
-        return dao.getAll().map { it.toModel() }
-    }
-
-    override suspend fun getById(id: Long): SleepJournal? {
-        return dao.getByIdWithOptions(id)?.toModel()
     }
 
     override suspend fun delete(id: SleepJournal) {

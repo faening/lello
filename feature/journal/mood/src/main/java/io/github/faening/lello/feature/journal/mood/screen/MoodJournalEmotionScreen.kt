@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -44,13 +45,16 @@ internal fun MoodJournalEmotionScreen(
     val mood by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryDateTime.collectAsState()
     val emotionOptions by viewModel.emotionOptions.collectAsState()
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
     LelloTheme(scheme = mood.colorScheme) {
         MoodJournalEmotionContainer(
             entryTime = entryTime,
+            coinsAcquired = coinsAcquired,
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = viewModel::toggleEmotionSelection,
             onOpenEmotionOptionSettings = onOpenEmotionOptionSettings,
+            onSave = viewModel::saveMoodJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -61,9 +65,11 @@ internal fun MoodJournalEmotionScreen(
 @Composable
 private fun MoodJournalEmotionContainer(
     entryTime: String,
+    coinsAcquired: Int,
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
@@ -72,9 +78,17 @@ private fun MoodJournalEmotionContainer(
 
     Scaffold(
         topBar = { MoodJournalEmotionTopBar(entryTime, onBack) },
-        bottomBar = { MoodJournalEmotionBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            MoodJournalEmotionBottomBar(
+                enabled = anySelected,
+                onSave = onSave,
+                onNext = onNext,
+                onFinish = onFinish
+            )
+        }
     ) { paddingValues ->
         MoodJournalEmotionContent(
+            coinsAcquired = coinsAcquired,
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = onEmotionOptionToggle,
             onOpenEmotionSettings = onOpenEmotionOptionSettings,
@@ -97,6 +111,7 @@ private fun MoodJournalEmotionTopBar(
 @Composable
 private fun MoodJournalEmotionBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
@@ -110,7 +125,10 @@ private fun MoodJournalEmotionBottomBar(
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -125,6 +143,7 @@ private fun MoodJournalEmotionBottomBar(
 
 @Composable
 private fun MoodJournalEmotionContent(
+    coinsAcquired: Int,
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
@@ -132,23 +151,37 @@ private fun MoodJournalEmotionContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(Dimension.Medium)
     ) {
+        // Header
         Text(
             text = "Quais emoções fazem mais sentido neste momento?",
             style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(Dimension.Medium))
+
+        Text(
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
+        )
         Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = emotionOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onEmotionOptionToggle(option.description) },
-            onOpenSettings = onOpenEmotionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = emotionOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onEmotionOptionToggle(option.description) },
+                onOpenSettings = onOpenEmotionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
@@ -163,9 +196,11 @@ private fun MoodJournalEmotionScreenPreview() {
     LelloTheme {
         MoodJournalEmotionContainer(
             entryTime = "09:41",
+            coinsAcquired = 100,
             emotionOptions = EmotionOptionMock.list,
             onEmotionOptionToggle = { _ -> },
             onOpenEmotionOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {}

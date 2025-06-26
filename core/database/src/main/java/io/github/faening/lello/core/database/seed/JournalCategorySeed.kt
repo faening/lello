@@ -6,8 +6,8 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
     override val data = listOf(
         JournalCategoryEntity(
             id = 1,
-            name = "Diário de Humor",
-            shortDescription = "Registre suas emoções e compreenda melhor seus estados emocionais ao longo do dia",
+            name = "Humor",
+            shortDescription = "Registre suas emoções e compreenda melhor seus estados emocionais",
             longDescription = """
                        O Diário de Humor é uma ferramenta central do aplicativo, inspirada na Ficha de Regulação Emocional do Treinamento 
                        em DBT (Terapia Comportamental Dialética). Com ele, você poderá registrar suas emoções ao longo do dia, identificar 
@@ -22,7 +22,7 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 2,
-            name = "Diário de Medicamentos",
+            name = "Medicamentos",
             shortDescription = "Acompanhe sua medicação diária e monitore sua adaptação ao tratamento",
             longDescription = """
                         O Diário de Medicamentos foi desenvolvido para ajudar no acompanhamento do uso contínuo de medicamentos reguladores. 
@@ -39,7 +39,7 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 3,
-            name = "Diário de Sono",
+            name = "Sono",
             shortDescription = "Monitore seu sono e descubra como ele impacta seu bem-estar emocional",
             longDescription = """
                         O Diário de Sono foi criado para acompanhar a qualidade e a regularidade do seu descanso, ajudando a entender como 
@@ -54,7 +54,7 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 4,
-            name = "Diário de Alimentação",
+            name = "Alimentação",
             shortDescription = "Registre sua alimentação e compreenda como ela afeta sua saúde emocional",
             longDescription = """
                         O Diário de Alimentação tem como objetivo acompanhar seus hábitos alimentares e ajudar na compreensão da sua 

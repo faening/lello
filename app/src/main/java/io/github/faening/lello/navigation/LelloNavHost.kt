@@ -9,10 +9,12 @@ import io.github.faening.lello.feature.journal.medication.navigation.journalMedi
 import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.settingsJournalGraph
 import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
-import io.github.faening.lello.feature.menu.achievement.navigation.achievementGraph
-import io.github.faening.lello.feature.menu.home.navigation.HomeDestinations
-import io.github.faening.lello.feature.menu.home.navigation.homeGraph
-import io.github.faening.lello.feature.menu.profile.navigation.profileGraph
+import io.github.faening.lello.feature.achievement.achievementGraph
+import io.github.faening.lello.feature.diary.diaryGraph
+import io.github.faening.lello.feature.home.HomeDestinations
+import io.github.faening.lello.feature.home.homeGraph
+import io.github.faening.lello.feature.medication.medicationGraph
+import io.github.faening.lello.feature.profile.profileGraph
 
 @Composable
 fun LelloNavHost(
@@ -26,14 +28,16 @@ fun LelloNavHost(
     ) {
         // Menu
         homeGraph(navController = navController)
+        diaryGraph(navController = navController)
         achievementGraph(navController = navController)
+        medicationGraph(navController = navController)
         profileGraph(navController = navController)
 
         // Journals
-        mealJournalGraph(navController = navController)
-        journalMedicationGraph(navController = navController)
         moodJournalGraph(navController = navController)
-        settingsJournalGraph(navController = navController)
+        mealJournalGraph(navController = navController)
         sleepJournalGraph(navController = navController)
+        journalMedicationGraph(navController = navController)
+        settingsJournalGraph(navController = navController)
     }
 }
