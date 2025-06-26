@@ -13,5 +13,8 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.model)
 
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
     testImplementation(libs.junit)
 }

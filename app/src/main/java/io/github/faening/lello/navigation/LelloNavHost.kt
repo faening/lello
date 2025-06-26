@@ -1,6 +1,9 @@
 package io.github.faening.lello.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,18 +17,31 @@ import io.github.faening.lello.feature.diary.diaryGraph
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.home.homeGraph
 import io.github.faening.lello.feature.medication.medicationGraph
+import io.github.faening.lello.feature.onboarding.OnboardingDestinations
+import io.github.faening.lello.feature.onboarding.onboardingGraph
 import io.github.faening.lello.feature.profile.profileGraph
+import io.github.faening.lello.startup.StartupViewModel
 
 @Composable
 fun LelloNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: StartupViewModel = hiltViewModel()
 ) {
+    val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
+    val start = if (hasSeen) HomeDestinations.GRAPH else OnboardingDestinations.GRAPH
+
     NavHost(
         navController = navController,
-        startDestination = HomeDestinations.GRAPH,
+        startDestination = start,
         modifier = modifier
     ) {
+        // Starting
+        onboardingGraph(
+            navController = navController,
+            onOnboardingFinish = { navController.navigate(HomeDestinations.GRAPH) }
+        )
+
         // Menu
         homeGraph(navController = navController)
         diaryGraph(navController = navController)

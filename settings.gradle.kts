@@ -34,6 +34,7 @@ include(":core:designsystem")
 include(":core:domain")
 include(":core:model")
 
+include(":feature:onboarding")
 include(":feature:authentication")
 include(":feature:home")
 include(":feature:diary")
@@ -46,4 +47,3 @@ include(":feature:journal:medication")
 include(":feature:journal:mood")
 include(":feature:journal:sleep")
 include(":feature:journal:settings")
-
