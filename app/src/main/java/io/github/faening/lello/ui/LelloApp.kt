@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -24,6 +23,8 @@ import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.NavigationItemMock
+import io.github.faening.lello.core.model.journal.NavigationItem
 import io.github.faening.lello.feature.achievement.AchievementDestinations
 import io.github.faening.lello.feature.diary.DiaryDestinations
 import io.github.faening.lello.feature.home.HomeDestinations
@@ -32,8 +33,8 @@ import io.github.faening.lello.feature.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
 import io.github.faening.lello.core.designsystem.R as designsystemR
 import io.github.faening.lello.feature.achievement.R as achievementR
-import io.github.faening.lello.feature.home.R as homeR
 import io.github.faening.lello.feature.diary.R as diaryR
+import io.github.faening.lello.feature.home.R as homeR
 import io.github.faening.lello.feature.medication.R as medicationR
 import io.github.faening.lello.feature.profile.R as profileR
 
@@ -171,17 +172,15 @@ private fun LelloAppBottomBar(
     }
 }
 
-private data class NavigationItem(
-    val title: Int,
-    val route: String,
-    val unselectedIcon: ImageVector,
-    val selectedIcon: ImageVector
-)
-
 @Preview(name = "Light Theme")
 @Composable
 fun LelloAppPreview() {
     LelloTheme(darkTheme = false) {
-        LelloApp()
+        val navController = rememberNavController()
+        LelloAppBottomBar(
+            items = NavigationItemMock.list,
+            currentDestination = null,
+            navController = navController
+        )
     }
 }
