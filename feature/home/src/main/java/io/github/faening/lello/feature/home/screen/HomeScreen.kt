@@ -25,6 +25,7 @@ import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopA
 import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.domain.mock.JournalCategoryMock
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -160,13 +161,26 @@ private fun formatToHourMinute(millis: Long): String {
     return String.format("%dh %02dm", hours, minutes)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview("HomeScren - Light Theme")
+@Preview("HomeScreen - Light Theme")
 @Composable
 private fun PreviewHomeScreen() {
+    val bonusState = JournalBonusState(
+        moodRemaining = 3600000,
+        sleepRemaining = 3600000,
+        medicationRemaining = 3600000,
+        mealRemaining = 3600000
+    )
+    val checkInState = DailyCheckInState(
+        currentStep = 2,
+        bonusReceived = false
+    )
+
     LelloTheme(darkTheme = false) {
-        HomeScreen(
-            onNavigateToModule = {},
+        HomeScreenContainer(
+            journalCategories = JournalCategoryMock.list,
+            bonusState = bonusState,
+            checkInState = checkInState,
+            onNavigateToModule = {}
         )
     }
 }
