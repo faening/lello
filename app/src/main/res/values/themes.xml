@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Lello" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Lello.Splash" parent="Theme.Lello" tools:ignore="ResourceCycle">
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FBD866</item>
+    </style>
 </resources>

@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.audio)
     api(projects.core.domain)
     api(projects.core.model)
 }

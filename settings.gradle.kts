@@ -27,6 +27,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":app")
 
+include(":core:audio")
 include(":core:authentication")
 include(":core:data")
 include(":core:database")

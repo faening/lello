@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -21,6 +23,7 @@ import io.github.faening.lello.core.designsystem.component.card.JournalCategoryC
 import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCardConfig
 import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
@@ -92,10 +95,13 @@ private fun JournalContent(
     checkInState: DailyCheckInState,
     onNavigateToModule: (String) -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 16.dp),
+            .padding(bottom = Dimension.Medium)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CheckInDailyCard(
