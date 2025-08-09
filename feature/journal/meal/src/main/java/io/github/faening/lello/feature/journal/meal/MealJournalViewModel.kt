@@ -161,7 +161,7 @@ class MealJournalViewModel @Inject constructor(
     }
 
     fun saveMealJournal() {
-        if (_mealJournal.value != null) return
+        if (_mealJournal.value == null) return
         viewModelScope.launch {
             val journal = buildMealournal()
             mealJournalUseCase.save(journal)

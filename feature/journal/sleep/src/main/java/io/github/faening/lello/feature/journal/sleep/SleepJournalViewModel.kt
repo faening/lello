@@ -155,7 +155,7 @@ class SleepJournalViewModel @Inject constructor(
     }
 
     fun saveSleepJournal() {
-        if (_sleepJournal.value != null) return
+        if (_sleepJournal.value == null) return
         viewModelScope.launch {
             val journal = buildSleepJournal()
             sleepJournalUseCase.save(journal)
