@@ -393,6 +393,70 @@ enum class LelloColorScheme(
             onBackground          = Grey50,
             outline               = Grey900
         )
+    ),
+
+    DARK(
+        lightScheme = lightColorScheme(
+            primary               = Grey500,
+            onPrimary             = Grey50,
+            primaryContainer      = Yellow50,
+            onPrimaryContainer    = Grey500,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Grey500,
+            onSurfaceVariant      = Grey300,
+
+            background            = Yellow50,
+            onBackground          = Grey500,
+            outline               = Grey500
+        ),
+
+        darkScheme = darkColorScheme(
+            primary               = Red500,
+            onPrimary             = Grey50,
+            primaryContainer      = Grey500,
+            onPrimaryContainer    = Grey50,
+
+            secondary             = Grey500,
+            onSecondary           = Grey50,
+            secondaryContainer    = Grey100,
+            onSecondaryContainer  = Grey900,
+
+            tertiary              = Yellow600,
+            onTertiary            = Yellow50,
+            tertiaryContainer     = Yellow100,
+            onTertiaryContainer   = Yellow900,
+
+            error                 = Red500,
+            onError               = Red50,
+            errorContainer        = Red100,
+            onErrorContainer      = Red900,
+
+            surface               = Yellow50,
+            onSurface             = Grey500,
+            surfaceVariant        = Red700,
+            onSurfaceVariant      = Grey300,
+
+            background            = Grey500,
+            onBackground          = Grey50,
+            outline               = Grey900
+        )
     );
 
     fun getScheme(darkTheme: Boolean): ColorScheme = if (darkTheme) darkScheme else lightScheme
@@ -401,7 +465,7 @@ enum class LelloColorScheme(
 @Composable
 fun LelloTheme(
     scheme: LelloColorScheme = LelloColorScheme.DEFAULT,
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
