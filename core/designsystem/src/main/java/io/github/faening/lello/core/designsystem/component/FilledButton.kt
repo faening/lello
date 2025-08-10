@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -36,7 +35,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 @Composable
 fun LelloFilledButton(
     label: String,
-    icon: ImageVector? = null,
+    iconId: Int? = null,
     invertIcon: Boolean = false,
     enabled: Boolean = true,
     onClick: () -> Unit,
@@ -45,7 +44,8 @@ fun LelloFilledButton(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier = modifier
+            .padding(bottom = Dimension.Small, end = Dimension.Small)
     ) {
         // Fake Shadow
         Box(
@@ -79,9 +79,9 @@ fun LelloFilledButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            if (icon != null && !invertIcon) {
+            if (iconId != null && !invertIcon) {
                 Icon(
-                    imageVector = icon,
+                    imageVector = LelloIcons.customIcon(iconId),
                     contentDescription = null,
                     tint = if (enabled) colorScheme.onPrimary else colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(end = Dimension.Small)
@@ -93,9 +93,9 @@ fun LelloFilledButton(
                 color = if (enabled) colorScheme.onPrimary else colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyLarge
             )
-            if (icon != null && invertIcon) {
+            if (iconId != null && invertIcon) {
                 Icon(
-                    imageVector = icon,
+                    imageVector = LelloIcons.customIcon(iconId),
                     contentDescription = null,
                     tint = if (enabled) colorScheme.onPrimary else colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(start = Dimension.Small)
@@ -121,7 +121,7 @@ private fun LelloFilledButtonDefaultLightPreview() {
         LelloFilledButton(
             label = "Voltar",
             onClick = {},
-            icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left),
+            iconId = R.drawable.ic_arrow_large_left,
             enabled = true
         )
     }
@@ -142,7 +142,7 @@ private fun LelloFilledButtonDefaultLightInvertIconPreview() {
     ) {
         LelloFilledButton(
             label = "Próximo",
-            icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_right),
+            iconId = R.drawable.ic_arrow_large_left,
             invertIcon = true,
             onClick = {}
         )
@@ -165,7 +165,7 @@ private fun LelloFilledButtonDefaultLightDisabledPreview() {
         LelloFilledButton(
             label = "Voltar",
             onClick = {},
-            icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left),
+            iconId = R.drawable.ic_arrow_large_left,
             enabled = false
         )
     }
