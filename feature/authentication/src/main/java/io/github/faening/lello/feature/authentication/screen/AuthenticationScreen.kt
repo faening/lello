@@ -130,7 +130,7 @@ private fun MainSection(
         modifier = modifier
     ) {
         Text(
-            text = "Como você deseja entrar?",
+            text = "Como você deseja criar sua conta?",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(Dimension.ExtraLarge)
         )
