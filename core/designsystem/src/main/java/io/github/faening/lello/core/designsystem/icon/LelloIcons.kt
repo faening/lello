@@ -21,6 +21,7 @@ object LelloIcons {
     val Add = Icons.Rounded.Add
 
     val Logo = LelloIcon(designsystemR.drawable.ic_lello_logo)
+    val ArrowLeft = LelloIcon(designsystemR.drawable.ic_arrow_large_left)
 
     object Outlined {
         val Mail = LelloIcon(designsystemR.drawable.ic_mail_outlined)

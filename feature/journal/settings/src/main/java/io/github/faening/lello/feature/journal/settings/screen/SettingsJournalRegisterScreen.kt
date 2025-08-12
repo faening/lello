@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloTextField
+import io.github.faening.lello.core.designsystem.component.LelloOutlinedTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
@@ -123,7 +123,7 @@ private fun SettingsJournalRegisterContent(
             modifier = Modifier.padding(bottom = Dimension.ExtraLarge)
         )
 
-        LelloTextField(
+        LelloOutlinedTextField(
             value = text,
             onValueChange = onTextChange,
             placeholder = "Descrição do item",

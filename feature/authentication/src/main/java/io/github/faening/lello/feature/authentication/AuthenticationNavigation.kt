@@ -9,12 +9,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import io.github.faening.lello.feature.authentication.screen.AuthenticationScreen
+import io.github.faening.lello.feature.authentication.screen.EmailSignUpScreen
 
 object AuthenticationDestinations {
     const val GRAPH = "authentication_graph"
     const val HOME = "authentication_home"
     const val SIGN_IN = "authentication_sign_in"
-    const val SIGN_UP = "authentication_sign_up"
+    const val SIGN_UP_WITH_MAIL = "authentication_sign_up_with_mail"
+    const val SIGN_UP_WITH_GOOGLE = "authentication_sign_up_with_google"
     const val FORGOT_PASSWORD = "authentication_forgot_password"
 }
 
@@ -27,13 +29,25 @@ fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             AuthenticationScreen(
                 viewModel = viewModel,
-                onEmailSignUpClick = {},
+                onEmailSignUpClick = { navController.navigate(AuthenticationDestinations.SIGN_UP_WITH_MAIL) },
                 onGoogleSignUpClick = {},
                 onPrivacyPolicyClick = {},
                 onLoginClick = {},
                 onRecoverAccountClick = {}
             )
         }
+
+        composable(AuthenticationDestinations.SIGN_UP_WITH_MAIL) { backStackEntry ->
+            val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
+            EmailSignUpScreen(
+                viewModel = viewModel,
+                onBackClick = { navController.popBackStack() },
+                onSignUpSuccess = { /* Navegar para a próxima tela após o sucesso do cadastro */ },
+                onLoginClick = {}
+            )
+        }
+
+        // ...
 
     }
 }
