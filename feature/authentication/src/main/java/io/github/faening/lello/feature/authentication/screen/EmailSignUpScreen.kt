@@ -14,7 +14,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,6 +41,7 @@ import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.authentication.AuthenticationViewModel
+import io.github.faening.lello.feature.authentication.AuthenticationUiState
 
 @Composable
 internal fun EmailSignUpScreen(
@@ -47,11 +50,25 @@ internal fun EmailSignUpScreen(
     onSignUpSuccess: () -> Unit = {},
     onLoginClick: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    // Observar mudanças no estado e navegar quando o sign up for bem-sucedido
+    LaunchedEffect(uiState.isSignUpSuccessful) {
+        if (uiState.isSignUpSuccessful) {
+            onSignUpSuccess()
+            viewModel.resetSignUpState()
+        }
+    }
+
     LelloTheme(scheme = LelloColorScheme.INVERSE) {
         EmailSignUpScreenContent(
+            uiState = uiState,
             onBackClick = onBackClick,
-            onSignUpSuccess = onSignUpSuccess,
-            onLoginClick = onLoginClick
+            onSignUp = { email, password ->
+                viewModel.signUp(email, password)
+            },
+            onLoginClick = onLoginClick,
+            onErrorDismiss = { viewModel.clearError() }
         )
     }
 }
@@ -59,13 +76,25 @@ internal fun EmailSignUpScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EmailSignUpScreenContent(
+    uiState: AuthenticationUiState,
     onBackClick: () -> Unit,
-    onSignUpSuccess: () -> Unit = {},
-    onLoginClick: () -> Unit
+    onSignUp: (String, String) -> Unit,
+    onLoginClick: () -> Unit,
+    onErrorDismiss: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
+    // Mostrar mensagem de erro se houver
+    uiState.errorMessage?.let { errorMessage ->
+        LaunchedEffect(errorMessage) {
+            // Aqui você pode mostrar um Toast, SnackBar ou Dialog
+            // Por enquanto, vamos apenas limpar o erro após um tempo
+            kotlinx.coroutines.delay(3000)
+            onErrorDismiss()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -95,7 +124,9 @@ private fun EmailSignUpScreenContent(
                 onEmailChange = { email = it },
                 onPasswordChange = { password = it },
                 onConfirmPasswordChange = { confirmPassword = it },
-                onSignUpClick = onSignUpSuccess,
+                onSignUpClick = { onSignUp(email, password) },
+                isLoading = uiState.isLoading,
+                errorMessage = uiState.errorMessage,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
@@ -155,6 +186,8 @@ private fun MainSection(
     onPasswordChange: (String) -> Unit,
     onConfirmPasswordChange: (String) -> Unit,
     onSignUpClick: () -> Unit = {},
+    isLoading: Boolean = false,
+    errorMessage: String? = null,
     modifier: Modifier
 ) {
     val isPreview = LocalInspectionMode.current
@@ -209,8 +242,18 @@ private fun MainSection(
 
         SignUpButton(
             onClick = onSignUpClick,
-            enabled = isFormValid
+            enabled = isFormValid && !isLoading
         )
+
+        // Mostrar mensagem de erro se houver
+        errorMessage?.let { errorMessage ->
+            Text(
+                text = errorMessage,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(start = Dimension.Small, top = 4.dp)
+            )
+        }
     }
 }
 
@@ -263,9 +306,11 @@ private fun FooterSection(
 fun EmailSignUpScreenPreview() {
     LelloTheme(scheme = LelloColorScheme.INVERSE) {
         EmailSignUpScreenContent(
+            uiState = AuthenticationUiState(),
             onBackClick = {},
-            onSignUpSuccess = {},
-            onLoginClick = {}
+            onSignUp = { _, _ -> },
+            onLoginClick = {},
+            onErrorDismiss = {}
         )
     }
 }
