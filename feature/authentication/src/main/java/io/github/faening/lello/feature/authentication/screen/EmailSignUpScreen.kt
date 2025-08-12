@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,6 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOutlinedTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
@@ -158,9 +158,11 @@ private fun MainSection(
     modifier: Modifier
 ) {
     val isPreview = LocalInspectionMode.current
-    var isPasswordVisible by remember { mutableStateOf(false) }
-    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
-    val focusManager = LocalFocusManager.current
+
+    // Validações
+    val isEmailValid = email.contains("@") && email.isNotBlank()
+    val doPasswordsMatch = password == confirmPassword && confirmPassword.isNotBlank()
+    val isFormValid = isEmailValid && doPasswordsMatch && password.isNotBlank()
 
     Column(
         modifier = Modifier,
@@ -185,17 +187,29 @@ private fun MainSection(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
 
-        LelloOutlinedTextField(
-            value = confirmPassword,
-            onValueChange = onConfirmPasswordChange,
-            label = "Confirmar Senha",
-            placeholder = "Digite sua senha novamente",
-            isPassword = true
-        )
+        Column {
+            LelloOutlinedTextField(
+                value = confirmPassword,
+                onValueChange = onConfirmPasswordChange,
+                label = "Confirmar Senha",
+                placeholder = "Digite sua senha novamente",
+                isPassword = true
+            )
+
+            // Mostrar erro se as senhas não coincidirem
+            if (confirmPassword.isNotBlank() && !doPasswordsMatch) {
+                Text(
+                    text = "As senhas não coincidem",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(start = Dimension.Small, top = 4.dp)
+                )
+            }
+        }
 
         SignUpButton(
             onClick = onSignUpClick,
-            enabled = email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()
+            enabled = isFormValid
         )
     }
 }

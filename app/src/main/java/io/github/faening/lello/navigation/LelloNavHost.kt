@@ -13,6 +13,8 @@ import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.settingsJournalGraph
 import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.achievement.achievementGraph
+import io.github.faening.lello.feature.authentication.AuthenticationDestinations
+import io.github.faening.lello.feature.authentication.authenticationGraph
 import io.github.faening.lello.feature.diary.diaryGraph
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.home.homeGraph
@@ -39,8 +41,11 @@ fun LelloNavHost(
         // Starting
         onboardingGraph(
             navController = navController,
-            onOnboardingFinish = { navController.navigate(HomeDestinations.GRAPH) }
+            onOnboardingFinish = { navController.navigate(AuthenticationDestinations.HOME) }
         )
+
+        // Authentication
+        authenticationGraph(navController = navController)
 
         // Menu
         homeGraph(navController = navController)

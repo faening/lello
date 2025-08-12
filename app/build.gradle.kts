@@ -29,6 +29,7 @@ dependencies {
     api(projects.core.domain)
     api(projects.feature.home)
     api(projects.feature.diary)
+    api(projects.feature.authentication)
     api(projects.feature.onboarding)
     api(projects.feature.achievement)
     api(projects.feature.medication)
