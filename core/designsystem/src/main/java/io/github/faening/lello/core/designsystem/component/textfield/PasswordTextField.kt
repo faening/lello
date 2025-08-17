@@ -1,0 +1,443 @@
+package io.github.faening.lello.core.designsystem.component.textfield
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
+
+@Composable
+fun LelloPasswordTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    label: String = "Senha",
+    placeholder: String = "Digite sua senha",
+    enabled: Boolean = true,
+    validationConfig: PasswordValidationConfig = PasswordValidationConfig(),
+    showValidationErrors: Boolean = true,
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    val validationResult = remember(value, validationConfig) {
+        if (value.isNotEmpty()) {
+            PasswordValidator.validate(value, validationConfig)
+        } else {
+            PasswordValidationResult(isValid = true, errors = emptyList())
+        }
+    }
+
+    val textColor = when {
+        !enabled -> MaterialTheme.colorScheme.outlineVariant
+        isFocused -> MaterialTheme.colorScheme.onSecondaryContainer
+        else -> MaterialTheme.colorScheme.onBackground
+    }
+
+    Column(modifier = modifier) {
+        TextFieldLabel(
+            text = label,
+            textColor = textColor
+        )
+
+        ShadowedOutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            enabled = enabled,
+            isFocused = isFocused,
+            onFocusChanged = { isFocused = it },
+            placeholder = placeholder,
+            visualTransformation = if (passwordVisible) {
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            },
+            trailingIcon = {
+                PasswordVisibilityIcon(
+                    passwordVisible = passwordVisible,
+                    onToggle = { passwordVisible = !passwordVisible },
+                    enabled = enabled
+                )
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = imeAction
+            ),
+            keyboardActions = keyboardActions,
+            textColor = textColor
+        )
+
+        ValidationErrorText(
+            validationResult = validationResult,
+            showErrors = showValidationErrors,
+            hasValue = value.isNotEmpty()
+        )
+    }
+}
+
+@Composable
+private fun TextFieldLabel(
+    text: String,
+    textColor: Color
+) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL),
+        color = textColor,
+        fontWeight = FontWeight.ExtraBold,
+        style = MaterialTheme.typography.titleMedium,
+        maxLines = 1
+    )
+}
+
+@Composable
+private fun ShadowedOutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean,
+    isFocused: Boolean,
+    onFocusChanged: (Boolean) -> Unit,
+    placeholder: String,
+    visualTransformation: VisualTransformation,
+    trailingIcon: @Composable (() -> Unit)?,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
+    textColor: Color
+) {
+    val shadowColor = when {
+        !enabled -> MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = Dimension.ALPHA_STATE_DISABLED)
+        isFocused -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_PRESSED)
+        else -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_NORMAL)
+    }
+    val borderColor = when {
+        !enabled -> MaterialTheme.colorScheme.outlineVariant
+        isFocused -> MaterialTheme.colorScheme.onSecondaryContainer
+        else -> MaterialTheme.colorScheme.outline
+    }
+
+    Box(
+        modifier = Modifier
+            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL, end = Dimension.PADDING_COMPONENT_SMALL)
+    ) {
+        // Fake Shadow
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .offset(x = Dimension.SHADOW_OFFSET_X, y = Dimension.SHADOW_OFFSET_Y)
+                .background(
+                    color = shadowColor,
+                    shape = RoundedCornerShape(Dimension.Small)
+                )
+        )
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(Dimension.BORDER_RADIUS_MEDIUM)
+                )
+                .border(
+                    width = Dimension.BORDER_WIDTH_DEFAULT,
+                    color = borderColor,
+                    shape = RoundedCornerShape(Dimension.BORDER_RADIUS_MEDIUM)
+                )
+                .onFocusChanged { focusState ->
+                    onFocusChanged(focusState.isFocused)
+                },
+            enabled = enabled,
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            visualTransformation = visualTransformation,
+            trailingIcon = trailingIcon,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            singleLine = true,
+            maxLines = 1,
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Bold,
+                color = textColor
+            ),
+            shape = RoundedCornerShape(Dimension.Small),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.background,
+                unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = MaterialTheme.colorScheme.primary
+            )
+        )
+    }
+}
+
+@Composable
+private fun PasswordVisibilityIcon(
+    passwordVisible: Boolean,
+    onToggle: () -> Unit,
+    enabled: Boolean
+) {
+    IconButton(
+        onClick = onToggle,
+        enabled = enabled
+    ) {
+        Icon(
+            imageVector = if (passwordVisible) {
+                Icons.Filled.Visibility
+            } else {
+                Icons.Filled.VisibilityOff
+            },
+            contentDescription = if (passwordVisible) {
+                "Esconder senha"
+            } else {
+                "Mostrar senha"
+            },
+            tint = if (enabled) {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = Dimension.ALPHA_STATE_DISABLED)
+            }
+        )
+    }
+}
+
+@Composable
+private fun ValidationErrorText(
+    validationResult: PasswordValidationResult,
+    showErrors: Boolean,
+    hasValue: Boolean
+) {
+    val hasErrors = showErrors && hasValue && !validationResult.isValid
+
+    if (hasErrors) {
+        Box(modifier = Modifier.padding(top = Dimension.PADDING_COMPONENT_SMALL)) {
+            Text(
+                text = validationResult.errors.first(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+}
+
+/**
+ * Define as regras de validação para a senha.
+ * @param minLength O comprimento mínimo da senha. Padrão é 8.
+ * @param requireUppercase Se deve exigir pelo menos uma letra maiúscula. Padrão é true.
+ * @param requireLowercase Se deve exigir pelo menos uma letra minúscula. Padrão é true.
+ * @param requireDigits Se deve exigir pelo menos um dígito numérico. Padrão é true.
+ * @param requireSpecialChars Se deve exigir pelo menos um caractere especial. Padrão é true.
+ * @param specialChars A string de caracteres especiais permitidos. Padrão é "!@#$%^&*()_+-=[]{}|;:,.<>?"
+ */
+data class PasswordValidationConfig(
+    val minLength: Int = 8,
+    val requireUppercase: Boolean = true,
+    val requireLowercase: Boolean = true,
+    val requireDigits: Boolean = true,
+    val requireSpecialChars: Boolean = true,
+    val specialChars: String = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+)
+
+/**
+ * Resultado da validação da senha.
+ *
+ * @param isValid Indica se a senha é válida.
+ * @param errors Lista de mensagens de erro, se houver.
+ */
+data class PasswordValidationResult(
+    val isValid: Boolean,
+    val errors: List<String>
+)
+
+
+object PasswordValidator {
+    /**
+     * Valida senhas com base na configuração fornecida. Retorna um [PasswordValidationResult] indicando se a senha é
+     * válida e quaisquer mensagens de erro.
+     *
+     * @param password A senha a ser validada.
+     * @param config A configuração de validação a ser usada.
+     * @return Um [PasswordValidationResult] com o resultado da validação.
+     */
+    fun validate(password: String, config: PasswordValidationConfig): PasswordValidationResult {
+        val errors = mutableListOf<String>()
+
+        if (password.length < config.minLength) {
+            errors.add("A senha deve ter pelo menos ${config.minLength} caracteres")
+        }
+
+        if (config.requireUppercase && !password.any { it.isUpperCase() }) {
+            errors.add("A senha deve conter pelo menos uma letra maiúscula")
+        }
+
+        if (config.requireLowercase && !password.any { it.isLowerCase() }) {
+            errors.add("A senha deve conter pelo menos uma letra minúscula")
+        }
+
+        if (config.requireDigits && !password.any { it.isDigit() }) {
+            errors.add("A senha deve conter pelo menos um número")
+        }
+
+        if (config.requireSpecialChars && !password.any { config.specialChars.contains(it) }) {
+            errors.add("A senha deve conter pelo menos um caractere especial")
+        }
+
+        return PasswordValidationResult(
+            isValid = errors.isEmpty(),
+            errors = errors
+        )
+    }
+}
+
+// region: Previews
+
+@Preview(
+    name = "Default Password Field",
+    group = "LelloPasswordTextField",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloPasswordTextFieldDefaultPreview() {
+    LelloTheme {
+        var password by remember { mutableStateOf("") }
+
+        LelloPasswordTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+
+@Preview(
+    name = "With Validation Errors",
+    group = "LelloPasswordTextField",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloPasswordTextFieldWithErrorsPreview() {
+    LelloTheme {
+        var password by remember { mutableStateOf("123") }
+
+        LelloPasswordTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier.padding(16.dp),
+            label = "Nova Senha"
+        )
+    }
+}
+
+@Preview(
+    name = "Valid Password",
+    group = "LelloPasswordTextField",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloPasswordTextFieldValidPreview() {
+    LelloTheme {
+        var password by remember { mutableStateOf("MinhaSenh@123") }
+
+        LelloPasswordTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier.padding(16.dp),
+            label = "Senha Segura"
+        )
+    }
+}
+
+@Preview(
+    name = "Disabled State",
+    group = "LelloPasswordTextField",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloPasswordTextFieldDisabledPreview() {
+    LelloTheme {
+        LelloPasswordTextField(
+            value = "SenhaDesabilitada123!",
+            onValueChange = {},
+            modifier = Modifier.padding(16.dp),
+            enabled = false,
+            label = "Campo Desabilitado"
+        )
+    }
+}
+
+@Preview(
+    name = "Custom Validation Config",
+    group = "LelloPasswordTextField",
+    showBackground = true,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloPasswordTextFieldCustomValidationPreview() {
+    LelloTheme {
+        var password by remember { mutableStateOf("senha123") }
+
+        LelloPasswordTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier.padding(16.dp),
+            label = "Senha Simples",
+            validationConfig = PasswordValidationConfig(
+                minLength = 6,
+                requireUppercase = false,
+                requireSpecialChars = false
+            )
+        )
+    }
+}
+
+// endregion
