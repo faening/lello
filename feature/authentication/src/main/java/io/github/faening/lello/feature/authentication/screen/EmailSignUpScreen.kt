@@ -36,6 +36,7 @@ import io.github.faening.lello.core.designsystem.component.LelloOutlinedTextFiel
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.textfield.LelloEmailTextField
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
@@ -201,6 +202,13 @@ private fun MainSection(
         modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(Dimension.Medium)
     ) {
+        LelloEmailTextField(
+            value = email,
+            onValueChange = onEmailChange,
+            label = "E-mail",
+            placeholder = "Digite seu e-mail"
+        )
+
         LelloOutlinedTextField(
             value = email,
             onValueChange = onEmailChange,

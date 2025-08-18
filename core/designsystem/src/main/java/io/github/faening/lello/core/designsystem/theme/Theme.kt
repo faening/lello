@@ -133,9 +133,9 @@ enum class LelloColorScheme(
 
             // Cores de fundo e contorno
             background = Grey900,           // Fundo mais escuro da aplicação
-            onBackground = Yellow50,        // Texto claro amarelado sobre fundo
+            onBackground = Grey50,          // Texto claro amarelado sobre fundo
             outline = Grey300,              // Bordas mais visíveis
-            outlineVariant = Grey600        // Variação sutil de contorno
+            outlineVariant = Grey300        // Variação sutil de contorno
         )
     ),
 
@@ -168,7 +168,8 @@ enum class LelloColorScheme(
 
             background = Yellow500,
             onBackground = Grey500,
-            outline = Grey500
+            outline = Grey500,
+            outlineVariant = Grey300
         ),
 
         darkScheme = darkColorScheme(
@@ -199,7 +200,8 @@ enum class LelloColorScheme(
 
             background = Grey500,
             onBackground = Grey500,
-            outline = Grey900
+            outline = Grey900,
+            outlineVariant = Grey300
         )
     ),
 
@@ -488,7 +490,8 @@ enum class LelloColorScheme(
 
             background = Yellow50,
             onBackground = Grey500,
-            outline = Grey500
+            outline = Grey500,
+            outlineVariant = Grey200
         ),
 
         darkScheme = darkColorScheme(
@@ -519,7 +522,8 @@ enum class LelloColorScheme(
 
             background = Grey500,
             onBackground = Grey50,
-            outline = Grey900
+            outline = Grey900,
+            outlineVariant = Grey200
         )
     );
 
