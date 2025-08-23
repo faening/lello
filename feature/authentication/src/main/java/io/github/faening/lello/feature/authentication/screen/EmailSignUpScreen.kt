@@ -37,6 +37,7 @@ import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.textfield.LelloEmailTextField
+import io.github.faening.lello.core.designsystem.component.textfield.LelloPasswordTextField
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
@@ -209,15 +210,15 @@ private fun MainSection(
             placeholder = "Digite seu e-mail"
         )
 
-        LelloOutlinedTextField(
-            value = email,
-            onValueChange = onEmailChange,
-            label = "E-mail",
-            placeholder = "Digite seu e-mail",
-            leadingIcon = if (!isPreview) LelloIcons.Outlined.Mail.imageVector else null,
-            isEmail = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-        )
+//        LelloOutlinedTextField(
+//            value = email,
+//            onValueChange = onEmailChange,
+//            label = "E-mail",
+//            placeholder = "Digite seu e-mail",
+//            leadingIcon = if (!isPreview) LelloIcons.Outlined.Mail.imageVector else null,
+//            isEmail = true,
+//            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+//        )
 
         LelloOutlinedTextField(
             value = password,

@@ -169,7 +169,6 @@ private fun ShadowedOutlinedTextField(
             singleLine = true,
             maxLines = 1,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
-                // color = if (enabled) Grey500 else Grey300,
                 fontWeight = FontWeight.Bold
             ),
             shape = RoundedCornerShape(Dimension.Small),
