@@ -140,7 +140,7 @@ private fun ShadowedOutlinedTextField(
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
                     color = shadowColor,
-                    shape = LelloShape.buttonShape
+                    shape = LelloShape.textFieldShape
                 )
         )
 
@@ -152,7 +152,7 @@ private fun ShadowedOutlinedTextField(
                 .border(
                     width = Dimension.borderWidthDefault,
                     color = borderColor,
-                    shape = LelloShape.buttonShape
+                    shape = LelloShape.textFieldShape
                 )
                 .onFocusChanged { focusState ->
                     onFocusChanged(focusState.isFocused)
@@ -182,7 +182,7 @@ private fun ShadowedOutlinedTextField(
             keyboardActions = keyboardActions,
             singleLine = true,
             maxLines = 1,
-            shape = LelloShape.buttonShape,
+            shape = LelloShape.textFieldShape,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface,
