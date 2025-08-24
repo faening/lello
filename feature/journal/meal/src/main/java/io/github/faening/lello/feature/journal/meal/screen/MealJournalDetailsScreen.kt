@@ -142,8 +142,8 @@ private fun MealJournalDetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LelloFilledButton(
@@ -178,20 +178,20 @@ private fun MealJournalDetailsContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         // Header
         Text(
             text = "Gostaria de adicionar mais detalhes sobre a sua alimentação?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
             text = "Ganhe $coinsAcquired moeads ao concluir",
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
         // Scrollable area
         Column(
@@ -202,7 +202,7 @@ private fun MealJournalDetailsContent(
             Text(
                 text = "Que horas foi a refeição?",
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = Dimension.Medium)
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
             )
             LelloOutlinedTextField(
                 value = mealTime,
@@ -212,7 +212,7 @@ private fun MealJournalDetailsContent(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+            Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
             LelloOptionPillSelector(
                 title = "Qual foi o tipo de alimento?",
@@ -222,7 +222,7 @@ private fun MealJournalDetailsContent(
                 onOpenSettings = onOpenFoodOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Quanto você comeu?",
@@ -232,7 +232,7 @@ private fun MealJournalDetailsContent(
                 onOpenSettings = onOpenPortionOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Onde você estava?",
@@ -242,7 +242,7 @@ private fun MealJournalDetailsContent(
                 onOpenSettings = onOpenLocationOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Com quem você estava?",

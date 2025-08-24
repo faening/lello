@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloSliderVertical
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
@@ -93,7 +93,7 @@ private fun SleepJournalBottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
@@ -115,13 +115,13 @@ private fun SleepJournalContent(
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         Text(
             text = "Quanto tempo você dormiu?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         SleepDurationSelector(
             sleepValues = sleepDurationOptions.map { it.description },
             selectedIndex = selectedIndex,

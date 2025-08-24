@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -40,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Grey100
@@ -120,7 +119,7 @@ private fun OnboardingBottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         val next = pagerState.currentPage + 1
         if (next < pages.size) {
@@ -182,7 +181,7 @@ private fun OnboardingPageView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = Dimension.ExtraLarge),
+            .padding(horizontal = Dimension.spacingExtraLarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -194,13 +193,13 @@ private fun OnboardingPageView(
                 .fillMaxWidth()
                 .aspectRatio(1f)
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         Text(
             text = page.title,
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         Text(
             text = page.description,
             style = MaterialTheme.typography.bodyLarge,
@@ -208,7 +207,7 @@ private fun OnboardingPageView(
         )
 
         if (showCheckbox) {
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -234,7 +233,7 @@ private fun OnboardingHorizontalPagerIndicator(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = Dimension.ExtraLarge),
+            .padding(bottom = Dimension.spacingExtraLarge),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -49,15 +49,15 @@ fun DiaryCard(
     }
 
     Box(
-        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier = modifier.padding(bottom = Dimension.spacingSmall, end = Dimension.spacingSmall)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = Dimension.Small, y = Dimension.Small)
+                .offset(x = Dimension.spacingSmall, y = Dimension.spacingSmall)
                 .background(
-                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
+                    color = Grey700.copy(alpha = Dimension.alphaStateDisabled),
                     shape = RoundedCornerShape(Dimension.cardRadiusLarge)
                 )
         )
@@ -81,12 +81,12 @@ private fun CardContainer(
         shape = RoundedCornerShape(Dimension.cardRadiusLarge),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(
-            width = Dimension.cardBorderStrokeWidth,
+            width = Dimension.cardBorderWidth,
             color = Grey500
         )
     ) {
         Row(
-            modifier = Modifier.padding(Dimension.Medium),
+            modifier = Modifier.padding(Dimension.spacingRegular),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Icone
@@ -95,7 +95,7 @@ private fun CardContainer(
                 contentDescription = "Diary Icon",
                 modifier = Modifier.size(60.dp)
             )
-            Spacer(modifier = Modifier.width(Dimension.Medium))
+            Spacer(modifier = Modifier.width(Dimension.spacingRegular))
 
             Column(
                 modifier = Modifier.weight(1f)
@@ -106,7 +106,7 @@ private fun CardContainer(
                     style = MaterialTheme.typography.titleLarge,
                     color = Grey500
                 )
-                Spacer(modifier = Modifier.height(Dimension.Small))
+                Spacer(modifier = Modifier.height(Dimension.spacingSmall))
 
                 Row {
                     // Hora
@@ -115,7 +115,7 @@ private fun CardContainer(
                         style = MaterialTheme.typography.titleLarge,
                         color = Grey100
                     )
-                    Spacer(modifier = Modifier.width(Dimension.Medium))
+                    Spacer(modifier = Modifier.width(Dimension.spacingRegular))
 
                     // Recompensa
                     Image(

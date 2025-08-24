@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloSliderVertical
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
@@ -55,7 +55,7 @@ internal fun MoodJournalScreen(
         viewModel.captureEntryDateTime()
     }
 
-    LelloTheme(scheme = mood.colorScheme) {
+    LelloTheme(moodColor = mood.colorScheme) {
         MoodJournalContainer(
             mood = mood,
             entryTime = entryTime,
@@ -106,7 +106,7 @@ private fun MoodJournalBottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
@@ -125,19 +125,19 @@ private fun MoodJournalContent(
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         Text(
             text = "Como você descreve seu humor neste momento?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         MoodJournalSelectorRow(
             mood = mood,
             onMoodChange = onMoodChange,
             modifier = Modifier.weight(1f)
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         // MoodJournalBottomBar(onNext)
     }
 }
@@ -154,9 +154,9 @@ private fun MoodJournalSelectorRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         MoodLabelColumn(mood = mood, modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.width(Dimension.Medium))
+        Spacer(modifier = Modifier.width(Dimension.spacingRegular))
         MoodSliderColumn(mood = mood, onMoodChange = onMoodChange, modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.width(Dimension.Medium))
+        Spacer(modifier = Modifier.width(Dimension.spacingRegular))
         MoodIconColumn(modifier = Modifier.weight(1f))
     }
 }

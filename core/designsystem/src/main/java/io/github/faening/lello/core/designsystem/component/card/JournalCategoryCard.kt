@@ -52,15 +52,15 @@ fun JournalCategoryCard(
     onClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier = Modifier.padding(bottom = Dimension.spacingSmall, end = Dimension.spacingSmall)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = Dimension.Small, y = Dimension.Small)
+                .offset(x = Dimension.spacingSmall, y = Dimension.spacingSmall)
                 .background(
-                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
+                    color = Grey700.copy(alpha = Dimension.alphaStateDisabled),
                     shape = RoundedCornerShape(Dimension.cardRadiusLarge)
                 )
         )
@@ -72,12 +72,12 @@ fun JournalCategoryCard(
             colors = CardDefaults.cardColors(containerColor = configuration.cardBackgroundColor),
             shape = RoundedCornerShape(Dimension.cardRadiusLarge),
             border = BorderStroke(
-                width = Dimension.cardBorderStrokeWidth,
+                width = Dimension.cardBorderWidth,
                 color = Grey500
             ),
         ) {
             Row(
-                modifier = Modifier.padding(Dimension.Medium),
+                modifier = Modifier.padding(Dimension.spacingRegular),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -85,7 +85,7 @@ fun JournalCategoryCard(
                     contentDescription = null,
                     modifier = Modifier.size(56.dp)
                 )
-                Spacer(modifier = Modifier.width(Dimension.Medium))
+                Spacer(modifier = Modifier.width(Dimension.spacingRegular))
 
                 Column(
                     modifier = Modifier.weight(1f)
@@ -94,7 +94,7 @@ fun JournalCategoryCard(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = Dimension.ExtraSmall)
+                            .padding(bottom = Dimension.paddingComponentExtraSmall)
                     ) {
                         // Título
                         Text(
@@ -107,16 +107,16 @@ fun JournalCategoryCard(
 
                         // Badge
                         if (badgeText != null) {
-                            Spacer(modifier = Modifier.width(Dimension.Small))
+                            Spacer(modifier = Modifier.width(Dimension.spacingSmall))
                             Box(
                                 modifier = Modifier
                                     .background(
                                         color = configuration.badgeBackgroundColor,
-                                        shape = RoundedCornerShape(Dimension.Huge)
+                                        shape = RoundedCornerShape(Dimension.spacingHuge)
                                     )
                                     .padding(
-                                        horizontal = Dimension.Medium,
-                                        vertical = Dimension.Small
+                                        horizontal = Dimension.spacingRegular,
+                                        vertical = Dimension.spacingSmall
                                     )
                             ) {
                                 Text(
@@ -127,7 +127,7 @@ fun JournalCategoryCard(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(Dimension.ExtraSmall))
+                    Spacer(modifier = Modifier.height(Dimension.paddingComponentExtraSmall))
 
                     // Descrição
                     Text(

@@ -35,7 +35,7 @@ fun LelloOptionList(
     onToggle: (option: JournalOption, active: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = Dimension.ALPHA_DISABLED)
+    val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = Dimension.alphaStateDisabled)
     LazyColumn(
         modifier = modifier
     ) {
@@ -49,7 +49,7 @@ fun LelloOptionList(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = Dimension.Medium, vertical = Dimension.Small),
+                        .padding(horizontal = Dimension.spacingRegular, vertical = Dimension.spacingSmall),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

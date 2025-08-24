@@ -24,7 +24,7 @@ internal fun TopAppBarNavigationIcon(
     colorScheme: ColorScheme
 ) {
     navigateUp?.let {
-        Box(modifier = Modifier.padding(start = Dimension.Small)) {
+        Box(modifier = Modifier.padding(start = Dimension.spacingSmall)) {
             TopAppBarActionButton(
                 action = it.also {
                     it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
@@ -45,7 +45,7 @@ internal fun TopAppBarActionIcon(
     actions.forEachIndexed { index, action ->
         Box(
             modifier = Modifier.padding(
-                end = Dimension.Small
+                end = Dimension.spacingSmall
             )
         ) {
             TopAppBarActionButton(

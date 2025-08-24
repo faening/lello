@@ -24,15 +24,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Grey100
 import io.github.faening.lello.core.designsystem.theme.Grey300
 import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.Yellow50
 
 @Composable
@@ -100,7 +96,7 @@ private fun TextFieldLabel(
         text = text,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL),
+            .padding(bottom = Dimension.paddingComponentSmall),
         color = textColor,
         style = MaterialTheme.typography.titleMedium,
         maxLines = 1
@@ -118,9 +114,9 @@ private fun ShadowedOutlinedTextField(
     keyboardOptions: KeyboardOptions
 ) {
     val shadowColor = when {
-        !enabled -> MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = Dimension.ALPHA_STATE_DISABLED)
-        isFocused -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_PRESSED)
-        else -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_NORMAL)
+        !enabled -> MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = Dimension.alphaStateDisabled)
+        isFocused -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.alphaStatePressed)
+        else -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.alphaStateNormal)
     }
     val borderColor = when {
         !enabled -> MaterialTheme.colorScheme.outlineVariant
@@ -130,15 +126,15 @@ private fun ShadowedOutlinedTextField(
 
     Box(
         modifier = Modifier
-            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL, end = Dimension.PADDING_COMPONENT_SMALL)
+            .padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
     ) {
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = Dimension.SHADOW_OFFSET_X, y = Dimension.SHADOW_OFFSET_Y)
+                .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
                     color = shadowColor,
-                    shape = RoundedCornerShape(Dimension.Small)
+                    shape = RoundedCornerShape(Dimension.spacingSmall)
                 )
         )
 
@@ -148,9 +144,9 @@ private fun ShadowedOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .border(
-                    width = Dimension.BORDER_WIDTH_DEFAULT,
+                    width = Dimension.borderWidthDefault,
                     color = borderColor,
-                    shape = RoundedCornerShape(Dimension.BORDER_RADIUS_MEDIUM)
+                    shape = RoundedCornerShape(Dimension.borderRadiusMedium)
                 )
                 .onFocusChanged { focusState ->
                     onFocusChanged(focusState.isFocused)
@@ -171,7 +167,7 @@ private fun ShadowedOutlinedTextField(
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
-            shape = RoundedCornerShape(Dimension.Small),
+            shape = RoundedCornerShape(Dimension.spacingSmall),
             colors = TextFieldDefaults.colors(
                 // Background
                 focusedContainerColor = Yellow50,
@@ -201,7 +197,7 @@ private fun ValidationErrorText(
     val hasErrors = showErrors && hasValue && !validationResult.isValid
 
     if (hasErrors) {
-        Box(modifier = Modifier.padding(top = Dimension.PADDING_COMPONENT_SMALL)) {
+        Box(modifier = Modifier.padding(top = Dimension.paddingComponentSmall)) {
             Text(
                 text = validationResult.errors.first(),
                 style = MaterialTheme.typography.bodySmall.copy(
@@ -231,183 +227,3 @@ private object EmailValidator {
         )
     }
 }
-
-// region: Preview Light Theme
-
-@Preview(
-    name = "Default Email Field",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun EmailTextField_PreviewLightTheme_Default() {
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled Email Field",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun EmailTextField_PreviewLightTheme_Disabled() {
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            enabled = false,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "With Validation Errors",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun EmailTextField_PreviewLightTheme_WithErrors() {
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
-        var email by remember { mutableStateOf("usuario@") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp),
-            label = "E-mail"
-        )
-    }
-}
-
-// endregion: Preview Light Theme
-
-// region: Preview Inverse Theme
-
-@Preview(
-    name = "Default Email Field",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun EmailTextField_PreviewInverseTheme_Default() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled Email Field",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun EmailTextField_PreviewInverseTheme_Disabled() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            enabled = false,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "With Validation Errors",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun EmailTextField_PreviewInverseTheme_WithErrors() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var email by remember { mutableStateOf("usuario@") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp),
-            label = "E-mail"
-        )
-    }
-}
-
-// endregion: Preview Inverse Theme
-
-// region: Preview Dark Theme
-
-@Preview(
-    name = "Default Email Field",
-    group = "Dark Theme",
-    showBackground = true,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun EmailTextField_PreviewDarkTheme_Default() {
-    LelloTheme(darkTheme =  true) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "Default Email Field",
-    group = "Dark Theme",
-    showBackground = true,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun EmailTextField_PreviewDarkTheme_Disabled() {
-    LelloTheme(darkTheme =  true) {
-        var email by remember { mutableStateOf("") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            enabled = false,
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "With Validation Errors",
-    group = "Dark Theme",
-    showBackground = true,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun EmailTextField_PreviewDarkTheme_WithErrors() {
-    LelloTheme(darkTheme =  true) {
-        var email by remember { mutableStateOf("usuario@") }
-        LelloEmailTextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier.padding(16.dp),
-            label = "E-mail"
-        )
-    }
-}
-
-// endregion: Preview Dark Theme

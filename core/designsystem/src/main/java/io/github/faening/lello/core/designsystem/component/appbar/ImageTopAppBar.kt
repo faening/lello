@@ -1,6 +1,5 @@
 package io.github.faening.lello.core.designsystem.component.appbar
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,12 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.R as designsystemR
-import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,24 +57,4 @@ fun LelloImageTopAppBar(
             actionIconContentColor = colorScheme.primary
         )
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    name = "Default Color - Light",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-private fun LelloImageTopAppBarPreview() {
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
-        LelloImageTopAppBar(
-            navigateUp = TopAppBarAction(),
-            actions = listOf(
-                TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
-                    contentDescription = "Mais opções"
-                )
-            ),
-        )
-    }
 }

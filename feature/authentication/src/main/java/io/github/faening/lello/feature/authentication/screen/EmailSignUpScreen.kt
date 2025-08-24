@@ -15,8 +15,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,13 +37,12 @@ import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.textfield.LelloEmailTextField
-import io.github.faening.lello.core.designsystem.component.textfield.LelloPasswordTextField
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.feature.authentication.AuthenticationViewModel
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.authentication.AuthenticationUiState
+import io.github.faening.lello.feature.authentication.AuthenticationViewModel
 
 @Composable
 internal fun EmailSignUpScreen(
@@ -62,7 +61,7 @@ internal fun EmailSignUpScreen(
         }
     }
 
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
+    LelloTheme(moodColor = MoodColor.INVERSE) {
         EmailSignUpScreenContent(
             uiState = uiState,
             onBackClick = onBackClick,
@@ -109,9 +108,9 @@ private fun EmailSignUpScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(Dimension.Medium)
+                .padding(Dimension.spacingRegular)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(Dimension.Medium),
+            verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         ) {
             HeaderSection(
                 modifier = Modifier
@@ -167,7 +166,7 @@ private fun HeaderSection(
 ) {
     Column(
         modifier = modifier
-            .padding(bottom = Dimension.Medium),
+            .padding(bottom = Dimension.spacingRegular),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
@@ -201,7 +200,7 @@ private fun MainSection(
 
     Column(
         modifier = Modifier,
-        verticalArrangement = Arrangement.spacedBy(Dimension.Medium)
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
     ) {
         LelloEmailTextField(
             value = email,
@@ -244,7 +243,7 @@ private fun MainSection(
                     text = "As senhas não coincidem",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.padding(start = Dimension.Small, top = 4.dp)
+                    modifier = Modifier.padding(start = Dimension.spacingSmall, top = 4.dp)
                 )
             }
         }
@@ -260,7 +259,7 @@ private fun MainSection(
                 text = errorMessage,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(start = Dimension.Small, top = 4.dp)
+                modifier = Modifier.padding(start = Dimension.spacingSmall, top = 4.dp)
             )
         }
     }
@@ -277,7 +276,7 @@ private fun SignUpButton(
         enabled = enabled,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = Dimension.Medium)
+            .padding(top = Dimension.spacingRegular)
     )
 }
 
@@ -313,7 +312,7 @@ private fun FooterSection(
 )
 @Composable
 fun EmailSignUpScreenPreview() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
+    LelloTheme(moodColor = MoodColor.INVERSE) {
         EmailSignUpScreenContent(
             uiState = AuthenticationUiState(),
             onBackClick = {},

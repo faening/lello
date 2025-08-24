@@ -20,8 +20,8 @@ import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.settings.SettingsJournalViewModel
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
@@ -29,12 +29,12 @@ import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 internal fun SettingsJournalRegisterScreen(
     viewModel: SettingsJournalViewModel,
     optionType: JournalOptionType,
-    colorScheme: LelloColorScheme,
+    colorScheme: MoodColor = MoodColor.DEFAULT,
     onBack: () -> Unit
 ) {
     val textState = remember { mutableStateOf("") }
 
-    LelloTheme(scheme = colorScheme) {
+    LelloTheme(moodColor = colorScheme) {
         SettingsJournalRegisterContainer(
             optionType = optionType,
             text = textState.value,
@@ -93,7 +93,7 @@ private fun SettingsJournalRegisterBottomBar(
     val label = "Cadastrar"
     Row(
         modifier = Modifier
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
             .fillMaxWidth()
     ) {
         LelloFilledButton(
@@ -114,13 +114,13 @@ private fun SettingsJournalRegisterContent(
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         Text(
             text = "Crie um novo item para usar em seus diários",
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier.padding(bottom = Dimension.ExtraLarge)
+            modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
         )
 
         LelloOutlinedTextField(

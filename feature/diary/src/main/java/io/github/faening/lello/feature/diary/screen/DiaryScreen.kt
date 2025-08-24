@@ -116,7 +116,7 @@ private fun DiaryContent(
 
     Column(
         modifier = modifier
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
             .verticalScroll(scrollState)
     ) {
         // Sono
@@ -131,7 +131,7 @@ private fun DiaryContent(
                     dateTime = Date(journal.createdAt),
                     reward = reward
                 )
-                Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
+                Spacer(modifier = Modifier.padding(Dimension.paddingComponentExtraSmall))
             }
         }
 
@@ -147,7 +147,7 @@ private fun DiaryContent(
                     dateTime = Date(journal.createdAt),
                     reward = reward
                 )
-                Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
+                Spacer(modifier = Modifier.padding(Dimension.paddingComponentExtraSmall))
             }
         }
 
@@ -170,7 +170,7 @@ private fun DiaryContent(
                     dateTime = Date(journal.createdAt),
                     reward = reward
                 )
-                Spacer(modifier = Modifier.padding(Dimension.ExtraSmall))
+                Spacer(modifier = Modifier.padding(Dimension.paddingComponentExtraSmall))
             }
         }
     }

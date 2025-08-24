@@ -31,19 +31,19 @@ fun <T> LelloOptionPillSelector(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = Dimension.Medium)
+            .padding(bottom = Dimension.spacingRegular)
     ) {
         if (title != null) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge
             )
-            Spacer(modifier = Modifier.height(Dimension.Medium))
+            Spacer(modifier = Modifier.height(Dimension.spacingRegular))
         }
 
         FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(Dimension.Small),
-            verticalArrangement = Arrangement.spacedBy(Dimension.Small)
+            horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
+            verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
         ) {
             options.forEach { option ->
                 LelloSelectablePill(

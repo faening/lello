@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
@@ -59,7 +59,7 @@ internal fun MoodJournalDetailsScreen(
     val socialOptions by viewModel.socialOptions.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(scheme = mood.colorScheme) {
+    LelloTheme(moodColor = mood.colorScheme) {
         MoodJournalDetailsContainer(
             entryTime = entryTime,
             healthOptions = healthOptions,
@@ -153,8 +153,8 @@ private fun MoodJournalDetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LelloFilledButton(
@@ -193,20 +193,20 @@ private fun MoodJournalDetailsContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         // Header
         Text(
             text = "Gostaria de adicionar mais detalhes sobre o seu humor?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
             text = "Ganhe $coinsAcquired moeads ao concluir",
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
         // Scrollable area
         Column(
@@ -222,7 +222,7 @@ private fun MoodJournalDetailsContent(
                 onOpenSettings = onOpenHealthOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Como está o clima?",
@@ -232,7 +232,7 @@ private fun MoodJournalDetailsContent(
                 onOpenSettings = onOpenClimateOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Onde você está?",
@@ -242,7 +242,7 @@ private fun MoodJournalDetailsContent(
                 onOpenSettings = onOpenLocationOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Com quem você está agora?",

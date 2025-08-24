@@ -33,7 +33,7 @@ internal fun MoodJournalSummaryScreen(
     val mood by viewModel.currentMood.collectAsState()
     // LaunchedEffect(Unit) { viewModel.saveJournal() }
 
-    LelloTheme(scheme = mood.colorScheme) {
+    LelloTheme(moodColor = mood.colorScheme) {
         MoodJournalSummaryContainer(
             onExit = onExit
         )
@@ -70,7 +70,7 @@ private fun MoodJournalSummaryBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Sair",
@@ -86,7 +86,7 @@ private fun MoodJournalSummaryContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) { }

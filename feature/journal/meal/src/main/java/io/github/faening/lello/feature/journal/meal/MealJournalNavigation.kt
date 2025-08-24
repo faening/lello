@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalAppetiteScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalDetailsScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalScreen
@@ -40,7 +40,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.MEAL,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -59,7 +59,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.APPETITE,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -77,7 +77,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.FOOD,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -85,7 +85,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.PORTION,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -93,7 +93,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.LOCATION,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -101,7 +101,7 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SOCIAL,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },

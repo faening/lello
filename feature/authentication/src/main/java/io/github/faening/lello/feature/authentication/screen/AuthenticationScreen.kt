@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.designsystem.theme.Yellow500
 import io.github.faening.lello.feature.authentication.AuthenticationViewModel
 
@@ -42,7 +42,7 @@ internal fun AuthenticationScreen(
     onLoginClick: () -> Unit,
     onRecoverAccountClick: () -> Unit = {}
 ) {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
+    LelloTheme(moodColor = MoodColor.INVERSE) {
         AuthenticationScreenContent(
             onEmailSignUpClick = onEmailSignUpClick,
             onGoogleSignUpClick = onGoogleSignUpClick,
@@ -69,7 +69,7 @@ private fun AuthenticationScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Dimension.Medium)
+                .padding(Dimension.spacingRegular)
         ) {
             HeaderSection(
                 modifier = Modifier
@@ -132,7 +132,7 @@ private fun MainSection(
         Text(
             text = "Como você deseja criar sua conta?",
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(Dimension.ExtraLarge)
+            modifier = Modifier.padding(Dimension.spacingExtraLarge)
         )
 
         AuthenticationOptionsButtons(
@@ -158,17 +158,15 @@ private fun AuthenticationOptionsButtons(
         onClick = onEmailSignUpClick,
         iconId = if (!isPreview) LelloIcons.Outlined.Mail.resId else null,
         invertIcon = true,
-        modifier = Modifier.padding(bottom = Dimension.Large)
+        modifier = Modifier.padding(bottom = Dimension.spacingLarge)
     )
 
-    LelloTheme(scheme = LelloColorScheme.DARK) {
-        LelloFilledButton(
-            label = "Continuar com o Google",
-            onClick = onGoogleSignUpClick,
-            iconId = if (!isPreview) LelloIcons.Filled.Google.resId else null,
-            invertIcon = true
-        )
-    }
+    LelloFilledButton(
+        label = "Continuar com o Google",
+        onClick = onGoogleSignUpClick,
+        iconId = if (!isPreview) LelloIcons.Filled.Google.resId else null,
+        invertIcon = true
+    )
 }
 
 @Composable
@@ -188,7 +186,7 @@ private fun TermsAndPrivacyText(
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .padding(vertical = Dimension.Medium)
+            .padding(vertical = Dimension.spacingRegular)
             .clickable { onPrivacyPolicyClick() }
     )
 }
@@ -230,7 +228,7 @@ private fun LoginAccountLink(
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
             .clickable { onLoginClick() }
     )
 }
@@ -262,7 +260,7 @@ private fun RecoverAccountLink(
     backgroundColor = 0xFFFFFFFF
 )
 fun AuthenticationScreenPreview() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
+    LelloTheme(moodColor = MoodColor.INVERSE) {
         AuthenticationScreenContent(
             onEmailSignUpClick = {},
             onGoogleSignUpClick = {},

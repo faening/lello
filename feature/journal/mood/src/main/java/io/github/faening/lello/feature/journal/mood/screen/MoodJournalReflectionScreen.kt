@@ -37,7 +37,7 @@ internal fun MoodJournalReflectionScreen(
     val reflection by viewModel.reflection.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(scheme = mood.colorScheme) {
+    LelloTheme(moodColor = mood.colorScheme) {
         MoodJournalReflectionContainer(
             entryTime = entryTime,
             reflection = reflection,
@@ -92,7 +92,7 @@ private fun MoodJournalReflectionBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Concluir",
@@ -114,19 +114,19 @@ private fun MoodJournalReflectionContent(
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         Text(
             text = "Quer anotar algum detalhe importante ou uma reflexão neste diário?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
             text = "Ganhe $coinsAcquired moeads ao concluir",
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
         LelloTextArea(
             value = reflection,

@@ -46,15 +46,15 @@ fun CheckInDailyCard(
     val inactiveColor = Grey50
 
     Box(
-        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier = modifier.padding(bottom = Dimension.spacingSmall, end = Dimension.spacingSmall)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = Dimension.Small, y = Dimension.Small)
+                .offset(x = Dimension.spacingSmall, y = Dimension.spacingSmall)
                 .background(
-                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
+                    color = Grey700.copy(alpha = Dimension.alphaStateDisabled),
                     shape = RoundedCornerShape(Dimension.cardRadiusLarge)
                 )
         )
@@ -64,12 +64,12 @@ fun CheckInDailyCard(
             shape = RoundedCornerShape(Dimension.cardRadiusLarge),
             colors = CardDefaults.cardColors(containerColor = Color.White),
             border = BorderStroke(
-                width = Dimension.cardBorderStrokeWidth,
+                width = Dimension.cardBorderWidth,
                 color = Grey500
             )
         ) {
             Row(
-                modifier = Modifier.padding(Dimension.Medium),
+                modifier = Modifier.padding(Dimension.spacingRegular),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -77,7 +77,7 @@ fun CheckInDailyCard(
                     contentDescription = "Bônus de moedas",
                     modifier = Modifier.size(60.dp)
                 )
-                Spacer(modifier = Modifier.width(Dimension.Medium))
+                Spacer(modifier = Modifier.width(Dimension.spacingRegular))
 
                 Column(
                     modifier = Modifier.weight(1f)
@@ -87,29 +87,29 @@ fun CheckInDailyCard(
                         style = MaterialTheme.typography.titleLarge,
                         color = Grey500
                     )
-                    Spacer(modifier = Modifier.height(Dimension.Small))
+                    Spacer(modifier = Modifier.height(Dimension.spacingSmall))
 
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.bodyMedium,
                         color = Grey500
                     )
-                    Spacer(modifier = Modifier.height(Dimension.Medium))
+                    Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
                     // Progress bar
                     Row {
                         repeat(progressTotal) { i ->
                             Box(
                                 modifier = Modifier
-                                    .height(Dimension.Small)
+                                    .height(Dimension.spacingSmall)
                                     .weight(1f)
                                     .background(
                                         color = if (i < currentStep) activeColor else inactiveColor,
-                                        shape = RoundedCornerShape(Dimension.Small)
+                                        shape = RoundedCornerShape(Dimension.spacingSmall)
                                     )
                             )
                             if (i < progressTotal - 1) {
-                                Spacer(modifier = Modifier.width(Dimension.Small))
+                                Spacer(modifier = Modifier.width(Dimension.spacingSmall))
                             }
                         }
                     }

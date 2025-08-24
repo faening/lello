@@ -2,6 +2,7 @@ package io.github.faening.lello.core.designsystem.component.textfield
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,18 +34,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Green300
 import io.github.faening.lello.core.designsystem.theme.Grey100
 import io.github.faening.lello.core.designsystem.theme.Grey300
 import io.github.faening.lello.core.designsystem.theme.Grey50
 import io.github.faening.lello.core.designsystem.theme.Grey500
-import io.github.faening.lello.core.designsystem.theme.Grey700
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.LocalIsDarkTheme
 import io.github.faening.lello.core.designsystem.theme.Yellow50
 
 @Composable
@@ -128,7 +123,7 @@ private fun TextFieldLabel(
         text = text,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL),
+            .padding(bottom = Dimension.paddingComponentSmall),
         color = textColor,
         style = MaterialTheme.typography.titleMedium,
         maxLines = 1
@@ -149,9 +144,9 @@ private fun ShadowedOutlinedTextField(
     keyboardActions: KeyboardActions
 ) {
     val shadowColor = when {
-        !enabled -> MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = Dimension.ALPHA_STATE_DISABLED)
-        isFocused -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_PRESSED)
-        else -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.ALPHA_STATE_NORMAL)
+        !enabled -> MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = Dimension.alphaStateDisabled)
+        isFocused -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.alphaStatePressed)
+        else -> MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = Dimension.alphaStateNormal)
     }
     val borderColor = when {
         !enabled -> MaterialTheme.colorScheme.outlineVariant
@@ -161,16 +156,16 @@ private fun ShadowedOutlinedTextField(
 
     Box(
         modifier = Modifier
-            .padding(bottom = Dimension.PADDING_COMPONENT_SMALL, end = Dimension.PADDING_COMPONENT_SMALL)
+            .padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(x = Dimension.SHADOW_OFFSET_X, y = Dimension.SHADOW_OFFSET_Y)
+                .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
                     color = shadowColor,
-                    shape = RoundedCornerShape(Dimension.Small)
+                    shape = RoundedCornerShape(Dimension.spacingSmall)
                 )
         )
 
@@ -180,9 +175,9 @@ private fun ShadowedOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .border(
-                    width = Dimension.BORDER_WIDTH_DEFAULT,
+                    width = Dimension.borderWidthDefault,
                     color = borderColor,
-                    shape = RoundedCornerShape(Dimension.BORDER_RADIUS_MEDIUM)
+                    shape = RoundedCornerShape(Dimension.borderRadiusMedium)
                 )
                 .onFocusChanged { focusState ->
                     onFocusChanged(focusState.isFocused)
@@ -206,7 +201,7 @@ private fun ShadowedOutlinedTextField(
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
-            shape = RoundedCornerShape(Dimension.Small),
+            shape = RoundedCornerShape(Dimension.spacingSmall),
             colors = colorScheme()
         )
     }
@@ -236,7 +231,7 @@ private fun PasswordVisibilityIcon(
             tint = if (enabled) {
                 MaterialTheme.colorScheme.onSurfaceVariant
             } else {
-                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = Dimension.ALPHA_STATE_DISABLED)
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = Dimension.alphaStateDisabled)
             }
         )
     }
@@ -251,7 +246,7 @@ private fun ValidationErrorText(
     val hasErrors = showErrors && hasValue && !validationResult.isValid
 
     if (hasErrors) {
-        Box(modifier = Modifier.padding(top = Dimension.PADDING_COMPONENT_SMALL)) {
+        Box(modifier = Modifier.padding(top = Dimension.paddingComponentSmall)) {
             Text(
                 text = validationResult.errors.first(),
                 style = MaterialTheme.typography.bodySmall.copy(
@@ -334,7 +329,7 @@ object PasswordValidator {
 
 @Composable
 private fun colorScheme(): TextFieldColors {
-    val isDarkTheme = LocalIsDarkTheme.current
+    val isDarkTheme = isSystemInDarkTheme()
 
     return TextFieldDefaults.colors(
         // Background
@@ -353,121 +348,3 @@ private fun colorScheme(): TextFieldColors {
         cursorColor = MaterialTheme.colorScheme.primary
     )
 }
-
-// region: Preview Light Theme
-
-@Preview(
-    name = "Default Password Field",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun PasswordTextField_PreviewLightTheme_Default() {
-    LelloTheme {
-        var password by remember { mutableStateOf("") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled Password Field",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun PasswordTextField_PreviewLightTheme_Disabled() {
-    LelloTheme {
-        var password by remember { mutableStateOf("") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp),
-            enabled = false
-        )
-    }
-}
-
-@Preview(
-    name = "With Validation Errors",
-    group = "Light Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun PasswordTextField_PreviewLightTheme_WithErrors() {
-    LelloTheme {
-        var password by remember { mutableStateOf("123") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-// endregion: Preview Light Theme
-
-// region: Preview Inverse Theme
-
-@Preview(
-    name = "Default Password Field",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun PasswordTextField_PreviewInverseTheme_Default() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var password by remember { mutableStateOf("") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled Password Field",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun PasswordTextField_PreviewInverseTheme_Disabled() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var password by remember { mutableStateOf("") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp),
-            enabled = false
-        )
-    }
-}
-
-@Preview(
-    name = "With Validation Errors",
-    group = "Inverse Theme",
-    showBackground = true,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun PasswordTextField_PreviewInverseTheme_WithErrors() {
-    LelloTheme(scheme = LelloColorScheme.INVERSE) {
-        var password by remember { mutableStateOf("123") }
-        LelloPasswordTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
-
-// endregion: Preview Inverse Theme

@@ -101,7 +101,7 @@ private fun JournalContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = Dimension.Medium)
+            .padding(bottom = Dimension.spacingRegular)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

@@ -40,23 +40,23 @@ fun LelloTextArea(
             Text(
                 text = label,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = Dimension.Small),
+                modifier = Modifier.padding(bottom = Dimension.spacingSmall),
                 fontWeight = FontWeight.ExtraBold,
             )
         }
 
         Box(
             modifier = Modifier
-                .padding(bottom = Dimension.Small, end = Dimension.Small)
+                .padding(bottom = Dimension.spacingSmall, end = Dimension.spacingSmall)
         ) {
             // Fake Shadow
             Box(
                 modifier = Modifier
                     .matchParentSize()
-                    .offset(x = Dimension.Small, y = Dimension.Small)
+                    .offset(x = Dimension.spacingSmall, y = Dimension.spacingSmall)
                     .background(
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = Dimension.ALPHA_DISABLED),
-                        shape = RoundedCornerShape(Dimension.Small)
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = Dimension.alphaStateDisabled),
+                        shape = RoundedCornerShape(Dimension.spacingSmall)
                     )
             )
 
@@ -68,15 +68,15 @@ fun LelloTextArea(
                     .height(140.dp)
                     .background(
                         color = MaterialTheme.colorScheme.background,
-                        shape = RoundedCornerShape(Dimension.Small)
+                        shape = RoundedCornerShape(Dimension.spacingSmall)
                     )
                     .border(
                         width = 1.5.dp,
                         color = MaterialTheme.colorScheme.outline,
-                        shape = RoundedCornerShape(Dimension.Small)
+                        shape = RoundedCornerShape(Dimension.spacingSmall)
                     ),
                 placeholder = { Text(placeholder) },
-                shape = RoundedCornerShape(Dimension.Small),
+                shape = RoundedCornerShape(Dimension.spacingSmall),
                 maxLines = 7,
                 enabled = enabled,
                 textStyle = MaterialTheme.typography.bodyLarge
@@ -85,7 +85,7 @@ fun LelloTextArea(
 
         // Contador de caracteres (opcional)
         if (showCounter) {
-            Spacer(Modifier.height(Dimension.ExtraSmall))
+            Spacer(Modifier.height(Dimension.paddingComponentExtraSmall))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End

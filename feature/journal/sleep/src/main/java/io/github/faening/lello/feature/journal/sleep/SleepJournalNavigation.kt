@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalDetailsScreen
@@ -51,7 +51,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_SENSATION,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 }
@@ -69,7 +69,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_QUALITY,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -77,7 +77,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             type = JournalOptionType.SLEEP_ACTIVITY,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 },
@@ -85,7 +85,7 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
                     navController.navigate(
                         SettingsJournalDestinations.listRoute(
                             JournalOptionType.LOCATION,
-                            scheme = LelloColorScheme.DEFAULT
+                            scheme = MoodColor.DEFAULT
                         )
                     )
                 }
