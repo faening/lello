@@ -64,7 +64,7 @@ private fun AuthenticationScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Yellow500)
+            .background(MaterialTheme.colorScheme.inversePrimary)
     ) {
         Column(
             modifier = Modifier

@@ -16,7 +16,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = Grey500,
     primaryContainer = Yellow300,
     onPrimaryContainer = Grey300,
-    inversePrimary = Yellow600,
+    inversePrimary = Yellow500,
 
     secondary = Grey500,
     onSecondary = Grey50,
@@ -52,15 +52,15 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Grey50,
     primaryContainer = Grey700,
     onPrimaryContainer = Yellow50,
-    inversePrimary = Yellow600,
+    inversePrimary = Yellow500,
 
     secondary = Grey50,
     onSecondary = Grey500,
     secondaryContainer = Grey100,
     onSecondaryContainer = Grey100,
 
-    tertiary = Yellow500,
-    onTertiary = Grey800,
+    tertiary = Yellow600,
+    onTertiary = Grey500,
     tertiaryContainer = Grey600,
     onTertiaryContainer = Yellow200,
 

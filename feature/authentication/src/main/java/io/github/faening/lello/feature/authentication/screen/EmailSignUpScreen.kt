@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -22,25 +21,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloOutlinedTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.textfield.LelloEmailTextField
+import io.github.faening.lello.core.designsystem.component.textfield.LelloPasswordTextField
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.designsystem.theme.Yellow500
 import io.github.faening.lello.feature.authentication.AuthenticationUiState
 import io.github.faening.lello.feature.authentication.AuthenticationViewModel
 
@@ -102,7 +100,8 @@ private fun EmailSignUpScreenContent(
             SignUpTopAppBar(
                 onBackClick = onBackClick
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.inversePrimary
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -181,19 +180,16 @@ private fun HeaderSection(
 @Composable
 private fun MainSection(
     email: String,
+    onEmailChange: (String) -> Unit,
     password: String,
     confirmPassword: String,
-    onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmPasswordChange: (String) -> Unit,
     onSignUpClick: () -> Unit = {},
     isLoading: Boolean = false,
     errorMessage: String? = null,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
-    val isPreview = LocalInspectionMode.current
-
-    // Validações
     val isEmailValid = email.contains("@") && email.isNotBlank()
     val doPasswordsMatch = password == confirmPassword && confirmPassword.isNotBlank()
     val isFormValid = isEmailValid && doPasswordsMatch && password.isNotBlank()
@@ -204,37 +200,20 @@ private fun MainSection(
     ) {
         LelloEmailTextField(
             value = email,
-            onValueChange = onEmailChange,
-            label = "E-mail",
-            placeholder = "Digite seu e-mail"
+            onValueChange = onEmailChange
         )
 
-//        LelloOutlinedTextField(
-//            value = email,
-//            onValueChange = onEmailChange,
-//            label = "E-mail",
-//            placeholder = "Digite seu e-mail",
-//            leadingIcon = if (!isPreview) LelloIcons.Outlined.Mail.imageVector else null,
-//            isEmail = true,
-//            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-//        )
-
-        LelloOutlinedTextField(
+        LelloPasswordTextField(
             value = password,
             onValueChange = onPasswordChange,
-            label = "Senha",
-            placeholder = "Digite sua senha",
-            isPassword = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
 
         Column {
-            LelloOutlinedTextField(
+            LelloPasswordTextField(
                 value = confirmPassword,
                 onValueChange = onConfirmPasswordChange,
-                label = "Confirmar Senha",
+                label = "Confirmar senha",
                 placeholder = "Digite sua senha novamente",
-                isPassword = true
             )
 
             // Mostrar erro se as senhas não coincidirem
