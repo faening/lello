@@ -15,10 +15,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloOutlinedTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.textfield.LelloTextField
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
@@ -123,12 +123,10 @@ private fun SettingsJournalRegisterContent(
             modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
         )
 
-        LelloOutlinedTextField(
+        LelloTextField(
             value = text,
             onValueChange = onTextChange,
             placeholder = "Descrição do item",
-            maxLength = 40,
-            showCounter = false
         )
     }
 }
