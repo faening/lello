@@ -20,7 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar

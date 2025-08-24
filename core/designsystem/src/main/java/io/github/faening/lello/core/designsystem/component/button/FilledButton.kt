@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.designsystem.component
+package io.github.faening.lello.core.designsystem.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
