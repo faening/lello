@@ -180,7 +180,7 @@ private fun ShadowedOutlinedTextField(
             enabled = enabled,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
             ),
             placeholder = {
                 Text(
@@ -325,6 +325,7 @@ private object PasswordValidator {
     name = "Default Password Field",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -343,6 +344,7 @@ private fun PasswordTextFieldPreview_LightTheme_Default() {
     name = "Disabled Password Field",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -362,6 +364,7 @@ private fun PasswordTextFieldPreview_LightTheme_Disabled() {
     name = "With Validation Errors",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -446,6 +449,7 @@ private fun PasswordTextFieldPreview_DarkTheme_WithErrors() {
     name = "Default Password Field",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
@@ -464,6 +468,7 @@ private fun PasswordTextFieldPreview_InverseTheme_Default() {
     name = "Disabled Password Field",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
@@ -483,6 +488,7 @@ private fun PasswordTextFieldPreview_InverseTheme_Disabled() {
     name = "With Validation Errors",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable

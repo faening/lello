@@ -160,7 +160,7 @@ private fun ShadowedOutlinedTextField(
             enabled = enabled,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
             ),
             placeholder = {
                 Text(
@@ -242,6 +242,7 @@ private object EmailValidator {
     name = "Default Email Field",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -260,6 +261,7 @@ private fun EmailTextFieldPreview_LightTheme_Default() {
     name = "Disabled Email Field",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -279,6 +281,7 @@ private fun EmailTextFieldPreview_LightTheme_Disabled() {
     name = "With Validation Errors",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -363,6 +366,7 @@ private fun EmailTextFieldPreview_DarkTheme_WithErrors() {
     name = "Default Email Field",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
@@ -381,6 +385,7 @@ private fun EmailTextFieldPreview_InverseTheme_Default() {
     name = "Disabled Email Field",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
@@ -400,6 +405,7 @@ private fun EmailTextFieldPreview_InverseTheme_Disabled() {
     name = "With Validation Errors",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
