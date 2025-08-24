@@ -35,7 +35,7 @@ private val LightColorScheme = lightColorScheme(
 
     surface = Yellow50,
     onSurface = Grey500,
-    surfaceVariant = Grey50,
+    surfaceVariant = Grey100,
     onSurfaceVariant = Grey300,
     inverseSurface = Grey500,
     inverseOnSurface = Yellow50,
@@ -44,6 +44,7 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Grey500,
     outline = Grey500,
     outlineVariant = Grey300,
+    scrim = Grey500
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -70,7 +71,7 @@ private val DarkColorScheme = darkColorScheme(
 
     surface = Yellow50,
     onSurface = Grey500,
-    surfaceVariant = Grey50,
+    surfaceVariant = Grey100,
     onSurfaceVariant = Grey300,
     inverseSurface = Yellow100,
     inverseOnSurface = Grey700,
@@ -78,7 +79,8 @@ private val DarkColorScheme = darkColorScheme(
     background = Grey500,
     onBackground = Grey50,
     outline = Grey900,
-    outlineVariant = Grey300
+    outlineVariant = Grey300,
+    scrim = Grey100
 )
 
 /**
