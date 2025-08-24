@@ -16,54 +16,66 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = Grey500,
     primaryContainer = Yellow300,
     onPrimaryContainer = Grey300,
+    inversePrimary = Yellow600,
+
     secondary = Grey500,
     onSecondary = Grey50,
     secondaryContainer = Grey100,
     onSecondaryContainer = Grey700,
+
     tertiary = Yellow600,
     onTertiary = Yellow50,
     tertiaryContainer = Yellow100,
     onTertiaryContainer = Yellow900,
+
     error = Red500,
     onError = Grey50,
     errorContainer = Red100,
-    onErrorContainer = Red900,
+    onErrorContainer = Red700,
+
     surface = Yellow50,
     onSurface = Grey500,
-    surfaceVariant = Yellow300,
-    onSurfaceVariant = Grey200,
+    surfaceVariant = Grey50,
+    onSurfaceVariant = Grey300,
     inverseSurface = Grey500,
     inverseOnSurface = Yellow50,
+
     background = Yellow50,
     onBackground = Grey500,
     outline = Grey500,
-    outlineVariant = Grey300
+    outlineVariant = Grey300,
 )
 
 private val DarkColorScheme = darkColorScheme(
     primary = Yellow500,
-    onPrimary = Grey700,
+    onPrimary = Grey50,
     primaryContainer = Grey700,
-    onPrimaryContainer = Yellow200,
-    secondary = Grey300,
-    onSecondary = Grey800,
+    onPrimaryContainer = Yellow50,
+    inversePrimary = Yellow600,
+
+    secondary = Grey50,
+    onSecondary = Grey500,
     secondaryContainer = Grey100,
     onSecondaryContainer = Grey100,
+
     tertiary = Yellow500,
     onTertiary = Grey800,
     tertiaryContainer = Grey600,
     onTertiaryContainer = Yellow200,
+
     error = Red500,
-    onError = Grey800,
-    errorContainer = Red800,
-    onErrorContainer = Red100,
-    surface = Grey800,
-    onSurface = Grey100,
-    surfaceVariant = Grey700,
-    onSurfaceVariant = Grey200,
+    onError = Grey50,
+    errorContainer = Red100,
+    onErrorContainer = Red700,
+
+    surface = Yellow50,
+    onSurface = Grey500,
+    surfaceVariant = Grey50,
+    onSurfaceVariant = Grey300,
     inverseSurface = Yellow100,
     inverseOnSurface = Grey700,
-    background = Grey900,
+
+    background = Grey500,
     onBackground = Grey50,
     outline = Grey900,
     outlineVariant = Grey300
@@ -110,7 +122,7 @@ fun LelloTheme(
     CompositionLocalProvider(LocalMoodColors provides moodColor) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography,
+            typography = LelloTypography(),
             shapes = LelloShapes,
             content = content
         )
