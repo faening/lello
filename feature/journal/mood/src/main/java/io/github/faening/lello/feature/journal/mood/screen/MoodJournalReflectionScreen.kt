@@ -18,7 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloTextArea
+import io.github.faening.lello.core.designsystem.component.textfield.LelloMultilineTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
@@ -128,7 +128,7 @@ private fun MoodJournalReflectionContent(
         )
         Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
-        LelloTextArea(
+        LelloMultilineTextField(
             value = reflection,
             onValueChange = onValueChange,
             placeholder = "Digite sua reflexão livre aqui...",

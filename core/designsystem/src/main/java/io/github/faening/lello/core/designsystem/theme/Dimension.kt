@@ -129,6 +129,8 @@ object Dimension {
     /** Padding vertical interno de TextFields */
     val textFieldPaddingVertical = spacingMedium
 
+    val textFieldMultilineHeight = 140.dp
+
     // ==================== DIMENSÕES DE ÍCONES ====================
     /** Tamanho de ícones pequenos */
     val iconSizeSmall = 16.dp
