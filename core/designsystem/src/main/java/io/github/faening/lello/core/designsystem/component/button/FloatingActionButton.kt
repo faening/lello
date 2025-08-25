@@ -16,11 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.DarkColorScheme
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -47,7 +45,7 @@ fun LelloFloatingActionButton(
             modifier = Modifier
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = LelloFloatingActionButtonProperties.shadowColor(enabled),
+                    color = ButtonProperties.shadowColor(enabled),
                     shape = LelloShape.fabShape
                 )
                 .matchParentSize()
@@ -58,55 +56,22 @@ fun LelloFloatingActionButton(
                 .border(
                     border = BorderStroke(
                         width = Dimension.borderWidthDefault,
-                        color = LelloFloatingActionButtonProperties.borderColor(enabled)
+                        color = ButtonProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.fabShape
                 )
                 .clickable(enabled = enabled, onClick = onClick),
-            containerColor = LelloFloatingActionButtonProperties.buttonColor(enabled, colorScheme, moodColor),
+            containerColor = ButtonProperties.buttonColor(enabled, colorScheme, moodColor),
             shape = LelloShape.fabShape,
+            elevation = ButtonProperties.buttonElevation(),
             onClick = { if (enabled) onClick() },
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = LelloFloatingActionButtonProperties.contentColor(enabled, moodColor)
+                tint = ButtonProperties.contentColor(enabled, moodColor)
             )
         }
-    }
-}
-
-private object LelloFloatingActionButtonProperties {
-    @Composable
-    fun shadowColor(enabled: Boolean): Color = when {
-        enabled -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
-        else -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateDisabled)
-    }
-
-    @Composable
-    fun buttonColor(enabled: Boolean, colorScheme: ColorScheme, moodColor: MoodColor): Color {
-        val effectiveColorScheme = moodColor.let { mood ->
-            val isDark = colorScheme.primary == DarkColorScheme.primary
-            colorScheme.copy(primary = mood.getColor(isDark))
-        }
-
-        return when {
-            enabled -> effectiveColorScheme.primary
-            else -> effectiveColorScheme.secondaryContainer
-        }
-    }
-
-    @Composable
-    fun borderColor(enabled: Boolean): Color = when {
-        !enabled -> MaterialTheme.colorScheme.outlineVariant
-        else -> MaterialTheme.colorScheme.outline
-    }
-
-    @Composable
-    fun contentColor(enabled: Boolean, moodColor: MoodColor): Color = when {
-        !enabled -> MaterialTheme.colorScheme.onSurfaceVariant
-        moodColor in listOf(MoodColor.BLUE, MoodColor.RED, MoodColor.SECONDARY) -> MaterialTheme.colorScheme.onSecondary
-        else -> MaterialTheme.colorScheme.onSurface
     }
 }
 

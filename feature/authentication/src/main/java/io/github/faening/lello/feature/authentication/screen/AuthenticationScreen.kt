@@ -155,16 +155,16 @@ private fun AuthenticationOptionsButtons(
     LelloFilledButton(
         label = "Continuar com e-mail e senha",
         onClick = onEmailSignUpClick,
-        iconId = if (!isPreview) LelloIcons.Outlined.Mail.resId else null,
-        invertIcon = true,
+        icon = LelloIcons.Outlined.Mail.imageVector,
+        moodColor = MoodColor.INVERSE,
         modifier = Modifier.padding(bottom = Dimension.spacingLarge)
     )
 
     LelloFilledButton(
         label = "Continuar com o Google",
         onClick = onGoogleSignUpClick,
-        iconId = if (!isPreview) LelloIcons.Filled.Google.resId else null,
-        invertIcon = true
+        icon = LelloIcons.Filled.Google.imageVector,
+        moodColor = MoodColor.SECONDARY
     )
 }
 
