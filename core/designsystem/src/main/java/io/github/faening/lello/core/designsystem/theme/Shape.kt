@@ -19,6 +19,7 @@ val LelloShapes = Shapes(
 )
 
 object LelloShape {
+    val pillShape = RoundedCornerShape(Dimension.borderRadiusSmall)
     val buttonShape = RoundedCornerShape(Dimension.borderRadiusMedium)
     val fabShape = RoundedCornerShape(Dimension.borderRadiusMedium)
     val textFieldShape = RoundedCornerShape(Dimension.borderRadiusMedium)

@@ -32,6 +32,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
+import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
@@ -57,7 +58,8 @@ internal fun MoodJournalEmotionScreen(
             onSave = viewModel::saveMoodJournal,
             onBack = onBack,
             onNext = onNext,
-            onFinish = onFinish
+            onFinish = onFinish,
+            colorScheme = mood
         )
     }
 }
@@ -72,7 +74,8 @@ private fun MoodJournalEmotionContainer(
     onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
-    onFinish: () -> Unit
+    onFinish: () -> Unit,
+    colorScheme: MoodJournalColorScheme
 ) {
     val anySelected = emotionOptions.any { it.selected }
 
@@ -92,6 +95,7 @@ private fun MoodJournalEmotionContainer(
             emotionOptions = emotionOptions,
             onEmotionOptionToggle = onEmotionOptionToggle,
             onOpenEmotionSettings = onOpenEmotionOptionSettings,
+            colorScheme = colorScheme,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -147,6 +151,7 @@ private fun MoodJournalEmotionContent(
     emotionOptions: List<EmotionOption>,
     onEmotionOptionToggle: (String) -> Unit,
     onOpenEmotionSettings: () -> Unit,
+    colorScheme: MoodJournalColorScheme,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -179,7 +184,8 @@ private fun MoodJournalEmotionContent(
                 isSelected = { it.selected },
                 onToggle = { option -> onEmotionOptionToggle(option.description) },
                 onOpenSettings = onOpenEmotionSettings,
-                getLabel = { it.description }
+                getLabel = { it.description },
+                moodColor = colorScheme.colorScheme
             )
         }
     }
@@ -203,7 +209,8 @@ private fun MoodJournalEmotionScreenPreview() {
             onSave = {},
             onBack = {},
             onNext = {},
-            onFinish = {}
+            onFinish = {},
+            colorScheme = MoodJournalColorScheme.JOYFUL
         )
     }
 }

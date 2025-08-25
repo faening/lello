@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.component
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.button.LelloFlowItemButton
+import io.github.faening.lello.core.designsystem.component.pill.LelloFilledPill
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.JournalOption
 
@@ -28,9 +31,11 @@ fun <T> LelloOptionPillSelector(
     onToggle: (T) -> Unit,
     onOpenSettings: (() -> Unit)? = null,
     getLabel: (T) -> String,
+    moodColor: MoodColor = MoodColor.DEFAULT,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(bottom = Dimension.spacingRegular)
     ) {
@@ -47,15 +52,17 @@ fun <T> LelloOptionPillSelector(
             verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
         ) {
             options.forEach { option ->
-                LelloSelectablePill(
+                LelloFilledPill(
                     label = getLabel(option),
                     selected = isSelected(option),
-                    onClick = { onToggle(option) }
+                    onClick = { onToggle(option) },
+                    moodColor = moodColor
                 )
             }
             if (onOpenSettings != null) {
                 LelloFlowItemButton(
-                    onClick = onOpenSettings
+                    onClick = onOpenSettings,
+                    moodColor = moodColor
                 )
             }
         }
@@ -85,7 +92,8 @@ private fun LelloOptionPillSelectorPreview() {
             isSelected = { _ -> false },
             onToggle = { _ -> },
             onOpenSettings = {},
-            getLabel = { it.description }
+            getLabel = { it.description },
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
 }
