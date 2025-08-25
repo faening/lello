@@ -1,6 +1,7 @@
 package io.github.faening.lello.core.designsystem.component.button
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,9 +16,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.DarkColorScheme
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -30,21 +33,21 @@ fun LelloFloatingActionButton(
     icon: ImageVector,
     contentDescription: String,
     enabled: Boolean = true,
-    colorScheme: ColorScheme = MaterialTheme.colorScheme,
     onClick: () -> Unit,
+    moodColor: MoodColor = MoodColor.DEFAULT,
+    colorScheme: ColorScheme = MaterialTheme.colorScheme,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
 ) {
+
     Box(
-        modifier = modifier
-            .padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
+        modifier = modifier.padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
     ) {
         // Fake Shadow
         Box(
             modifier = Modifier
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = if (enabled) colorScheme.onSurface.copy(alpha = Dimension.alphaStateNormal)
-                    else colorScheme.onSurface.copy(alpha = Dimension.alphaStateDisabled),
+                    color = LelloFloatingActionButtonProperties.shadowColor(enabled),
                     shape = LelloShape.fabShape
                 )
                 .matchParentSize()
@@ -55,21 +58,55 @@ fun LelloFloatingActionButton(
                 .border(
                     border = BorderStroke(
                         width = Dimension.borderWidthDefault,
-                        color = if (enabled) colorScheme.outline else colorScheme.outlineVariant
+                        color = LelloFloatingActionButtonProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.fabShape
                 )
                 .clickable(enabled = enabled, onClick = onClick),
-            containerColor = if (enabled) colorScheme.primary else colorScheme.secondaryContainer,
+            containerColor = LelloFloatingActionButtonProperties.buttonColor(enabled, colorScheme, moodColor),
             shape = LelloShape.fabShape,
             onClick = { if (enabled) onClick() },
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = if (enabled) colorScheme.outline else colorScheme.outlineVariant
+                tint = LelloFloatingActionButtonProperties.contentColor(enabled, moodColor)
             )
         }
+    }
+}
+
+private object LelloFloatingActionButtonProperties {
+    @Composable
+    fun shadowColor(enabled: Boolean): Color = when {
+        enabled -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
+        else -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateDisabled)
+    }
+
+    @Composable
+    fun buttonColor(enabled: Boolean, colorScheme: ColorScheme, moodColor: MoodColor): Color {
+        val effectiveColorScheme = moodColor.let { mood ->
+            val isDark = colorScheme.primary == DarkColorScheme.primary
+            colorScheme.copy(primary = mood.getColor(isDark))
+        }
+
+        return when {
+            enabled -> effectiveColorScheme.primary
+            else -> effectiveColorScheme.secondaryContainer
+        }
+    }
+
+    @Composable
+    fun borderColor(enabled: Boolean): Color = when {
+        !enabled -> MaterialTheme.colorScheme.outlineVariant
+        else -> MaterialTheme.colorScheme.outline
+    }
+
+    @Composable
+    fun contentColor(enabled: Boolean, moodColor: MoodColor): Color = when {
+        !enabled -> MaterialTheme.colorScheme.onSurfaceVariant
+        moodColor in listOf(MoodColor.BLUE, MoodColor.RED, MoodColor.SECONDARY) -> MaterialTheme.colorScheme.onSecondary
+        else -> MaterialTheme.colorScheme.onSurface
     }
 }
 
@@ -79,6 +116,7 @@ fun LelloFloatingActionButton(
     name = "Default",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -97,6 +135,7 @@ private fun LelloFAB_LightTheme_Default() {
     name = "Disabled",
     group = "Light Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
@@ -120,6 +159,7 @@ private fun LelloFAB_LightTheme_Disabled() {
     name = "Default",
     group = "Dark Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
     backgroundColor = 0xFF262626
 )
 @Composable
@@ -138,6 +178,7 @@ private fun LelloFAB_DarkTheme_Default() {
     name = "Disabled",
     group = "Dark Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
     backgroundColor = 0xFF262626
 )
 @Composable
@@ -161,15 +202,17 @@ private fun LelloFAB_DarkTheme_Disabled() {
     name = "Default",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFAB_InverseTheme_Default() {
-    LelloTheme(moodColor = MoodColor.INVERSE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             onClick = {},
+            moodColor = MoodColor.INVERSE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -179,16 +222,18 @@ private fun LelloFAB_InverseTheme_Default() {
     name = "Disabled",
     group = "Inverse Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFAB_InverseTheme_Disabled() {
-    LelloTheme(moodColor = MoodColor.INVERSE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
+            moodColor = MoodColor.INVERSE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -202,15 +247,17 @@ private fun LelloFAB_InverseTheme_Disabled() {
     name = "Default",
     group = "Aquamarine Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeAquamarine_Default() {
-    LelloTheme(moodColor = MoodColor.AQUAMARINE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -220,16 +267,18 @@ private fun LelloFAB_MoodThemeAquamarine_Default() {
     name = "Disabled",
     group = "Aquamarine Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeAquamarine_Disabled() {
-    LelloTheme(moodColor = MoodColor.AQUAMARINE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -243,15 +292,17 @@ private fun LelloFAB_MoodThemeAquamarine_Disabled() {
     name = "Default",
     group = "Blue Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeBlue_Default() {
-    LelloTheme(moodColor = MoodColor.BLUE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             onClick = {},
+            moodColor = MoodColor.BLUE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -261,16 +312,18 @@ private fun LelloFAB_MoodThemeBlue_Default() {
     name = "Disabled",
     group = "Blue Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeBlue_Disabled() {
-    LelloTheme(moodColor = MoodColor.BLUE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
+            moodColor = MoodColor.BLUE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -284,15 +337,17 @@ private fun LelloFAB_MoodThemeBlue_Disabled() {
     name = "Default",
     group = "Orange Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeOrange_Default() {
-    LelloTheme(moodColor = MoodColor.ORANGE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             onClick = {},
+            moodColor = MoodColor.ORANGE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -302,16 +357,18 @@ private fun LelloFAB_MoodThemeOrange_Default() {
     name = "Disabled",
     group = "Orange Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeOrange_Disabled() {
-    LelloTheme(moodColor = MoodColor.ORANGE) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
+            moodColor = MoodColor.ORANGE,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -325,15 +382,17 @@ private fun LelloFAB_MoodThemeOrange_Disabled() {
     name = "Default",
     group = "Red Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeRed_Default() {
-    LelloTheme(moodColor = MoodColor.RED) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -343,19 +402,111 @@ private fun LelloFAB_MoodThemeRed_Default() {
     name = "Disabled",
     group = "Red Theme",
     showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
 private fun LelloFAB_MoodThemeRed_Disabled() {
-    LelloTheme(moodColor = MoodColor.RED) {
+    LelloTheme {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
 }
 
 // endregion: Preview Mood Theme - Red
+
+// region: Preview Secondary Light Theme
+
+@Preview(
+    name = "Default",
+    group = "Secondary Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFAB_SecondaryLightTheme_Default() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Disabled",
+    group = "Secondary Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFAB_SecondaryLightTheme_Disabled() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            enabled = false,
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+// endregion: Preview Secondary Light Theme
+
+// region: Preview Secondary Dark Theme
+
+@Preview(
+    name = "Default",
+    group = "Secondary Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFAB_SecondaryDarkTheme_Default() {
+    LelloTheme(darkTheme = true) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Disabled",
+    group = "Secondary Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFAB_SecondaryDarkTheme_Disabled() {
+    LelloTheme(darkTheme = true) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            enabled = false,
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+// endregion: Preview Secondary Dark Theme

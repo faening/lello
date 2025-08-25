@@ -11,7 +11,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-private val LightColorScheme = lightColorScheme(
+val LightColorScheme = lightColorScheme(
     primary = Yellow500,
     onPrimary = Grey500,
     primaryContainer = Yellow300,
@@ -47,15 +47,15 @@ private val LightColorScheme = lightColorScheme(
     scrim = Grey500
 )
 
-private val DarkColorScheme = darkColorScheme(
+val DarkColorScheme = darkColorScheme(
     primary = Yellow500,
     onPrimary = Grey50,
     primaryContainer = Grey700,
     onPrimaryContainer = Yellow50,
     inversePrimary = Yellow500,
 
-    secondary = Grey50,
-    onSecondary = Grey500,
+    secondary = Grey900,
+    onSecondary = Grey50,
     secondaryContainer = Grey100,
     onSecondaryContainer = Grey100,
 
@@ -97,7 +97,8 @@ enum class MoodColor(
     AQUAMARINE(Aquamarine500, Aquamarine500),
     BLUE(Blue500, Blue500),
     ORANGE(Orange500, Orange500),
-    RED(Red500, Red500);
+    RED(Red500, Red500),
+    SECONDARY(Grey500, Grey900),;
 
     fun getColor(isDark: Boolean): Color = if (isDark) darkColor else lightColor
 }
