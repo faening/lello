@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
@@ -53,7 +54,7 @@ fun LelloFilledButton(
                 .matchParentSize()
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = ButtonProperties.shadowColor(enabled),
+                    color = LelloComponentProperties.shadowColor(enabled),
                     shape = LelloShape.buttonShape
                 )
         )
@@ -63,13 +64,13 @@ fun LelloFilledButton(
                 .fillMaxWidth()
                 .height(Dimension.heightButtonDefault)
                 .background(
-                    color = ButtonProperties.buttonColor(enabled, colorScheme, moodColor),
+                    color = LelloComponentProperties.backgroundColor(enabled, colorScheme, moodColor),
                     shape = LelloShape.buttonShape
                 )
                 .border(
                     border = BorderStroke(
                         width = Dimension.borderWidthDefault,
-                        color = ButtonProperties.borderColor(enabled)
+                        color = LelloComponentProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.buttonShape
                 )
@@ -82,21 +83,21 @@ fun LelloFilledButton(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = ButtonProperties.contentColor(enabled, moodColor),
+                    tint = LelloComponentProperties.contentColor(enabled, moodColor),
                     modifier = Modifier.padding(end = Dimension.spacingSmall)
                 )
             }
             Text(
                 text = label,
                 fontWeight = FontWeight.Bold,
-                color = ButtonProperties.contentColor(enabled, moodColor),
+                color = LelloComponentProperties.contentColor(enabled, moodColor),
                 style = MaterialTheme.typography.bodyLarge
             )
             if (icon != null && invertIcon) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = ButtonProperties.contentColor(enabled, moodColor),
+                    tint = LelloComponentProperties.contentColor(enabled, moodColor),
                     modifier = Modifier.padding(start = Dimension.spacingSmall)
                 )
             }
@@ -107,18 +108,19 @@ fun LelloFilledButton(
 // region: Preview Light Theme
 
 @Preview(
-    name = "Default",
+    name = "Disabled",
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun FilledButton_LightTheme_Default() {
+private fun LelloFilledButton_LightTheme_Disabled() {
     LelloTheme {
         LelloFilledButton(
             label = "Enter with e-mail",
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            enabled = false,
             onClick = {},
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
@@ -126,14 +128,14 @@ private fun FilledButton_LightTheme_Default() {
 }
 
 @Preview(
-    name = "Default Invert Icon",
+    name = "RTL",
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun FilledButton_LightTheme_InvertIcon() {
+private fun LelloFilledButton_LightTheme_RTL() {
     LelloTheme {
         LelloFilledButton(
             label = "Enter with e-mail",
@@ -146,20 +148,120 @@ private fun FilledButton_LightTheme_InvertIcon() {
 }
 
 @Preview(
-    name = "Disabled",
+    name = "Primary",
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun FilledButton_LightTheme_Disabled() {
+private fun LelloFilledButton_LightTheme_Primary() {
     LelloTheme {
         LelloFilledButton(
             label = "Enter with e-mail",
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
             onClick = {},
-            enabled = false,
+            moodColor = MoodColor.DEFAULT,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledButton_LightTheme_Secondary() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledButton_LightTheme_Aquamarine() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledButton_LightTheme_Blue() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledButton_LightTheme_Orange() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledButton_LightTheme_Red() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -170,25 +272,6 @@ private fun FilledButton_LightTheme_Disabled() {
 // region: Preview Dark Theme
 
 @Preview(
-    name = "Default",
-    group = "Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun FilledButton_DarkTheme_Default() {
-    LelloTheme(darkTheme = true) {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
     name = "Disabled",
     group = "Dark Theme",
     showBackground = true,
@@ -196,335 +279,156 @@ private fun FilledButton_DarkTheme_Default() {
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun FilledButton_DarkTheme_Disabled() {
-    LelloTheme(darkTheme = true) {
+private fun LelloFilledButton_DarkTheme_Disabled() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            enabled = false,
+            onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "RTL",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_RTL() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            invertIcon = true,
+            onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Primary",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Primary() {
+    LelloTheme {
         LelloFilledButton(
             label = "Enter with e-mail",
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
             onClick = {},
-            enabled = false,
+            moodColor = MoodColor.DEFAULT,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Secondary() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Aquamarine() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Blue() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Orange() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledButton_DarkTheme_Red() {
+    LelloTheme {
+        LelloFilledButton(
+            label = "Enter with e-mail",
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
+            onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
 }
 
 // endregion: Preview Dark Theme
-
-// region: Preview Inverse Theme
-
-@Preview(
-    name = "Default",
-    group = "Inverse Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun FilledButton_InverseTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.INVERSE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Inverse Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun FilledButton_InverseTheme_Disabled() {
-    LelloTheme(moodColor = MoodColor.INVERSE) {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.INVERSE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Inverse Theme
-
-// region: Preview Aquamarine Theme
-
-@Preview(
-    name = "Default",
-    group = "Aquamarine Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_AquamarineTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.AQUAMARINE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Aquamarine Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_AquamarineTheme_Disabled() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.AQUAMARINE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Aquamarine Theme
-
-// region: Preview Blue Theme
-
-@Preview(
-    name = "Default",
-    group = "Blue Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_BlueTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.BLUE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Blue Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_BlueTheme_Disabled() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.BLUE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Blue Theme
-
-// region: Preview Orange Theme
-
-@Preview(
-    name = "Default",
-    group = "Orange Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_OrangeTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.ORANGE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Orange Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_OrangeTheme_Disabled() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.ORANGE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Orange Theme
-
-// region: Preview Red Theme
-
-@Preview(
-    name = "Default",
-    group = "Red Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_RedTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.RED,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Red Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_RedTheme_Disabled() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.RED,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Red Theme
-
-// region: Preview Secondary Light Theme
-
-@Preview(
-    name = "Default",
-    group = "Secondary Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_SecondaryLightTheme_Default() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Secondary Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun FilledButton_SecondaryLightTheme_Disabled() {
-    LelloTheme {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Secondary Light Theme
-
-// region: Preview Secondary Dark Theme
-
-@Preview(
-    name = "Default",
-    group = "Secondary Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun FilledButton_SecondaryDarkTheme_Default() {
-    LelloTheme(
-        darkTheme = true
-    ) {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Secondary Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun FilledButton_SecondaryDarkTheme_Disabled() {
-    LelloTheme(
-        darkTheme = true
-    ) {
-        LelloFilledButton(
-            label = "Enter with e-mail",
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_mail_outlined),
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Secondary Dark Theme

@@ -41,7 +41,7 @@ fun LelloNavHost(
         // Starting
         onboardingGraph(
             navController = navController,
-            onOnboardingFinish = { navController.navigate(AuthenticationDestinations.HOME) }
+            onOnboardingFinish = { navController.navigate(HomeDestinations.HOME) }
         )
 
         // Authentication

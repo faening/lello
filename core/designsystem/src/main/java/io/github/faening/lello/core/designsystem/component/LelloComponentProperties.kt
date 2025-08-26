@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.designsystem.component.button
+package io.github.faening.lello.core.designsystem.component
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -10,7 +10,7 @@ import io.github.faening.lello.core.designsystem.theme.DarkColorScheme
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 
-internal object ButtonProperties {
+object LelloComponentProperties {
     @Composable
     fun shadowColor(enabled: Boolean): Color = when {
         enabled -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
@@ -18,7 +18,15 @@ internal object ButtonProperties {
     }
 
     @Composable
-    fun buttonColor(enabled: Boolean, colorScheme: ColorScheme, moodColor: MoodColor): Color {
+    fun fabElevation(): FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(
+        defaultElevation = Dimension.elevation,
+        pressedElevation = Dimension.elevation,
+        hoveredElevation = Dimension.elevation,
+        focusedElevation = Dimension.elevation
+    )
+
+    @Composable
+    fun backgroundColor(enabled: Boolean, colorScheme: ColorScheme, moodColor: MoodColor): Color {
         val effectiveColorScheme = moodColor.let { mood ->
             val isDark = colorScheme.primary == DarkColorScheme.primary
             colorScheme.copy(primary = mood.getColor(isDark))
@@ -31,23 +39,15 @@ internal object ButtonProperties {
     }
 
     @Composable
-    fun buttonElevation(): FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(
-        defaultElevation = Dimension.elevation,
-        pressedElevation = Dimension.elevation,
-        hoveredElevation = Dimension.elevation,
-        focusedElevation = Dimension.elevation
-    )
+    fun contentColor(enabled: Boolean, moodColor: MoodColor): Color = when {
+        !enabled -> MaterialTheme.colorScheme.onSurfaceVariant
+        moodColor in listOf(MoodColor.BLUE, MoodColor.RED, MoodColor.SECONDARY) -> MaterialTheme.colorScheme.onSecondary
+        else -> MaterialTheme.colorScheme.onSurface
+    }
 
     @Composable
     fun borderColor(enabled: Boolean): Color = when {
         !enabled -> MaterialTheme.colorScheme.outlineVariant
         else -> MaterialTheme.colorScheme.outline
-    }
-
-    @Composable
-    fun contentColor(enabled: Boolean, moodColor: MoodColor): Color = when {
-        !enabled -> MaterialTheme.colorScheme.onSurfaceVariant
-        moodColor in listOf(MoodColor.BLUE, MoodColor.RED, MoodColor.SECONDARY) -> MaterialTheme.colorScheme.onSecondary
-        else -> MaterialTheme.colorScheme.onSurface
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -30,18 +31,18 @@ fun LelloFilledPill(
     Surface(
         modifier = modifier.clickable { onClick() },
         shape = LelloShape.pillShape,
-        color = PillProperties.containerColor(selected, colorScheme, moodColor),
+        color = LelloComponentProperties.backgroundColor(selected, colorScheme, moodColor),
         border = BorderStroke(
             width = Dimension.borderWidthThin,
-            color = PillProperties.borderColor(selected)
+            color = LelloComponentProperties.borderColor(selected)
         ),
-        shadowElevation = PillProperties.elevation(),
-        tonalElevation = PillProperties.elevation(),
+        shadowElevation = Dimension.elevation,
+        tonalElevation = Dimension.elevation,
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
-            color = PillProperties.contentColor(selected, moodColor),
+            color = LelloComponentProperties.contentColor(selected, moodColor),
             fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = Dimension.paddingComponentRegular, vertical = Dimension.paddingComponentMedium)
         )
@@ -69,19 +70,39 @@ private fun LelloFilledPill_LightTheme_Default() {
 }
 
 @Preview(
-    name = "Selected",
+    name = "Primary",
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloFilledPill_LightTheme_Selected() {
+private fun LelloFilledPill_LightTheme_Primary() {
     LelloTheme {
         LelloFilledPill(
             label = "Happy",
             selected = true,
             onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFilledPill_LightTheme_Secondary() {
+    LelloTheme {
+        LelloFilledPill(
+            label = "Happy",
+            selected = true,
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -167,26 +188,6 @@ private fun LelloFilledPill_LightTheme_Red() {
     }
 }
 
-@Preview(
-    name = "Secondary",
-    group = "Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFilledPill_LightTheme_Secondary() {
-    LelloTheme {
-        LelloFilledPill(
-            label = "Happy",
-            selected = true,
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
 // endregion: Preview Light Theme
 
 // region: Preview Dark Theme
@@ -210,19 +211,39 @@ private fun LelloFilledPill_DarkTheme_Default() {
 }
 
 @Preview(
-    name = "Selected",
+    name = "Primary",
     group = "Dark Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     backgroundColor = 0xFF262626
 )
 @Composable
-private fun LelloFilledPill_DarkTheme_Selected() {
+private fun LelloFilledPill_DarkTheme_Primary() {
     LelloTheme {
         LelloFilledPill(
             label = "Happy",
             selected = true,
             onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFilledPill_DarkTheme_Secondary() {
+    LelloTheme {
+        LelloFilledPill(
+            label = "Happy",
+            selected = true,
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -303,26 +324,6 @@ private fun LelloFilledPill_DarkTheme_Red() {
             selected = true,
             onClick = {},
             moodColor = MoodColor.RED,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Secondary",
-    group = "Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun LelloFilledPill_DarkTheme_Secondary() {
-    LelloTheme {
-        LelloFilledPill(
-            label = "Happy",
-            selected = true,
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }

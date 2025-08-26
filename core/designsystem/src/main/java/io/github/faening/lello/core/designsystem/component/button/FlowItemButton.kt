@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.R
+import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
@@ -34,37 +34,20 @@ fun LelloFlowItemButton(
         modifier = modifier
             .size(Dimension.heightButtonSmall)
             .clickable(enabled = enabled, onClick = onClick),
-        containerColor = ButtonProperties.buttonColor(enabled, colorScheme, moodColor),
+        containerColor = LelloComponentProperties.backgroundColor(enabled, colorScheme, moodColor),
         shape = LelloShape.fabShape,
-        elevation = ButtonProperties.buttonElevation(),
+        elevation = LelloComponentProperties.fabElevation(),
         onClick = { if (enabled) onClick() },
     ) {
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
-            tint = ButtonProperties.contentColor(enabled, moodColor)
+            tint = LelloComponentProperties.contentColor(enabled, moodColor)
         )
     }
 }
 
 // region: Preview Light Theme
-
-@Preview(
-    name = "Default",
-    group = "Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_LightTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
 
 @Preview(
     name = "Disabled",
@@ -77,8 +60,116 @@ private fun LelloFIB_LightTheme_Default() {
 private fun LelloFIB_LightTheme_Disabled() {
     LelloTheme {
         LelloFlowItemButton(
-            onClick = {},
             enabled = false,
+            onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Primary",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Primary() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.DEFAULT,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Secondary() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Aquamarine() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Blue() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Orange() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloFIB_LightTheme_Red() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
@@ -89,23 +180,6 @@ private fun LelloFIB_LightTheme_Disabled() {
 // region: Preview Dark Theme
 
 @Preview(
-    name = "Default",
-    group = "Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun LelloFIB_DarkTheme_Default() {
-    LelloTheme(darkTheme = true) {
-        LelloFlowItemButton(
-            onClick = {},
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
     name = "Disabled",
     group = "Dark Theme",
     showBackground = true,
@@ -114,299 +188,121 @@ private fun LelloFIB_DarkTheme_Default() {
 )
 @Composable
 private fun LelloFIB_DarkTheme_Disabled() {
-    LelloTheme(darkTheme = true) {
+    LelloTheme {
+        LelloFlowItemButton(
+            enabled = false,
+            onClick = {},
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Primary",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Primary() {
+    LelloTheme {
         LelloFlowItemButton(
             onClick = {},
+            moodColor = MoodColor.DEFAULT,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Secondary() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Aquamarine() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Blue() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Orange() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
+@Composable
+private fun LelloFIB_DarkTheme_Red() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.RED,
             modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
 }
 
 // endregion: Preview Dark Theme
-
-// region: Preview Inverse Theme
-
-@Preview(
-    name = "Default",
-    group = "Inverse Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun LelloFIB_InverseTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.INVERSE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Inverse Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFBD866
-)
-@Composable
-private fun LelloFIB_InverseTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.INVERSE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Inverse Theme
-
-// region: Preview Aquamarine Theme
-
-@Preview(
-    name = "Default",
-    group = "Aquamarine Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_AquamarineTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.AQUAMARINE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Aquamarine Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_AquamarineTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.AQUAMARINE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Aquamarine Theme
-
-// region: Preview Blue Theme
-
-@Preview(
-    name = "Default",
-    group = "Blue Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_BlueTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.BLUE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Blue Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_BlueTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.BLUE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Blue Theme
-
-// region: Preview Orange Theme
-
-@Preview(
-    name = "Default",
-    group = "Orange Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_OrangeTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.ORANGE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Orange Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_OrangeTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.ORANGE,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Orange Theme
-
-// region: Preview Red Theme
-
-@Preview(
-    name = "Default",
-    group = "Red Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_RedTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.RED,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Red Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_RedTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.RED,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Red Theme
-
-// region: Preview Secondary Light Theme
-
-@Preview(
-    name = "Default",
-    group = "Secondary Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_SecondaryLightTheme_Default() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Secondary Light Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloFIB_SecondaryLightTheme_Disabled() {
-    LelloTheme {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Secondary Theme
-
-// region: Preview Secondary Dark Theme
-
-@Preview(
-    name = "Default",
-    group = "Secondary Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun LelloFIB_SecondaryDarkTheme_Default() {
-    LelloTheme(darkTheme = true) {
-        LelloFlowItemButton(
-            onClick = {},
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-@Preview(
-    name = "Disabled",
-    group = "Secondary Dark Theme",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    backgroundColor = 0xFF262626
-)
-@Composable
-private fun LelloFIB_SecondaryDarkTheme_Disabled() {
-    LelloTheme(darkTheme = true) {
-        LelloFlowItemButton(
-            onClick = {},
-            enabled = false,
-            moodColor = MoodColor.SECONDARY,
-            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
-        )
-    }
-}
-
-// endregion: Preview Secondary Theme
