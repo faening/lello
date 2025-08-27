@@ -54,7 +54,7 @@ fun LelloFlowItemButton(
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Disabled() {
@@ -72,7 +72,7 @@ private fun LelloFIB_LightTheme_Disabled() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Primary() {
@@ -90,7 +90,7 @@ private fun LelloFIB_LightTheme_Primary() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Secondary() {
@@ -108,7 +108,7 @@ private fun LelloFIB_LightTheme_Secondary() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Aquamarine() {
@@ -126,7 +126,7 @@ private fun LelloFIB_LightTheme_Aquamarine() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Blue() {
@@ -144,7 +144,7 @@ private fun LelloFIB_LightTheme_Blue() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Orange() {
@@ -162,7 +162,7 @@ private fun LelloFIB_LightTheme_Orange() {
     group = "Light Theme",
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    backgroundColor = 0xFFFFFBF0
+    backgroundColor = 0xFFFBD866
 )
 @Composable
 private fun LelloFIB_LightTheme_Red() {
@@ -306,3 +306,134 @@ private fun LelloFIB_DarkTheme_Red() {
 }
 
 // endregion: Preview Dark Theme
+
+// region: Preview Inverse Theme
+
+@Preview(
+    name = "Disabled",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Disabled() {
+    LelloTheme {
+        LelloFlowItemButton(
+            enabled = false,
+            onClick = {},
+            moodColor = MoodColor.INVERSE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Primary",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Primary() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.INVERSE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Secondary() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Aquamarine() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Blue() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Orange() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFIB_InverseTheme_Red() {
+    LelloTheme {
+        LelloFlowItemButton(
+            onClick = {},
+            moodColor = MoodColor.RED,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+// endregion: Preview Inverse Theme

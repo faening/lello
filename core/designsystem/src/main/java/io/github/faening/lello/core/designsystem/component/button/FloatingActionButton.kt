@@ -363,3 +363,148 @@ private fun LelloFAB_DarkTheme_Red() {
 }
 
 // endregion: Preview Dark Theme
+
+// region: Preview Inverse Theme
+
+@Preview(
+    name = "Disabled",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Disabled() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            enabled = false,
+            onClick = {},
+            moodColor = MoodColor.INVERSE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Primary",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Primary() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.INVERSE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Secondary",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Secondary() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Aquamarine() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.AQUAMARINE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Blue() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.BLUE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Orange() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.ORANGE,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Inverse Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFBD866
+)
+@Composable
+private fun LelloFAB_InverseTheme_Red() {
+    LelloTheme {
+        LelloFloatingActionButton(
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            contentDescription = "Próximo",
+            onClick = {},
+            moodColor = MoodColor.RED,
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
+        )
+    }
+}
+
+// endregion: Preview Inverse Theme
