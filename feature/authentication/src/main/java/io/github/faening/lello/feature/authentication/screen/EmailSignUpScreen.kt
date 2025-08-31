@@ -151,7 +151,7 @@ private fun SignUpTopAppBar(
             text = "Criar conta"
         ),
         navigateUp = TopAppBarAction(
-            icon = LelloIcons.ArrowLeft.imageVector,
+            icon = LelloIcons.ArrowLargeLeft.imageVector,
             contentDescription = "Voltar",
             onClick = onBackClick
         )

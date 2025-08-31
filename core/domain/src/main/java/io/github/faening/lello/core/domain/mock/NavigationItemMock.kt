@@ -8,32 +8,32 @@ object NavigationItemMock {
         NavigationItem(
             title = 0,
             route = "home",
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.Home
+            selectedIcon = LelloIcons.Filled.Home.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Home.imageVector
         ),
         NavigationItem(
             title = 0,
             route = "diary",
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.Home
+            selectedIcon = LelloIcons.Filled.BookOpen.imageVector,
+            unselectedIcon = LelloIcons.Outlined.BookOpen.imageVector
         ),
         NavigationItem(
             title = 0,
             route = "achievements",
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.Home
+            selectedIcon = LelloIcons.Filled.Achievement.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
         ),
         NavigationItem(
             title = 0,
             route = "medication",
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.Home
+            selectedIcon = LelloIcons.Filled.DrugPill.imageVector,
+            unselectedIcon = LelloIcons.Outlined.DrugPill.imageVector
         ),
         NavigationItem(
             title = 0,
             route = "profile",
-            selectedIcon = LelloIcons.Home,
-            unselectedIcon = LelloIcons.Home
+            selectedIcon = LelloIcons.Filled.Profile.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Profile.imageVector
         )
     )
 }

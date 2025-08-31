@@ -191,18 +191,18 @@ private object NavigationDefaults {
 private fun MobileNavigationBarContent() {
     val items = listOf("Início", "Diários", "Lello", "Remédios", "Perfil")
     val icons = listOf(
-        LelloIcons.customIcon(R.drawable.ic_home_outlined),
-        LelloIcons.customIcon(R.drawable.ic_book_open_outlined),
-        LelloIcons.customIcon(R.drawable.ic_achievements),
-        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_outlined),
-        LelloIcons.customIcon(R.drawable.ic_profile_outlined)
+        LelloIcons.Outlined.Home.imageVector,
+        LelloIcons.Outlined.BookOpen.imageVector,
+        LelloIcons.Outlined.Achievement.imageVector,
+        LelloIcons.Outlined.DrugPill.imageVector,
+        LelloIcons.Outlined.Profile.imageVector
     )
     val selectedIcons = listOf(
-        LelloIcons.customIcon(R.drawable.ic_home_filled),
-        LelloIcons.customIcon(R.drawable.ic_book_open_filled),
-        LelloIcons.customIcon(R.drawable.ic_achievements),
-        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_filled),
-        LelloIcons.customIcon(R.drawable.ic_profile_filled),
+        LelloIcons.Filled.Home.imageVector,
+        LelloIcons.Filled.BookOpen.imageVector,
+        LelloIcons.Filled.Achievement.imageVector,
+        LelloIcons.Filled.DrugPill.imageVector,
+        LelloIcons.Filled.Profile.imageVector
     )
 
     LelloNavigationBar {

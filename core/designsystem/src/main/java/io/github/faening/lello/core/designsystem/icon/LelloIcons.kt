@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.MoreVert
@@ -10,25 +9,39 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
-@Suppress("DEPRECATION")
 object LelloIcons {
-    // Menu
-    val Home = Icons.Outlined.Home
-
-    // TopAppBar
     val Favorite = Icons.Rounded.Favorite
     val MoreVert = Icons.Rounded.MoreVert
     val Add = Icons.Rounded.Add
 
+    // Custom icons
+    val ArrowLargeUp = LelloIcon(designsystemR.drawable.ic_arrow_large_up)
+    val ArrowLargeRight = LelloIcon(designsystemR.drawable.ic_arrow_large_right)
+    val ArrowLargeLeft = LelloIcon(designsystemR.drawable.ic_arrow_large_left)
+    val ArrowLargeDown = LelloIcon(designsystemR.drawable.ic_arrow_large_down)
+    val ChevronUp = LelloIcon(designsystemR.drawable.ic_chevron_up)
+    val ChevronRight = LelloIcon(designsystemR.drawable.ic_chevron_right)
+    val ChevronDown = LelloIcon(designsystemR.drawable.ic_chevron_down)
+    val ChevronLeft = LelloIcon(designsystemR.drawable.ic_chevron_left)
     val Logo = LelloIcon(designsystemR.drawable.ic_lello_logo)
-    val ArrowLeft = LelloIcon(designsystemR.drawable.ic_arrow_large_left)
 
     object Outlined {
+        val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
+        val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_outlined)
+        val Calendar = LelloIcon(designsystemR.drawable.ic_outlined_calendar)
+        val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
+        val Home = LelloIcon(designsystemR.drawable.ic_home_outlined)
         val Mail = LelloIcon(designsystemR.drawable.ic_mail_outlined)
+        val Profile = LelloIcon(designsystemR.drawable.ic_profile_outlined)
     }
 
     object Filled {
+        val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
+        val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_filled)
+        val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_filled)
         val Google = LelloIcon(designsystemR.drawable.ic_google_filled)
+        val Home = LelloIcon(designsystemR.drawable.ic_home_filled)
+        val Profile = LelloIcon(designsystemR.drawable.ic_profile_filled)
     }
 
     @Composable
