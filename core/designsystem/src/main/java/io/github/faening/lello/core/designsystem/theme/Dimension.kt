@@ -133,7 +133,7 @@ object Dimension {
 
     // ==================== DIMENSÕES DE ÍCONES ====================
     /** Tamanho de ícones pequenos */
-    val iconSizeSmall = 16.dp
+    val iconSizeSmall = 18.dp
 
     /** Tamanho padrão de ícones */
     val iconSizeDefault = 24.dp
