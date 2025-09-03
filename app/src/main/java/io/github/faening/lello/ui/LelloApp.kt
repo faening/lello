@@ -18,9 +18,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import io.github.faening.lello.core.designsystem.component.CentralNavigationBarItem
-import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
-import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
+import io.github.faening.lello.core.designsystem.component.navigation.CentralNavigationBarItem
+import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBar
+import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.NavigationItemMock
