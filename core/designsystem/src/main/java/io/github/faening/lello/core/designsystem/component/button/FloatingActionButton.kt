@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
@@ -46,7 +45,7 @@ fun LelloFloatingActionButton(
             modifier = Modifier
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = LelloComponentProperties.shadowColor(enabled),
+                    color = ButtonProperties.shadowColor(enabled),
                     shape = LelloShape.fabShape
                 )
                 .matchParentSize()
@@ -57,20 +56,20 @@ fun LelloFloatingActionButton(
                 .border(
                     border = BorderStroke(
                         width = Dimension.borderWidthDefault,
-                        color = LelloComponentProperties.borderColor(enabled)
+                        color = ButtonProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.fabShape
                 )
                 .clickable(enabled = enabled, onClick = onClick),
-            containerColor = LelloComponentProperties.backgroundColor(enabled, colorScheme, moodColor),
+            containerColor = ButtonProperties.backgroundColor(enabled, colorScheme, moodColor),
             shape = LelloShape.fabShape,
-            elevation = LelloComponentProperties.fabElevation(),
+            elevation = ButtonProperties.fabElevation(),
             onClick = { if (enabled) onClick() },
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                tint = LelloComponentProperties.contentColor(enabled, moodColor)
+                tint = ButtonProperties.contentColor(enabled, moodColor)
             )
         }
     }

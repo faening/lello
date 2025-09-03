@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
@@ -54,7 +53,7 @@ fun LelloFilledButton(
                 .matchParentSize()
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = LelloComponentProperties.shadowColor(enabled),
+                    color = ButtonProperties.shadowColor(enabled),
                     shape = LelloShape.buttonShape
                 )
         )
@@ -64,13 +63,13 @@ fun LelloFilledButton(
                 .fillMaxWidth()
                 .height(Dimension.heightButtonDefault)
                 .background(
-                    color = LelloComponentProperties.backgroundColor(enabled, colorScheme, moodColor),
+                    color = ButtonProperties.backgroundColor(enabled, colorScheme, moodColor),
                     shape = LelloShape.buttonShape
                 )
                 .border(
                     border = BorderStroke(
                         width = Dimension.borderWidthDefault,
-                        color = LelloComponentProperties.borderColor(enabled)
+                        color = ButtonProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.buttonShape
                 )
@@ -83,21 +82,21 @@ fun LelloFilledButton(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = LelloComponentProperties.contentColor(enabled, moodColor),
+                    tint = ButtonProperties.contentColor(enabled, moodColor),
                     modifier = Modifier.padding(end = Dimension.spacingSmall)
                 )
             }
             Text(
                 text = label,
                 fontWeight = FontWeight.Bold,
-                color = LelloComponentProperties.contentColor(enabled, moodColor),
+                color = ButtonProperties.contentColor(enabled, moodColor),
                 style = MaterialTheme.typography.bodyLarge
             )
             if (icon != null && invertIcon) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = LelloComponentProperties.contentColor(enabled, moodColor),
+                    tint = ButtonProperties.contentColor(enabled, moodColor),
                     modifier = Modifier.padding(start = Dimension.spacingSmall)
                 )
             }
