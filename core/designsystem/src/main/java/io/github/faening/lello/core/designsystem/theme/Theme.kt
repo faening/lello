@@ -39,6 +39,7 @@ val LightColorScheme = lightColorScheme(
     onSurfaceVariant = Grey300,
     inverseSurface = Grey500,
     inverseOnSurface = Yellow50,
+    surfaceContainerLowest = Yellow0,
 
     background = Yellow50,
     onBackground = Grey500,
@@ -75,6 +76,7 @@ val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = Grey300,
     inverseSurface = Yellow100,
     inverseOnSurface = Grey700,
+    surfaceContainerLowest = Yellow0,
 
     background = Grey500,
     onBackground = Grey50,

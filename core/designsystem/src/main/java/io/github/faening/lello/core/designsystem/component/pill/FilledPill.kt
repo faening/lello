@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloComponentProperties
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -31,10 +30,10 @@ fun LelloFilledPill(
     Surface(
         modifier = modifier.clickable { onClick() },
         shape = LelloShape.pillShape,
-        color = LelloComponentProperties.backgroundColor(selected, colorScheme, moodColor),
+        color = PillProperties.backgroundColor(selected, colorScheme, moodColor),
         border = BorderStroke(
             width = Dimension.borderWidthThin,
-            color = LelloComponentProperties.borderColor(selected)
+            color = PillProperties.borderColor(selected)
         ),
         shadowElevation = Dimension.elevation,
         tonalElevation = Dimension.elevation,
@@ -42,7 +41,7 @@ fun LelloFilledPill(
         Text(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
-            color = LelloComponentProperties.contentColor(selected, moodColor),
+            color = PillProperties.contentColor(selected, moodColor),
             fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = Dimension.paddingComponentRegular, vertical = Dimension.paddingComponentMedium)
         )
