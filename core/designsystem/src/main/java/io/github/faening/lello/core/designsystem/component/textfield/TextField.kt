@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.theme.Dimension
@@ -71,18 +69,12 @@ private fun TextFieldLabel(
     enabled: Boolean,
     isFocused: Boolean
 ) {
-    val textColor = when {
-        !enabled -> MaterialTheme.colorScheme.outlineVariant
-        isFocused -> MaterialTheme.colorScheme.onSecondaryContainer
-        else -> MaterialTheme.colorScheme.onPrimary
-    }
-
     Text(
         text = text,
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = Dimension.paddingComponentSmall),
-        color = textColor,
+        color = TextFieldProperties.textLabelColor(enabled, isFocused),
         style = MaterialTheme.typography.titleMedium,
         maxLines = 1
     )
@@ -99,17 +91,6 @@ private fun ShadowedOutlinedTextField(
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions
 ) {
-    val shadowColor = when {
-        !enabled -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateDisabled)
-        isFocused -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStatePressed)
-        else -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
-    }
-    val borderColor = when {
-        !enabled -> MaterialTheme.colorScheme.outlineVariant
-        isFocused -> MaterialTheme.colorScheme.outline
-        else -> MaterialTheme.colorScheme.outline
-    }
-
     Box(
         modifier = Modifier
             .padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
@@ -120,7 +101,7 @@ private fun ShadowedOutlinedTextField(
                 .matchParentSize()
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = shadowColor,
+                    color = TextFieldProperties.shadowColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
         )
@@ -132,7 +113,7 @@ private fun ShadowedOutlinedTextField(
                 .fillMaxWidth()
                 .border(
                     width = Dimension.borderWidthDefault,
-                    color = borderColor,
+                    color = TextFieldProperties.borderColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
                 .onFocusChanged { focusState ->
@@ -141,13 +122,13 @@ private fun ShadowedOutlinedTextField(
             enabled = enabled,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
+                color = TextFieldProperties.textColor(enabled)
             ),
             placeholder = {
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = TextFieldProperties.textColor(enabled),
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -156,15 +137,7 @@ private fun ShadowedOutlinedTextField(
             keyboardActions = keyboardActions,
             maxLines = 1,
             shape = LelloShape.textFieldShape,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            colors = TextFieldProperties.textFieldColorScheme()
         )
     }
 }
