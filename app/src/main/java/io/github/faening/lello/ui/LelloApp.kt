@@ -78,32 +78,32 @@ private fun SetupNavigationItems() : List<NavigationItem> {
         NavigationItem(
             title = homeR.string.home_title,
             route = HomeDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined)
+            selectedIcon = LelloIcons.Filled.Home.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Home.imageVector
         ),
         NavigationItem(
             title = diaryR.string.diary_title,
             route = DiaryDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined)
+            selectedIcon = LelloIcons.Filled.BookOpen.imageVector,
+            unselectedIcon = LelloIcons.Outlined.BookOpen.imageVector
         ),
         NavigationItem(
             title = achievementR.string.achievements_title,
             route = AchievementDestinations.GRAPH,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements)
+            selectedIcon = LelloIcons.Filled.Achievement.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
         ),
         NavigationItem(
             title = medicationR.string.medication_title,
             route = MedicationDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
+            selectedIcon = LelloIcons.Filled.DrugPill.imageVector,
+            unselectedIcon = LelloIcons.Outlined.DrugPill.imageVector
         ),
         NavigationItem(
             title = profileR.string.profile_title,
             route = ProfileDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined)
+            selectedIcon = LelloIcons.Filled.Profile.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Profile.imageVector
         )
     )
 }

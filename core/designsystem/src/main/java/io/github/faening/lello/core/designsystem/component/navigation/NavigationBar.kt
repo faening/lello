@@ -72,7 +72,7 @@ fun RowScope.LelloNavigationBarItem(
             {
                 val textStyle = if (selected) {
                     MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.ExtraBold,
+                        fontWeight = FontWeight.Bold,
                         color = selectedColor,
                         fontSize = MaterialTheme.typography.labelMedium.fontSize
                     )
