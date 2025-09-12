@@ -13,11 +13,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 
@@ -36,7 +38,8 @@ fun LelloImageTopAppBar(
     CenterAlignedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .clip(LelloShape.topAppBarShape),
         title = {
             Image(
                 painter = painterResource(imageResId),

@@ -2,6 +2,7 @@ package io.github.faening.lello.core.designsystem.component.navigation
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +43,14 @@ fun LelloNavigationBar(
     content: @Composable RowScope.() -> Unit,
 ) {
     NavigationBar(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(LelloShape.navigationBarShape)
+            .border(
+                width = Dimension.borderWidthThin,
+                color = MaterialTheme.colorScheme.onSecondary,
+                shape = LelloShape.navigationBarShape
+            ),
         contentColor = NavigationProperties.selectedItemColor(),
         containerColor = NavigationProperties.containerColor(),
         content = content,
@@ -118,9 +127,9 @@ fun CentralNavigationBarItem(
                 .align(Alignment.Center)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
-                    shape = LelloShape.navigationBarShape
+                    shape = LelloShape.navigationBarItemShape
                 )
-                .padding(horizontal = Dimension.paddingComponentMedium, vertical = Dimension.paddingComponentSmall)
+                .padding(horizontal = Dimension.paddingComponentSmall, vertical = Dimension.paddingComponentSmall)
                 .clickable(
                     onClick = { onClick() }
                 ),
@@ -179,7 +188,7 @@ private object NavigationProperties {
      */
     @Composable
     fun containerColor(): Color {
-        return MaterialTheme.colorScheme.background
+        return Color.White
     }
 }
 

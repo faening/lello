@@ -4,6 +4,9 @@
     <style name="Theme.Lello" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.Lello.Splash" parent="Theme.Lello" tools:ignore="ResourceCycle">
-        <item name="android:windowSplashScreenBackground" tools:targetApi="31">#FBD866</item>
+        <item name="android:statusBarColor">@color/yellow_500</item>
+        <item name="android:navigationBarColor">@color/grey_500</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">@color/yellow_500</item>
     </style>
 </resources>

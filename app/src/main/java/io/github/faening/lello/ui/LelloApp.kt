@@ -1,8 +1,16 @@
 package io.github.faening.lello.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -10,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -23,7 +32,6 @@ import io.github.faening.lello.core.designsystem.component.navigation.LelloNavig
 import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.domain.mock.NavigationItemMock
 import io.github.faening.lello.core.model.journal.NavigationItem
 import io.github.faening.lello.feature.achievement.AchievementDestinations
 import io.github.faening.lello.feature.diary.DiaryDestinations
@@ -31,7 +39,6 @@ import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.medication.MedicationDestinations
 import io.github.faening.lello.feature.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
-import io.github.faening.lello.core.designsystem.R as designsystemR
 import io.github.faening.lello.feature.achievement.R as achievementR
 import io.github.faening.lello.feature.diary.R as diaryR
 import io.github.faening.lello.feature.home.R as homeR
@@ -53,7 +60,7 @@ fun LelloApp() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
             if (showBottomBar) {
                 LelloAppBottomBar(
@@ -172,15 +179,66 @@ private fun LelloAppBottomBar(
     }
 }
 
+@Composable
+fun previewNavigationItems(): List<NavigationItem> {
+    return listOf(
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "home",
+            selectedIcon = Icons.Rounded.Home,
+            unselectedIcon = Icons.Rounded.Home
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "diary",
+            selectedIcon = Icons.Rounded.Book,
+            unselectedIcon = Icons.Rounded.Book
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "achievements",
+            selectedIcon = Icons.Rounded.Star,
+            unselectedIcon = Icons.Rounded.Star
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "medication",
+            selectedIcon = Icons.Rounded.Add,
+            unselectedIcon = Icons.Rounded.Add
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "profile",
+            selectedIcon = Icons.Rounded.Person,
+            unselectedIcon = Icons.Rounded.Person
+        )
+    )
+}
+
 @Preview(name = "Light Theme")
 @Composable
 fun LelloAppPreview() {
     LelloTheme(darkTheme = false) {
         val navController = rememberNavController()
-        LelloAppBottomBar(
-            items = NavigationItemMock.list,
-            currentDestination = null,
-            navController = navController
-        )
+        val items = previewNavigationItems()
+
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = {
+                LelloAppBottomBar(
+                    items = items,
+                    currentDestination = null,
+                    navController = navController
+                )
+            }
+        ) { innerPadding ->
+            // Conteúdo simulado para o preview
+            Text(
+                text = "Conteúdo do App",
+                modifier = Modifier.padding(innerPadding),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }

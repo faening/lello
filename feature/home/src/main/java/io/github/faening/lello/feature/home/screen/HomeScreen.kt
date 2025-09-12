@@ -9,7 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,12 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCard
-import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCardConfig
 import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
+import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCard
+import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCardConfig
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.JournalCategoryMock
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
@@ -62,14 +62,15 @@ private fun HomeScreenContainer(
     checkInState: DailyCheckInState,
     onNavigateToModule: (String) -> Unit
 ) {
-    Scaffold(
-        topBar = { HomeScreenTopAppBar() }
-    ) { paddingValues ->
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        HomeScreenTopAppBar()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
+                .padding(Dimension.paddingComponentMedium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             JournalContent(
@@ -85,7 +86,7 @@ private fun HomeScreenContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenTopAppBar() {
-    LelloImageTopAppBar()
+    LelloImageTopAppBar(moodColor = MoodColor.INVERSE)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +102,6 @@ private fun JournalContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = Dimension.spacingRegular)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

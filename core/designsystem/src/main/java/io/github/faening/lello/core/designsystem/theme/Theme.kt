@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -7,9 +8,14 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 val LightColorScheme = lightColorScheme(
     primary = Yellow500,
@@ -20,7 +26,7 @@ val LightColorScheme = lightColorScheme(
 
     secondary = Grey500,
     onSecondary = Grey50,
-    secondaryContainer = Grey100,
+    secondaryContainer = Grey300,
     onSecondaryContainer = Grey700,
 
     tertiary = Yellow600,
@@ -57,7 +63,7 @@ val DarkColorScheme = darkColorScheme(
 
     secondary = Grey900,
     onSecondary = Grey50,
-    secondaryContainer = Grey100,
+    secondaryContainer = Grey300,
     onSecondaryContainer = Grey100,
 
     tertiary = Yellow600,
@@ -124,6 +130,17 @@ fun LelloTheme(
         primary = moodColor.getColor(darkTheme)
     )
 
+    // StatusBar and NavigationBar colors
+    val statusBarColor = Yellow500
+    val navigationBarColor = Yellow500
+    val darkIcons = darkTheme
+
+    SystemBarColors(
+        statusBarColor = statusBarColor,
+        navigationBarColor = navigationBarColor,
+        darkIcons = !darkIcons
+    )
+
     CompositionLocalProvider(LocalMoodColors provides moodColor) {
         MaterialTheme(
             colorScheme = colorScheme,
@@ -162,4 +179,30 @@ object LelloTheme {
         @Composable
         @ReadOnlyComposable
         get() = moodColor.getColor(colorScheme.primary == DarkColorScheme.primary)
+}
+
+@Suppress("DEPRECATION")
+@Composable
+fun SystemBarColors(
+    statusBarColor: Color,
+    navigationBarColor: Color,
+    darkIcons: Boolean
+) {
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        val context = LocalContext.current
+        val window = (context as? Activity)?.window ?: return
+
+        DisposableEffect(statusBarColor, navigationBarColor, darkIcons) {
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = darkIcons
+                isAppearanceLightNavigationBars = darkIcons
+            }
+
+            window.statusBarColor = statusBarColor.toArgb()
+            window.navigationBarColor = navigationBarColor.toArgb()
+
+            onDispose {}
+        }
+    }
 }
