@@ -1,11 +1,11 @@
 [versions]
 activity-compose = "1.10.1"
 agp = "8.12.0"
-android-tools = "31.12.0"
+android-tools = "31.13.0"
 appcompat = "1.7.1"
 accompanist = "0.36.0"
-compose = "2025.07.00"
-core-ktx = "1.16.0"
+compose = "2025.08.01"
+core-ktx = "1.17.0"
 core-splashscreen = "1.0.1"
 coil = "2.7.0"
 datastore = "1.1.7"
@@ -20,7 +20,7 @@ kotlin-datetime = "0.6.1"
 kotlin-ksp = "2.1.10-1.0.31"
 kotlin-serialization-json = "1.9.0"
 lifecycle = "2.9.2"
-material = "1.12.0"
+material = "1.13.0"
 navigation = "2.9.3"
 room = "2.7.2"
 test-annotation = "1.0.1"
@@ -75,6 +75,7 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 
 # Coil
 # https://github.com/coil-kt/coil
