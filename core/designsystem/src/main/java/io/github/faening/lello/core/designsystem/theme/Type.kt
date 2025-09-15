@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.designsystem.theme
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -24,9 +23,7 @@ private val LelloFontFamily = FontFamily(
 @SuppressLint("ComposableNaming")
 @Composable
 fun LelloTypography(): Typography {
-    val isDarkTheme = isSystemInDarkTheme()
-    val textColor = if (isDarkTheme) Grey50 else Grey500
-
+    val textColor = Grey500
     return Typography(
         displayLarge = TextStyle(
             fontFamily = LelloFontFamily,

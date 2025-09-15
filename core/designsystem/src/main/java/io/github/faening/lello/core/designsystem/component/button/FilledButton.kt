@@ -45,7 +45,9 @@ fun LelloFilledButton(
 ) {
 
     Box(
-        modifier = modifier.padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = Dimension.paddingComponentSmall, end = Dimension.paddingComponentSmall)
     ) {
         // Fake Shadow
         Box(

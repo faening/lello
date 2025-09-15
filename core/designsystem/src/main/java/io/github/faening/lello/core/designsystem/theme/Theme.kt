@@ -26,7 +26,7 @@ val LightColorScheme = lightColorScheme(
 
     secondary = Grey500,
     onSecondary = Grey50,
-    secondaryContainer = Grey300,
+    secondaryContainer = Grey100,
     onSecondaryContainer = Grey700,
 
     tertiary = Yellow600,
@@ -63,7 +63,7 @@ val DarkColorScheme = darkColorScheme(
 
     secondary = Grey900,
     onSecondary = Grey50,
-    secondaryContainer = Grey300,
+    secondaryContainer = Grey100,
     onSecondaryContainer = Grey100,
 
     tertiary = Yellow600,
@@ -122,7 +122,7 @@ val LocalMoodColors = staticCompositionLocalOf { MoodColor.DEFAULT }
 @Composable
 fun LelloTheme(
     moodColor: MoodColor = MoodColor.DEFAULT,
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val baseColorScheme = if (darkTheme) DarkColorScheme else LightColorScheme

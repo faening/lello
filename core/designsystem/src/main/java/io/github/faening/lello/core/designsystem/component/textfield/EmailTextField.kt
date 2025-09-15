@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.component.textfield
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,7 +42,7 @@ fun LelloEmailTextField(
     showValidationErrors: Boolean = true,
     imeAction: ImeAction = ImeAction.Done,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     var isFocused by remember { mutableStateOf(false) }
 

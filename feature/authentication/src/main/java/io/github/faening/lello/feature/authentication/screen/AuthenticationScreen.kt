@@ -1,10 +1,10 @@
 package io.github.faening.lello.feature.authentication.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -35,237 +34,153 @@ import io.github.faening.lello.feature.authentication.AuthenticationViewModel
 @Composable
 internal fun AuthenticationScreen(
     viewModel: AuthenticationViewModel,
-    onEmailSignUpClick: () -> Unit = {},
-    onGoogleSignUpClick: () -> Unit = {},
+    onEmailSignInClick: () -> Unit = {},
+    onGoogleSignInClick: () -> Unit = {},
     onPrivacyPolicyClick: () -> Unit = {},
-    onLoginClick: () -> Unit,
+    onEmailSignUpClick: () -> Unit,
     onRecoverAccountClick: () -> Unit = {}
 ) {
-    LelloTheme(moodColor = MoodColor.INVERSE) {
-        AuthenticationScreenContent(
-            onEmailSignUpClick = onEmailSignUpClick,
-            onGoogleSignUpClick = onGoogleSignUpClick,
-            onPrivacyPolicyClick = onPrivacyPolicyClick,
-            onLoginClick = onLoginClick,
-            onRecoverAccountClick = onRecoverAccountClick
-        )
-    }
+    AuthenticationScreenContent(
+        onEmailSignInClick = onEmailSignInClick,
+        onGoogleSignInClick = onGoogleSignInClick,
+        onPrivacyPolicyClick = onPrivacyPolicyClick,
+        onEmailSignUpClick = onEmailSignUpClick,
+        onRecoverAccountClick = onRecoverAccountClick
+    )
 }
 
 @Composable
 private fun AuthenticationScreenContent(
-    onEmailSignUpClick: () -> Unit,
-    onGoogleSignUpClick: () -> Unit,
+    onEmailSignInClick: () -> Unit,
+    onGoogleSignInClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
-    onLoginClick: () -> Unit,
-    onRecoverAccountClick: () -> Unit
+    onEmailSignUpClick: () -> Unit,
+    onRecoverAccountClick: () -> Unit,
+    moodColor: MoodColor = MoodColor.INVERSE
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.inversePrimary)
-    ) {
+    LelloTheme(moodColor) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.inversePrimary)
                 .padding(Dimension.spacingRegular)
         ) {
-            HeaderSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+            // Header Section
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            ) {
+                Image(
+                    painter = painterResource(id = LelloIcons.Logo.resId),
+                    contentDescription = "Logotipo",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(140.dp)
+                )
+            }
 
-            MainSection(
-                onEmailSignUpClick = onEmailSignUpClick,
-                onGoogleSignUpClick = onGoogleSignUpClick,
-                onPrivacyPolicyClick = onPrivacyPolicyClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(2f)
-            )
+            // Main Section
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            ) {
+                Text(
+                    text = "Como você deseja entrar?",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(Dimension.spacingExtraLarge)
+                )
 
-            FooterSection(
-                onLoginClick = onLoginClick,
-                onRecoverAccountClick = onRecoverAccountClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+                LelloFilledButton(
+                    label = "Continuar com e-mail e senha",
+                    onClick = onEmailSignInClick,
+                    icon = LelloIcons.Outlined.Mail.imageVector,
+                    moodColor = moodColor,
+                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
+                )
+                LelloFilledButton(
+                    label = "Continuar com o Google",
+                    onClick = onGoogleSignInClick,
+                    icon = LelloIcons.Filled.Google.imageVector,
+                    moodColor = MoodColor.SECONDARY
+                )
+
+                Text(
+                    text = buildAnnotatedString {
+                        append("Ao continuar, você concorda com os ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Termos de Uso e Política de Privacidade")
+                        }
+                        append(" do Lello.")
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = Dimension.spacingRegular).clickable { onPrivacyPolicyClick() }
+                )
+            }
+
+            // Footer Section
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom,
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            ) {
+                Text(
+                    text = buildAnnotatedString {
+                        append("Não possui uma conta? ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Inscreva-se")
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(Dimension.spacingRegular).clickable { onEmailSignUpClick() }
+                )
+
+                Text(
+                    text = buildAnnotatedString {
+                        append("Não consegue entrar? ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Recuperar conta")
+                        }
+                    },
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable { onRecoverAccountClick() }
+                )
+            }
         }
     }
 }
 
-@Composable
-private fun HeaderSection(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-    ) {
-        Image(
-            painter = painterResource(
-                id = LelloIcons.Logo.resId
-            ),
-            contentDescription = "Logo do Lello",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.size(140.dp)
-        )
-    }
-}
-
-@Composable
-private fun MainSection(
-    onEmailSignUpClick: () -> Unit,
-    onGoogleSignUpClick: () -> Unit,
-    onPrivacyPolicyClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-    ) {
-        Text(
-            text = "Como você deseja criar sua conta?",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(Dimension.spacingExtraLarge)
-        )
-
-        AuthenticationOptionsButtons(
-            onEmailSignUpClick = onEmailSignUpClick,
-            onGoogleSignUpClick = onGoogleSignUpClick
-        )
-
-        TermsAndPrivacyText(
-            onPrivacyPolicyClick = onPrivacyPolicyClick
-        )
-    }
-}
-
-@Composable
-private fun AuthenticationOptionsButtons(
-    onEmailSignUpClick: () -> Unit,
-    onGoogleSignUpClick: () -> Unit
-) {
-    val isPreview = LocalInspectionMode.current
-
-    LelloFilledButton(
-        label = "Continuar com e-mail e senha",
-        onClick = onEmailSignUpClick,
-        icon = LelloIcons.Outlined.Mail.imageVector,
-        moodColor = MoodColor.INVERSE,
-        modifier = Modifier.padding(bottom = Dimension.spacingLarge)
-    )
-
-    LelloFilledButton(
-        label = "Continuar com o Google",
-        onClick = onGoogleSignUpClick,
-        icon = LelloIcons.Filled.Google.imageVector,
-        moodColor = MoodColor.SECONDARY
-    )
-}
-
-@Composable
-private fun TermsAndPrivacyText(
-    onPrivacyPolicyClick: () -> Unit
-) {
-    Text(
-        text = buildAnnotatedString {
-            append("Ao continuar, você concorda com os ")
-            withStyle(
-                style = SpanStyle(fontWeight = FontWeight.Bold)
-            ) {
-                append("Termos de Uso e Política de Privacidade")
-            }
-            append(" do Lello.")
-        },
-        style = MaterialTheme.typography.bodyMedium,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .padding(vertical = Dimension.spacingRegular)
-            .clickable { onPrivacyPolicyClick() }
-    )
-}
-
-@Composable
-private fun FooterSection(
-    onLoginClick: () -> Unit,
-    onRecoverAccountClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom,
-        modifier = modifier
-    ) {
-        LoginAccountLink(
-            onLoginClick = onLoginClick
-        )
-
-        RecoverAccountLink(
-            onRecoverAccountClick = onRecoverAccountClick
-        )
-    }
-}
-
-@Composable
-private fun LoginAccountLink(
-    onLoginClick: () -> Unit
-) {
-    Text(
-        text = buildAnnotatedString {
-            append("Já possui uma conta? ")
-            withStyle(
-                style = SpanStyle(fontWeight = FontWeight.Bold)
-            ) {
-                append("Entrar")
-            }
-        },
-        style = MaterialTheme.typography.bodyLarge,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .padding(Dimension.spacingRegular)
-            .clickable { onLoginClick() }
-    )
-}
-
-@Composable
-private fun RecoverAccountLink(
-    onRecoverAccountClick: () -> Unit
-) {
-    Text(
-        text = buildAnnotatedString {
-            append("Não consegue entrar? ")
-            withStyle(
-                style = SpanStyle(fontWeight = FontWeight.Bold)
-            ) {
-                append("Recuperar conta")
-            }
-        },
-        style = MaterialTheme.typography.bodyLarge,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .clickable { onRecoverAccountClick() }
-    )
-}
-
-@Composable
 @Preview(
-    name = "Authentication Screen",
+    name = "Light Mode",
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun AuthenticationScreenPreview() {
-    LelloTheme(moodColor = MoodColor.INVERSE) {
-        AuthenticationScreenContent(
-            onEmailSignUpClick = {},
-            onGoogleSignUpClick = {},
-            onPrivacyPolicyClick = {},
-            onLoginClick = {},
-            onRecoverAccountClick = {}
-        )
-    }
+@Composable
+fun AuthenticationScreenPreview_LightMode() {
+    AuthenticationScreenContent(
+        onEmailSignInClick = {},
+        onGoogleSignInClick = {},
+        onPrivacyPolicyClick = {},
+        onEmailSignUpClick = {},
+        onRecoverAccountClick = {}
+    )
+}
+
+@Preview(
+    name = "Darl Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun AuthenticationScreenPreview_DarkMode() {
+    AuthenticationScreenContent(
+        onEmailSignInClick = {},
+        onGoogleSignInClick = {},
+        onPrivacyPolicyClick = {},
+        onEmailSignUpClick = {},
+        onRecoverAccountClick = {}
+    )
 }

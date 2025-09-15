@@ -123,20 +123,22 @@ private fun TopAppBarActionButton(
 internal object TopAppBarProperties {
     @Composable
     fun titleTextColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
-        return if (moodColor == MoodColor.INVERSE && isSystemInDarkTheme()) {
-            colorScheme.background
-        } else {
-            colorScheme.onBackground
-        }
+        return colorScheme.onBackground
+//        return if (moodColor == MoodColor.INVERSE || !isSystemInDarkTheme()) {
+//            colorScheme.onBackground
+//        } else {
+//            colorScheme.background
+//        }
     }
 
     @Composable
     fun imageColor(colorScheme: ColorScheme, moodColor: MoodColor): ColorFilter {
-        return if (moodColor == MoodColor.INVERSE && isSystemInDarkTheme()) {
-            ColorFilter.tint(colorScheme.background)
-        } else {
-            ColorFilter.tint(colorScheme.onBackground)
-        }
+        return ColorFilter.tint(colorScheme.onBackground)
+//        return if (moodColor == MoodColor.INVERSE || !isSystemInDarkTheme()) {
+//            ColorFilter.tint(colorScheme.onBackground)
+//        } else {
+//            ColorFilter.tint(colorScheme.background)
+//        }
     }
 
     @Composable
@@ -160,7 +162,7 @@ internal object TopAppBarProperties {
     @Composable
     fun actionButtonBackgroundColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
         val effectiveColorScheme = moodColor.let { mood ->
-            colorScheme.copy(primary = mood.getColor(isSystemInDarkTheme()))
+            colorScheme.copy(primary = mood.getColor(false))
         }
 
         return when (moodColor) {
