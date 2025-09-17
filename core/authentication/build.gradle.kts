@@ -10,6 +10,7 @@ android {
 dependencies {
     api(projects.core.domain)
     api(projects.core.model)
+    api(projects.feature.onboarding)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.authentication)

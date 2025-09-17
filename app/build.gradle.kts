@@ -40,6 +40,9 @@ dependencies {
     api(projects.feature.journal.sleep)
     api(projects.feature.journal.settings)
 
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.authentication)
+
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.datastore.preferences)

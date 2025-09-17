@@ -11,6 +11,7 @@ import androidx.navigation.navigation
 import io.github.faening.lello.feature.authentication.screen.AuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignInScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignUpScreen
+import io.github.faening.lello.feature.onboarding.OnboardingDestinations
 
 object AuthenticationDestinations {
     const val GRAPH = "authentication_graph"
@@ -57,8 +58,11 @@ fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
             EmailSignUpScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.popBackStack() },
-                onSignUpSuccess = { /* Navegar para a próxima tela após o sucesso do cadastro */ },
-                onLoginClick = {}
+                onSignUpSuccess = {
+                    navController.navigate(OnboardingDestinations.GRAPH) {
+                        popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                    }
+                },
             )
         }
 

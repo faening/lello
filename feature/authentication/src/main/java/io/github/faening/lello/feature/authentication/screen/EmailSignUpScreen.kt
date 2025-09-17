@@ -2,12 +2,16 @@ package io.github.faening.lello.feature.authentication.screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,14 +36,12 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.authentication.AuthenticationUiState
 import io.github.faening.lello.feature.authentication.AuthenticationViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun EmailSignUpScreen(
     viewModel: AuthenticationViewModel,
     onBackClick: () -> Unit = {},
-    onSignUpSuccess: () -> Unit = {},
-    onLoginClick: () -> Unit,
+    onSignUpSuccess: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -55,7 +57,6 @@ internal fun EmailSignUpScreen(
         uiState = uiState,
         onBackClick = onBackClick,
         onSignUp = { email, password -> viewModel.signUp(email, password) },
-        onLoginClick = onLoginClick,
         onErrorDismiss = { viewModel.clearError() }
     )
 }
@@ -66,21 +67,23 @@ private fun EmailSignUpScreenContent(
     uiState: AuthenticationUiState,
     onBackClick: () -> Unit,
     onSignUp: (String, String) -> Unit,
-    onLoginClick: () -> Unit,
     onErrorDismiss: () -> Unit,
     moodColor: MoodColor = MoodColor.INVERSE
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val isEmailValid = email.contains("@") && email.isNotBlank()
     val doPasswordsMatch = password == confirmPassword && confirmPassword.isNotBlank()
     val isFormValid = isEmailValid && doPasswordsMatch && password.isNotBlank()
 
-    uiState.errorMessage?.let { errorMessage ->
-        LaunchedEffect(errorMessage) {
-            delay(3000)
+    // Mostrar mensagem de erro na Snackbar
+    LaunchedEffect(uiState.errorMessage) {
+        uiState.errorMessage?.let { errorMessage ->
+            snackbarHostState.showSnackbar(errorMessage)
+            // Limpar a mensagem de erro após exibir
             onErrorDismiss()
         }
     }
@@ -98,42 +101,62 @@ private fun EmailSignUpScreenContent(
                     moodColor = moodColor
                 )
             },
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             containerColor = MaterialTheme.colorScheme.inversePrimary
         ) { paddingValues ->
-            Column(
-                modifier = Modifier.fillMaxSize().padding(paddingValues).padding(Dimension.spacingRegular),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
-                Text(
-                    text = "Preencha os campos abaixo para criar sua conta no Lello",
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-                )
-                LelloEmailTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-                )
-                LelloPasswordTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-                )
-                LelloPasswordTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    label = "Confirmar senha",
-                    placeholder = "Digite sua senha novamente",
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-                )
-                LelloFilledButton(
-                    label = "Criar conta",
-                    onClick = { onSignUp(email, password) },
-                    enabled = isFormValid && !uiState.isLoading,
-                    moodColor = moodColor
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(Dimension.spacingRegular),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Preencha os campos abaixo para criar sua conta no Lello",
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                    )
+                    LelloEmailTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
+                        enabled = !uiState.isLoading
+                    )
+                    LelloPasswordTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
+                        enabled = !uiState.isLoading
+                    )
+                    LelloPasswordTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        label = "Confirmar senha",
+                        placeholder = "Digite sua senha novamente",
+                        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge),
+                        enabled = !uiState.isLoading
+                    )
+                    LelloFilledButton(
+                        label = if (uiState.isLoading) "Criando conta..." else "Criar conta",
+                        onClick = { onSignUp(email, password) },
+                        enabled = isFormValid && !uiState.isLoading,
+                        moodColor = moodColor
+                    )
+                }
+
+                // Indicador de carregamento
+                if (uiState.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
@@ -150,7 +173,6 @@ private fun EmailSignUpScreenPreview_LightMode() {
         uiState = AuthenticationUiState(),
         onBackClick = {},
         onSignUp = { _, _ -> },
-        onLoginClick = {},
         onErrorDismiss = {}
     )
 }
@@ -166,7 +188,6 @@ private fun EmailSignUpScreenPreview_DarkMode() {
         uiState = AuthenticationUiState(),
         onBackClick = {},
         onSignUp = { _, _ -> },
-        onLoginClick = {},
         onErrorDismiss = {}
     )
 }

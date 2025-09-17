@@ -1,8 +1,12 @@
 package io.github.faening.lello.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -19,6 +23,7 @@ import io.github.faening.lello.feature.journal.mood.moodJournalGraph
 import io.github.faening.lello.feature.journal.settings.settingsJournalGraph
 import io.github.faening.lello.feature.journal.sleep.sleepJournalGraph
 import io.github.faening.lello.feature.medication.medicationGraph
+import io.github.faening.lello.feature.onboarding.OnboardingDestinations
 import io.github.faening.lello.feature.onboarding.onboardingGraph
 import io.github.faening.lello.feature.profile.profileGraph
 import io.github.faening.lello.startup.StartupViewModel
@@ -29,12 +34,27 @@ fun LelloNavHost(
     modifier: Modifier = Modifier,
     viewModel: StartupViewModel = hiltViewModel()
 ) {
+
+    val isUserAuthenticated by viewModel.isUserAuthenticated.collectAsState()
     val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
-    val start = AuthenticationDestinations.GRAPH // if (hasSeen) AuthenticationDestinations.GRAPH else AuthenticationDestinations.HOME
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    if (isLoading || isUserAuthenticated == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
+    val startDestination = when {
+        isUserAuthenticated == false -> AuthenticationDestinations.GRAPH
+        !hasSeen -> OnboardingDestinations.GRAPH
+        else -> HomeDestinations.GRAPH
+    }
 
     NavHost(
         navController = navController,
-        startDestination = start,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         // Starting
