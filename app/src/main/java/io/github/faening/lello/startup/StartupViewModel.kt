@@ -23,27 +23,27 @@ class StartupViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading
 
     val hasSeenOnboarding: Flow<Boolean> = useCase.hasSeenOnboarding
+
     private val _isUserAuthenticated = MutableStateFlow<Boolean?>(null)
     val isUserAuthenticated: StateFlow<Boolean?> = _isUserAuthenticated
 
     init {
-        // Verificação única inicial
-        checkAuthState()
+        checkAuthenticationState()
 
-        // Observer para mudanças futuras
         firebaseAuth.addAuthStateListener { auth ->
-            _isUserAuthenticated.value = auth.currentUser != null
+            val isAuthenticated = auth.currentUser != null
+            _isUserAuthenticated.value = isAuthenticated
             _isLoading.value = false
         }
     }
 
-    private fun checkAuthState() {
+    private fun checkAuthenticationState() {
         viewModelScope.launch {
-            // Garantir que o Firebase tenha tempo de inicializar
             try {
                 firebaseAuth.currentUser?.reload()?.await()
-                _isUserAuthenticated.value = firebaseAuth.currentUser != null
-            } catch (e: Exception) {
+                val isAuthenticated = firebaseAuth.currentUser != null
+                _isUserAuthenticated.value = isAuthenticated
+            } catch (_: Exception) {
                 _isUserAuthenticated.value = false
             } finally {
                 delay(1500)
@@ -55,4 +55,3 @@ class StartupViewModel @Inject constructor(
         }
     }
 }
-

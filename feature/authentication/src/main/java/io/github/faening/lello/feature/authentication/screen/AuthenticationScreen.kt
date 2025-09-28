@@ -83,11 +83,11 @@ private fun AuthenticationScreenContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier.fillMaxWidth().weight(1.5f)
             ) {
                 Text(
                     text = "Como você deseja entrar?",
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(Dimension.spacingExtraLarge)
                 )
 
@@ -113,7 +113,7 @@ private fun AuthenticationScreenContent(
                         }
                         append(" do Lello.")
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(vertical = Dimension.spacingRegular).clickable { onPrivacyPolicyClick() }
                 )
@@ -132,7 +132,7 @@ private fun AuthenticationScreenContent(
                             append("Inscreva-se")
                         }
                     },
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(Dimension.spacingRegular).clickable { onEmailSignUpClick() }
                 )
@@ -144,7 +144,7 @@ private fun AuthenticationScreenContent(
                             append("Recuperar conta")
                         }
                     },
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable { onRecoverAccountClick() }
                 )

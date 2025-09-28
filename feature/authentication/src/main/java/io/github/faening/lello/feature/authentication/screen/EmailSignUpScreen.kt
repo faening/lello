@@ -56,7 +56,7 @@ internal fun EmailSignUpScreen(
     EmailSignUpScreenContent(
         uiState = uiState,
         onBackClick = onBackClick,
-        onSignUp = { email, password -> viewModel.signUp(email, password) },
+        onSignUp = { email, password -> viewModel.signUpWithEmailAndPassword(email, password) },
         onErrorDismiss = { viewModel.clearError() }
     )
 }
@@ -118,20 +118,20 @@ private fun EmailSignUpScreenContent(
                 ) {
                     Text(
                         text = "Preencha os campos abaixo para criar sua conta no Lello",
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                     )
                     LelloEmailTextField(
                         value = email,
                         onValueChange = { email = it },
-                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
+                        modifier = Modifier.padding(bottom = Dimension.spacingMedium),
                         enabled = !uiState.isLoading
                     )
                     LelloPasswordTextField(
                         value = password,
                         onValueChange = { password = it },
-                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
+                        modifier = Modifier.padding(bottom = Dimension.spacingMedium),
                         enabled = !uiState.isLoading
                     )
                     LelloPasswordTextField(

@@ -43,8 +43,9 @@ internal fun EmailSignInScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(uiState.isSignUpSuccessful) {
-        if (uiState.isSignUpSuccessful) {
+    // Observar mudanças no estado e navegar quando o sign in for bem-sucedido
+    LaunchedEffect(uiState.isSignInSuccessful) {
+        if (uiState.isSignInSuccessful) {
             onSignInSuccess()
             viewModel.resetSignInState()
         }
@@ -53,7 +54,7 @@ internal fun EmailSignInScreen(
     EmailSignInScreenContent(
         uiState = uiState,
         onBackClick = onBackClick,
-        onLoginClick = viewModel::signInWithEmail,
+        onLoginClick = viewModel::signInWithEmailAndPassword,
         onErrorDismiss = { viewModel.clearError() }
     )
 }
@@ -67,10 +68,11 @@ private fun EmailSignInScreenContent(
     onErrorDismiss: () -> Unit,
     moodColor: MoodColor = MoodColor.INVERSE
 ) {
-    var email by remember { mutableStateOf("") }
+    var email by remember(uiState.savedEmail) { mutableStateOf(uiState.savedEmail ?: "") }
     var password by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
 
+    // Mostrar mensagem de erro na Snackbar
     if (uiState.errorMessage != null) {
         LaunchedEffect(uiState.errorMessage) {
             snackbarHostState.showSnackbar(uiState.errorMessage)
@@ -101,14 +103,14 @@ private fun EmailSignInScreenContent(
             ) {
                 Text(
                     text = "Acesse sua conta e registre seus momentos",
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
                 LelloEmailTextField(
                     value = email,
                     onValueChange = { email = it },
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                    modifier = Modifier.padding(bottom = Dimension.spacingMedium)
                 )
                 LelloPasswordTextField(
                     value = password,
@@ -116,9 +118,9 @@ private fun EmailSignInScreenContent(
                     modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
                 LelloFilledButton(
-                    label = "Entrar",
+                    label = if (uiState.isLoading) "Entrando..." else "Entrar",
                     onClick = { onLoginClick(email, password) },
-                    enabled = !uiState.isLoading,
+                    enabled = email.isNotEmpty() && password.isNotEmpty() && !uiState.isLoading,
                     moodColor = moodColor
                 )
             }

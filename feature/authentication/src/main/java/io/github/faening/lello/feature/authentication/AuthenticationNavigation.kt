@@ -22,9 +22,18 @@ object AuthenticationDestinations {
     const val FORGOT_PASSWORD = "authentication_forgot_password"
 }
 
-fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
+fun NavGraphBuilder.authenticationGraph(
+    navController: NavHostController,
+    isReauthentication: Boolean = false
+) {
+    val startDestination = if (isReauthentication) {
+        AuthenticationDestinations.SIGN_IN_WITH_EMAIL
+    } else {
+        AuthenticationDestinations.HOME
+    }
+
     navigation(
-        startDestination = AuthenticationDestinations.HOME,
+        startDestination = startDestination,
         route = AuthenticationDestinations.GRAPH
     ) {
         composable(AuthenticationDestinations.HOME) { backStackEntry ->
@@ -44,7 +53,11 @@ fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
             EmailSignInScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.popBackStack() },
-                onSignInSuccess = { /* Navegar para a próxima tela após o sucesso do login */ },
+                onSignInSuccess = {
+                    navController.navigate(OnboardingDestinations.GRAPH) {
+                        popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                    }
+                },
             )
         }
 

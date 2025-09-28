@@ -48,6 +48,7 @@ fun LelloNavHost(
 
     val startDestination = when {
         isUserAuthenticated == false -> AuthenticationDestinations.GRAPH
+        isUserAuthenticated == true -> AuthenticationDestinations.GRAPH
         !hasSeen -> OnboardingDestinations.GRAPH
         else -> HomeDestinations.GRAPH
     }
@@ -64,7 +65,10 @@ fun LelloNavHost(
         )
 
         // Authentication
-        authenticationGraph(navController = navController)
+        authenticationGraph(
+            navController = navController,
+            isReauthentication = isUserAuthenticated == true
+        )
 
         // Menu
         homeGraph(navController = navController)
