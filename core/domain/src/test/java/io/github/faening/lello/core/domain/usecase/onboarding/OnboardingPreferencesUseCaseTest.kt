@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.usecase.onboarding
 
-import io.github.faening.lello.core.domain.repository.OnboardingPreferencesRepository
+import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -11,7 +11,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class OnboardingPreferencesUseCaseTest {
-    private val repository: OnboardingPreferencesRepository = mockk()
+    private val repository: OnboardingRepository = mockk()
     private val useCase = OnboardingPreferencesUseCase(repository)
 
     @Test
