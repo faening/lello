@@ -11,6 +11,7 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.model)
     api(projects.feature.onboarding)
+    api(projects.feature.home)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.authentication)

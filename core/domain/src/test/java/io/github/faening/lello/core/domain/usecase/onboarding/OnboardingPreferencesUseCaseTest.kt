@@ -12,7 +12,7 @@ import org.junit.Test
 
 class OnboardingPreferencesUseCaseTest {
     private val repository: OnboardingRepository = mockk()
-    private val useCase = OnboardingPreferencesUseCase(repository)
+    private val useCase = OnboardingUseCase(repository)
 
     @Test
     fun `hasSeenOnboarding should expose repository flow`() = runTest {

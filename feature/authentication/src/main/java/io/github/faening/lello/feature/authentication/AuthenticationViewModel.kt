@@ -5,12 +5,17 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.SignInUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignUpUseCase
+import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
+import io.github.faening.lello.feature.home.HomeDestinations
+import io.github.faening.lello.feature.onboarding.OnboardingDestinations
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,14 +25,18 @@ class AuthenticationViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val saveUserEmailUseCase: SaveUserEmailUseCase,
-    private val getUserEmailUseCase: GetUserEmailUseCase
+    private val getUserEmailUseCase: GetUserEmailUseCase,
+    private val onboardingUseCase: OnboardingUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthenticationUiState())
     val uiState: StateFlow<AuthenticationUiState> = _uiState.asStateFlow()
 
+    private val _hasSeenOnboarding: Flow<Boolean> = MutableStateFlow(false)
+
     init {
         loadSavedEmail()
+        loadOnboardingState()
     }
 
     /**
@@ -37,6 +46,31 @@ class AuthenticationViewModel @Inject constructor(
         viewModelScope.launch {
             val email = getUserEmailUseCase()
             _uiState.update { it.copy(savedEmail = email) }
+        }
+    }
+
+    /**
+     * Carrega o estado de onboarding do usuário e atualiza o fluxo correspondente.
+     */
+    private fun loadOnboardingState() {
+        viewModelScope.launch {
+            onboardingUseCase.hasSeenOnboarding.collect { hasSeen ->
+                // _uiState.update { it.copy(isLoading = false) }
+                (_hasSeenOnboarding as MutableStateFlow).value = hasSeen
+            }
+        }
+    }
+
+    /**
+     * Retorna o próximo destino de navegação com base no estado de onboarding do usuário.
+     *
+     * @return Um fluxo que emite o próximo destino de navegação.
+     */
+    fun getNextDestination(): Flow<String> = _hasSeenOnboarding.map { hasSeenOnboarding ->
+        if (hasSeenOnboarding) {
+            HomeDestinations.GRAPH
+        } else {
+            OnboardingDestinations.GRAPH
         }
     }
 

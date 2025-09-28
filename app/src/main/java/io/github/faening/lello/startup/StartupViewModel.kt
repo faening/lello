@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingPreferencesUseCase
+import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StartupViewModel @Inject constructor(
-    useCase: OnboardingPreferencesUseCase,
+    useCase: OnboardingUseCase,
     private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 

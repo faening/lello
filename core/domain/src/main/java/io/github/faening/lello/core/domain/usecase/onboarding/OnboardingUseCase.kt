@@ -4,7 +4,7 @@ import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class OnboardingPreferencesUseCase @Inject constructor(
+class OnboardingUseCase @Inject constructor(
     private val repository: OnboardingRepository
 ) {
     val hasSeenOnboarding: Flow<Boolean> = repository.hasSeenOnboarding

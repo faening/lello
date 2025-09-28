@@ -2,6 +2,7 @@ package io.github.faening.lello.feature.authentication
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -11,7 +12,8 @@ import androidx.navigation.navigation
 import io.github.faening.lello.feature.authentication.screen.AuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignInScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignUpScreen
-import io.github.faening.lello.feature.onboarding.OnboardingDestinations
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 object AuthenticationDestinations {
     const val GRAPH = "authentication_graph"
@@ -50,12 +52,18 @@ fun NavGraphBuilder.authenticationGraph(
 
         composable(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
+            val coroutineScope = rememberCoroutineScope()
+
             EmailSignInScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.popBackStack() },
                 onSignInSuccess = {
-                    navController.navigate(OnboardingDestinations.GRAPH) {
-                        popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                    coroutineScope.launch {
+                        viewModel.getNextDestination().collectLatest { destination ->
+                            navController.navigate(destination) {
+                                popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                            }
+                        }
                     }
                 },
             )
@@ -68,12 +76,18 @@ fun NavGraphBuilder.authenticationGraph(
 
         composable(AuthenticationDestinations.SIGN_UP) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
+            val coroutineScope = rememberCoroutineScope()
+
             EmailSignUpScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.popBackStack() },
                 onSignUpSuccess = {
-                    navController.navigate(OnboardingDestinations.GRAPH) {
-                        popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                    coroutineScope.launch {
+                        viewModel.getNextDestination().collectLatest { destination ->
+                            navController.navigate(destination) {
+                                popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                            }
+                        }
                     }
                 },
             )
