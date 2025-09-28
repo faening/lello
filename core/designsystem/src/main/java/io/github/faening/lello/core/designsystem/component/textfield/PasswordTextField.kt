@@ -162,14 +162,14 @@ private fun ShadowedOutlinedTextField(
                     onFocusChanged(focusState.isFocused)
                 },
             enabled = enabled,
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
+            textStyle = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Bold,
                 color = TextFieldProperties.textColor(enabled)
             ),
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyLarge.copy(
+                    style = MaterialTheme.typography.bodyMedium.copy(
                         color = TextFieldProperties.textColor(enabled),
                         fontWeight = FontWeight.Bold
                     )

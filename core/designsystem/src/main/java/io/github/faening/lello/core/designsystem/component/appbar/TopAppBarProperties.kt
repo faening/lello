@@ -40,7 +40,7 @@ internal fun TopAppBarTitle(
                 ?: "",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = it.style ?: MaterialTheme.typography.bodyLarge.copy(
+            style = it.style ?: MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Bold
             ),
             color = TopAppBarProperties.titleTextColor(colorScheme, moodColor)
