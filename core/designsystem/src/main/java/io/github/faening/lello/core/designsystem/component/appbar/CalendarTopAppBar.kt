@@ -122,7 +122,7 @@ private fun CalendarTopAppBarTitle(
                 Locale("pt", "BR"))
             ),
             color = TopAppBarProperties.titleTextColor(colorScheme, moodColor),
-            style = MaterialTheme.typography.bodyLarge.copy(
+            style = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Bold
             )
         )
