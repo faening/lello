@@ -1,6 +1,8 @@
 package io.github.faening.lello.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Fingerprint
+import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.MoreVert
@@ -30,6 +32,7 @@ object LelloIcons {
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_outlined)
         val Calendar = LelloIcon(designsystemR.drawable.ic_outlined_calendar)
         val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
+        val Fingerprint = Icons.Outlined.Fingerprint
         val Home = LelloIcon(designsystemR.drawable.ic_home_outlined)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_outlined)
         val Mail = LelloIcon(designsystemR.drawable.ic_mail_outlined)
@@ -40,6 +43,7 @@ object LelloIcons {
         val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_filled)
         val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_filled)
+        val Fingerprint = Icons.Filled.Fingerprint
         val Google = LelloIcon(designsystemR.drawable.ic_google_filled)
         val Home = LelloIcon(designsystemR.drawable.ic_home_filled)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_filled)

@@ -38,6 +38,7 @@ fun LelloNavHost(
     val isUserAuthenticated by viewModel.isUserAuthenticated.collectAsState()
     val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
     val isLoading by viewModel.isLoading.collectAsState()
+    val canUseBiometricAuth by viewModel.canUseBiometricAuth.collectAsState()
 
     if (isLoading || isUserAuthenticated == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -67,7 +68,8 @@ fun LelloNavHost(
         // Authentication
         authenticationGraph(
             navController = navController,
-            isReauthentication = isUserAuthenticated == true
+            isReauthentication = isUserAuthenticated == true,
+            canUseBiometricAuth = canUseBiometricAuth
         )
 
         // Menu

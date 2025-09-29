@@ -4,6 +4,7 @@ agp = "8.12.0"
 android-tools = "31.13.0"
 appcompat = "1.7.1"
 accompanist = "0.36.0"
+biometric = "1.4.0-alpha02"
 compose = "2025.08.01"
 core-ktx = "1.17.0"
 core-splashscreen = "1.0.1"
@@ -36,6 +37,10 @@ mockk = "1.14.5"
 [libraries]
 androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+
+# Biometric
+# https://developer.android.com/jetpack/androidx/releases/biometric?hl=pt-br#kts
+androidx-biometric = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometric" }
 
 # Core
 # https://developer.android.com/jetpack/androidx/releases/core?hl=pt-br

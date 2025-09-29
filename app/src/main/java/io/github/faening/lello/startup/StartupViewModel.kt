@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
+import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,20 +17,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StartupViewModel @Inject constructor(
-    useCase: OnboardingUseCase,
+    private val onboardingUseCase: OnboardingUseCase,
+    private val biometricAuthenticationUseCase: BiometricAuthenticationUseCase,
+    private val getUserEmailUseCase: GetUserEmailUseCase,
     private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    val hasSeenOnboarding: Flow<Boolean> = useCase.hasSeenOnboarding
+    val hasSeenOnboarding: Flow<Boolean> = onboardingUseCase.hasSeenOnboarding
 
     private val _isUserAuthenticated = MutableStateFlow<Boolean?>(null)
     val isUserAuthenticated: StateFlow<Boolean?> = _isUserAuthenticated
 
+    private val _canUseBiometricAuth = MutableStateFlow(false)
+    val canUseBiometricAuth: StateFlow<Boolean> = _canUseBiometricAuth
+
     init {
         checkAuthenticationState()
+        checkBiometricAvailability()
 
         firebaseAuth.addAuthStateListener { auth ->
             val isAuthenticated = auth.currentUser != null
@@ -51,6 +59,26 @@ class StartupViewModel @Inject constructor(
                     _isUserAuthenticated.value = false
                 }
                 _isLoading.value = false
+            }
+        }
+    }
+
+    /**
+     * Verifica se a autenticação biométrica está disponível e se há um email salvo.
+     */
+    private fun checkBiometricAvailability() {
+        viewModelScope.launch {
+            runCatching {
+                // Verifica se o hardware suporta biometria
+                val isBiometricAvailable = biometricAuthenticationUseCase.isBiometricAvailable()
+
+                // Verifica se existe um email salvo
+                val savedEmail = getUserEmailUseCase()
+
+                // Só habilita biometria se ambas condições forem verdadeiras
+                _canUseBiometricAuth.value = isBiometricAvailable && !savedEmail.isNullOrEmpty()
+            }.onFailure {
+                _canUseBiometricAuth.value = false
             }
         }
     }

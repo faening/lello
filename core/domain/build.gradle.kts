@@ -11,6 +11,8 @@ dependencies {
     api(projects.core.model)
     api(projects.core.designsystem)
 
+    implementation(libs.androidx.biometric)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)

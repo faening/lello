@@ -18,6 +18,7 @@ class AndroidApplicationComposeUIConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("implementation", libs.findLibrary("accompanist-systemuicontroller").get())
+                add("implementation", libs.findLibrary("androidx-appcompat").get())
             }
 
             extensions.configure<ApplicationExtension> {

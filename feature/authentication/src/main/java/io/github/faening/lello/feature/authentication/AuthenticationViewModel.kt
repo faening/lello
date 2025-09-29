@@ -1,8 +1,10 @@
 package io.github.faening.lello.feature.authentication
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignInUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignUpUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
@@ -22,6 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
+    private val biometricAuthenticationUseCase: BiometricAuthenticationUseCase,
     private val signInUseCase: SignInUseCase,
     private val signUpUseCase: SignUpUseCase,
     private val saveUserEmailUseCase: SaveUserEmailUseCase,
@@ -33,6 +36,10 @@ class AuthenticationViewModel @Inject constructor(
     val uiState: StateFlow<AuthenticationUiState> = _uiState.asStateFlow()
 
     private val _hasSeenOnboarding: Flow<Boolean> = MutableStateFlow(false)
+
+    fun isBiometricAvailable(): Boolean {
+        return biometricAuthenticationUseCase.isBiometricAvailable()
+    }
 
     init {
         loadSavedEmail()
@@ -146,6 +153,43 @@ class AuthenticationViewModel @Inject constructor(
      */
     fun clearError() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
+    }
+
+    /**
+     * Autentica o usuário usando biometria.
+     *
+     * @param activity FragmentActivity necessária para o BiometricPrompt
+     */
+    fun authenticateWithBiometric(activity: FragmentActivity) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            val result = biometricAuthenticationUseCase.authenticate(
+                activity = activity,
+                title = "Use sua digital para continuar",
+                subtitle = "",
+                negativeButtonText = "Cancelar"
+            )
+
+            when (result) {
+                is AuthResult.Success -> {
+                    // Se tiver email salvo, faça login automático com ele
+                    _uiState.value.savedEmail?.let { email ->
+                        // Aqui você pode fazer login automático se tiver o token salvo
+                        // ou apenas marcar como autenticado com sucesso
+                        _uiState.update { it.copy(isLoading = false, isSignInSuccessful = true) }
+                    } ?: _uiState.update {
+                        it.copy(isLoading = false, errorMessage = "Email não encontrado para login biométrico")
+                    }
+                }
+
+                is AuthResult.Error -> {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = result.message) }
+                }
+
+                else -> {}
+            }
+        }
     }
 }
 

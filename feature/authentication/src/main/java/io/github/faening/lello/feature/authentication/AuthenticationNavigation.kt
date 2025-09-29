@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import io.github.faening.lello.feature.authentication.screen.AuthenticationScreen
+import io.github.faening.lello.feature.authentication.screen.BiometricAuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignInScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignUpScreen
 import kotlinx.coroutines.flow.collectLatest
@@ -18,18 +19,24 @@ import kotlinx.coroutines.launch
 object AuthenticationDestinations {
     const val GRAPH = "authentication_graph"
     const val HOME = "authentication_home"
+    const val BIOMETRIC_AUTHENTICATION = "authentication_biometric"
     const val SIGN_IN_WITH_EMAIL = "authentication_sign_in_with_email"
     const val SIGN_IN_WITH_GOOGLE = "authentication_sign_in_with_google"
-    const val SIGN_UP = "authentication_login_with_mail"
+    const val SIGN_UP_WITH_EMAIL = "authentication_sign_up_with_email"
     const val FORGOT_PASSWORD = "authentication_forgot_password"
 }
 
 fun NavGraphBuilder.authenticationGraph(
     navController: NavHostController,
-    isReauthentication: Boolean = false
+    isReauthentication: Boolean = false,
+    canUseBiometricAuth: Boolean = true
 ) {
     val startDestination = if (isReauthentication) {
-        AuthenticationDestinations.SIGN_IN_WITH_EMAIL
+        if (canUseBiometricAuth) {
+            AuthenticationDestinations.BIOMETRIC_AUTHENTICATION
+        } else {
+            AuthenticationDestinations.SIGN_IN_WITH_EMAIL
+        }
     } else {
         AuthenticationDestinations.HOME
     }
@@ -45,8 +52,31 @@ fun NavGraphBuilder.authenticationGraph(
                 onEmailSignInClick = { navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) },
                 onGoogleSignInClick = {},
                 onPrivacyPolicyClick = {},
-                onEmailSignUpClick = { navController.navigate(AuthenticationDestinations.SIGN_UP) },
+                onEmailSignUpClick = { navController.navigate(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) },
                 onRecoverAccountClick = {}
+            )
+        }
+
+        composable(AuthenticationDestinations.BIOMETRIC_AUTHENTICATION) { backStackEntry ->
+            val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
+            val coroutineScope = rememberCoroutineScope()
+
+            BiometricAuthenticationScreen(
+                viewModel = viewModel,
+                onNavigateToEmailSignIn = {
+                    navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) {
+                        popUpTo(AuthenticationDestinations.BIOMETRIC_AUTHENTICATION) { inclusive = true }
+                    }
+                },
+                onSignInSuccess = {
+                    coroutineScope.launch {
+                        viewModel.getNextDestination().collectLatest { destination ->
+                            navController.navigate(destination) {
+                                popUpTo(AuthenticationDestinations.GRAPH) { inclusive = true }
+                            }
+                        }
+                    }
+                }
             )
         }
 
@@ -74,7 +104,7 @@ fun NavGraphBuilder.authenticationGraph(
 
         }
 
-        composable(AuthenticationDestinations.SIGN_UP) { backStackEntry ->
+        composable(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             val coroutineScope = rememberCoroutineScope()
 
