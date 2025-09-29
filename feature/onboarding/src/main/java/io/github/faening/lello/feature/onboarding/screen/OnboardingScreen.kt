@@ -202,7 +202,7 @@ private fun OnboardingPageView(
         Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         Text(
             text = page.description,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center
         )
 
@@ -215,10 +215,9 @@ private fun OnboardingPageView(
                     checked = checked,
                     onCheckedChange = onCheckedChange
                 )
-                // Spacer(modifier = Modifier.width(Dimension.ExtraSmall))
                 Text(
                     text = "Não mostrar mais a tela de boas-vindas",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
