@@ -84,14 +84,14 @@ fun CheckInDailyCard(
                 ) {
                     Text(
                         text = "Check-In diário",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = Grey500
                     )
                     Spacer(modifier = Modifier.height(Dimension.spacingSmall))
 
                     Text(
                         text = subtitle,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = Grey500
                     )
                     Spacer(modifier = Modifier.height(Dimension.spacingRegular))

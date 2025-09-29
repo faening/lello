@@ -25,7 +25,7 @@ object LelloShape {
     val pillShape = RoundedCornerShape(Dimension.borderRadiusMedium)
 
     // AppBars
-    val topAppBarShape = RoundedCornerShape(bottomStart = Dimension.borderRadiusLarge, bottomEnd = Dimension.borderRadiusLarge)
+    val topAppBarShape = RoundedCornerShape(bottomStart = Dimension.borderRadiusRound, bottomEnd = Dimension.borderRadiusRound)
     val navigationBarShape = RoundedCornerShape(topStart = Dimension.borderRadiusLarge, topEnd = Dimension.borderRadiusLarge)
     val navigationBarItemShape = RoundedCornerShape(Dimension.borderRadiusRound)
 

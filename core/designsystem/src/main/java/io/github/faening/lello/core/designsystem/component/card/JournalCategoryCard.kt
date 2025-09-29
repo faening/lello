@@ -66,9 +66,7 @@ fun JournalCategoryCard(
         )
 
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick() },
+            modifier = Modifier.fillMaxWidth().clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = configuration.cardBackgroundColor),
             shape = RoundedCornerShape(Dimension.cardRadiusLarge),
             border = BorderStroke(
@@ -99,7 +97,7 @@ fun JournalCategoryCard(
                         // Título
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleLarge,
+                            style = MaterialTheme.typography.titleMedium,
                             color = configuration.titleColor,
                             maxLines = 1,
                             modifier = Modifier.weight(1f)
@@ -121,7 +119,7 @@ fun JournalCategoryCard(
                             ) {
                                 Text(
                                     text = badgeText,
-                                    style = MaterialTheme.typography.labelMedium,
+                                    style = MaterialTheme.typography.labelSmall,
                                     color = configuration.badgeTextColor
                                 )
                             }
@@ -132,7 +130,7 @@ fun JournalCategoryCard(
                     // Descrição
                     Text(
                         text = description,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = configuration.textColor,
                         maxLines = 2,
                     )
