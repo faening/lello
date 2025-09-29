@@ -133,6 +133,7 @@ private fun ShadowedOutlinedTextField(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(Dimension.heightTextFieldDefault)
                 .border(
                     width = Dimension.borderWidthDefault,
                     color = TextFieldProperties.borderColor(enabled, isFocused),
