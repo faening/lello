@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
@@ -18,6 +19,7 @@ import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.SocialOption
+import io.github.faening.lello.feature.journal.mood.model.MoodColorMapping
 import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -41,8 +43,8 @@ class MoodJournalViewModel @Inject constructor(
     private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
-    private val _currentMood = MutableStateFlow(MoodJournalColorScheme.JOYFUL)
-    val currentMood: StateFlow<MoodJournalColorScheme> = _currentMood
+    private val _currentMood = MutableStateFlow(MoodColor.DEFAULT)
+    val currentMood: StateFlow<MoodColor> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryDateTime: StateFlow<String> = _entryDateTime
@@ -103,8 +105,8 @@ class MoodJournalViewModel @Inject constructor(
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
-    fun updateMood(mood: MoodJournalColorScheme) {
-        _currentMood.value = mood
+    fun updateMood(moodColor: MoodColor) {
+        _currentMood.value = moodColor
     }
 
     /**
@@ -185,7 +187,7 @@ class MoodJournalViewModel @Inject constructor(
     private fun buildMoodJournal(): MoodJournal {
         val millis = (_entryDateTime.value ?: LocalDateTime.now()).toEpochMillis()
         return MoodJournal(
-            mood = currentMood.value.toMoodType(),
+            mood = getMoodTypeFromMoodColor(currentMood.value),
             reflection = reflection.value,
             emotionOptions = emotionOptions.value.filter { it.selected },
             climateOptions = climateOptions.value.filter { it.selected },
@@ -194,6 +196,10 @@ class MoodJournalViewModel @Inject constructor(
             healthOptions = healthOptions.value.filter { it.selected },
             createdAt = millis,
         )
+    }
+
+    private fun getMoodTypeFromMoodColor(moodColor: MoodColor): MoodType {
+        return MoodColorMapping.moodMap[moodColor]?.moodType ?: MoodType.JOYFUL
     }
 
     private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {

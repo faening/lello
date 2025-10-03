@@ -92,7 +92,7 @@ fun LelloFilledButton(
                 text = label,
                 fontWeight = FontWeight.Bold,
                 color = ButtonProperties.contentColor(enabled, moodColor),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyLarge
             )
             if (icon != null && invertIcon) {
                 Icon(

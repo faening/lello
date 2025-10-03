@@ -59,7 +59,7 @@ internal fun MoodJournalDetailsScreen(
     val socialOptions by viewModel.socialOptions.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(moodColor = mood.colorScheme) {
+    LelloTheme(moodColor = mood) {
         MoodJournalDetailsContainer(
             entryTime = entryTime,
             healthOptions = healthOptions,

@@ -45,7 +45,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         // Step 2: Select an emotion to describe the user's mood.
         composable(MoodJournalDestinations.EMOTION) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
-            val mood by viewModel.currentMood.collectAsState()
+            val moodColor by viewModel.currentMood.collectAsState()
 
             MoodJournalEmotionScreen(
                 viewModel = viewModel,
@@ -54,11 +54,10 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenEmotionOptionSettings = {
                     navController.navigate(
-                        SettingsJournalDestinations.listRoute(
-                            JournalOptionType.EMOTION,
-                            mood.colorScheme
-                        )
-                    )
+                        route = SettingsJournalDestinations.listRoute(
+                        type = JournalOptionType.EMOTION,
+                        scheme = moodColor
+                    ))
                 }
             )
         }
@@ -66,7 +65,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         // Step 3: Additional details about the user's mood.
         composable(MoodJournalDestinations.DETAILS) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
-            val mood by viewModel.currentMood.collectAsState()
+            val moodColor by viewModel.currentMood.collectAsState()
 
             MoodJournalDetailsScreen(
                 viewModel = viewModel,
@@ -75,35 +74,31 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
                 onFinish = { navController.navigate(MoodJournalDestinations.SUMMARY) },
                 onOpenHealthOptionSettings = {
                     navController.navigate(
-                        SettingsJournalDestinations.listRoute(
-                            JournalOptionType.HEALTH,
-                            mood.colorScheme
-                        )
-                    )
+                        route = SettingsJournalDestinations.listRoute(
+                        type = JournalOptionType.HEALTH,
+                        scheme = moodColor
+                    ))
                 },
                 onOpenClimateOptionSettings = {
                     navController.navigate(
-                        SettingsJournalDestinations.listRoute(
-                            JournalOptionType.CLIMATE,
-                            mood.colorScheme
-                        )
-                    )
+                        route = SettingsJournalDestinations.listRoute(
+                        type = JournalOptionType.CLIMATE,
+                        scheme = moodColor
+                    ))
                 },
                 onOpenLocationOptionSettings = {
                     navController.navigate(
-                        SettingsJournalDestinations.listRoute(
-                            JournalOptionType.LOCATION,
-                            mood.colorScheme
-                        )
-                    )
+                        route = SettingsJournalDestinations.listRoute(
+                        type = JournalOptionType.LOCATION,
+                        scheme = moodColor
+                    ))
                 },
                 onOpenSocialOptionSettings = {
                     navController.navigate(
-                        SettingsJournalDestinations.listRoute(
-                            JournalOptionType.SOCIAL,
-                            mood.colorScheme
-                        )
-                    )
+                        route = SettingsJournalDestinations.listRoute(
+                        type = JournalOptionType.SOCIAL,
+                        scheme = moodColor
+                    ))
                 },
             )
         }

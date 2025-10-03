@@ -13,8 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
-import io.github.faening.lello.core.designsystem.component.card.DiaryCard
-import io.github.faening.lello.core.designsystem.component.card.DiaryCardProperties
+import io.github.faening.lello.core.designsystem.component.card.LelloDiaryCard
+import io.github.faening.lello.core.designsystem.component.card.DiaryCardOptions
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.util.isSameDay
@@ -126,8 +126,8 @@ private fun DiaryContent(
                 val reward by produceState(initialValue = 0, journalId) {
                     value = getRewardAmount(RewardOrigin.SLEEP_JOURNAL, journalId)
                 }
-                DiaryCard(
-                    properties = DiaryCardProperties.SleepJournal,
+                LelloDiaryCard(
+                    properties = DiaryCardOptions.SleepJournal,
                     dateTime = Date(journal.createdAt),
                     reward = reward
                 )
@@ -142,8 +142,8 @@ private fun DiaryContent(
                 val reward by produceState(initialValue = 0, journalId) {
                     value = getRewardAmount(RewardOrigin.MEAL_JOURNAL, journalId)
                 }
-                DiaryCard(
-                    properties = DiaryCardProperties.MealJournal,
+                LelloDiaryCard(
+                    properties = DiaryCardOptions.MealJournal,
                     dateTime = Date(journal.createdAt),
                     reward = reward
                 )
@@ -158,14 +158,14 @@ private fun DiaryContent(
                 val reward by produceState(initialValue = 0, journalId) {
                     value = getRewardAmount(RewardOrigin.MOOD_JOURNAL, journalId)
                 }
-                DiaryCard(
+                LelloDiaryCard(
                     properties = when (journal.mood.name) { // ou outro critério para icone
-                        "SERENE" -> DiaryCardProperties.MoodJournalSerene
-                        "JOYFUL" -> DiaryCardProperties.MoodJournalJoyful
-                        "BALANCED" -> DiaryCardProperties.MoodJournalBalanced
-                        "TROUBLED" -> DiaryCardProperties.MoodJournalTroubled
-                        "OVERWHELMED" -> DiaryCardProperties.MoodJournalOverwhelmed
-                        else -> DiaryCardProperties.MoodJournalBalanced
+                        "SERENE" -> DiaryCardOptions.MoodJournalSerene
+                        "JOYFUL" -> DiaryCardOptions.MoodJournalJoyful
+                        "BALANCED" -> DiaryCardOptions.MoodJournalBalanced
+                        "TROUBLED" -> DiaryCardOptions.MoodJournalTroubled
+                        "OVERWHELMED" -> DiaryCardOptions.MoodJournalOverwhelmed
+                        else -> DiaryCardOptions.MoodJournalBalanced
                     },
                     dateTime = Date(journal.createdAt),
                     reward = reward

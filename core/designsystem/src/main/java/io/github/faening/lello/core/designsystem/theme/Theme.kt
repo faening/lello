@@ -130,15 +130,13 @@ fun LelloTheme(
         primary = moodColor.getColor(darkTheme)
     )
 
-    // StatusBar and NavigationBar colors
-    val statusBarColor = Yellow500
-    val navigationBarColor = Yellow500
-    val darkIcons = darkTheme
+    // Define as cores da status bar e navigation bar para corresponder ao moodColor
+    val moodColorValue = moodColor.getColor(darkTheme)
 
     SystemBarColors(
-        statusBarColor = statusBarColor,
-        navigationBarColor = navigationBarColor,
-        darkIcons = !darkIcons
+        statusBarColor = moodColorValue,
+        navigationBarColor = moodColorValue,
+        darkIcons = !darkTheme
     )
 
     CompositionLocalProvider(LocalMoodColors provides moodColor) {

@@ -23,6 +23,7 @@ object LelloShape {
     val buttonShape = RoundedCornerShape(Dimension.borderRadiusMedium)
     val fabShape = RoundedCornerShape(Dimension.borderRadiusMedium)
     val pillShape = RoundedCornerShape(Dimension.borderRadiusMedium)
+    val badge = RoundedCornerShape(Dimension.borderRadiusLarge)
 
     // AppBars
     val topAppBarShape = RoundedCornerShape(bottomStart = Dimension.borderRadiusRound, bottomEnd = Dimension.borderRadiusRound)

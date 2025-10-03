@@ -32,6 +32,6 @@ object PillProperties {
     @Composable
     fun borderColor(selected: Boolean): Color = when {
         !selected -> MaterialTheme.colorScheme.outlineVariant
-        else -> MaterialTheme.colorScheme.outline
+        else -> Color.Transparent
     }
 }

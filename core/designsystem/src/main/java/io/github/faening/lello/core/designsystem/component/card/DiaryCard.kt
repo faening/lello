@@ -1,23 +1,24 @@
 package io.github.faening.lello.core.designsystem.component.card
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,184 +28,320 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.R
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.Grey100
-import io.github.faening.lello.core.designsystem.theme.Grey500
-import io.github.faening.lello.core.designsystem.theme.Grey700
+import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import java.util.Calendar
 import java.util.Date
 
+/**
+ * Exibe um card representando um diário (sono, alimentação, humor, medicamentos), mostrando o ícone, título, horário
+ * do último preenchimento e a recompensa em moedas.
+ *
+ * @param dateTime Data e hora do último preenchimento do diário.
+ * @param reward Quantidade de moedas recebidas pelo último preenchimento do diário.
+ * @param properties Propriedades específicas do tipo de diário (ícone e título).
+ * @param onClick Ação a ser executada ao clicar no card.
+ * @param modifier Modifier opcional para customização do layout.
+ */
 @Composable
-fun DiaryCard(
-    properties: DiaryCardProperties,
+fun LelloDiaryCard(
     dateTime: Date,
     reward: Int = 0,
-    modifier: Modifier = Modifier
+    properties: DiaryCardOptions,
+    onClick: () -> Unit = {},
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     val formattedTime = dateTime.let {
-        val cal = Calendar.getInstance().apply { time = it }
-        "%02dh %02dm".format(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+        val calendar = Calendar.getInstance().apply { time = it }
+        "%02dh %02dm".format(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
     }
 
     Box(
-        modifier = modifier.padding(bottom = Dimension.spacingSmall, end = Dimension.spacingSmall)
+        modifier.padding(end = Dimension.spacingSmall, bottom = Dimension.spacingSmall)
     ) {
         // Fake Shadow
         Box(
-            modifier = Modifier
+            Modifier
                 .matchParentSize()
-                .offset(x = Dimension.spacingSmall, y = Dimension.spacingSmall)
+                .offset(Dimension.spacingSmall, Dimension.spacingSmall)
                 .background(
-                    color = Grey700.copy(alpha = Dimension.alphaStateDisabled),
-                    shape = RoundedCornerShape(Dimension.cardRadiusLarge)
+                    color = DiaryCardDefaults.shadowColor(),
+                    shape = LelloShape.cardShape
                 )
         )
 
-        CardContainer(
-            formattedTime = formattedTime,
-            reward = reward,
-            properties = properties
-        )
-    }
-}
-
-@Composable
-private fun CardContainer(
-    formattedTime: String,
-    reward: Int,
-    properties: DiaryCardProperties
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(Dimension.cardRadiusLarge),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(
-            width = Dimension.cardBorderWidth,
-            color = Grey500
-        )
-    ) {
-        Row(
-            modifier = Modifier.padding(Dimension.spacingRegular),
-            verticalAlignment = Alignment.CenterVertically
+        Card(
+            modifier = Modifier.fillMaxWidth().clickable { onClick() },
+            shape = LelloShape.cardShape,
+            colors = DiaryCardDefaults.containerColor(),
+            elevation = DiaryCardDefaults.elevation(),
+            border = BorderStroke(
+                width = Dimension.cardBorderWidth,
+                color = DiaryCardDefaults.borderColor()
+            )
         ) {
-            // Icone
-            Image(
-                painter = painterResource(id = properties.iconRes),
-                contentDescription = "Diary Icon",
-                modifier = Modifier.size(60.dp)
-            )
-            Spacer(modifier = Modifier.width(Dimension.spacingRegular))
-
-            Column(
-                modifier = Modifier.weight(1f)
+            Row(
+                modifier = Modifier.padding(Dimension.spacingRegular),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Titulo
-                Text(
-                    text = properties.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Grey500
+                // Icone
+                Image(
+                    painter = painterResource(properties.iconRes),
+                    contentDescription = "Ícone do diário",
+                    modifier = Modifier.size(Dimension.iconSizeHuge)
                 )
-                Spacer(modifier = Modifier.height(Dimension.spacingSmall))
+                Spacer(Modifier.width(Dimension.spacingRegular))
 
-                Row {
-                    // Hora
+                Column(Modifier.weight(1f)) {
                     Text(
-                        text = formattedTime,
+                        text = properties.title,
                         style = MaterialTheme.typography.titleLarge,
-                        color = Grey100
+                        color = DiaryCardDefaults.primaryTextColor(),
+                        modifier = Modifier.padding(bottom = Dimension.spacingSmall)
                     )
-                    Spacer(modifier = Modifier.width(Dimension.spacingRegular))
 
-                    // Recompensa
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_coin),
-                        contentDescription = "Moeda",
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-
-                    Text(
-                        text = "$reward",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Grey100
-                    )
+                    Row {
+                        Text(
+                            text = formattedTime,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = DiaryCardDefaults.secondaryTextColor(),
+                            modifier = Modifier.padding(end = Dimension.spacingRegular)
+                        )
+                        Image(
+                            painter = painterResource(LelloIcons.Graphic.Coin.resId),
+                            contentDescription = "Moeda",
+                            modifier = Modifier.size(Dimension.iconSizeSmall)
+                        )
+                        Spacer(modifier = Modifier.width(Dimension.spacingExtraSmall))
+                        Text(
+                            text = "$reward",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = DiaryCardDefaults.secondaryTextColor(),
+                        )
+                    }
                 }
-            }
 
-            // Arrow Icon
-            Image(
-                painter = painterResource(id = R.drawable.ic_chevron_right),
-                contentDescription = "Arrow Icon",
-                modifier = Modifier.size(24.dp)
-            )
+                Image(
+                    painter = painterResource(LelloIcons.ChevronRight.resId),
+                    contentDescription = "Arrow Icon",
+                    modifier = Modifier.size(Dimension.iconSizeDefault)
+                )
+            }
         }
     }
 }
 
-sealed class DiaryCardProperties(
+sealed class DiaryCardOptions(
     val iconRes: Int,
     val title: String
 ) {
-    object SleepJournal : DiaryCardProperties(
-        iconRes = R.drawable.ic_journal_sleep,
+    object SleepJournal : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalSleep.resId,
         title = "Diário de Sono"
     )
 
-    object MealJournal : DiaryCardProperties(
-        iconRes = R.drawable.ic_journal_meal,
+    object MealJournal : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMeal.resId,
         title = "Diário de Alimentação"
     )
 
-    object MedicationJournal : DiaryCardProperties(
-        iconRes = R.drawable.ic_journal_medication,
+    object MedicationJournal : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMedication.resId,
         title = "Diário de Medicamentos"
     )
 
-    object MoodJournalSerene : DiaryCardProperties(
-        iconRes = R.drawable.ic_capy_serene,
+    object MoodJournalSerene : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMoodSerene.resId,
         title = "Diário de Humor"
     )
 
-    object MoodJournalJoyful : DiaryCardProperties(
-        iconRes = R.drawable.ic_capy_joyful,
+    object MoodJournalJoyful : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMoodJoyful.resId,
         title = "Diário de Humor"
     )
 
-    object MoodJournalBalanced : DiaryCardProperties(
-        iconRes = R.drawable.ic_capy_balanced,
+    object MoodJournalBalanced : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMoodBalanced.resId,
         title = "Diário de Humor"
     )
 
-    object MoodJournalTroubled : DiaryCardProperties(
-        iconRes = R.drawable.ic_capy_troubled,
+    object MoodJournalTroubled : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMoodTroubled.resId,
         title = "Diário de Humor"
     )
 
-    object MoodJournalOverwhelmed : DiaryCardProperties(
-        iconRes = R.drawable.ic_capy_overwhelmed,
+    object MoodJournalOverwhelmed : DiaryCardOptions(
+        iconRes = LelloIcons.Graphic.JournalMoodOverwhelmed.resId,
         title = "Diário de Humor"
     )
 }
 
-// region: Preview
+private object DiaryCardDefaults {
+    @Composable
+    fun borderColor(): Color {
+        return MaterialTheme.colorScheme.outline
+    }
 
-@OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun shadowColor(): Color {
+        return MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
+    }
+
+    @Composable
+    fun elevation(): CardElevation {
+        return CardDefaults.cardElevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp, 0.dp)
+    }
+
+    @Composable
+    fun containerColor(): CardColors {
+        return CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest)
+    }
+
+    @Composable
+    fun primaryTextColor(): Color {
+        return MaterialTheme.colorScheme.onPrimary
+    }
+
+    @Composable
+    fun secondaryTextColor(): Color {
+        return MaterialTheme.colorScheme.secondaryContainer
+    }
+}
+
 @Composable
 @Preview(
-    name = "Default Color - Light",
+    name = "Sleep Journal",
+    group = "Light Mode",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun CheckInDailyCardPreview() {
+private fun LelloDiaryCardPreview_SleepJournal_LightMode() {
     LelloTheme {
-        DiaryCard(
-            properties = DiaryCardProperties.SleepJournal,
+        LelloDiaryCard(
             dateTime = Date(),
-            reward = 10
+            reward = 10,
+            properties = DiaryCardOptions.SleepJournal
         )
     }
 }
 
-// endregion
+@Composable
+@Preview(
+    name = "Meal Journal",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MealJournal_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MealJournal
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Medication Journal",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MedicationJournal_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MedicationJournal
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Mood Journal - Serene",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MoodJournalSerene_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MoodJournalSerene
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Mood Journal - Joyful",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MoodJournalJoyful_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MoodJournalJoyful
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Mood Journal - Balanced",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MoodJournalBalanced_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MoodJournalBalanced
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Mood Journal - Troubled",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MoodJournalTroubled_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MoodJournalTroubled
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Mood Journal - Overwhelmed",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloDiaryCardPreview_MoodJournalOverwhelmed_LightMode() {
+    LelloTheme {
+        LelloDiaryCard(
+            dateTime = Date(),
+            reward = 10,
+            properties = DiaryCardOptions.MoodJournalOverwhelmed
+        )
+    }
+}

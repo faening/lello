@@ -37,7 +37,7 @@ internal fun MoodJournalReflectionScreen(
     val reflection by viewModel.reflection.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(moodColor = mood.colorScheme) {
+    LelloTheme(moodColor = mood) {
         MoodJournalReflectionContainer(
             entryTime = entryTime,
             reflection = reflection,

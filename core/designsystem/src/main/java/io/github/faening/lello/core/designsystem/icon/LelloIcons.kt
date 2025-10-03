@@ -12,11 +12,9 @@ import androidx.compose.ui.res.vectorResource
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 object LelloIcons {
-    val Favorite = Icons.Rounded.Favorite
-    val MoreVert = Icons.Rounded.MoreVert
-    val Add = Icons.Rounded.Add
 
-    // Custom icons
+    // Base Icons
+    val Add = Icons.Rounded.Add
     val ArrowLargeUp = LelloIcon(designsystemR.drawable.ic_arrow_large_up)
     val ArrowLargeRight = LelloIcon(designsystemR.drawable.ic_arrow_large_right)
     val ArrowLargeLeft = LelloIcon(designsystemR.drawable.ic_arrow_large_left)
@@ -25,7 +23,26 @@ object LelloIcons {
     val ChevronRight = LelloIcon(designsystemR.drawable.ic_chevron_right)
     val ChevronDown = LelloIcon(designsystemR.drawable.ic_chevron_down)
     val ChevronLeft = LelloIcon(designsystemR.drawable.ic_chevron_left)
+    val Favorite = Icons.Rounded.Favorite
     val Logo = LelloIcon(designsystemR.drawable.ic_lello_logo)
+    val MoreVert = Icons.Rounded.MoreVert
+
+    object Graphic {
+        // Card - Check-in Daily
+        val BonusHexagon = LelloIcon(designsystemR.drawable.ic_bonus_hexagon_10)
+
+        // Card - Diary
+        val Coin = LelloIcon(designsystemR.drawable.ic_coin)
+        val JournalMeal = LelloIcon(designsystemR.drawable.ic_journal_meal)
+        val JournalMedication = LelloIcon(designsystemR.drawable.ic_journal_medication)
+        val JournalMood = LelloIcon(designsystemR.drawable.ic_journal_mood)
+        val JournalMoodSerene = LelloIcon(designsystemR.drawable.ic_capy_serene)
+        val JournalMoodJoyful = LelloIcon(designsystemR.drawable.ic_capy_joyful)
+        val JournalMoodBalanced = LelloIcon(designsystemR.drawable.ic_capy_balanced)
+        val JournalMoodTroubled = LelloIcon(designsystemR.drawable.ic_capy_troubled)
+        val JournalMoodOverwhelmed = LelloIcon(designsystemR.drawable.ic_capy_overwhelmed)
+        val JournalSleep = LelloIcon(designsystemR.drawable.ic_journal_sleep)
+    }
 
     object Outlined {
         val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
@@ -51,10 +68,10 @@ object LelloIcons {
     }
 
     @Composable
-    fun customIcon(id: Int): ImageVector = ImageVector.vectorResource(id = id)
+    fun customIcon(id: Int): ImageVector = ImageVector.vectorResource(id)
 }
 
 data class LelloIcon(val resId: Int) {
     val imageVector: ImageVector
-        @Composable get() = ImageVector.vectorResource(id = resId)
+        @Composable get() = ImageVector.vectorResource(resId)
 }

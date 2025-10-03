@@ -77,7 +77,7 @@ object Dimension {
     val heightButtonSmall = 40.dp
 
     /** Altura padrão para botões */
-    val heightButtonDefault = 52.dp
+    val heightButtonDefault = 56.dp
 
     /** Altura para botões grandes */
     val heightButtonLarge = 64.dp
@@ -86,7 +86,7 @@ object Dimension {
     val heightTextFieldCompact = 48.dp
 
     /** Altura padrão para TextFields */
-    val heightTextFieldDefault = 52.dp
+    val heightTextFieldDefault = 56.dp
 
     /** Altura mínima para itens de lista tocáveis */
     val heightListItemMin = 48.dp
@@ -143,6 +143,9 @@ object Dimension {
 
     /** Tamanho de ícones extra grandes */
     val iconSizeExtraLarge = 48.dp
+
+    /** Tamanho de ícones extra enormes */
+    val iconSizeHuge = 64.dp
 
     // ==================== SOMBRAS E ELEVAÇÃO ====================
     /** Offset horizontal para fake shadow */
