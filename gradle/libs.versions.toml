@@ -5,12 +5,14 @@ android-tools = "31.13.0"
 appcompat = "1.7.1"
 accompanist = "0.36.0"
 biometric = "1.4.0-alpha02"
+credentials = "1.3.0"
 compose = "2025.08.01"
 core-ktx = "1.17.0"
 core-splashscreen = "1.0.1"
 coil = "2.7.0"
 datastore = "1.1.7"
-firebase = "34.1.0"
+firebase = "34.3.0"
+google-id = "1.1.1"
 google-services = "4.4.3"
 hilt = "2.57"
 hilt-navigation = "1.2.0"
@@ -23,6 +25,7 @@ kotlin-serialization-json = "1.9.0"
 lifecycle = "2.9.2"
 material = "1.13.0"
 navigation = "2.9.3"
+play-services-auth = "20.7.0"
 room = "2.7.2"
 test-annotation = "1.0.1"
 test-core = "1.7.0"
@@ -99,6 +102,11 @@ firebase-authentication = { group = "com.google.firebase", name = "firebase-auth
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf" }
+
+# Firebase - Extensions (For Google Authentication)
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+androidx-credentials-play-service-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
+google-id = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref ="google-id" }
 
 # Hilt
 # https://developer.android.com/training/dependency-injection/hilt-android?hl=pt-br
@@ -193,5 +201,6 @@ lello-android-library = { id = "lello.android.library" }
 lello-android-library-compose = { id = "lello.android.library.compose" }
 lello-android-library-compose-ui = { id = "lello.android.library.compose.ui" } # Compose + UI
 lello-android-room = { id = "lello.android.room" }
+lello-firebase-authentication = { id = "lello.firebase.authentication" }
 lello-hilt = { id = "lello.hilt" }
 lello-jvm-library = { id = "lello.jvm.library" }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.lello.android.application)
     alias(libs.plugins.lello.android.application.compose.ui)
+    alias(libs.plugins.lello.firebase.authentication)
     alias(libs.plugins.lello.hilt)
     alias(libs.plugins.google.services)
     alias(libs.plugins.kotlin.serialization)
@@ -39,9 +40,6 @@ dependencies {
     api(projects.feature.journal.mood)
     api(projects.feature.journal.sleep)
     api(projects.feature.journal.settings)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.authentication)
 
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)
