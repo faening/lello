@@ -4,7 +4,7 @@ import io.github.faening.lello.core.domain.repository.AuthenticationRepository
 import io.github.faening.lello.core.model.authentication.AuthResult
 import javax.inject.Inject
 
-class SignUpUseCase @Inject constructor(
+class SignUpWithEmailAndPasswordUseCase @Inject constructor(
     private val repository: AuthenticationRepository
 ) {
     suspend operator fun invoke(email: String, password: String): AuthResult<Unit> {

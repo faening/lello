@@ -12,7 +12,7 @@ import org.junit.Test
 
 class SignUpUseCaseTest {
     private val repository: AuthenticationRepository = mockk()
-    private val useCase = SignUpUseCase(repository)
+    private val useCase = SignUpWithEmailAndPasswordUseCase(repository)
 
     @Test
     fun `blank credentials returns error`() = runTest {

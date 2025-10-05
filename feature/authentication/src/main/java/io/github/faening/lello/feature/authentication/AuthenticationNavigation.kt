@@ -50,7 +50,6 @@ fun NavGraphBuilder.authenticationGraph(
             AuthenticationScreen(
                 viewModel = viewModel,
                 onEmailSignInClick = { navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) },
-                onGoogleSignInClick = {},
                 onPrivacyPolicyClick = {},
                 onEmailSignUpClick = { navController.navigate(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) },
                 onRecoverAccountClick = {}

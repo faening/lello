@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.lello.android.library)
+    alias(libs.plugins.lello.firebase.authentication)
     alias(libs.plugins.lello.hilt)
 }
 

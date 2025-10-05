@@ -1,12 +1,15 @@
 package io.github.faening.lello.feature.authentication
 
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
-import io.github.faening.lello.core.domain.usecase.authentication.SignInUseCase
-import io.github.faening.lello.core.domain.usecase.authentication.SignUpUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.SignInWithEmailAndPasswordUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.SignInWithGoogleUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.SignUpWithEmailAndPasswordUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
@@ -25,8 +28,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
     private val biometricAuthenticationUseCase: BiometricAuthenticationUseCase,
-    private val signInUseCase: SignInUseCase,
-    private val signUpUseCase: SignUpUseCase,
+    private val signUpWithEmailAndPasswordUseCase: SignUpWithEmailAndPasswordUseCase,
+    private val signInWithEmailAndPasswordUseCase: SignInWithEmailAndPasswordUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
     private val saveUserEmailUseCase: SaveUserEmailUseCase,
     private val getUserEmailUseCase: GetUserEmailUseCase,
     private val onboardingUseCase: OnboardingUseCase
@@ -91,7 +95,7 @@ class AuthenticationViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 
-            val result = signInUseCase(email, password)
+            val result = signInWithEmailAndPasswordUseCase(email, password)
             when (result) {
                 is AuthResult.Success -> {
                     _uiState.value = _uiState.value.copy(isLoading = false, isSignInSuccessful = true)
@@ -124,7 +128,7 @@ class AuthenticationViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 
-            val result = signUpUseCase(email, password)
+            val result = signUpWithEmailAndPasswordUseCase(email, password)
             when (result) {
                 is AuthResult.Success -> {
                     saveUserEmailUseCase(email) // Armazena o email do usuário no DataStore
@@ -155,6 +159,29 @@ class AuthenticationViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
 
+    fun buildGoogleSignInRequest(): GetCredentialRequest {
+        return signInWithGoogleUseCase.buildSignInRequest()
+    }
+
+    /**
+     * Realiza o login do usuário usando o token do Google e atualiza o estado da UI.
+     *
+     * @param idToken O token de ID do Google obtido após a autenticação.
+     */
+    fun signInWithGoogle(response: GetCredentialResponse) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            when (val result = signInWithGoogleUseCase(response)) {
+                is AuthResult.Success -> {
+                    _uiState.update { it.copy(isLoading = false, isSignInSuccessful = true) }
+                }
+                is AuthResult.Error -> {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = result.message) }
+                }
+                else -> {}
+            }
+        }
+    }
     /**
      * Autentica o usuário usando biometria.
      *
