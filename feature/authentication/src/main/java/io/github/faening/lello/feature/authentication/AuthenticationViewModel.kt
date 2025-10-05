@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.ForgotPasswordUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignInWithEmailAndPasswordUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignInWithGoogleUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.SignUpWithEmailAndPasswordUseCase
@@ -33,6 +34,7 @@ class AuthenticationViewModel @Inject constructor(
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
     private val saveUserEmailUseCase: SaveUserEmailUseCase,
     private val getUserEmailUseCase: GetUserEmailUseCase,
+    private val forgotPasswordUseCase: ForgotPasswordUseCase,
     private val onboardingUseCase: OnboardingUseCase
 ) : ViewModel() {
 
@@ -218,6 +220,34 @@ class AuthenticationViewModel @Inject constructor(
             }
         }
     }
+
+    /**
+     * Envia um email de recuperação de senha para o email fornecido.
+     *
+     * @param email O email para o qual enviar as instruções de recuperação.
+     */
+    fun sendPasswordResetEmail(email: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            when (val result = forgotPasswordUseCase(email)) {
+                is AuthResult.Success -> {
+                    _uiState.update { it.copy(isLoading = false, isPasswordResetSuccessful = true) }
+                }
+                is AuthResult.Error -> {
+                    _uiState.update { it.copy(isLoading = false, errorMessage = result.message) }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    /**
+     * Reseta o estado de sucesso da recuperação de senha para falso.
+     */
+    fun resetPasswordResetState() {
+        _uiState.update { it.copy(isPasswordResetSuccessful = false) }
+    }
 }
 
 /**
@@ -234,5 +264,6 @@ data class AuthenticationUiState(
     val errorMessage: String? = null,
     val isSignUpSuccessful: Boolean = false,
     val isSignInSuccessful: Boolean = false,
+    val isPasswordResetSuccessful: Boolean = false,
     val savedEmail: String? = null
 )

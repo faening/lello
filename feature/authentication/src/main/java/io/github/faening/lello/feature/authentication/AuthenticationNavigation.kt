@@ -13,6 +13,7 @@ import io.github.faening.lello.feature.authentication.screen.AuthenticationScree
 import io.github.faening.lello.feature.authentication.screen.BiometricAuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignInScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignUpScreen
+import io.github.faening.lello.feature.authentication.screen.ForgotPasswordScreen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,6 @@ object AuthenticationDestinations {
     const val HOME = "authentication_home"
     const val BIOMETRIC_AUTHENTICATION = "authentication_biometric"
     const val SIGN_IN_WITH_EMAIL = "authentication_sign_in_with_email"
-    const val SIGN_IN_WITH_GOOGLE = "authentication_sign_in_with_google"
     const val SIGN_UP_WITH_EMAIL = "authentication_sign_up_with_email"
     const val FORGOT_PASSWORD = "authentication_forgot_password"
 }
@@ -52,7 +52,7 @@ fun NavGraphBuilder.authenticationGraph(
                 onEmailSignInClick = { navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) },
                 onPrivacyPolicyClick = {},
                 onEmailSignUpClick = { navController.navigate(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) },
-                onRecoverAccountClick = {}
+                onRecoverAccountClick = { navController.navigate(AuthenticationDestinations.FORGOT_PASSWORD) }
             )
         }
 
@@ -98,11 +98,6 @@ fun NavGraphBuilder.authenticationGraph(
             )
         }
 
-        composable(AuthenticationDestinations.SIGN_IN_WITH_GOOGLE) { backStackEntry ->
-            val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
-
-        }
-
         composable(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             val coroutineScope = rememberCoroutineScope()
@@ -124,11 +119,16 @@ fun NavGraphBuilder.authenticationGraph(
 
         composable(AuthenticationDestinations.FORGOT_PASSWORD) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
-            // ForgotPasswordScreen(
-            //     viewModel = viewModel,
-            //     onBackClick = { navController.popBackStack() },
-            //     onRecoverAccountSuccess = { /* Navegar para a próxima tela após o sucesso da recuperação */ }
-            // )
+
+            ForgotPasswordScreen(
+                viewModel = viewModel,
+                onBackClick = { navController.popBackStack() },
+                onPasswordResetSuccess = {
+                    navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) {
+                        popUpTo(AuthenticationDestinations.FORGOT_PASSWORD) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

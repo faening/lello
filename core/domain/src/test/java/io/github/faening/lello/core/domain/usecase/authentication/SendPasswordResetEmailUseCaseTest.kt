@@ -12,7 +12,7 @@ import org.junit.Test
 
 class SendPasswordResetEmailUseCaseTest {
     private val repository: AuthenticationRepository = mockk()
-    private val useCase = SendPasswordResetEmailUseCase(repository)
+    private val useCase = ForgotPasswordUseCase(repository)
 
     @Test
     fun `blank email returns error`() = runTest {
