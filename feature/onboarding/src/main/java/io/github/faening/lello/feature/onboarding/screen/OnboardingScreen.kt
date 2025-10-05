@@ -1,5 +1,6 @@
 package io.github.faening.lello.feature.onboarding.screen
 
+import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,11 +8,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -19,9 +18,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,27 +29,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.Grey100
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.Yellow500
 import io.github.faening.lello.core.domain.mock.OnboardingPageMock
 import io.github.faening.lello.core.model.onboarding.OnboardingPage
 import io.github.faening.lello.feature.onboarding.OnboardingViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -64,23 +59,21 @@ fun OnboardingScreen(
     val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
     var dontShowAgain by remember { mutableStateOf(hasSeen) }
 
-    LelloTheme {
-        OnboardingContainer(
-            pagerState = pagerState,
-            pages = pages,
-            coroutineScope = coroutineScope,
-            dontShowAgain = dontShowAgain,
-            onDontShowAgainChange = { dontShowAgain = it },
-            onFinish = {
-                if (dontShowAgain) viewModel.setHasSeenOnboarding()
-                onFinish()
-            }
-        )
-    }
+    OnboardingScreenContent(
+        pagerState = pagerState,
+        pages = pages,
+        coroutineScope = coroutineScope,
+        dontShowAgain = dontShowAgain,
+        onDontShowAgainChange = { dontShowAgain = it },
+        onFinish = {
+            if (dontShowAgain) viewModel.setHasSeenOnboarding()
+            onFinish()
+        }
+    )
 }
 
 @Composable
-private fun OnboardingContainer(
+private fun OnboardingScreenContent(
     pagerState: PagerState,
     pages: List<OnboardingPage>,
     coroutineScope: CoroutineScope,
@@ -88,86 +81,58 @@ private fun OnboardingContainer(
     onDontShowAgainChange: (Boolean) -> Unit,
     onFinish: () -> Unit
 ) {
-    Scaffold(
-        bottomBar = {
-            OnboardingBottomBar(
-                pagerState = pagerState,
-                pages = pages,
-                coroutineScope = coroutineScope,
-                onFinish = onFinish
-            )
-        }
-    ) { paddingValues ->
-        OnboardingContent(
-            pagerState = pagerState,
-            pages = pages,
-            dontShowAgain = dontShowAgain,
-            onDontShowAgainChange = onDontShowAgainChange,
-            modifier = Modifier.padding(paddingValues)
-        )
-    }
-}
-
-@Composable
-private fun OnboardingBottomBar(
-    pagerState: PagerState,
-    pages: List<OnboardingPage>,
-    coroutineScope: CoroutineScope,
-    onFinish: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentWidth(Alignment.End)
-            .padding(Dimension.spacingRegular)
-    ) {
-        val next = pagerState.currentPage + 1
-        if (next < pages.size) {
-            LelloFloatingActionButton(
-                icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-                contentDescription = "Próximo",
-                onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(next)
+    LelloTheme {
+        Scaffold(
+            bottomBar = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End)
+                        .padding(Dimension.spacingRegular)
+                ) {
+                    val next = pagerState.currentPage + 1
+                    if (next < pages.size) {
+                        LelloFloatingActionButton(
+                            icon = LelloIcons.ArrowLargeRight.imageVector,
+                            contentDescription = "Próximo",
+                            onClick = {
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(next)
+                                }
+                            }
+                        )
+                    } else {
+                        LelloFilledButton(
+                            label = "Concluir",
+                            onClick = onFinish
+                        )
                     }
                 }
-            )
-        } else {
-            LelloFilledButton(
-                label = "Concluir",
-                onClick = onFinish
-            )
-        }
-    }
-}
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.weight(1f)
+                ) { page ->
+                    OnboardingPageView(
+                        page = pages[page],
+                        showCheckbox = page == pages.lastIndex,
+                        checked = dontShowAgain,
+                        onCheckedChange = onDontShowAgainChange
+                    )
+                }
 
-@Composable
-private fun OnboardingContent(
-    pagerState: PagerState,
-    pages: List<OnboardingPage>,
-    dontShowAgain: Boolean,
-    onDontShowAgainChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.weight(1f)
-        ) { page ->
-            OnboardingPageView(
-                page = pages[page],
-                showCheckbox = page == pages.lastIndex,
-                checked = dontShowAgain,
-                onCheckedChange = onDontShowAgainChange
-            )
+                OnboardingHorizontalPagerIndicator(
+                    pagerState = pagerState,
+                    pages = pages
+                )
+            }
         }
-
-        OnboardingHorizontalPagerIndicator(
-            pagerState = pagerState,
-            pages = pages
-        )
     }
 }
 
@@ -181,7 +146,7 @@ private fun OnboardingPageView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = Dimension.spacingExtraLarge),
+            .padding(horizontal = Dimension.spacingRegular),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -192,23 +157,23 @@ private fun OnboardingPageView(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
+                .padding(bottom = Dimension.spacingExtraLarge)
         )
-        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         Text(
             text = page.title,
             style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
         )
-        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
         Text(
             text = page.description,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
 
         if (showCheckbox) {
-            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
             Row(
+                modifier = Modifier.padding(top = Dimension.spacingLarge),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
@@ -217,7 +182,7 @@ private fun OnboardingPageView(
                 )
                 Text(
                     text = "Não mostrar mais a tela de boas-vindas",
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         }
@@ -237,24 +202,35 @@ private fun OnboardingHorizontalPagerIndicator(
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(pages.size) { index ->
-            val color = if (pagerState.currentPage == index) Yellow500 else Grey100
+            val size = if (pagerState.currentPage == index) Dimension.spacingMedium else Dimension.spacingSmall
+            val color = if (pagerState.currentPage == index) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.secondaryContainer
+            }
+
             Box(
                 modifier = Modifier
-                    .padding(4.dp)
-                    .size(if (pagerState.currentPage == index) 12.dp else 8.dp)
+                    .padding(Dimension.spacingExtraSmall)
+                    .size(size)
                     .background(color, CircleShape)
             )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "First Page",
+    group = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-private fun OnboardingScreenPreview() {
+private fun OnboardingScreenPreview_LightMode_FirstPage() {
     val pages = OnboardingPageMock.list
 
     LelloTheme {
-        OnboardingContainer(
+        OnboardingScreenContent(
             pagerState = rememberPagerState(pageCount = { pages.size }),
             pages = pages,
             coroutineScope = rememberCoroutineScope(),
