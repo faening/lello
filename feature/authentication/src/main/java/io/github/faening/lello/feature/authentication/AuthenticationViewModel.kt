@@ -43,13 +43,13 @@ class AuthenticationViewModel @Inject constructor(
 
     private val _hasSeenOnboarding: Flow<Boolean> = MutableStateFlow(false)
 
-    fun isBiometricAvailable(): Boolean {
-        return biometricAuthenticationUseCase.isBiometricAvailable()
-    }
+    private val _canUseBiometricAuth = MutableStateFlow(false)
+    val canUseBiometricAuth: StateFlow<Boolean> = _canUseBiometricAuth
 
     init {
         loadSavedEmail()
         loadOnboardingState()
+        loadIsBiometricAvailable()
     }
 
     /**
@@ -70,6 +70,16 @@ class AuthenticationViewModel @Inject constructor(
             onboardingUseCase.hasSeenOnboarding.collect { hasSeen ->
                 // _uiState.update { it.copy(isLoading = false) }
                 (_hasSeenOnboarding as MutableStateFlow).value = hasSeen
+            }
+        }
+    }
+
+    fun loadIsBiometricAvailable() {
+        viewModelScope.launch {
+            runCatching {
+                _canUseBiometricAuth.value = biometricAuthenticationUseCase.shouldUseBiometricAuthentication()
+            }.onFailure {
+                _canUseBiometricAuth.value = false
             }
         }
     }

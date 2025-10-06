@@ -7,21 +7,44 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.github.faening.lello.core.domain.repository.UserRepository
+import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class BiometricAuthenticationUseCase @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val userRepository: UserRepository,
+    private val getUserEmailUseCase: GetUserEmailUseCase
 ) {
+
+    /**
+     * Determina se a autenticação biométrica deve ser usada com base em todas as condições necessárias.
+     *
+     * @return true se todas as condições para usar biometria forem atendidas
+     */
+    suspend fun shouldUseBiometricAuthentication(): Boolean {
+        // Verifica hardware disponível
+        val isHardwareAvailable = isBiometricAvailable()
+
+        // Verifica se o usuário habilitou a biometria
+        val isBiometricPreferenceEnabled = userRepository.getBiometricPreference()
+
+        // Verifica se existe email salvo
+        val savedEmail = getUserEmailUseCase()
+
+        // Só habilita biometria se todas as condições forem atendidas
+        return isHardwareAvailable && isBiometricPreferenceEnabled && !savedEmail.isNullOrEmpty()
+    }
 
     /**
      * Verifica se a autenticação biométrica está disponível no dispositivo.
      *
      * @return true se a biometria estiver disponível para uso
      */
-    fun isBiometricAvailable(): Boolean {
+    private fun isBiometricAvailable(): Boolean {
         val biometricManager = BiometricManager.from(context)
         return when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true

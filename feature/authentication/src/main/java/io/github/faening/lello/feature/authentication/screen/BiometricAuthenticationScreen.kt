@@ -45,7 +45,7 @@ internal fun BiometricAuthenticationScreen(
     // Inicia autenticação biométrica automaticamente se disponível
     LaunchedEffect(key1 = true) {
         delay(200)
-        val biometricAvailable = viewModel.isBiometricAvailable()
+        val biometricAvailable = viewModel.canUseBiometricAuth.value
         val hasSavedEmail = uiState.savedEmail != null
 
         if (biometricAvailable && hasSavedEmail) {

@@ -69,14 +69,7 @@ class StartupViewModel @Inject constructor(
     private fun checkBiometricAvailability() {
         viewModelScope.launch {
             runCatching {
-                // Verifica se o hardware suporta biometria
-                val isBiometricAvailable = biometricAuthenticationUseCase.isBiometricAvailable()
-
-                // Verifica se existe um email salvo
-                val savedEmail = getUserEmailUseCase()
-
-                // Só habilita biometria se ambas condições forem verdadeiras
-                _canUseBiometricAuth.value = isBiometricAvailable && !savedEmail.isNullOrEmpty()
+                _canUseBiometricAuth.value = biometricAuthenticationUseCase.shouldUseBiometricAuthentication()
             }.onFailure {
                 _canUseBiometricAuth.value = false
             }
