@@ -21,8 +21,11 @@ import io.github.faening.lello.core.domain.usecase.store.BuyItemUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetInventoryItemsUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetPurchaseHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetStoreItemsUseCase
-import io.github.faening.lello.core.domain.repository.OnboardingPreferencesRepository
-import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingPreferencesUseCase
+import io.github.faening.lello.core.domain.repository.OnboardingRepository
+import io.github.faening.lello.core.domain.repository.UserRepository
+import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
+import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
+import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
@@ -50,9 +53,9 @@ object UseCaseModule {
     ) = RewardHistoryUseCase(repository)
 
     @Provides
-    fun provideOnboardingPreferencesUseCase(
-        repository: OnboardingPreferencesRepository
-    ) = OnboardingPreferencesUseCase(repository)
+    fun provideOnboardingUseCase(
+        repository: OnboardingRepository
+    ) = OnboardingUseCase(repository)
 
     @Provides
     fun provideGetMascotStatusUseCase(
@@ -92,4 +95,17 @@ object UseCaseModule {
     fun provideGetPurchaseHistoryUseCase(
         purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>
     ) = GetPurchaseHistoryUseCase(purchaseHistoryResource)
+
+    // region: User
+
+    @Provides
+    fun provideGetUserEmailUseCase(
+        repository: UserRepository
+    ) = GetUserEmailUseCase(repository)
+
+    fun provideSaveUserEmailUseCase(
+        repository: UserRepository
+    ) = SaveUserEmailUseCase(repository)
+
+    // endregion: User
 }

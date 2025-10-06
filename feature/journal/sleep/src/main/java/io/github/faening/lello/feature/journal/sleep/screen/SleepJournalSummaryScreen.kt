@@ -17,10 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
@@ -30,7 +30,7 @@ internal fun SleepJournalSummaryScreen(
     onExit: () -> Unit
 ) {
 
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+    LelloTheme(moodColor = MoodColor.DEFAULT) {
         SleepJournalSummaryContainer(
             onExit = onExit
         )
@@ -67,7 +67,7 @@ private fun SleepJournalSummaryBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Sair",
@@ -83,7 +83,7 @@ private fun SleepJournalSummaryContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) { }

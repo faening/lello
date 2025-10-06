@@ -4,6 +4,7 @@ package io.github.faening.lello.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Yellow0 = Color(0xFFFFFFFF)
 val Yellow50 = Color(0xFFFFFBF0)
 val Yellow100 = Color(0xFFFEF4D0)
 val Yellow200 = Color(0xFFFDEEB9)

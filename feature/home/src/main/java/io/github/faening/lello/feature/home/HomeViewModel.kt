@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.DailyCheckInUseCase
+import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
         // Observa os diários normalmente
         viewModelScope.launch {
             journalCategoryUseCase.getAll().collect { categories ->
-                _journalCategories.value = categories
+                _journalCategories.value = categories.sortedBy { it.id }
             }
         }
 

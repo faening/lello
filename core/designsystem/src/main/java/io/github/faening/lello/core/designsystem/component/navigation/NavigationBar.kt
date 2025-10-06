@@ -1,8 +1,8 @@
-@file:Suppress("unused")
+package io.github.faening.lello.core.designsystem.component.navigation
 
-package io.github.faening.lello.core.designsystem.component
-
+import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -25,19 +24,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.R
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.Grey300
-import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
+import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.Yellow500
 
 @Composable
 fun LelloNavigationBar(
@@ -45,9 +43,16 @@ fun LelloNavigationBar(
     content: @Composable RowScope.() -> Unit,
 ) {
     NavigationBar(
-        modifier = modifier.fillMaxWidth(),
-        contentColor = NavigationDefaults.selectedItemColor(),
-        containerColor = NavigationDefaults.containerColor(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(LelloShape.navigationBarShape)
+            .border(
+                width = Dimension.borderWidthThin,
+                color = MaterialTheme.colorScheme.onSecondary,
+                shape = LelloShape.navigationBarShape
+            ),
+        contentColor = NavigationProperties.selectedItemColor(),
+        containerColor = NavigationProperties.containerColor(),
         content = content,
     )
 }
@@ -63,8 +68,8 @@ fun RowScope.LelloNavigationBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
 ) {
-    val selectedColor = NavigationDefaults.selectedItemColor()
-    val unselectedColor = NavigationDefaults.unselectedItemColor()
+    val selectedColor = NavigationProperties.selectedItemColor()
+    val unselectedColor = NavigationProperties.unselectedItemColor()
 
     NavigationBarItem(
         selected = selected,
@@ -76,7 +81,7 @@ fun RowScope.LelloNavigationBarItem(
             {
                 val textStyle = if (selected) {
                     MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.ExtraBold,
+                        fontWeight = FontWeight.Bold,
                         color = selectedColor,
                         fontSize = MaterialTheme.typography.labelMedium.fontSize
                     )
@@ -100,7 +105,7 @@ fun RowScope.LelloNavigationBarItem(
             unselectedIconColor = unselectedColor,
             selectedTextColor = selectedColor,
             unselectedTextColor = unselectedColor,
-            indicatorColor = NavigationDefaults.indicatorColor(),
+            indicatorColor = NavigationProperties.indicatorColor(),
         ),
     )
 }
@@ -112,38 +117,40 @@ fun CentralNavigationBarItem(
 ) {
     Box(
         modifier = Modifier
-            .padding(vertical = 4.dp)
-            .height(60.dp)
-            .width(60.dp)
+            .padding(vertical = Dimension.paddingComponentExtraSmall)
+            .height(Dimension.heightButtonDefault)
+            .width(Dimension.heightButtonDefault)
             .wrapContentSize()
     ) {
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
                 .background(
-                    color = Yellow500,
-                    shape = RoundedCornerShape(16.dp)
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = LelloShape.navigationBarItemShape
                 )
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-                .clickable(onClick = { onClick() } ),
+                .padding(horizontal = Dimension.paddingComponentSmall, vertical = Dimension.paddingComponentSmall)
+                .clickable(
+                    onClick = { onClick() }
+                ),
             contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.padding(start = 4.dp),
+                modifier = Modifier.padding(start = Dimension.paddingComponentExtraSmall),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = "Achievements",
-                    tint = Grey500,
-                    modifier = Modifier.size(40.dp)
+                    tint = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.size(Dimension.heightButtonSmall)
                 )
             }
         }
     }
 }
 
-private object NavigationDefaults {
+private object NavigationProperties {
     /**
      * Cor para itens não selecionados na barra de navegação
      */
@@ -165,7 +172,7 @@ private object NavigationDefaults {
      */
     @Composable
     fun selectedItemColor(): Color {
-        return MaterialTheme.colorScheme.onPrimary
+        return MaterialTheme.colorScheme.secondary
     }
 
     /**
@@ -181,28 +188,26 @@ private object NavigationDefaults {
      */
     @Composable
     fun containerColor(): Color {
-        return MaterialTheme.colorScheme.surface
+        return Color.White
     }
 }
-
-// region: Navigation Preview
 
 @Composable
 private fun MobileNavigationBarContent() {
     val items = listOf("Início", "Diários", "Lello", "Remédios", "Perfil")
     val icons = listOf(
-        LelloIcons.customIcon(R.drawable.ic_home_outlined),
-        LelloIcons.customIcon(R.drawable.ic_book_open_outlined),
-        LelloIcons.customIcon(R.drawable.ic_achievements),
-        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_outlined),
-        LelloIcons.customIcon(R.drawable.ic_profile_outlined)
+        LelloIcons.Outlined.Home.imageVector,
+        LelloIcons.Outlined.BookOpen.imageVector,
+        LelloIcons.Outlined.Achievement.imageVector,
+        LelloIcons.Outlined.DrugPill.imageVector,
+        LelloIcons.Outlined.Profile.imageVector
     )
     val selectedIcons = listOf(
-        LelloIcons.customIcon(R.drawable.ic_home_filled),
-        LelloIcons.customIcon(R.drawable.ic_book_open_filled),
-        LelloIcons.customIcon(R.drawable.ic_achievements),
-        LelloIcons.customIcon(R.drawable.ic_drug_pill_long_filled),
-        LelloIcons.customIcon(R.drawable.ic_profile_filled),
+        LelloIcons.Filled.Home.imageVector,
+        LelloIcons.Filled.BookOpen.imageVector,
+        LelloIcons.Filled.Achievement.imageVector,
+        LelloIcons.Filled.DrugPill.imageVector,
+        LelloIcons.Filled.Profile.imageVector
     )
 
     LelloNavigationBar {
@@ -245,20 +250,32 @@ private fun MobileNavigationBarContent() {
     }
 }
 
-@Preview(name = "Light Theme", showBackground = true)
+// region: Preview
+
+@Preview(
+    name = "Light Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
 @Composable
-private fun NavigationBarLightPreview() {
-    LelloTheme(darkTheme = false) {
+private fun NavigationBar_LightTheme() {
+    LelloTheme {
         MobileNavigationBarContent()
     }
 }
 
-@Preview(name = "Dark Theme", showBackground = true)
+@Preview(
+    name = "Dark Theme",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF262626
+)
 @Composable
-private fun NavigationBarDarkPreview() {
-    LelloTheme(darkTheme = true) {
+private fun NavigationBar_DarkTheme() {
+    LelloTheme {
         MobileNavigationBarContent()
     }
 }
 
-// endregion
+// endregion: Preview

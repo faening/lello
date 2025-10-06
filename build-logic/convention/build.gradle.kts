@@ -63,6 +63,10 @@ gradlePlugin {
             id = "lello.android.library.compose.ui"
             implementationClass = "AndroidLibraryComposeUIConventionPlugin"
         }
+        register("firebaseAuthentication") {
+            id = "lello.firebase.authentication"
+            implementationClass = "FirebaseAuthenticationConventionPlugin"
+        }
         register("hilt") {
             id = "lello.hilt"
             implementationClass = "HiltConventionPlugin"

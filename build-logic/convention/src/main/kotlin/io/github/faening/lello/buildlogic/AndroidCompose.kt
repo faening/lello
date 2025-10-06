@@ -12,6 +12,7 @@ internal fun Project.configureAndroidCompose(
     commonExtension.apply {
         buildFeatures {
             compose = true
+            buildConfig = true
         }
 
         dependencies {
@@ -39,6 +40,7 @@ internal fun Project.configureAndroidComposeUI(
     commonExtension.apply {
         buildFeatures {
             compose = true
+            buildConfig = true
         }
 
         composeOptions {

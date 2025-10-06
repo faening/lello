@@ -18,14 +18,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.LocationOptionMock
 import io.github.faening.lello.core.domain.mock.SleepActivityOptionMock
 import io.github.faening.lello.core.domain.mock.SleepQualityOptionMock
@@ -51,7 +51,7 @@ internal fun SleepJournalDetailsScreen(
     val sleeplessTimeOption by viewModel.sleeplessTimeOption.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+    LelloTheme(moodColor = MoodColor.DEFAULT) {
         SleepJournalDetailsContainer(
             coinsAcquired = coinsAcquired,
             sleepQualityOptions = sleepQualityOptions,
@@ -130,7 +130,7 @@ private fun SleepJournalDetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Concluir",
@@ -161,20 +161,20 @@ private fun SleepJournalDetailsContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         // Header
         Text(
             text = "Gostaria de adicionar mais detalhes sobre o seu sono?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
             text = "Ganhe $coinsAcquired moeads ao concluir",
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
         // Scrollable area
         Column(
@@ -190,7 +190,7 @@ private fun SleepJournalDetailsContent(
                 onOpenSettings = onOpenSleepQualityOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "O que você fez antes de dormir?",
@@ -200,7 +200,7 @@ private fun SleepJournalDetailsContent(
                 onOpenSettings = onOpenSleepActivityOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Onde você dormiu?",
@@ -210,7 +210,7 @@ private fun SleepJournalDetailsContent(
                 onOpenSettings = onOpenLocationOptionSettings,
                 getLabel = { it.description }
             )
-            Spacer(modifier = Modifier.height(Dimension.Large))
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
             LelloOptionPillSelector(
                 title = "Quanto tempo você ficou acordado?",

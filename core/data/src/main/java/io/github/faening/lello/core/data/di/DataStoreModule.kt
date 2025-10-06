@@ -9,7 +9,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.data.preferences.OnboardingPreferences
+import io.github.faening.lello.core.data.repository.datastore.DataStoreOnboardingRepository
+import io.github.faening.lello.core.data.repository.datastore.DataStoreUserRepository
+import io.github.faening.lello.core.domain.repository.OnboardingRepository
+import io.github.faening.lello.core.domain.repository.UserRepository
 import javax.inject.Singleton
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lello_preferences")
@@ -26,7 +29,13 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideOnboardingPreferences(dataStore: DataStore<Preferences>): OnboardingPreferences {
-        return OnboardingPreferences(dataStore)
+    fun provideDataStoreOnboardingRepository(dataStore: DataStore<Preferences>): OnboardingRepository {
+        return DataStoreOnboardingRepository(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStoreUserRepository(dataStore: DataStore<Preferences>) : UserRepository {
+        return DataStoreUserRepository(dataStore)
     }
 }

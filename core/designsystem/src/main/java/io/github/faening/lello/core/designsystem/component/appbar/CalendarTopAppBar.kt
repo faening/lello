@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.component.appbar
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,10 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -43,38 +48,42 @@ fun LelloCalendarTopAppBar(
     selectedDate: LocalDate,
     navigateUp: TopAppBarAction? = null,
     actions: List<TopAppBarAction> = emptyList(),
-    onDateSelected: (LocalDate) -> Unit
+    onDateSelected: (LocalDate) -> Unit,
+    moodColor: MoodColor = MoodColor.DEFAULT,
+    colorScheme: ColorScheme = MaterialTheme.colorScheme,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    val colorScheme = MaterialTheme.colorScheme
 
     CenterAlignedTopAppBar(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .statusBarsPadding(),
         title = {
             CalendarTopAppBarTitle(
                 selectedDate = selectedDate,
+                moodColor = moodColor,
+                colorScheme = colorScheme,
                 onClick = { showDatePicker = true }
             )
         },
         navigationIcon = {
             TopAppBarNavigationIcon(
                 navigateUp = navigateUp,
+                moodColor = moodColor,
                 colorScheme = colorScheme
             )
         },
         actions = {
             TopAppBarActionIcon(
                 actions = actions,
+                moodColor = moodColor,
                 colorScheme = colorScheme
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = colorScheme.primaryContainer,
-            titleContentColor = colorScheme.onPrimaryContainer,
-            navigationIconContentColor = colorScheme.onPrimary,
-            actionIconContentColor = colorScheme.primary
+            containerColor = TopAppBarProperties.backgroundColor(colorScheme, moodColor),
+            titleContentColor = colorScheme.onBackground,
         )
     )
 
@@ -89,24 +98,41 @@ fun LelloCalendarTopAppBar(
 @Composable
 private fun CalendarTopAppBarTitle(
     selectedDate: LocalDate,
+    moodColor: MoodColor,
+    colorScheme: ColorScheme,
     onClick: () -> Unit
 ) {
+    val isPreview = LocalInspectionMode.current
+
     Row(
         modifier = Modifier.clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = Icons.Default.CalendarToday,
-            contentDescription = "Selecionar data"
+            imageVector = if (isPreview) Icons.Default.CalendarToday else LelloIcons.Outlined.Calendar.imageVector,
+            contentDescription = "Selecionar data",
+            tint = TopAppBarProperties.titleTextColor(colorScheme, moodColor)
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(
+            modifier = Modifier.width(Dimension.paddingComponentSmall)
+        )
         Text(
-            text = selectedDate.format(DateTimeFormatter.ofPattern("'Hoje,' dd MMM", Locale("pt", "BR"))),
-            style = MaterialTheme.typography.titleMedium
+            text = selectedDate.format(DateTimeFormatter.ofPattern(
+                "'Hoje,' dd MMM",
+                Locale("pt", "BR"))
+            ),
+            color = TopAppBarProperties.titleTextColor(colorScheme, moodColor),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Bold
+            )
+        )
+        Spacer(
+            modifier = Modifier.width(Dimension.paddingComponentSmall)
         )
         Icon(
-            imageVector = Icons.Default.ArrowDropDown,
-            contentDescription = null
+            imageVector = if (isPreview) Icons.Default.ArrowDropDown else LelloIcons.ChevronDown.imageVector,
+            contentDescription = null,
+            tint = TopAppBarProperties.titleTextColor(colorScheme, moodColor)
         )
     }
 }
@@ -149,24 +175,400 @@ private fun CalendarTopAppBarDatePickerDialog(
     }
 }
 
-// region: CalendarTopAppBar Preview
+// region: Preview Light Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "Default Color - Light",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Primary",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
-private fun CalendarTopAppBarPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.DEFAULT
-    ) {
+private fun LelloCalendarTopAppBar_LightTheme_Primary() {
+    LelloTheme {
         LelloCalendarTopAppBar(
             selectedDate = LocalDate.now(),
+            onDateSelected = {},
             navigateUp = TopAppBarAction(),
-            onDateSelected = {}
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
         )
     }
 }
 
-// endregion
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Secondary",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Secondary() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.SECONDARY
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Aquamarine",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Aquamarine() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.AQUAMARINE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Blue",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Blue() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.BLUE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Orange",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Orange() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.ORANGE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Red",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Red() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.RED
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Inverse",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun LelloCalendarTopAppBar_LightTheme_Inverse() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.INVERSE
+        )
+    }
+}
+
+// endregion: Preview Light Theme
+
+// region: Preview Dark Theme
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Primary",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Primary() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Secondary",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Secondary() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.SECONDARY
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Aquamarine",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Aquamarine() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.AQUAMARINE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Blue",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Blue() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.BLUE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Orange",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Orange() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.ORANGE
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Red",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Red() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.RED
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Inverse",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun LelloCalendarTopAppBar_DarkTheme_Inverse() {
+    LelloTheme {
+        LelloCalendarTopAppBar(
+            selectedDate = LocalDate.now(),
+            onDateSelected = {},
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.INVERSE
+        )
+    }
+}
+
+// endregion: Preview Dark Theme

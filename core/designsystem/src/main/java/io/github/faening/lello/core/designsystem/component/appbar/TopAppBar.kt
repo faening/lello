@@ -2,104 +2,73 @@ package io.github.faening.lello.core.designsystem.component.appbar
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 
-@SuppressLint("ModifierParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LelloTopAppBar(
     title: TopAppBarTitle? = null,
     navigateUp: TopAppBarAction? = null,
     actions: List<TopAppBarAction> = emptyList(),
-    backgroundColor: Color? = null
+    moodColor: MoodColor = MoodColor.DEFAULT,
+    colorScheme: ColorScheme = MaterialTheme.colorScheme,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
-    val colorScheme = MaterialTheme.colorScheme
 
     CenterAlignedTopAppBar(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .statusBarsPadding(),
         title = {
             TopAppBarTitle(
                 title = title,
+                moodColor = moodColor,
                 colorScheme = colorScheme
             )
         },
         navigationIcon = {
             TopAppBarNavigationIcon(
                 navigateUp = navigateUp,
+                moodColor = moodColor,
                 colorScheme = colorScheme
             )
         },
         actions = {
             TopAppBarActionIcon(
                 actions = actions,
+                moodColor = moodColor,
                 colorScheme = colorScheme
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = backgroundColor ?: colorScheme.primaryContainer,
-            titleContentColor = colorScheme.onPrimaryContainer,
-            navigationIconContentColor = colorScheme.onPrimary,
-            actionIconContentColor = colorScheme.primary
+            containerColor = TopAppBarProperties.backgroundColor(colorScheme, moodColor),
+            titleContentColor = colorScheme.onBackground,
         )
     )
 }
 
-@Composable
-private fun TopAppBarTitle(
-    title: TopAppBarTitle? = null,
-    colorScheme: ColorScheme
-) {
-    title?.let {
-        Text(
-            text = it.text
-                ?: it.textRes?.let { id -> stringResource(id) }
-                ?: "",
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = it.style ?: MaterialTheme.typography.titleLarge,
-            color = colorScheme.onPrimaryContainer
-        )
-    }
-}
+// region: Preview Light Theme
 
-data class TopAppBarTitle(
-    @StringRes val textRes: Int? = null,
-    val text: String? = null,
-    val style: TextStyle? = null
-)
-
-// region: TopAppBar Preview
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "Default Color - Light",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Primary",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
-private fun LelloTopAppBarDefaultLightPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.DEFAULT
-    ) {
+private fun TopAppBar_LightTheme_Primary() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -117,16 +86,174 @@ private fun LelloTopAppBarDefaultLightPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "Default Color - Dark",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    name = "Secondary",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
-private fun LelloTopAppBarDefaultDarkPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.DEFAULT
-    ) {
+private fun TopAppBar_LightTheme_Secondary() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.SECONDARY,
+        )
+    }
+}
+
+@Preview(
+    name = "Inverse",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun TopAppBar_LightTheme_Inverse() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.INVERSE,
+        )
+    }
+}
+
+@Preview(
+    name = "Aquamarine",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun TopAppBar_LightTheme_Aquamarine() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.AQUAMARINE,
+        )
+    }
+}
+
+@Preview(
+    name = "Blue",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun TopAppBar_LightTheme_Blue() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.BLUE,
+        )
+    }
+}
+
+@Preview(
+    name = "Orange",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun TopAppBar_LightTheme_Orange() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.ORANGE,
+        )
+    }
+}
+
+@Preview(
+    name = "Red",
+    group = "Light Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Composable
+private fun TopAppBar_LightTheme_Red() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.RED,
+        )
+    }
+}
+
+// endregion: Preview Light Theme
+
+// region: Preview Dark Theme
+
+@Preview(
+    name = "Primary",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun TopAppBar_DarkTheme_Primary() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -144,16 +271,14 @@ private fun LelloTopAppBarDefaultDarkPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "Aquamarine Color",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Secondary",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LelloTopAppBarAquamarinePreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.AQUAMARINE
-    ) {
+private fun TopAppBar_DarkTheme_Secondary() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -167,20 +292,19 @@ private fun LelloTopAppBarAquamarinePreview() {
                     contentDescription = "Mais opções"
                 )
             ),
+            moodColor = MoodColor.SECONDARY,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "TopAppBarLight - Blue",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Inverse",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LelloTopAppBarBluePreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.BLUE
-    ) {
+private fun TopAppBar_DarkTheme_Inverse() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -194,20 +318,19 @@ private fun LelloTopAppBarBluePreview() {
                     contentDescription = "Mais opções"
                 )
             ),
+            moodColor = MoodColor.INVERSE,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "TopAppBarLight - Orange",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Aquamarine",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LelloTopAppBarOrangePreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.ORANGE
-    ) {
+private fun TopAppBar_DarkTheme_Aquamarine() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -221,20 +344,19 @@ private fun LelloTopAppBarOrangePreview() {
                     contentDescription = "Mais opções"
                 )
             ),
+            moodColor = MoodColor.AQUAMARINE,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "TopAppBarLight - Red",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Blue",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LelloTopAppBarRedPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.RED
-    ) {
+private fun TopAppBar_DarkTheme_Blue() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -248,20 +370,19 @@ private fun LelloTopAppBarRedPreview() {
                     contentDescription = "Mais opções"
                 )
             ),
+            moodColor = MoodColor.BLUE,
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
-    name = "TopAppBarLight - Inverse",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    name = "Orange",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun LelloTopAppBarInversePreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.INVERSE
-    ) {
+private fun TopAppBar_DarkTheme_Orange() {
+    LelloTheme {
         LelloTopAppBar(
             title = TopAppBarTitle(text = "MyAppBar"),
             navigateUp = TopAppBarAction(),
@@ -275,8 +396,35 @@ private fun LelloTopAppBarInversePreview() {
                     contentDescription = "Mais opções"
                 )
             ),
+            moodColor = MoodColor.ORANGE,
         )
     }
 }
 
-// endregion
+@Preview(
+    name = "Red",
+    group = "Dark Theme",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun TopAppBar_DarkTheme_Red() {
+    LelloTheme {
+        LelloTopAppBar(
+            title = TopAppBarTitle(text = "MyAppBar"),
+            navigateUp = TopAppBarAction(),
+            actions = listOf(
+                TopAppBarAction(
+                    icon = LelloIcons.Favorite,
+                    contentDescription = "Favoritos"
+                ),
+                TopAppBarAction(
+                    icon = LelloIcons.MoreVert,
+                    contentDescription = "Mais opções"
+                )
+            ),
+            moodColor = MoodColor.RED,
+        )
+    }
+}
+
+// endregion: Preview Dark Theme

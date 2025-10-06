@@ -1,5 +1,8 @@
 package io.github.faening.lello.feature.home.screen
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +12,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,17 +19,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCard
-import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCardConfig
 import io.github.faening.lello.core.designsystem.component.appbar.LelloImageTopAppBar
-import io.github.faening.lello.core.designsystem.component.card.CheckInDailyCard
+import io.github.faening.lello.core.designsystem.component.card.JournalCategoryCard
+import io.github.faening.lello.core.designsystem.component.card.LelloCheckInDailyCard
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.JournalCategoryMock
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.core.model.journal.JournalType
 import io.github.faening.lello.core.model.reward.DailyCheckInState
 import io.github.faening.lello.feature.home.HomeViewModel
 import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
@@ -45,115 +47,88 @@ fun HomeScreen(
     val bonusState by viewModel.journalBonusState.collectAsState()
     val checkInState by viewModel.dailyCheckInState.collectAsState()
 
-    LelloTheme {
-        HomeScreenContainer(
-            journalCategories = journalCategories,
-            bonusState = bonusState,
-            checkInState = checkInState,
-            onNavigateToModule = onNavigateToModule
-        )
-    }
+    HomeScreenContent(
+        journalCategories = journalCategories,
+        bonusState = bonusState,
+        checkInState = checkInState,
+        onNavigateToModule = onNavigateToModule
+    )
 }
 
 @Composable
-private fun HomeScreenContainer(
+private fun HomeScreenContent(
     journalCategories: List<JournalCategory>,
-    bonusState: JournalBonusState,
-    checkInState: DailyCheckInState,
-    onNavigateToModule: (String) -> Unit
-) {
-    Scaffold(
-        topBar = { HomeScreenTopAppBar() }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            JournalContent(
-                journalCategories = journalCategories,
-                bonusState = bonusState,
-                checkInState = checkInState,
-                onNavigateToModule = onNavigateToModule
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeScreenTopAppBar() {
-    LelloImageTopAppBar()
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun JournalContent(
-    journalCategories: List<JournalCategory> = emptyList(),
     bonusState: JournalBonusState,
     checkInState: DailyCheckInState,
     onNavigateToModule: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = Dimension.Medium)
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        CheckInDailyCard(
-            currentStep = checkInState.currentStep,
-            subtitle = if (checkInState.bonusReceived) {
-                "Parabéns! Você adquiriu moedas extra hoje."
-            } else {
-                "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra"
-            }
-        )
-        Spacer(modifier = Modifier.height(32.dp))
+    LelloTheme {
+        Column(
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+        ) {
+            LelloImageTopAppBar(moodColor = MoodColor.INVERSE)
 
-        Text(
-            text = "Meus diários",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+            Column(
+                modifier = Modifier.fillMaxSize().padding(horizontal = Dimension.paddingComponentMedium),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    LelloCheckInDailyCard(
+                        currentStep = checkInState.currentStep,
+                        done = checkInState.bonusReceived,
+                        modifier = Modifier.padding(
+                            top = Dimension.paddingComponentMedium,
+                            bottom = Dimension.spacingExtraLarge
+                        )
+                    )
+                    Text(
+                        text = "Meus diários",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                    )
+                    if (journalCategories.isEmpty()) {
+                        Text("Carregando...")
+                    } else {
+                        journalCategories.forEach { category ->
+                            val journalType = JournalType.fromName(category.name)
+                            val badgeText = when (category.name) {
+                                "Humor" -> formatToHourMinute(bonusState.moodRemaining)
+                                "Sono" -> formatToHourMinute(bonusState.sleepRemaining)
+                                "Medicamentos" -> formatToHourMinute(bonusState.medicationRemaining)
+                                "Alimentação" -> formatToHourMinute(bonusState.mealRemaining)
+                                else -> ""
+                            }
 
-        if (journalCategories.isEmpty()) {
-            Text("Carregando...")
-        } else {
-            journalCategories.forEach { category ->
-                val badgeText = when (category.name) {
-                    "Humor" -> formatToHourMinute(bonusState.moodRemaining)
-                    "Sono" -> formatToHourMinute(bonusState.sleepRemaining)
-                    "Medicamentos" -> formatToHourMinute(bonusState.medicationRemaining)
-                    "Alimentação" -> formatToHourMinute(bonusState.mealRemaining)
-                    else -> ""
-                }
-
-                JournalCategoryCard(
-                    title = category.name,
-                    description = category.shortDescription,
-                    badgeText = badgeText,
-                    configuration = JournalCategoryCardConfig.fromName(category.name),
-                    onClick = {
-                        when (category.name) {
-                            "Humor" -> onNavigateToModule(MoodJournalDestinations.GRAPH)
-                            "Sono" -> onNavigateToModule(SleepJournalDestinations.GRAPH)
-                            "Medicamentos" -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
-                            "Alimentação" -> onNavigateToModule(JournalMealDestinations.GRAPH)
+                            if (journalType != null) {
+                                JournalCategoryCard(
+                                    type = journalType,
+                                    description = category.shortDescription,
+                                    badgeText = badgeText,
+                                    onClick = {
+                                        when (journalType) {
+                                            JournalType.MOOD -> onNavigateToModule(MoodJournalDestinations.GRAPH)
+                                            JournalType.SLEEP -> onNavigateToModule(SleepJournalDestinations.GRAPH)
+                                            JournalType.MEDICATION -> onNavigateToModule(JournalMedicationDestinations.GRAPH)
+                                            JournalType.MEAL -> onNavigateToModule(JournalMealDestinations.GRAPH)
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(Dimension.spacingMedium))
+                            }
                         }
                     }
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
+                }
             }
         }
     }
 }
 
+@SuppressLint("DefaultLocale")
 private fun formatToHourMinute(millis: Long): String {
     val totalMinutes = (millis / 1000 / 60).coerceAtLeast(0)
     val hours = totalMinutes / 60
@@ -161,9 +136,13 @@ private fun formatToHourMinute(millis: Long): String {
     return String.format("%dh %02dm", hours, minutes)
 }
 
-@Preview("HomeScreen - Light Theme")
 @Composable
-private fun PreviewHomeScreen() {
+@Preview(
+    name = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun HomeScreenPreview_LightMode() {
     val bonusState = JournalBonusState(
         moodRemaining = 3600000,
         sleepRemaining = 3600000,
@@ -175,12 +154,10 @@ private fun PreviewHomeScreen() {
         bonusReceived = false
     )
 
-    LelloTheme(darkTheme = false) {
-        HomeScreenContainer(
-            journalCategories = JournalCategoryMock.list,
-            bonusState = bonusState,
-            checkInState = checkInState,
-            onNavigateToModule = {}
-        )
-    }
+    HomeScreenContent(
+        journalCategories = JournalCategoryMock.list,
+        bonusState = bonusState,
+        checkInState = checkInState,
+        onNavigateToModule = {}
+    )
 }

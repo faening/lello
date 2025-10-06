@@ -12,7 +12,12 @@
           "package_name": "io.github.faening.lello"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "453402448651-l8os59878q7cpjibe4m6mmjg81tvj8b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD7Tbq_JBn5JFQvyOm_KPSHnlrH4Zp6DYc"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453402448651-l8os59878q7cpjibe4m6mmjg81tvj8b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

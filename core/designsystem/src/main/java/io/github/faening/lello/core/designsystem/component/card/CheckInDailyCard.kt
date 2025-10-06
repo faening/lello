@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.component.card
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -14,9 +15,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,89 +29,99 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.R
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.Grey50
-import io.github.faening.lello.core.designsystem.theme.Grey500
-import io.github.faening.lello.core.designsystem.theme.Grey700
+import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.Yellow500
 
+/**
+ * Exibe um card de check-in diário, mostrando o progresso do usuário no preenchimento dos diários e uma mensagem de
+ * incentivo ou parabéns.
+ *
+ * @param currentStep Quantos diários já foram preenchidos. O App conta com 4 diários, logo, o máximo é 4.
+ * @param totalSteps Quantidade máxima de diários. Atualmente, é 4.
+ * @param done Se preencheu todos os diários, ganha as moedas extra. Se isso realmente aconteceu, done vira true e muda
+ * a mensagem.
+ * @param modifier Modifier opcional para customização do layout.
+ */
 @Composable
-fun CheckInDailyCard(
-    currentStep: Int, // 1..4
-    subtitle: String,
-    modifier: Modifier = Modifier
+fun LelloCheckInDailyCard(
+    currentStep: Int = 1,
+    totalSteps: Int = 4,
+    done: Boolean = false,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
-    val progressTotal = 4
-    val activeColor = Yellow500
-    val inactiveColor = Grey50
-
     Box(
-        modifier = modifier.padding(bottom = Dimension.Small, end = Dimension.Small)
+        modifier.padding(end = Dimension.spacingSmall, bottom = Dimension.spacingSmall)
     ) {
         // Fake Shadow
         Box(
-            modifier = Modifier
+            Modifier
                 .matchParentSize()
-                .offset(x = Dimension.Small, y = Dimension.Small)
+                .offset(Dimension.spacingSmall, Dimension.spacingSmall)
                 .background(
-                    color = Grey700.copy(alpha = Dimension.ALPHA_DISABLED),
-                    shape = RoundedCornerShape(Dimension.cardRadiusLarge)
+                    color = CheckInDailyCardDefaults.shadowColor(),
+                    shape = LelloShape.cardShape
                 )
         )
 
         Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(Dimension.cardRadiusLarge),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            modifier = Modifier.fillMaxWidth().height(116.dp),
+            shape = LelloShape.cardShape,
+            colors = CheckInDailyCardDefaults.containerColor(),
+            elevation = CheckInDailyCardDefaults.elevation(),
             border = BorderStroke(
-                width = Dimension.cardBorderStrokeWidth,
-                color = Grey500
+                width = Dimension.borderWidthThick,
+                color = CheckInDailyCardDefaults.borderColor()
             )
         ) {
             Row(
-                modifier = Modifier.padding(Dimension.Medium),
+                modifier = Modifier.padding(Dimension.spacingRegular),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_bonus_hexagon_10),
+                    painter = painterResource(LelloIcons.Graphic.BonusHexagon.resId),
                     contentDescription = "Bônus de moedas",
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.size(Dimension.heightButtonLarge)
                 )
-                Spacer(modifier = Modifier.width(Dimension.Medium))
+                Spacer(Modifier.width(Dimension.spacingSmall))
 
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
+                Column(Modifier.weight(1f)) {
                     Text(
                         text = "Check-In diário",
                         style = MaterialTheme.typography.titleLarge,
-                        color = Grey500
+                        color = CheckInDailyCardDefaults.primaryTextColor(),
+                        modifier = Modifier.padding(bottom = Dimension.spacingSmall)
                     )
-                    Spacer(modifier = Modifier.height(Dimension.Small))
-
                     Text(
-                        text = subtitle,
+                        text = if (done) {
+                            "Parabéns! Você adquiriu moedas extra hoje."
+                        } else {
+                            "Preencha todos os diários uma vez ao dia para ganhar 10 moedas extra."
+                        },
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Grey500
+                        color = CheckInDailyCardDefaults.primaryTextColor(),
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                     )
-                    Spacer(modifier = Modifier.height(Dimension.Medium))
 
-                    // Progress bar
+                    // Progress Bar
                     Row {
-                        repeat(progressTotal) { i ->
+                        repeat(totalSteps) { i ->
                             Box(
-                                modifier = Modifier
-                                    .height(Dimension.Small)
+                                Modifier
+                                    .height(Dimension.spacingSmall)
                                     .weight(1f)
                                     .background(
-                                        color = if (i < currentStep) activeColor else inactiveColor,
-                                        shape = RoundedCornerShape(Dimension.Small)
+                                        color = if (i < currentStep) {
+                                            CheckInDailyCardDefaults.selectedItemColor()
+                                        } else {
+                                            CheckInDailyCardDefaults.unselectedItemColor()
+                                        },
+                                        shape = LelloShape.pillShape
                                     )
                             )
-                            if (i < progressTotal - 1) {
-                                Spacer(modifier = Modifier.width(Dimension.Small))
+                            if (i < totalSteps - 1) {
+                                Spacer(Modifier.width(Dimension.spacingSmall))
                             }
                         }
                     }
@@ -119,18 +131,72 @@ fun CheckInDailyCard(
     }
 }
 
+private object CheckInDailyCardDefaults {
+    @Composable
+    fun borderColor(): Color {
+        return MaterialTheme.colorScheme.outline
+    }
+
+    @Composable
+    fun shadowColor(): Color {
+        return MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
+    }
+
+    @Composable
+    fun elevation(): CardElevation {
+        return CardDefaults.cardElevation(0.dp, 0.dp, 0.dp, 0.dp, 0.dp, 0.dp)
+    }
+
+    @Composable
+    fun selectedItemColor(): Color {
+        return MaterialTheme.colorScheme.primary
+    }
+
+    @Composable
+    fun unselectedItemColor(): Color {
+        return MaterialTheme.colorScheme.onSecondary
+    }
+
+    @Composable
+    fun containerColor(): CardColors {
+        return CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest)
+    }
+
+    @Composable
+    fun primaryTextColor(): Color {
+        return MaterialTheme.colorScheme.onPrimary
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(
-    name = "Default Color - Light",
+    name = "In Progress",
+    group = "Light Mode",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun CheckInDailyCardPreview() {
+private fun LelloCheckInDailyCardPreview_InProgress_LightMode() {
     LelloTheme {
-        CheckInDailyCard(
-            currentStep = 2,
-            subtitle = "Preencha todos os diários ao menos uma vez para ganhar 10 moedas extra"
+        LelloCheckInDailyCard(
+            currentStep = 2
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview(
+    name = "Done",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloCheckInDailyCardPreview_Done_LightMode() {
+    LelloTheme {
+        LelloCheckInDailyCard(
+            currentStep = 4,
+            done = true
         )
     }
 }

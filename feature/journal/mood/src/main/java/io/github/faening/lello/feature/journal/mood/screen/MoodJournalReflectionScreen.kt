@@ -17,8 +17,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloTextArea
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.textfield.LelloMultilineTextField
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
@@ -37,7 +37,7 @@ internal fun MoodJournalReflectionScreen(
     val reflection by viewModel.reflection.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(scheme = mood.colorScheme) {
+    LelloTheme(moodColor = mood) {
         MoodJournalReflectionContainer(
             entryTime = entryTime,
             reflection = reflection,
@@ -92,7 +92,7 @@ private fun MoodJournalReflectionBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Concluir",
@@ -114,21 +114,21 @@ private fun MoodJournalReflectionContent(
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         Text(
             text = "Quer anotar algum detalhe importante ou uma reflexão neste diário?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.Medium))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
             text = "Ganhe $coinsAcquired moeads ao concluir",
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
-        LelloTextArea(
+        LelloMultilineTextField(
             value = reflection,
             onValueChange = onValueChange,
             placeholder = "Digite sua reflexão livre aqui...",

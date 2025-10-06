@@ -1,8 +1,16 @@
 package io.github.faening.lello.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -10,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -18,12 +27,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import io.github.faening.lello.core.designsystem.component.CentralNavigationBarItem
-import io.github.faening.lello.core.designsystem.component.LelloNavigationBar
-import io.github.faening.lello.core.designsystem.component.LelloNavigationBarItem
+import io.github.faening.lello.core.designsystem.component.navigation.CentralNavigationBarItem
+import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBar
+import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBarItem
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.domain.mock.NavigationItemMock
 import io.github.faening.lello.core.model.journal.NavigationItem
 import io.github.faening.lello.feature.achievement.AchievementDestinations
 import io.github.faening.lello.feature.diary.DiaryDestinations
@@ -31,7 +39,6 @@ import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.medication.MedicationDestinations
 import io.github.faening.lello.feature.profile.ProfileDestinations
 import io.github.faening.lello.navigation.LelloNavHost
-import io.github.faening.lello.core.designsystem.R as designsystemR
 import io.github.faening.lello.feature.achievement.R as achievementR
 import io.github.faening.lello.feature.diary.R as diaryR
 import io.github.faening.lello.feature.home.R as homeR
@@ -53,7 +60,7 @@ fun LelloApp() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
             if (showBottomBar) {
                 LelloAppBottomBar(
@@ -78,32 +85,32 @@ private fun SetupNavigationItems() : List<NavigationItem> {
         NavigationItem(
             title = homeR.string.home_title,
             route = HomeDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_home_outlined)
+            selectedIcon = LelloIcons.Filled.Home.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Home.imageVector
         ),
         NavigationItem(
             title = diaryR.string.diary_title,
             route = DiaryDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_book_open_outlined)
+            selectedIcon = LelloIcons.Filled.BookOpen.imageVector,
+            unselectedIcon = LelloIcons.Outlined.BookOpen.imageVector
         ),
         NavigationItem(
             title = achievementR.string.achievements_title,
             route = AchievementDestinations.GRAPH,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_achievements)
+            selectedIcon = LelloIcons.Filled.Achievement.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
         ),
         NavigationItem(
             title = medicationR.string.medication_title,
             route = MedicationDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
+            selectedIcon = LelloIcons.Filled.DrugPill.imageVector,
+            unselectedIcon = LelloIcons.Outlined.DrugPill.imageVector
         ),
         NavigationItem(
             title = profileR.string.profile_title,
             route = ProfileDestinations.HOME,
-            selectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined),
-            unselectedIcon = LelloIcons.customIcon(designsystemR.drawable.ic_profile_outlined)
+            selectedIcon = LelloIcons.Filled.Profile.imageVector,
+            unselectedIcon = LelloIcons.Outlined.Profile.imageVector
         )
     )
 }
@@ -172,15 +179,66 @@ private fun LelloAppBottomBar(
     }
 }
 
+@Composable
+fun previewNavigationItems(): List<NavigationItem> {
+    return listOf(
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "home",
+            selectedIcon = Icons.Rounded.Home,
+            unselectedIcon = Icons.Rounded.Home
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "diary",
+            selectedIcon = Icons.Rounded.Book,
+            unselectedIcon = Icons.Rounded.Book
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "achievements",
+            selectedIcon = Icons.Rounded.Star,
+            unselectedIcon = Icons.Rounded.Star
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "medication",
+            selectedIcon = Icons.Rounded.Add,
+            unselectedIcon = Icons.Rounded.Add
+        ),
+        NavigationItem(
+            title = android.R.string.ok,
+            route = "profile",
+            selectedIcon = Icons.Rounded.Person,
+            unselectedIcon = Icons.Rounded.Person
+        )
+    )
+}
+
 @Preview(name = "Light Theme")
 @Composable
 fun LelloAppPreview() {
     LelloTheme(darkTheme = false) {
         val navController = rememberNavController()
-        LelloAppBottomBar(
-            items = NavigationItemMock.list,
-            currentDestination = null,
-            navController = navController
-        )
+        val items = previewNavigationItems()
+
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = {
+                LelloAppBottomBar(
+                    items = items,
+                    currentDestination = null,
+                    navController = navController
+                )
+            }
+        ) { innerPadding ->
+            // Conteúdo simulado para o preview
+            Text(
+                text = "Conteúdo do App",
+                modifier = Modifier.padding(innerPadding),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
