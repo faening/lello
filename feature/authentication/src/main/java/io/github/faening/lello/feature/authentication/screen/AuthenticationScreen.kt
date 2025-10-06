@@ -113,16 +113,15 @@ private fun AuthenticationScreenContent(
             ) {
                 Text(
                     text = "Como você deseja entrar?",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(Dimension.spacingExtraLarge)
                 )
-
                 LelloFilledButton(
                     label = "Continuar com e-mail e senha",
                     onClick = onEmailSignInClick,
                     icon = LelloIcons.Outlined.Mail.imageVector,
                     moodColor = moodColor,
-                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
+                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                 )
                 LelloFilledButton(
                     label = "Continuar com o Google",
@@ -131,7 +130,6 @@ private fun AuthenticationScreenContent(
                     icon = LelloIcons.Filled.Google.imageVector,
                     moodColor = MoodColor.SECONDARY
                 )
-
                 Text(
                     text = buildAnnotatedString {
                         append("Ao continuar, você concorda com os ")
@@ -140,7 +138,7 @@ private fun AuthenticationScreenContent(
                         }
                         append(" do Lello.")
                     },
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(vertical = Dimension.spacingRegular)
@@ -163,7 +161,7 @@ private fun AuthenticationScreenContent(
                             append("Inscreva-se")
                         }
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(Dimension.spacingRegular)
@@ -177,7 +175,7 @@ private fun AuthenticationScreenContent(
                             append("Recuperar conta")
                         }
                     },
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable { onRecoverAccountClick() }
                 )

@@ -128,7 +128,6 @@ private fun BiometricAuthenticationContent(
                     moodColor = MoodColor.INVERSE,
                     modifier = Modifier.fillMaxWidth().padding(bottom = Dimension.spacingRegular),
                 )
-
                 LelloFilledButton(
                     label = "Entrar com e-mail e senha",
                     onClick = onNavigateToEmailSignIn,

@@ -125,7 +125,7 @@ private fun ForgotPasswordScreenContent(
                 LelloEmailTextField(
                     value = email,
                     onValueChange = { email = it },
-                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
+                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
 
                 LelloFilledButton(

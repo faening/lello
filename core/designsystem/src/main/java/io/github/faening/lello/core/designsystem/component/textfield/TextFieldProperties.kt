@@ -22,8 +22,14 @@ object TextFieldProperties {
     }
 
     @Composable
+    fun placeholderColor(enabled: Boolean) : Color = when(enabled) {
+        true -> MaterialTheme.colorScheme.surfaceVariant
+        false -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    @Composable
     fun iconColor(enabled: Boolean) : Color = when(enabled) {
-        true -> MaterialTheme.colorScheme.onSurface
+        true -> MaterialTheme.colorScheme.surfaceVariant
         false -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 

@@ -124,7 +124,7 @@ private fun ShadowedOutlinedTextField(
                 .fillMaxWidth()
                 .height(Dimension.textFieldMultilineHeight)
                 .border(
-                    width = Dimension.borderWidthDefault,
+                    width = Dimension.borderWidthThick,
                     color = TextFieldProperties.borderColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
@@ -140,7 +140,7 @@ private fun ShadowedOutlinedTextField(
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = TextFieldProperties.textColor(enabled),
+                        color = TextFieldProperties.placeholderColor(enabled),
                         fontWeight = FontWeight.Bold
                     )
                 )

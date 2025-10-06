@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.Grey100
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 
@@ -135,7 +136,7 @@ private fun ShadowedOutlinedTextField(
                 .fillMaxWidth()
                 .height(Dimension.heightTextFieldDefault)
                 .border(
-                    width = Dimension.borderWidthDefault,
+                    width = Dimension.borderWidthThick,
                     color = TextFieldProperties.borderColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
@@ -143,15 +144,15 @@ private fun ShadowedOutlinedTextField(
                     onFocusChanged(focusState.isFocused)
                 },
             enabled = enabled,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
                 color = TextFieldProperties.textColor(enabled)
             ),
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = TextFieldProperties.textColor(enabled),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = TextFieldProperties.placeholderColor(enabled),
                         fontWeight = FontWeight.Bold
                     )
                 )

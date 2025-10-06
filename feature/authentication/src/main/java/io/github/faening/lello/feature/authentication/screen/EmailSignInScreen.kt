@@ -103,14 +103,14 @@ private fun EmailSignInScreenContent(
             ) {
                 Text(
                     text = "Acesse sua conta e registre seus momentos",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
                 LelloEmailTextField(
                     value = email,
                     onValueChange = { email = it },
-                    modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                 )
                 LelloPasswordTextField(
                     value = password,

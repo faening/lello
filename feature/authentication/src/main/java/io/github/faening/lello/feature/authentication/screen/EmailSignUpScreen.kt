@@ -118,20 +118,20 @@ private fun EmailSignUpScreenContent(
                 ) {
                     Text(
                         text = "Preencha os campos abaixo para criar sua conta no Lello",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                     )
                     LelloEmailTextField(
                         value = email,
                         onValueChange = { email = it },
-                        modifier = Modifier.padding(bottom = Dimension.spacingMedium),
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
                         enabled = !uiState.isLoading
                     )
                     LelloPasswordTextField(
                         value = password,
                         onValueChange = { password = it },
-                        modifier = Modifier.padding(bottom = Dimension.spacingMedium),
+                        modifier = Modifier.padding(bottom = Dimension.spacingRegular),
                         enabled = !uiState.isLoading
                     )
                     LelloPasswordTextField(

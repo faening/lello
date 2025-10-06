@@ -55,7 +55,7 @@ fun LelloFloatingActionButton(
             modifier = Modifier
                 .border(
                     border = BorderStroke(
-                        width = Dimension.borderWidthDefault,
+                        width = Dimension.borderWidthThick,
                         color = ButtonProperties.borderColor(enabled)
                     ),
                     shape = LelloShape.fabShape

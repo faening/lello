@@ -114,7 +114,7 @@ private fun ShadowedOutlinedTextField(
                 .fillMaxWidth()
                 .height(Dimension.heightTextFieldDefault)
                 .border(
-                    width = Dimension.borderWidthDefault,
+                    width = Dimension.borderWidthThick,
                     color = TextFieldProperties.borderColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
