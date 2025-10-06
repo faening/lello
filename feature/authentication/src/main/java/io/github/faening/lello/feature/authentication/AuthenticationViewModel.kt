@@ -100,6 +100,10 @@ class AuthenticationViewModel @Inject constructor(
             val result = signInWithEmailAndPasswordUseCase(email, password)
             when (result) {
                 is AuthResult.Success -> {
+                    if (_uiState.value.savedEmail.isNullOrEmpty()) {
+                        saveUserEmailUseCase(email)
+                        _uiState.value = _uiState.value.copy(savedEmail = email)
+                    }
                     _uiState.value = _uiState.value.copy(isLoading = false, isSignInSuccessful = true)
                 }
 
@@ -168,7 +172,7 @@ class AuthenticationViewModel @Inject constructor(
     /**
      * Realiza o login do usuário usando o token do Google e atualiza o estado da UI.
      *
-     * @param idToken O token de ID do Google obtido após a autenticação.
+     * @param response A resposta do Google contendo o token de autenticação.
      */
     fun signInWithGoogle(response: GetCredentialResponse) {
         viewModelScope.launch {
