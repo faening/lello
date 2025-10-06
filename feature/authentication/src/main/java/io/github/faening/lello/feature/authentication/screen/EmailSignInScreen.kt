@@ -97,7 +97,10 @@ private fun EmailSignInScreenContent(
             containerColor = MaterialTheme.colorScheme.inversePrimary
         ) { paddingValues ->
             Column(
-                modifier = Modifier.fillMaxSize().padding(paddingValues).padding(Dimension.spacingRegular),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(Dimension.spacingRegular),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {

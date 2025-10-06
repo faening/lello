@@ -47,6 +47,7 @@ fun NavGraphBuilder.authenticationGraph(
     ) {
         composable(AuthenticationDestinations.HOME) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
+
             AuthenticationScreen(
                 viewModel = viewModel,
                 onEmailSignInClick = { navController.navigate(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) },
@@ -85,7 +86,13 @@ fun NavGraphBuilder.authenticationGraph(
 
             EmailSignInScreen(
                 viewModel = viewModel,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = {
+                    if (!navController.navigateUp()) {
+                        navController.navigate(AuthenticationDestinations.HOME) {
+                            popUpTo(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) { inclusive = true }
+                        }
+                    }
+                },
                 onSignInSuccess = {
                     coroutineScope.launch {
                         viewModel.getNextDestination().collectLatest { destination ->
