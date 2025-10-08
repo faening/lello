@@ -78,7 +78,7 @@ fun LelloDiaryCard(
             colors = DiaryCardDefaults.containerColor(),
             elevation = DiaryCardDefaults.elevation(),
             border = BorderStroke(
-                width = Dimension.cardBorderWidth,
+                width = Dimension.borderWidthThick,
                 color = DiaryCardDefaults.borderColor()
             )
         ) {

@@ -7,24 +7,16 @@ import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
-import io.github.faening.lello.core.model.reward.RewardOrigin
-import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.reward.RewardOrigin
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.collections.filter
-import kotlin.collections.sortedByDescending
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
@@ -52,9 +44,7 @@ class DiaryViewModel @Inject constructor(
         loadSleepJournal()
     }
 
-    // region: Load journals
-
-    fun loadMoodJournals() {
+    private fun loadMoodJournals() {
         viewModelScope.launch {
             moodJournalUseCase
                 .getAll()
@@ -62,7 +52,7 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    fun loadMealJournal() {
+    private fun loadMealJournal() {
         viewModelScope.launch {
             mealJournalUseCase
                 .getAll()
@@ -78,8 +68,6 @@ class DiaryViewModel @Inject constructor(
         }
     }
 
-    // endregion
-
     fun setSelectedDate(date: LocalDate) {
         _selectedDate.value = date
     }
@@ -87,5 +75,4 @@ class DiaryViewModel @Inject constructor(
     suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {
         return rewardHistoryUseCase.getRewardAmountByOrigin(origin, originId) ?: 0
     }
-
 }
