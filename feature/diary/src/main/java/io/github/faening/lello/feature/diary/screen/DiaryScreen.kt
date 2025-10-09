@@ -44,6 +44,7 @@ fun DiaryScreen(
     viewModel: DiaryViewModel,
     onMoodJournalClick: (Long) -> Unit = {},
     onMealJournalClick: (Long) -> Unit = {},
+    onSleepJournalClick: (Long) -> Unit = {}
 ) {
     val selectedDate by viewModel.selectedDate.collectAsState()
     val moodJournals by viewModel.moodJournals.collectAsState()
@@ -73,6 +74,7 @@ fun DiaryScreen(
         mealJournals = dayMealJournals,
         onMealJournalClick = onMealJournalClick,
         sleepJournals = daySleepJournals,
+        onSleepJournalClick = onSleepJournalClick,
         onSelectDate = viewModel::setSelectedDate,
         getRewardAmount = viewModel::getRewardAmount
     )
@@ -86,6 +88,7 @@ private fun DiaryScreenContent(
     mealJournals: List<MealJournal>,
     onMealJournalClick: (Long) -> Unit = {},
     sleepJournals: List<SleepJournal>,
+    onSleepJournalClick: (Long) -> Unit = {},
     onSelectDate: (LocalDate) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
@@ -110,6 +113,7 @@ private fun DiaryScreenContent(
                 ) {
                     SleepJournalsSection(
                         daySleepJournals = sleepJournals,
+                        onSleepJournalClick = onSleepJournalClick,
                         getRewardAmount = getRewardAmount
                     )
 
@@ -164,6 +168,7 @@ private fun EmptyContentSection(
 @Composable
 private fun SleepJournalsSection(
     daySleepJournals: List<SleepJournal>,
+    onSleepJournalClick: (Long) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int
 ) {
     if (daySleepJournals.isNotEmpty()) {
@@ -176,6 +181,7 @@ private fun SleepJournalsSection(
                 properties = DiaryCardOptions.SleepJournal,
                 dateTime = Date(journal.createdAt),
                 reward = reward,
+                onClick = { onSleepJournalClick(journalId) },
                 modifier = Modifier.padding(bottom = Dimension.spacingMedium)
             )
         }

@@ -11,6 +11,7 @@ import androidx.navigation.compose.navigation
 import io.github.faening.lello.feature.diary.screen.DiaryMealDetailsScreen
 import io.github.faening.lello.feature.diary.screen.DiaryMoodDetailsScreen
 import io.github.faening.lello.feature.diary.screen.DiaryScreen
+import io.github.faening.lello.feature.diary.screen.DiarySleepDetailsScreen
 
 object DiaryDestinations {
     const val GRAPH = "diary_graph"
@@ -37,6 +38,10 @@ fun NavGraphBuilder.diaryGraph(navController: NavHostController) {
                 onMealJournalClick = { journalId ->
                     viewModel.setSelectedMealJournal(journalId)
                     navController.navigate(DiaryDestinations.MEAL_DETAILS)
+                },
+                onSleepJournalClick = { journalId ->
+                    viewModel.setSelectedSleepJournal(journalId)
+                    navController.navigate(DiaryDestinations.SLEEP_DETAILS)
                 }
             )
         }
@@ -54,6 +59,15 @@ fun NavGraphBuilder.diaryGraph(navController: NavHostController) {
             val viewModel = sharedDiaryViewModel(navController, backStackEntry)
 
             DiaryMealDetailsScreen(
+                viewModel = viewModel,
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(DiaryDestinations.SLEEP_DETAILS) { backStackEntry ->
+            val viewModel = sharedDiaryViewModel(navController, backStackEntry)
+
+            DiarySleepDetailsScreen(
                 viewModel = viewModel,
                 onBackClick = { navController.navigateUp() }
             )

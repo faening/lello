@@ -44,6 +44,9 @@ class DiaryViewModel @Inject constructor(
     private val _selectedMealJournal = MutableStateFlow<MealJournal?>(null)
     val selectedMealJournal: StateFlow<MealJournal?> = _selectedMealJournal.asStateFlow()
 
+    private val _selectedSleepJournal = MutableStateFlow<SleepJournal?>(null)
+    val selectedSleepJournal: StateFlow<SleepJournal?> = _selectedSleepJournal.asStateFlow()
+
     init {
         loadMoodJournals()
         loadMealJournal()
@@ -87,6 +90,12 @@ class DiaryViewModel @Inject constructor(
     fun setSelectedMealJournal(journalId: Long) {
         viewModelScope.launch {
             _selectedMealJournal.value = _mealJournals.value.find { it.id == journalId }
+        }
+    }
+
+    fun setSelectedSleepJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedSleepJournal.value = _sleepJournals.value.find { it.id == journalId }
         }
     }
 

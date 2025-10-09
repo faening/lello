@@ -20,6 +20,10 @@ interface SleepJournalDao : JournalResources<SleepJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM sleep_journals ORDER BY created_at DESC")
+    fun getAllWithOptions(): Flow<List<SleepJournalEntityWithOptions>>
+
+    @Transaction
+    @Query("SELECT * FROM sleep_journals ORDER BY created_at DESC")
     override fun getAll(): Flow<List<SleepJournalEntity>>
 
     @Transaction
