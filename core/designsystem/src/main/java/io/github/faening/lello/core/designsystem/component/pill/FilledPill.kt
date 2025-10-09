@@ -22,7 +22,7 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 fun LelloFilledPill(
     label: String,
     selected: Boolean = false,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     moodColor: MoodColor = MoodColor.DEFAULT,
     colorScheme: ColorScheme = MaterialTheme.colorScheme,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,

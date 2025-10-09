@@ -26,17 +26,20 @@ class DiaryViewModel @Inject constructor(
     private val rewardHistoryUseCase: RewardHistoryUseCase
 ) : ViewModel() {
 
+    private val _moodJournals = MutableStateFlow<List<MoodJournal>>(emptyList())
+    val moodJournals: StateFlow<List<MoodJournal>> = _moodJournals
+
+    private val _mealJournals = MutableStateFlow<List<MealJournal>>(emptyList())
+    val mealJournals: StateFlow<List<MealJournal>> = _mealJournals
+
+    private val _sleepJournals = MutableStateFlow<List<SleepJournal>>(emptyList())
+    val sleepJournals: StateFlow<List<SleepJournal>> = _sleepJournals
+
     private val _selectedDate = MutableStateFlow(LocalDate.now())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
-    private val _moodJournal = MutableStateFlow<List<MoodJournal>>(emptyList())
-    val moodJournal: StateFlow<List<MoodJournal>> = _moodJournal
-
-    private val _mealJournal = MutableStateFlow<List<MealJournal>>(emptyList())
-    val mealJournal: StateFlow<List<MealJournal>> = _mealJournal
-
-    private val _sleepJournal = MutableStateFlow<List<SleepJournal>>(emptyList())
-    val sleepJournal: StateFlow<List<SleepJournal>> = _sleepJournal
+    private val _selectedMoodJournal = MutableStateFlow<MoodJournal?>(null)
+    val selectedMoodJournal: StateFlow<MoodJournal?> = _selectedMoodJournal.asStateFlow()
 
     init {
         loadMoodJournals()
@@ -48,7 +51,7 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             moodJournalUseCase
                 .getAll()
-                .collect { _moodJournal.value = it }
+                .collect { _moodJournals.value = it }
         }
     }
 
@@ -56,7 +59,7 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             mealJournalUseCase
                 .getAll()
-                .collect { _mealJournal.value = it }
+                .collect { _mealJournals.value = it }
         }
     }
 
@@ -64,12 +67,18 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             sleepJournalUseCase
                 .getAll()
-                .collect { _sleepJournal.value = it }
+                .collect { _sleepJournals.value = it }
         }
     }
 
     fun setSelectedDate(date: LocalDate) {
         _selectedDate.value = date
+    }
+
+    fun setSelectedMoodJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedMoodJournal.value = _moodJournals.value.find { it.id == journalId }
+        }
     }
 
     suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {

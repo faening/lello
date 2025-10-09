@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -40,12 +41,25 @@ import java.util.Date
 
 @Composable
 fun DiaryScreen(
-    viewModel: DiaryViewModel
+    viewModel: DiaryViewModel,
+    onMoodJournalClick: (Long) -> Unit = {}
 ) {
     val selectedDate by viewModel.selectedDate.collectAsState()
-    val moodJournal by viewModel.moodJournal.collectAsState()
-    val mealJournal by viewModel.mealJournal.collectAsState()
-    val sleepJournal by viewModel.sleepJournal.collectAsState()
+    val moodJournals by viewModel.moodJournals.collectAsState()
+    val mealJournals by viewModel.mealJournals.collectAsState()
+    val sleepJournals by viewModel.sleepJournals.collectAsState()
+
+    val dayMoodJournals = moodJournals
+        .filter { it.createdAt.isSameDay(selectedDate) }
+        .sortedByDescending { it.createdAt }
+
+    val dayMealJournals = mealJournals
+        .filter { it.createdAt.isSameDay(selectedDate) }
+        .sortedByDescending { it.createdAt }
+
+    val daySleepJournals = sleepJournals
+        .filter { it.createdAt.isSameDay(selectedDate) }
+        .sortedByDescending { it.createdAt }
 
     LaunchedEffect(Unit) {
         viewModel.setSelectedDate(selectedDate)
@@ -53,9 +67,10 @@ fun DiaryScreen(
 
     DiaryScreenContent(
         selectedDate = selectedDate,
-        moodJournals = moodJournal,
-        mealJournals = mealJournal,
-        sleepJournals = sleepJournal,
+        moodJournals = dayMoodJournals,
+        onMoodJournalClick = onMoodJournalClick,
+        mealJournals = dayMealJournals,
+        sleepJournals = daySleepJournals,
         onSelectDate = viewModel::setSelectedDate,
         getRewardAmount = viewModel::getRewardAmount
     )
@@ -65,97 +80,46 @@ fun DiaryScreen(
 private fun DiaryScreenContent(
     selectedDate: LocalDate,
     moodJournals: List<MoodJournal>,
+    onMoodJournalClick: (Long) -> Unit = {},
     mealJournals: List<MealJournal>,
     sleepJournals: List<SleepJournal>,
     onSelectDate: (LocalDate) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
-    val scrollState = rememberScrollState()
-    val dayMoodJournals = moodJournals
-        .filter { it.createdAt.isSameDay(selectedDate) }
-        .sortedByDescending { it.createdAt }
-    val dayMealJournals = mealJournals
-        .filter { it.createdAt.isSameDay(selectedDate) }
-        .sortedByDescending { it.createdAt }
-    val daySleepJournals = sleepJournals
-        .filter { it.createdAt.isSameDay(selectedDate) }
-        .sortedByDescending { it.createdAt }
-
     LelloTheme {
         Scaffold(
             topBar = {
-                LelloCalendarTopAppBar(
-                    selectedDate = selectedDate,
-                    onDateSelected = onSelectDate,
-                    moodColor = MoodColor.INVERSE
-                )
-            },
+                TopAppBarSection(selectedDate, onSelectDate)
+            }
         ) { paddingValues ->
-            if (dayMoodJournals.isEmpty() && dayMealJournals.isEmpty() && daySleepJournals.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(Dimension.spacingRegular)
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Não existem registros para o período selecionado",
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                    )
-                }
+            if (moodJournals.isEmpty() && mealJournals.isEmpty() && sleepJournals.isEmpty()) {
+                EmptyContentSection(paddingValues)
             } else {
+                val scrollState = rememberScrollState()
+
                 Column(
                     modifier = Modifier
                         .padding(paddingValues)
                         .padding(Dimension.spacingRegular)
                         .verticalScroll(scrollState),
-                    horizontalAlignment =  Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
                 ) {
-                    if (daySleepJournals.isNotEmpty()) {
-                        JournalSection(
-                            journals = daySleepJournals,
-                            getJournalId = { it.id },
-                            getCreatedAt = { it.createdAt },
-                            getRewardOrigin = RewardOrigin.SLEEP_JOURNAL,
-                            getCardOptions = { DiaryCardOptions.SleepJournal },
-                            getRewardAmount = getRewardAmount,
-                            modifier = Modifier.padding(bottom = Dimension.spacingMedium)
-                        )
-                    }
-                    if (dayMealJournals.isNotEmpty()) {
-                        JournalSection(
-                            journals = dayMealJournals,
-                            getJournalId = { it.id },
-                            getCreatedAt = { it.createdAt },
-                            getRewardOrigin = RewardOrigin.MEAL_JOURNAL,
-                            getCardOptions = { DiaryCardOptions.MealJournal },
-                            getRewardAmount = getRewardAmount,
-                            modifier = Modifier.padding(bottom = Dimension.spacingMedium)
-                        )
-                    }
-                    if (dayMoodJournals.isNotEmpty()) {
-                        JournalSection(
-                            journals = dayMoodJournals,
-                            getJournalId = { it.id },
-                            getCreatedAt = { it.createdAt },
-                            getRewardOrigin = RewardOrigin.MOOD_JOURNAL,
-                            getCardOptions = { journal ->
-                                when (journal.mood.name) {
-                                    "SERENE" -> DiaryCardOptions.MoodJournalSerene
-                                    "JOYFUL" -> DiaryCardOptions.MoodJournalJoyful
-                                    "BALANCED" -> DiaryCardOptions.MoodJournalBalanced
-                                    "TROUBLED" -> DiaryCardOptions.MoodJournalTroubled
-                                    "OVERWHELMED" -> DiaryCardOptions.MoodJournalOverwhelmed
-                                    else -> DiaryCardOptions.MoodJournalBalanced
-                                }
-                            },
-                            getRewardAmount = getRewardAmount,
-                            modifier = Modifier.padding(bottom = Dimension.spacingMedium)
-                        )
-                    }
+                    SleepJournalsSection(
+                        daySleepJournals = sleepJournals,
+                        getRewardAmount = getRewardAmount
+                    )
+
+                    MealJournalsSection(
+                        dayMealJournals = mealJournals,
+                        getRewardAmount = getRewardAmount
+                    )
+
+                    MoodJournalsSection(
+                        dayMoodJournals = moodJournals,
+                        onMoodJournalClick = onMoodJournalClick,
+                        getRewardAmount = getRewardAmount
+                    )
                 }
             }
         }
@@ -163,28 +127,109 @@ private fun DiaryScreenContent(
 }
 
 @Composable
-private fun <T> JournalSection(
-    journals: List<T>,
-    getJournalId: (T) -> Long?,
-    getCreatedAt: (T) -> Long,
-    getRewardOrigin: RewardOrigin,
-    getCardOptions: (T) -> DiaryCardOptions,
-    getRewardAmount: suspend (RewardOrigin, Long) -> Int,
-    modifier: Modifier = Modifier
+private fun TopAppBarSection(
+    selectedDate: LocalDate,
+    onSelectDate: (LocalDate) -> Unit
 ) {
-    journals.forEach { journal ->
-        val journalId = getJournalId(journal) ?: 0L
-        val reward by produceState(initialValue = 0, key1 = journalId) {
-            value = getRewardAmount(getRewardOrigin, journalId)
-        }
-        LelloDiaryCard(
-            properties = getCardOptions(journal),
-            dateTime = Date(getCreatedAt(journal)),
-            reward = reward,
-            modifier = modifier
+    LelloCalendarTopAppBar(
+        selectedDate = selectedDate,
+        onDateSelected = onSelectDate,
+        moodColor = MoodColor.INVERSE
+    )
+}
+
+@Composable
+private fun EmptyContentSection(
+    paddingValues: PaddingValues
+) {
+    Box(
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(Dimension.spacingRegular)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Não existem registros para o período selecionado",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
         )
     }
 }
+
+@Composable
+private fun SleepJournalsSection(
+    daySleepJournals: List<SleepJournal>,
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int
+) {
+    if (daySleepJournals.isNotEmpty()) {
+        daySleepJournals.forEach { journal ->
+            val journalId = journal.id ?: 0L
+            val reward by produceState(initialValue = 0, key1 = journalId) {
+                value = getRewardAmount(RewardOrigin.SLEEP_JOURNAL, journalId)
+            }
+            LelloDiaryCard(
+                properties = DiaryCardOptions.SleepJournal,
+                dateTime = Date(journal.createdAt),
+                reward = reward,
+                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            )
+        }
+    }
+}
+
+@Composable
+private fun MealJournalsSection(
+    dayMealJournals: List<MealJournal>,
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int
+) {
+    if (dayMealJournals.isNotEmpty()) {
+        dayMealJournals.forEach { journal ->
+            val journalId = journal.id ?: 0L
+            val reward by produceState(initialValue = 0, key1 = journalId) {
+                value = getRewardAmount(RewardOrigin.MEAL_JOURNAL, journalId)
+            }
+            LelloDiaryCard(
+                properties = DiaryCardOptions.MealJournal,
+                dateTime = Date(journal.createdAt),
+                reward = reward,
+                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            )
+        }
+    }
+}
+
+@Composable
+private fun MoodJournalsSection(
+    dayMoodJournals: List<MoodJournal>,
+    onMoodJournalClick: (Long) -> Unit = {},
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int
+) {
+    if (dayMoodJournals.isNotEmpty()) {
+        dayMoodJournals.forEach { journal ->
+            val journalId = journal.id ?: 0L
+            val reward by produceState(initialValue = 0, key1 = journalId) {
+                value = getRewardAmount(RewardOrigin.MOOD_JOURNAL, journalId)
+            }
+            LelloDiaryCard(
+                properties = when (journal.mood.name) {
+                    "SERENE" -> DiaryCardOptions.MoodJournalSerene
+                    "JOYFUL" -> DiaryCardOptions.MoodJournalJoyful
+                    "BALANCED" -> DiaryCardOptions.MoodJournalBalanced
+                    "TROUBLED" -> DiaryCardOptions.MoodJournalTroubled
+                    "OVERWHELMED" -> DiaryCardOptions.MoodJournalOverwhelmed
+                    else -> DiaryCardOptions.MoodJournalBalanced
+                },
+                dateTime = Date(journal.createdAt),
+                reward = reward,
+                onClick = { onMoodJournalClick(journalId) },
+                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            )
+        }
+    }
+}
+
+// region Previews
 
 @Preview(
     name = "Default",
@@ -233,3 +278,21 @@ private fun DiaryScreenPreview_DarkMode_Default() {
         sleepJournals = SleepJournalMock.list.take(2)
     )
 }
+
+@Preview(
+    name = "Empty",
+    group = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun DiaryScreenPreview_DarkMode_Empty() {
+    DiaryScreenContent(
+        selectedDate = LocalDate.now(),
+        moodJournals = emptyList(),
+        mealJournals = emptyList(),
+        sleepJournals = emptyList()
+    )
+}
+
+// endregion Previews
