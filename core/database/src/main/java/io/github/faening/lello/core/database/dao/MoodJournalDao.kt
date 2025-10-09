@@ -21,6 +21,10 @@ interface MoodJournalDao : JournalResources<MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
+    fun getAllWithOptions(): Flow<List<MoodJournalEntityWithOptions>>
+
+    @Transaction
+    @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
     override fun getAll(): Flow<List<MoodJournalEntity>>
 
     @Transaction

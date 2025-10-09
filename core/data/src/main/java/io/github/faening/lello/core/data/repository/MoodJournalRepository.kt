@@ -7,8 +7,8 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.journal.mood.toModel
 import io.github.faening.lello.core.database.model.journal.mood.toEntity
+import io.github.faening.lello.core.database.model.journal.mood.toModel
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.model.journal.MoodJournal
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class MoodJournalRepository @Inject constructor(
 
     override fun getAll(): Flow<List<MoodJournal>> {
         return dao
-            .getAll()
+            .getAllWithOptions()
             .map { list -> list.map { it.toModel() } }
     }
 
