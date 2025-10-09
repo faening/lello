@@ -21,7 +21,7 @@ class MealJournalRepository @Inject constructor(
 
     override fun getAll(): Flow<List<MealJournal>> {
         return dao
-            .getAll()
+            .getAllWithOptions()
             .map { list -> list.map { it.toModel() } }
     }
 

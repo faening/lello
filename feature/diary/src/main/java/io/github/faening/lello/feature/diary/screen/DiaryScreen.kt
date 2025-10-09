@@ -42,7 +42,8 @@ import java.util.Date
 @Composable
 fun DiaryScreen(
     viewModel: DiaryViewModel,
-    onMoodJournalClick: (Long) -> Unit = {}
+    onMoodJournalClick: (Long) -> Unit = {},
+    onMealJournalClick: (Long) -> Unit = {},
 ) {
     val selectedDate by viewModel.selectedDate.collectAsState()
     val moodJournals by viewModel.moodJournals.collectAsState()
@@ -70,6 +71,7 @@ fun DiaryScreen(
         moodJournals = dayMoodJournals,
         onMoodJournalClick = onMoodJournalClick,
         mealJournals = dayMealJournals,
+        onMealJournalClick = onMealJournalClick,
         sleepJournals = daySleepJournals,
         onSelectDate = viewModel::setSelectedDate,
         getRewardAmount = viewModel::getRewardAmount
@@ -82,6 +84,7 @@ private fun DiaryScreenContent(
     moodJournals: List<MoodJournal>,
     onMoodJournalClick: (Long) -> Unit = {},
     mealJournals: List<MealJournal>,
+    onMealJournalClick: (Long) -> Unit = {},
     sleepJournals: List<SleepJournal>,
     onSelectDate: (LocalDate) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
@@ -112,6 +115,7 @@ private fun DiaryScreenContent(
 
                     MealJournalsSection(
                         dayMealJournals = mealJournals,
+                        onMealJournalClick = onMealJournalClick,
                         getRewardAmount = getRewardAmount
                     )
 
@@ -181,6 +185,7 @@ private fun SleepJournalsSection(
 @Composable
 private fun MealJournalsSection(
     dayMealJournals: List<MealJournal>,
+    onMealJournalClick: (Long) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int
 ) {
     if (dayMealJournals.isNotEmpty()) {
@@ -193,6 +198,7 @@ private fun MealJournalsSection(
                 properties = DiaryCardOptions.MealJournal,
                 dateTime = Date(journal.createdAt),
                 reward = reward,
+                onClick = { onMealJournalClick(journalId) },
                 modifier = Modifier.padding(bottom = Dimension.spacingMedium)
             )
         }
