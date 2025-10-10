@@ -1,12 +1,17 @@
 package io.github.faening.lello.feature.diary
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswordUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
+import io.github.faening.lello.core.model.authentication.AuthResult
+import io.github.faening.lello.core.model.authentication.AuthenticationState
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -20,17 +25,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
-    private val moodJournalUseCase: MoodJournalUseCase,
+    private val biometricAuthUseCase: BiometricAuthenticationUseCase,
     private val mealJournalUseCase: MealJournalUseCase,
+    private val moodJournalUseCase: MoodJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
-    private val rewardHistoryUseCase: RewardHistoryUseCase
+    private val rewardHistoryUseCase: RewardHistoryUseCase,
+    private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
 
-    private val _moodJournals = MutableStateFlow<List<MoodJournal>>(emptyList())
-    val moodJournals: StateFlow<List<MoodJournal>> = _moodJournals
+    private val _authenticationState = MutableStateFlow<AuthenticationState>(AuthenticationState.Idle)
+    val authenticationState: StateFlow<AuthenticationState> = _authenticationState.asStateFlow()
 
     private val _mealJournals = MutableStateFlow<List<MealJournal>>(emptyList())
     val mealJournals: StateFlow<List<MealJournal>> = _mealJournals
+
+    private val _moodJournals = MutableStateFlow<List<MoodJournal>>(emptyList())
+    val moodJournals: StateFlow<List<MoodJournal>> = _moodJournals
 
     private val _sleepJournals = MutableStateFlow<List<SleepJournal>>(emptyList())
     val sleepJournals: StateFlow<List<SleepJournal>> = _sleepJournals
@@ -101,5 +111,47 @@ class DiaryViewModel @Inject constructor(
 
     suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {
         return rewardHistoryUseCase.getRewardAmountByOrigin(origin, originId) ?: 0
+    }
+
+    fun authenticateWithPassword(password: String) {
+        viewModelScope.launch {
+            _authenticationState.value = AuthenticationState.Loading
+
+            val result = validatePasswordUseCase(password)
+
+            _authenticationState.value = when (result) {
+                is AuthResult.Success -> AuthenticationState.Success
+                is AuthResult.Error -> AuthenticationState.Error(result.message)
+                is AuthResult.Loading<*> -> AuthenticationState.Loading
+            }
+        }
+    }
+
+    suspend fun authenticateWithBiometric(activity: FragmentActivity) {
+        val isBiometricAvailable = biometricAuthUseCase.shouldUseBiometricAuthentication()
+
+        if (!isBiometricAvailable) {
+            _authenticationState.value = AuthenticationState.Error("Biometria não configurada. Use a senha.")
+            return
+        }
+
+        _authenticationState.value = AuthenticationState.Loading
+
+        val result = biometricAuthUseCase.authenticate(
+            activity = activity,
+            title = "Autenticação Biométrica",
+            subtitle = "Confirme sua identidade para acessar os detalhes",
+            negativeButtonText = "Usar Senha"
+        )
+
+        _authenticationState.value = when (result) {
+            is AuthResult.Success -> AuthenticationState.Success
+            is AuthResult.Error -> AuthenticationState.Error(result.message)
+            is AuthResult.Loading<*> -> AuthenticationState.Loading
+        }
+    }
+
+    fun resetAuthenticationState() {
+        _authenticationState.value = AuthenticationState.Idle
     }
 }

@@ -16,11 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewModelScope
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.DiaryCardOptions
 import io.github.faening.lello.core.designsystem.component.card.LelloDiaryCard
@@ -31,11 +37,15 @@ import io.github.faening.lello.core.domain.mock.MealJournalMock
 import io.github.faening.lello.core.domain.mock.MoodJournalMock
 import io.github.faening.lello.core.domain.mock.SleepJournalMock
 import io.github.faening.lello.core.domain.util.isSameDay
+import io.github.faening.lello.core.model.authentication.AuthenticationState
+import io.github.faening.lello.core.model.journal.JournalType
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardOrigin
 import io.github.faening.lello.feature.diary.DiaryViewModel
+import io.github.faening.lello.feature.diary.component.AuthenticationDialog
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Date
 
@@ -50,6 +60,13 @@ fun DiaryScreen(
     val moodJournals by viewModel.moodJournals.collectAsState()
     val mealJournals by viewModel.mealJournals.collectAsState()
     val sleepJournals by viewModel.sleepJournals.collectAsState()
+    val authState by viewModel.authenticationState.collectAsState()
+
+    var showAuthDialog by remember { mutableStateOf(false) }
+    var pendingJournalType by remember { mutableStateOf<JournalType?>(null) }
+    var pendingJournalId by remember { mutableStateOf<Long?>(null) }
+
+    val activity = LocalContext.current as? FragmentActivity
 
     val dayMoodJournals = moodJournals
         .filter { it.createdAt.isSameDay(selectedDate) }
@@ -67,14 +84,91 @@ fun DiaryScreen(
         viewModel.setSelectedDate(selectedDate)
     }
 
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthenticationState.Success -> {
+                pendingJournalId.let { id ->
+                    when (pendingJournalType) {
+                        JournalType.MOOD -> onMoodJournalClick(id ?: 0L)
+                        JournalType.MEAL -> onMealJournalClick(id ?: 0L)
+                        JournalType.SLEEP -> onSleepJournalClick(id ?: 0L)
+                        JournalType.MEDICATION -> {}
+                        else -> {}
+                    }
+                    pendingJournalId = null
+                    pendingJournalType = null
+                }
+                viewModel.resetAuthenticationState()
+            }
+
+            else -> {}
+        }
+    }
+
+    if (showAuthDialog) {
+        AuthenticationDialog(
+            onDismiss = {
+                showAuthDialog = false
+                pendingJournalId = null
+                pendingJournalType = null
+                viewModel.resetAuthenticationState()
+            },
+            onPasswordSubmit = { password ->
+                viewModel.authenticateWithPassword(password)
+            },
+            errorMessage = (authState as? AuthenticationState.Error)?.message,
+            isLoading = authState is AuthenticationState.Loading
+        )
+
+        LaunchedEffect(authState) {
+            if (authState is AuthenticationState.Success ||
+                authState is AuthenticationState.Error) {
+                showAuthDialog = false
+            }
+        }
+    }
+
     DiaryScreenContent(
         selectedDate = selectedDate,
         moodJournals = dayMoodJournals,
-        onMoodJournalClick = onMoodJournalClick,
+        onMoodJournalClick = { journalId ->
+            pendingJournalId = journalId
+            pendingJournalType = JournalType.MOOD
+
+            activity?.let {
+                viewModel.viewModelScope.launch {
+                    viewModel.authenticateWithBiometric(it)
+                }
+            } ?: run {
+                showAuthDialog = true
+            }
+        },
         mealJournals = dayMealJournals,
-        onMealJournalClick = onMealJournalClick,
+        onMealJournalClick = { journalId ->
+            pendingJournalId = journalId
+            pendingJournalType = JournalType.MEAL
+
+            activity?.let {
+                viewModel.viewModelScope.launch {
+                    viewModel.authenticateWithBiometric(it)
+                }
+            } ?: run {
+                showAuthDialog = true
+            }
+        },
         sleepJournals = daySleepJournals,
-        onSleepJournalClick = onSleepJournalClick,
+        onSleepJournalClick = { journalId ->
+            pendingJournalId = journalId
+            pendingJournalType = JournalType.SLEEP
+
+            activity?.let {
+                viewModel.viewModelScope.launch {
+                    viewModel.authenticateWithBiometric(it)
+                }
+            } ?: run {
+                showAuthDialog = true
+            }
+        },
         onSelectDate = viewModel::setSelectedDate,
         getRewardAmount = viewModel::getRewardAmount
     )
