@@ -30,6 +30,7 @@ import androidx.lifecycle.viewModelScope
 import io.github.faening.lello.core.designsystem.component.appbar.LelloCalendarTopAppBar
 import io.github.faening.lello.core.designsystem.component.card.DiaryCardOptions
 import io.github.faening.lello.core.designsystem.component.card.LelloDiaryCard
+import io.github.faening.lello.core.designsystem.component.dialog.LelloAuthenticationDialog
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
@@ -44,7 +45,6 @@ import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardOrigin
 import io.github.faening.lello.feature.diary.DiaryViewModel
-import io.github.faening.lello.feature.diary.component.AuthenticationDialog
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Date
@@ -61,6 +61,7 @@ fun DiaryScreen(
     val mealJournals by viewModel.mealJournals.collectAsState()
     val sleepJournals by viewModel.sleepJournals.collectAsState()
     val authState by viewModel.authenticationState.collectAsState()
+    val canUseBiometric by viewModel.canUseBiometricAuth.collectAsState()
 
     var showAuthDialog by remember { mutableStateOf(false) }
     var pendingJournalType by remember { mutableStateOf<JournalType?>(null) }
@@ -106,7 +107,7 @@ fun DiaryScreen(
     }
 
     if (showAuthDialog) {
-        AuthenticationDialog(
+        LelloAuthenticationDialog(
             onDismiss = {
                 showAuthDialog = false
                 pendingJournalId = null
@@ -135,11 +136,15 @@ fun DiaryScreen(
             pendingJournalId = journalId
             pendingJournalType = JournalType.MOOD
 
-            activity?.let {
-                viewModel.viewModelScope.launch {
-                    viewModel.authenticateWithBiometric(it)
+            if (canUseBiometric) {
+                activity?.let {
+                    viewModel.viewModelScope.launch {
+                        viewModel.authenticateWithBiometric(it)
+                    }
+                } ?: run {
+                    showAuthDialog = true
                 }
-            } ?: run {
+            } else {
                 showAuthDialog = true
             }
         },
@@ -148,11 +153,15 @@ fun DiaryScreen(
             pendingJournalId = journalId
             pendingJournalType = JournalType.MEAL
 
-            activity?.let {
-                viewModel.viewModelScope.launch {
-                    viewModel.authenticateWithBiometric(it)
+            if (canUseBiometric) {
+                activity?.let {
+                    viewModel.viewModelScope.launch {
+                        viewModel.authenticateWithBiometric(it)
+                    }
+                } ?: run {
+                    showAuthDialog = true
                 }
-            } ?: run {
+            } else {
                 showAuthDialog = true
             }
         },
@@ -161,11 +170,15 @@ fun DiaryScreen(
             pendingJournalId = journalId
             pendingJournalType = JournalType.SLEEP
 
-            activity?.let {
-                viewModel.viewModelScope.launch {
-                    viewModel.authenticateWithBiometric(it)
+            if (canUseBiometric) {
+                activity?.let {
+                    viewModel.viewModelScope.launch {
+                        viewModel.authenticateWithBiometric(it)
+                    }
+                } ?: run {
+                    showAuthDialog = true
                 }
-            } ?: run {
+            } else {
                 showAuthDialog = true
             }
         },

@@ -36,6 +36,9 @@ class DiaryViewModel @Inject constructor(
     private val _authenticationState = MutableStateFlow<AuthenticationState>(AuthenticationState.Idle)
     val authenticationState: StateFlow<AuthenticationState> = _authenticationState.asStateFlow()
 
+    private val _canUseBiometricAuth = MutableStateFlow(false)
+    val canUseBiometricAuth: StateFlow<Boolean> = _canUseBiometricAuth.asStateFlow()
+
     private val _mealJournals = MutableStateFlow<List<MealJournal>>(emptyList())
     val mealJournals: StateFlow<List<MealJournal>> = _mealJournals
 
@@ -61,6 +64,7 @@ class DiaryViewModel @Inject constructor(
         loadMoodJournals()
         loadMealJournal()
         loadSleepJournal()
+        checkBiometricAvailability()
     }
 
     private fun loadMoodJournals() {
@@ -84,6 +88,16 @@ class DiaryViewModel @Inject constructor(
             sleepJournalUseCase
                 .getAll()
                 .collect { _sleepJournals.value = it }
+        }
+    }
+
+    private fun checkBiometricAvailability() {
+        viewModelScope.launch {
+            runCatching {
+                _canUseBiometricAuth.value = biometricAuthUseCase.shouldUseBiometricAuthentication()
+            }.onFailure {
+                _canUseBiometricAuth.value = false
+            }
         }
     }
 
