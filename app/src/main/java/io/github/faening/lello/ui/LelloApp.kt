@@ -20,6 +20,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.faening.lello.R
 import io.github.faening.lello.core.designsystem.component.navigation.CentralNavigationBarItem
 import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBar
 import io.github.faening.lello.core.designsystem.component.navigation.LelloNavigationBarItem
@@ -31,13 +32,8 @@ import io.github.faening.lello.feature.achievement.AchievementDestinations
 import io.github.faening.lello.feature.diary.DiaryDestinations
 import io.github.faening.lello.feature.home.HomeDestinations
 import io.github.faening.lello.feature.medication.MedicationDestinations
-import io.github.faening.lello.feature.profile.ProfileDestinations
+import io.github.faening.lello.feature.settings.SettingsDestinations
 import io.github.faening.lello.navigation.LelloNavHost
-import io.github.faening.lello.feature.achievement.R as achievementR
-import io.github.faening.lello.feature.diary.R as diaryR
-import io.github.faening.lello.feature.home.R as homeR
-import io.github.faening.lello.feature.medication.R as medicationR
-import io.github.faening.lello.feature.profile.R as profileR
 
 @Composable
 fun LelloApp() {
@@ -77,32 +73,32 @@ fun LelloApp() {
 private fun SetupNavigationItems() : List<NavigationItem> {
     return listOf(
         NavigationItem(
-            title = homeR.string.home_title,
+            title = stringResource(R.string.nav_home),
             route = HomeDestinations.HOME,
             selectedIcon = LelloIcons.Filled.Home.imageVector,
             unselectedIcon = LelloIcons.Outlined.Home.imageVector
         ),
         NavigationItem(
-            title = diaryR.string.diary_title,
+            title = stringResource(R.string.nav_diary),
             route = DiaryDestinations.HOME,
             selectedIcon = LelloIcons.Filled.BookOpen.imageVector,
             unselectedIcon = LelloIcons.Outlined.BookOpen.imageVector
         ),
         NavigationItem(
-            title = achievementR.string.achievements_title,
+            title = stringResource(R.string.nav_achievements),
             route = AchievementDestinations.GRAPH,
             selectedIcon = LelloIcons.Filled.Achievement.imageVector,
             unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
         ),
         NavigationItem(
-            title = medicationR.string.medication_title,
+            title = stringResource(R.string.nav_medication),
             route = MedicationDestinations.HOME,
             selectedIcon = LelloIcons.Filled.DrugPill.imageVector,
             unselectedIcon = LelloIcons.Outlined.DrugPill.imageVector
         ),
         NavigationItem(
-            title = profileR.string.profile_title,
-            route = ProfileDestinations.HOME,
+            title = stringResource(R.string.nav_settings),
+            route = SettingsDestinations.HOME,
             selectedIcon = LelloIcons.Filled.Menu.imageVector,
             unselectedIcon = LelloIcons.Outlined.Menu.imageVector
         )
@@ -142,16 +138,16 @@ private fun LelloAppBottomBar(
                     icon = {
                         Icon(
                             imageVector = item.unselectedIcon,
-                            contentDescription = stringResource(id = item.title)
+                            contentDescription = item.title
                         )
                     },
                     selectedIcon = {
                         Icon(
                             imageVector = item.selectedIcon,
-                            contentDescription = stringResource(id = item.title)
+                            contentDescription = item.title
                         )
                     },
-                    label = { Text(text = stringResource(id = item.title)) },
+                    label = { Text(text = item.title) },
                     selected = selected,
                     onClick = {
                         navController.navigate(item.route) {

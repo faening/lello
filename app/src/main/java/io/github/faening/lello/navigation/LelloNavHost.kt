@@ -27,6 +27,7 @@ import io.github.faening.lello.feature.medication.medicationGraph
 import io.github.faening.lello.feature.onboarding.OnboardingDestinations
 import io.github.faening.lello.feature.onboarding.onboardingGraph
 import io.github.faening.lello.feature.profile.profileGraph
+import io.github.faening.lello.feature.settings.settingsGraph
 import io.github.faening.lello.startup.StartupViewModel
 
 @Composable
@@ -80,6 +81,7 @@ fun LelloNavHost(
         achievementGraph(navController = navController)
         medicationGraph(navController = navController)
         profileGraph(navController = navController)
+        settingsGraph(navController = navController)
 
         // Journals
         moodJournalGraph(navController = navController)

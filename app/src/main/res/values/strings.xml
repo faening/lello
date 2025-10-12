@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">lello</string>
+    <string name="app_name" translatable="false">Lello</string>
+
+    <!-- Navigation Items -->
+    <string name="nav_home">Home</string>
+    <string name="nav_diary">Diiary</string>
+    <string name="nav_achievements">Achievements</string>
+    <string name="nav_medication">Medication</string>
+    <string name="nav_settings">Settings</string>
 </resources>

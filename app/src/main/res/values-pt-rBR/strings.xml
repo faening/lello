@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation Items -->
+    <string name="nav_home">Início</string>
+    <string name="nav_diary">Diários</string>
+    <string name="nav_achievements">Conquistas</string>
+    <string name="nav_medication">Remédios</string>
+    <string name="nav_settings">Mais</string>
+</resources>
