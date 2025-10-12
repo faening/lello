@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="profile_title">Profile</string>
-
-    <!-- Top App Bar -->
-    <string name="profile_topappbar_title">Profile</string>
-</resources>

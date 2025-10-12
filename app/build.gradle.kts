@@ -34,7 +34,6 @@ dependencies {
     api(projects.feature.onboarding)
     api(projects.feature.achievement)
     api(projects.feature.medication)
-    api(projects.feature.profile)
     api(projects.feature.settings)
     api(projects.feature.journal.meal)
     api(projects.feature.journal.medication)
