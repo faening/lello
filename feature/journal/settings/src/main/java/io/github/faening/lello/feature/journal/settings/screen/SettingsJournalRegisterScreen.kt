@@ -14,10 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.textfield.LelloTextField
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -29,123 +29,124 @@ import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 internal fun SettingsJournalRegisterScreen(
     viewModel: SettingsJournalViewModel,
     optionType: JournalOptionType,
-    colorScheme: MoodColor = MoodColor.DEFAULT,
+    moodColor: MoodColor = MoodColor.DEFAULT,
     onBack: () -> Unit
 ) {
     val textState = remember { mutableStateOf("") }
 
-    LelloTheme(moodColor = colorScheme) {
-        SettingsJournalRegisterContainer(
-            optionType = optionType,
-            text = textState.value,
-            onTextChange = { textState.value = it },
-            onSave = {
-                viewModel.saveOption(optionType, textState.value)
-                onBack()
-            },
-            onBack = onBack
-        )
-    }
-}
-
-@Composable
-private fun SettingsJournalRegisterContainer(
-    optionType: JournalOptionType,
-    text: String,
-    onTextChange: (String) -> Unit,
-    onSave: () -> Unit,
-    onBack: () -> Unit
-) {
-    Scaffold(
-        topBar = { SettingsJournalRegisterTopBar(optionType, onBack) },
-        bottomBar = {
-            SettingsJournalRegisterBottomBar(
-                enabled = text.trim().isNotEmpty(),
-                onSave = onSave
-            )
+    SettingsJournalRegisterContent(
+        optionType = optionType,
+        moodColor = moodColor,
+        text = textState.value,
+        onTextChange = { textState.value = it },
+        onBack = onBack,
+        onSave = {
+            viewModel.saveOption(optionType, textState.value)
+            onBack()
         }
-    ) { paddingValues ->
-        SettingsJournalRegisterContent(
-            text = text,
-            onTextChange = onTextChange,
-            modifier = Modifier.padding(paddingValues)
-        )
-    }
-}
-
-@Composable
-private fun SettingsJournalRegisterTopBar(
-    optionType: JournalOptionType,
-    onBack: () -> Unit
-) {
-    val title = optionType.titleRes
-    LelloTopAppBar(
-        title = TopAppBarTitle(title),
-        navigateUp = TopAppBarAction(onClick = onBack),
     )
 }
 
 @Composable
-private fun SettingsJournalRegisterBottomBar(
+private fun SettingsJournalRegisterContent(
+    optionType: JournalOptionType,
+    moodColor: MoodColor,
+    text: String,
+    onTextChange: (String) -> Unit,
+    onBack: () -> Unit,
+    onSave: () -> Unit
+) {
+    LelloTheme(moodColor = moodColor) {
+        Scaffold(
+            topBar = {
+                TopAppBarSection(
+                    optionType = optionType,
+                    moodColor = moodColor,
+                    onBack = onBack
+                )
+            },
+            bottomBar = {
+                BottomBarSection(
+                    moodColor = moodColor,
+                    enabled = text.trim().isNotEmpty(),
+                    onSave = onSave
+                )
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(paddingValues)
+                    .padding(Dimension.spacingRegular)
+            ) {
+                Text(
+                    text = "Crie um novo item para usar em seus diários",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                )
+
+                LelloTextField(
+                    value = text,
+                    onValueChange = onTextChange,
+                    placeholder = "Descrição do item",
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TopAppBarSection(
+    optionType: JournalOptionType,
+    moodColor: MoodColor,
+    onBack: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(optionType.titleRes),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = moodColor
+    )
+}
+
+@Composable
+private fun BottomBarSection(
+    moodColor: MoodColor,
     enabled: Boolean,
     onSave: () -> Unit
 ) {
-    val label = "Cadastrar"
     Row(
         modifier = Modifier
             .padding(Dimension.spacingRegular)
             .fillMaxWidth()
     ) {
         LelloFilledButton(
-            label = label,
+            label = "Cadastrar",
             enabled = enabled,
             onClick = onSave,
+            moodColor = moodColor,
             modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
-@Composable
-private fun SettingsJournalRegisterContent(
-    text: String,
-    onTextChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .padding(Dimension.spacingRegular)
-    ) {
-        Text(
-            text = "Crie um novo item para usar em seus diários",
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-        )
-
-        LelloTextField(
-            value = text,
-            onValueChange = onTextChange,
-            placeholder = "Descrição do item",
-        )
-    }
-}
+// region Previews
 
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-fun SettingsJournalRegisterScreenPreview() {
-    LelloTheme {
-        SettingsJournalRegisterContainer(
-            optionType = JournalOptionType.EMOTION,
-            text = "",
-            onTextChange = {},
-            onSave = {},
-            onBack = {}
-        )
-    }
+private fun SettingsJournalRegisterScreenPreview_LightMode() {
+    SettingsJournalRegisterContent(
+        optionType = JournalOptionType.EMOTION,
+        moodColor = MoodColor.DEFAULT,
+        text = "",
+        onTextChange = {},
+        onBack = {},
+        onSave = {}
+    )
 }
+
+// endregion Previews

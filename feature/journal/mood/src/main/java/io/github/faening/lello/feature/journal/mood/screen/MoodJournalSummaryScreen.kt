@@ -20,51 +20,66 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun MoodJournalSummaryScreen(
     viewModel: MoodJournalViewModel,
     onExit: () -> Unit
 ) {
-    val mood by viewModel.currentMood.collectAsState()
-    // LaunchedEffect(Unit) { viewModel.saveJournal() }
+    val moodColor by viewModel.currentMood.collectAsState()
 
-    LelloTheme(moodColor = mood) {
-        MoodJournalSummaryContainer(
-            onExit = onExit
-        )
-    }
+    MoodJournalSummaryContainer(
+        moodColor = moodColor,
+        onExit = onExit
+    )
 }
 
 @Composable
 private fun MoodJournalSummaryContainer(
+    moodColor: MoodColor,
     onExit: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = designsystemR.drawable.journal_summary),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
-        Scaffold(
-            containerColor = Color.Transparent,
-            bottomBar = { MoodJournalSummaryBottomBar(onExit) }
-        ) { paddingValues ->
-            MoodJournalSummaryContent(
-                modifier = Modifier.padding(paddingValues)
+    LelloTheme(moodColor = moodColor) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background
+            Image(
+                painter = painterResource(LelloIcons.Graphic.MoodSummary.resId),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
+
+            // Foreground
+            Scaffold(
+                containerColor = Color.Transparent,
+                bottomBar = {
+                    BottomBarSection(
+                        moodColor = moodColor,
+                        onExit = onExit
+                    )
+            }
+            ) { paddingValues ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(Dimension.spacingRegular),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) { }
+            }
         }
     }
 }
 
 @Composable
-private fun MoodJournalSummaryBottomBar(
+private fun BottomBarSection(
+    moodColor: MoodColor,
     onExit: () -> Unit
 ) {
     Row(
@@ -72,25 +87,11 @@ private fun MoodJournalSummaryBottomBar(
             .fillMaxWidth()
             .padding(Dimension.spacingRegular)
     ) {
-        LelloFilledButton(
-            label = "Sair",
-            onClick = onExit
-        )
+        LelloFilledButton(label = "Sair", onClick = onExit, moodColor = moodColor)
     }
 }
 
-@Composable
-private fun MoodJournalSummaryContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimension.spacingRegular),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) { }
-}
+// region Previews
 
 @Composable
 @Preview(
@@ -99,10 +100,13 @@ private fun MoodJournalSummaryContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun MoodJournalSummaryScreenPreview() {
+private fun MoodJournalSummaryScreenPreview_LightMode() {
     LelloTheme {
         MoodJournalSummaryContainer(
+            moodColor = MoodColor.DEFAULT,
             onExit = {},
         )
     }
 }
+
+// endregion Previews

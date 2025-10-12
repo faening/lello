@@ -42,6 +42,9 @@ object LelloIcons {
         val JournalMoodTroubled = LelloIcon(designsystemR.drawable.ic_capy_troubled)
         val JournalMoodOverwhelmed = LelloIcon(designsystemR.drawable.ic_capy_overwhelmed)
         val JournalSleep = LelloIcon(designsystemR.drawable.ic_journal_sleep)
+
+        // Journals
+        val MoodSummary = LelloIcon(designsystemR.drawable.journal_summary)
     }
 
     object Outlined {

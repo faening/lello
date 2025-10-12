@@ -19,7 +19,7 @@ class SleepJournalRepository @Inject constructor(
 
     override fun getAll(): Flow<List<SleepJournal>> {
         return dao
-            .getAll()
+            .getAllWithOptions()
             .map { list -> list.map { it.toModel() } }
     }
 

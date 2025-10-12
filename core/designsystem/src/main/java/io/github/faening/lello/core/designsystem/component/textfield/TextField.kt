@@ -130,7 +130,7 @@ private fun ShadowedOutlinedTextField(
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = TextFieldProperties.textColor(enabled),
+                        color = TextFieldProperties.placeholderColor(enabled),
                         fontWeight = FontWeight.Bold
                     )
                 )

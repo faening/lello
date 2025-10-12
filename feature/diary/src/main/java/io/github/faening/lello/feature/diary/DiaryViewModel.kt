@@ -1,72 +1,85 @@
 package io.github.faening.lello.feature.diary
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswordUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
-import io.github.faening.lello.core.model.reward.RewardOrigin
-import io.github.faening.lello.core.domain.util.isSameDay
+import io.github.faening.lello.core.model.authentication.AuthResult
+import io.github.faening.lello.core.model.authentication.AuthenticationState
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.reward.RewardOrigin
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.collections.filter
-import kotlin.collections.sortedByDescending
 
 @HiltViewModel
 class DiaryViewModel @Inject constructor(
-    private val moodJournalUseCase: MoodJournalUseCase,
+    private val biometricAuthUseCase: BiometricAuthenticationUseCase,
     private val mealJournalUseCase: MealJournalUseCase,
+    private val moodJournalUseCase: MoodJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
-    private val rewardHistoryUseCase: RewardHistoryUseCase
+    private val rewardHistoryUseCase: RewardHistoryUseCase,
+    private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
+
+    private val _authenticationState = MutableStateFlow<AuthenticationState>(AuthenticationState.Idle)
+    val authenticationState: StateFlow<AuthenticationState> = _authenticationState.asStateFlow()
+
+    private val _canUseBiometricAuth = MutableStateFlow(false)
+    val canUseBiometricAuth: StateFlow<Boolean> = _canUseBiometricAuth.asStateFlow()
+
+    private val _mealJournals = MutableStateFlow<List<MealJournal>>(emptyList())
+    val mealJournals: StateFlow<List<MealJournal>> = _mealJournals
+
+    private val _moodJournals = MutableStateFlow<List<MoodJournal>>(emptyList())
+    val moodJournals: StateFlow<List<MoodJournal>> = _moodJournals
+
+    private val _sleepJournals = MutableStateFlow<List<SleepJournal>>(emptyList())
+    val sleepJournals: StateFlow<List<SleepJournal>> = _sleepJournals
 
     private val _selectedDate = MutableStateFlow(LocalDate.now())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
-    private val _moodJournal = MutableStateFlow<List<MoodJournal>>(emptyList())
-    val moodJournal: StateFlow<List<MoodJournal>> = _moodJournal
+    private val _selectedMoodJournal = MutableStateFlow<MoodJournal?>(null)
+    val selectedMoodJournal: StateFlow<MoodJournal?> = _selectedMoodJournal.asStateFlow()
 
-    private val _mealJournal = MutableStateFlow<List<MealJournal>>(emptyList())
-    val mealJournal: StateFlow<List<MealJournal>> = _mealJournal
+    private val _selectedMealJournal = MutableStateFlow<MealJournal?>(null)
+    val selectedMealJournal: StateFlow<MealJournal?> = _selectedMealJournal.asStateFlow()
 
-    private val _sleepJournal = MutableStateFlow<List<SleepJournal>>(emptyList())
-    val sleepJournal: StateFlow<List<SleepJournal>> = _sleepJournal
+    private val _selectedSleepJournal = MutableStateFlow<SleepJournal?>(null)
+    val selectedSleepJournal: StateFlow<SleepJournal?> = _selectedSleepJournal.asStateFlow()
 
     init {
         loadMoodJournals()
         loadMealJournal()
         loadSleepJournal()
+        checkBiometricAvailability()
     }
 
-    // region: Load journals
-
-    fun loadMoodJournals() {
+    private fun loadMoodJournals() {
         viewModelScope.launch {
             moodJournalUseCase
                 .getAll()
-                .collect { _moodJournal.value = it }
+                .collect { _moodJournals.value = it }
         }
     }
 
-    fun loadMealJournal() {
+    private fun loadMealJournal() {
         viewModelScope.launch {
             mealJournalUseCase
                 .getAll()
-                .collect { _mealJournal.value = it }
+                .collect { _mealJournals.value = it }
         }
     }
 
@@ -74,18 +87,85 @@ class DiaryViewModel @Inject constructor(
         viewModelScope.launch {
             sleepJournalUseCase
                 .getAll()
-                .collect { _sleepJournal.value = it }
+                .collect { _sleepJournals.value = it }
         }
     }
 
-    // endregion
+    private fun checkBiometricAvailability() {
+        viewModelScope.launch {
+            runCatching {
+                _canUseBiometricAuth.value = biometricAuthUseCase.shouldUseBiometricAuthentication()
+            }.onFailure {
+                _canUseBiometricAuth.value = false
+            }
+        }
+    }
 
     fun setSelectedDate(date: LocalDate) {
         _selectedDate.value = date
+    }
+
+    fun setSelectedMoodJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedMoodJournal.value = _moodJournals.value.find { it.id == journalId }
+        }
+    }
+
+    fun setSelectedMealJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedMealJournal.value = _mealJournals.value.find { it.id == journalId }
+        }
+    }
+
+    fun setSelectedSleepJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedSleepJournal.value = _sleepJournals.value.find { it.id == journalId }
+        }
     }
 
     suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {
         return rewardHistoryUseCase.getRewardAmountByOrigin(origin, originId) ?: 0
     }
 
+    fun authenticateWithPassword(password: String) {
+        viewModelScope.launch {
+            _authenticationState.value = AuthenticationState.Loading
+
+            val result = validatePasswordUseCase(password)
+
+            _authenticationState.value = when (result) {
+                is AuthResult.Success -> AuthenticationState.Success
+                is AuthResult.Error -> AuthenticationState.Error(result.message)
+                is AuthResult.Loading<*> -> AuthenticationState.Loading
+            }
+        }
+    }
+
+    suspend fun authenticateWithBiometric(activity: FragmentActivity) {
+        val isBiometricAvailable = biometricAuthUseCase.shouldUseBiometricAuthentication()
+
+        if (!isBiometricAvailable) {
+            _authenticationState.value = AuthenticationState.Error("Biometria não configurada. Use a senha.")
+            return
+        }
+
+        _authenticationState.value = AuthenticationState.Loading
+
+        val result = biometricAuthUseCase.authenticate(
+            activity = activity,
+            title = "Autenticação Biométrica",
+            subtitle = "Confirme sua identidade para acessar os detalhes",
+            negativeButtonText = "Usar Senha"
+        )
+
+        _authenticationState.value = when (result) {
+            is AuthResult.Success -> AuthenticationState.Success
+            is AuthResult.Error -> AuthenticationState.Error(result.message)
+            is AuthResult.Loading<*> -> AuthenticationState.Loading
+        }
+    }
+
+    fun resetAuthenticationState() {
+        _authenticationState.value = AuthenticationState.Idle
+    }
 }

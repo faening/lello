@@ -38,7 +38,6 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 import io.github.faening.lello.feature.journal.mood.model.MoodColorMapping
 import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun MoodJournalScreen(
@@ -73,26 +72,17 @@ private fun MoodJournalContent(
     LelloTheme(moodColor = moodColor) {
         Scaffold(
             topBar = {
-                LelloTopAppBar(
-                    title = TopAppBarTitle(text = "Hoje, $entryTime"),
-                    navigateUp = TopAppBarAction(onClick = onBack),
-                    moodColor = moodColor
+                TopAppBarSection(
+                    entryTime = entryTime,
+                    moodColor = moodColor,
+                    onBack = onBack
                 )
             },
             bottomBar = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.End)
-                        .padding(Dimension.spacingRegular)
-                ) {
-                    LelloFloatingActionButton(
-                        icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-                        contentDescription = "Próximo",
-                        onClick = onNext,
-                        moodColor = moodColor
-                    )
-                }
+                BottomBarSection(
+                    moodColor = moodColor,
+                    onNext = onNext
+                )
             }
         ) { paddingValues ->
             Column(
@@ -101,11 +91,14 @@ private fun MoodJournalContent(
                     .padding(paddingValues)
                     .padding(Dimension.spacingRegular)
             ) {
+                // Header
                 Text(
                     text = "Como você descreve seu humor neste momento?",
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
+
+                // Content
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
@@ -125,6 +118,40 @@ private fun MoodJournalContent(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun TopAppBarSection(
+    entryTime: String,
+    moodColor: MoodColor,
+    onBack: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Hoje, $entryTime"),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = moodColor
+    )
+}
+
+
+@Composable
+private fun BottomBarSection(
+    moodColor: MoodColor,
+    onNext: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentWidth(Alignment.End)
+            .padding(Dimension.spacingRegular)
+    ) {
+        LelloFloatingActionButton(
+            icon = LelloIcons.ArrowLargeRight.imageVector,
+            contentDescription = "Próximo",
+            onClick = onNext,
+            moodColor = moodColor
+        )
     }
 }
 
@@ -194,6 +221,8 @@ private fun MoodIconColumn(
     }
 }
 
+// region Previews
+
 @Composable
 @Preview(
     name = "Light Mode",
@@ -210,3 +239,5 @@ fun MoodJournalScreenPreview_LightMode() {
         onMoodChange = {}
     )
 }
+
+// endregion Previews
