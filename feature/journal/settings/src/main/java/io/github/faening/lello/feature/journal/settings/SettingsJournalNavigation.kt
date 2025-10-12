@@ -32,13 +32,13 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
     ) {
         composable(SettingsJournalDestinations.SETTINGS) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
-            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val moodColorName = backStackEntry.arguments?.getString("colorScheme")
 
             val optionType = optionName
                 ?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
 
-            val colorScheme = colorSchemeName
+            val moodColor = moodColorName
                 ?.let { runCatching { MoodColor.valueOf(it) }.getOrNull() }
                 ?: MoodColor.DEFAULT
 
@@ -47,23 +47,23 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
             SettingsJournalScreen(
                 viewModel = viewModel,
                 optionType = optionType,
-                colorScheme = colorScheme,
+                moodColor = moodColor,
                 onBack = { navController.popBackStack() },
                 onRegister = {
-                    navController.navigate(SettingsJournalDestinations.registerRoute(optionType, colorScheme))
+                    navController.navigate(SettingsJournalDestinations.registerRoute(optionType, moodColor))
                 }
             )
         }
 
         composable(SettingsJournalDestinations.REGISTER) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
-            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
+            val moodColorName = backStackEntry.arguments?.getString("colorScheme")
 
             val optionType = optionName
                 ?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
 
-            val colorScheme = colorSchemeName
+            val moodColor = moodColorName
                 ?.let { runCatching { MoodColor.valueOf(it) }.getOrNull() }
                 ?: MoodColor.DEFAULT
 
@@ -72,7 +72,7 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
             SettingsJournalRegisterScreen(
                 viewModel = viewModel,
                 optionType = optionType,
-                colorScheme = colorScheme,
+                moodColor = moodColor,
                 onBack = { navController.popBackStack() }
             )
         }

@@ -31,7 +31,6 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun MoodJournalEmotionScreen(
@@ -78,33 +77,20 @@ private fun MoodJournalEmotionContent(
     LelloTheme(moodColor = moodColor) {
         Scaffold(
             topBar = {
-                LelloTopAppBar(
-                    title = TopAppBarTitle(text = "Hoje, $entryTime"),
-                    navigateUp = TopAppBarAction(onClick = onBack),
-                    moodColor = moodColor
+                TopAppBarSection(
+                    entryTime = entryTime,
+                    moodColor = moodColor,
+                    onBack = onBack
                 )
             },
             bottomBar = {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(Dimension.spacingRegular),
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    LelloFilledButton(
-                        label = "Concluir",
-                        enabled = anySelected,
-                        onClick = { onSave(); onFinish() },
-                        moodColor = moodColor,
-                        modifier = Modifier.weight(1f)
-                    )
-                    LelloFloatingActionButton(
-                        icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
-                        contentDescription = "Próximo",
-                        enabled = anySelected,
-                        moodColor = moodColor,
-                        onClick = onNext
-                    )
-                }
+                BottomBarSection(
+                    anySelected = anySelected,
+                    moodColor = moodColor,
+                    onSave = onSave,
+                    onFinish = onFinish,
+                    onNext = onNext
+                )
             }
         ) { paddingValues ->
             Column(
@@ -125,7 +111,8 @@ private fun MoodJournalEmotionContent(
                     modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
 
                 )
-                // Scrollable list of options
+
+                // Content
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -145,6 +132,53 @@ private fun MoodJournalEmotionContent(
         }
     }
 }
+
+@Composable
+private fun TopAppBarSection(
+    entryTime: String,
+    moodColor: MoodColor,
+    onBack: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Hoje, $entryTime"),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = moodColor
+    )
+}
+
+@Composable
+private fun BottomBarSection(
+    anySelected: Boolean,
+    moodColor: MoodColor,
+    onSave: () -> Unit,
+    onFinish: () -> Unit,
+    onNext: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LelloFilledButton(
+            label = "Concluir",
+            enabled = anySelected,
+            onClick = { onSave(); onFinish() },
+            moodColor = moodColor,
+            modifier = Modifier.weight(1f)
+        )
+        LelloFloatingActionButton(
+            icon = LelloIcons.ArrowLargeRight.imageVector,
+            contentDescription = "Próximo",
+            enabled = anySelected,
+            moodColor = moodColor,
+            onClick = onNext
+        )
+    }
+}
+
+// region Previews
 
 @Composable
 @Preview(
@@ -167,3 +201,5 @@ private fun MoodJournalEmotionScreenPreview_LightMode() {
         moodColor = MoodColor.DEFAULT
     )
 }
+
+// endregion Previews
