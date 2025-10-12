@@ -56,6 +56,7 @@ object LelloIcons {
         val Home = LelloIcon(designsystemR.drawable.ic_home_outlined)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_outlined)
         val Mail = LelloIcon(designsystemR.drawable.ic_mail_outlined)
+        val Menu = LelloIcon(designsystemR.drawable.ic_menu_outlined)
         val Profile = LelloIcon(designsystemR.drawable.ic_profile_outlined)
     }
 
@@ -67,6 +68,7 @@ object LelloIcons {
         val Google = LelloIcon(designsystemR.drawable.ic_google_filled)
         val Home = LelloIcon(designsystemR.drawable.ic_home_filled)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_filled)
+        val Menu = LelloIcon(designsystemR.drawable.ic_menu_filled)
         val Profile = LelloIcon(designsystemR.drawable.ic_profile_filled)
     }
 
