@@ -87,8 +87,8 @@ private fun SetupNavigationItems() : List<NavigationItem> {
         NavigationItem(
             title = stringResource(R.string.nav_achievements),
             route = AchievementDestinations.GRAPH,
-            selectedIcon = LelloIcons.Filled.Achievement.imageVector,
-            unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
+            selectedIcon = LelloIcons.Graphic.Logo.imageVector,
+            unselectedIcon = LelloIcons.Graphic.Logo.imageVector
         ),
         NavigationItem(
             title = stringResource(R.string.nav_medication),

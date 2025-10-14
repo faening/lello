@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import io.github.faening.lello.core.designsystem.R
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -115,7 +115,7 @@ fun LelloSliderVertical(
                 ) {}
 
                 Icon(
-                    painter = painterResource(R.drawable.ic_fab_journal_mood),
+                    painter = painterResource(LelloIcons.Outlined.ChevronMirrored.resId),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(thumbSize / 2)

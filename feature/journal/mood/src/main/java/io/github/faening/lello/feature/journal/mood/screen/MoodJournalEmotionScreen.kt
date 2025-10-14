@@ -169,7 +169,7 @@ private fun BottomBarSection(
             modifier = Modifier.weight(1f)
         )
         LelloFloatingActionButton(
-            icon = LelloIcons.ArrowLargeRight.imageVector,
+            icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
             contentDescription = "Próximo",
             enabled = anySelected,
             moodColor = moodColor,

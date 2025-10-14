@@ -198,14 +198,14 @@ private fun MobileNavigationBarContent() {
     val icons = listOf(
         LelloIcons.Outlined.Home.imageVector,
         LelloIcons.Outlined.BookOpen.imageVector,
-        LelloIcons.Outlined.Achievement.imageVector,
+        LelloIcons.Graphic.Logo.imageVector,
         LelloIcons.Outlined.DrugPill.imageVector,
         LelloIcons.Outlined.Menu.imageVector
     )
     val selectedIcons = listOf(
         LelloIcons.Filled.Home.imageVector,
         LelloIcons.Filled.BookOpen.imageVector,
-        LelloIcons.Filled.Achievement.imageVector,
+        LelloIcons.Graphic.Logo.imageVector,
         LelloIcons.Filled.DrugPill.imageVector,
         LelloIcons.Filled.Menu.imageVector
     )

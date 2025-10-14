@@ -86,7 +86,7 @@ private fun EmailSignInScreenContent(
                 LelloTopAppBar(
                     title = TopAppBarTitle(text = "Entrar"),
                     navigateUp = TopAppBarAction(
-                        icon = LelloIcons.ArrowLargeLeft.imageVector,
+                        icon = LelloIcons.Outlined.ArrowLeftLarge.imageVector,
                         contentDescription = "Voltar",
                         onClick = onBackClick
                     ),

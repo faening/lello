@@ -88,7 +88,7 @@ fun LelloFloatingActionButton(
 private fun LelloFAB_LightTheme_Disabled() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
@@ -108,7 +108,7 @@ private fun LelloFAB_LightTheme_Disabled() {
 private fun LelloFAB_LightTheme_Primary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.DEFAULT,
@@ -128,7 +128,7 @@ private fun LelloFAB_LightTheme_Primary() {
 private fun LelloFAB_LightTheme_Secondary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.SECONDARY,
@@ -148,7 +148,7 @@ private fun LelloFAB_LightTheme_Secondary() {
 private fun LelloFAB_LightTheme_Aquamarine() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.AQUAMARINE,
@@ -168,7 +168,7 @@ private fun LelloFAB_LightTheme_Aquamarine() {
 private fun LelloFAB_LightTheme_Blue() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.BLUE,
@@ -188,7 +188,7 @@ private fun LelloFAB_LightTheme_Blue() {
 private fun LelloFAB_LightTheme_Orange() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.ORANGE,
@@ -208,7 +208,7 @@ private fun LelloFAB_LightTheme_Orange() {
 private fun LelloFAB_LightTheme_Red() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.RED,
@@ -232,7 +232,7 @@ private fun LelloFAB_LightTheme_Red() {
 private fun LelloFAB_DarkTheme_Disabled() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
@@ -252,7 +252,7 @@ private fun LelloFAB_DarkTheme_Disabled() {
 private fun LelloFAB_DarkTheme_Primary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.DEFAULT,
@@ -272,7 +272,7 @@ private fun LelloFAB_DarkTheme_Primary() {
 private fun LelloFAB_DarkTheme_Secondary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.SECONDARY,
@@ -292,7 +292,7 @@ private fun LelloFAB_DarkTheme_Secondary() {
 private fun LelloFAB_DarkTheme_Aquamarine() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.AQUAMARINE,
@@ -312,7 +312,7 @@ private fun LelloFAB_DarkTheme_Aquamarine() {
 private fun LelloFAB_DarkTheme_Blue() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.BLUE,
@@ -332,7 +332,7 @@ private fun LelloFAB_DarkTheme_Blue() {
 private fun LelloFAB_DarkTheme_Orange() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.ORANGE,
@@ -352,7 +352,7 @@ private fun LelloFAB_DarkTheme_Orange() {
 private fun LelloFAB_DarkTheme_Red() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.RED,
@@ -376,7 +376,7 @@ private fun LelloFAB_DarkTheme_Red() {
 private fun LelloFAB_InverseTheme_Disabled() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             enabled = false,
             onClick = {},
@@ -397,7 +397,7 @@ private fun LelloFAB_InverseTheme_Disabled() {
 private fun LelloFAB_InverseTheme_Primary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.INVERSE,
@@ -417,7 +417,7 @@ private fun LelloFAB_InverseTheme_Primary() {
 private fun LelloFAB_InverseTheme_Secondary() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.SECONDARY,
@@ -437,7 +437,7 @@ private fun LelloFAB_InverseTheme_Secondary() {
 private fun LelloFAB_InverseTheme_Aquamarine() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.AQUAMARINE,
@@ -457,7 +457,7 @@ private fun LelloFAB_InverseTheme_Aquamarine() {
 private fun LelloFAB_InverseTheme_Blue() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.BLUE,
@@ -477,7 +477,7 @@ private fun LelloFAB_InverseTheme_Blue() {
 private fun LelloFAB_InverseTheme_Orange() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.ORANGE,
@@ -497,7 +497,7 @@ private fun LelloFAB_InverseTheme_Orange() {
 private fun LelloFAB_InverseTheme_Red() {
     LelloTheme {
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_right_lg_outlined),
             contentDescription = "Próximo",
             onClick = {},
             moodColor = MoodColor.RED,

@@ -129,7 +129,7 @@ private fun SleepJournaBottomBar(
         )
 
         LelloFloatingActionButton(
-            icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
+            icon = LelloIcons.customIcon(LelloIcons.Outlined.ArrowRightLarge.resId),
             contentDescription = "Próximo",
             enabled = enabled,
             onClick = onNext

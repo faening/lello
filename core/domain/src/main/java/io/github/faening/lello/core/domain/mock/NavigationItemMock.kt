@@ -20,8 +20,8 @@ object NavigationItemMock {
         NavigationItem(
             title = "Achievements",
             route = "achievements",
-            selectedIcon = LelloIcons.Filled.Achievement.imageVector,
-            unselectedIcon = LelloIcons.Outlined.Achievement.imageVector
+            selectedIcon = LelloIcons.Graphic.Logo.imageVector,
+            unselectedIcon = LelloIcons.Graphic.Logo.imageVector
         ),
         NavigationItem(
             title = "Medication",

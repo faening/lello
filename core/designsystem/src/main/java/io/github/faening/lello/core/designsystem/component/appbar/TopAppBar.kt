@@ -74,11 +74,11 @@ private fun TopAppBar_LightTheme_Primary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -99,11 +99,11 @@ private fun TopAppBar_LightTheme_Secondary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -125,11 +125,11 @@ private fun TopAppBar_LightTheme_Inverse() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -151,11 +151,11 @@ private fun TopAppBar_LightTheme_Aquamarine() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -177,11 +177,11 @@ private fun TopAppBar_LightTheme_Blue() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -203,11 +203,11 @@ private fun TopAppBar_LightTheme_Orange() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -229,11 +229,11 @@ private fun TopAppBar_LightTheme_Red() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -259,11 +259,11 @@ private fun TopAppBar_DarkTheme_Primary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -284,11 +284,11 @@ private fun TopAppBar_DarkTheme_Secondary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -310,11 +310,11 @@ private fun TopAppBar_DarkTheme_Inverse() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -336,11 +336,11 @@ private fun TopAppBar_DarkTheme_Aquamarine() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -362,11 +362,11 @@ private fun TopAppBar_DarkTheme_Blue() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -388,11 +388,11 @@ private fun TopAppBar_DarkTheme_Orange() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -414,11 +414,11 @@ private fun TopAppBar_DarkTheme_Red() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),

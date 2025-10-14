@@ -21,7 +21,7 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 
 @Composable
 fun LelloFlowItemButton(
-    icon: ImageVector = LelloIcons.Add,
+    icon: ImageVector = LelloIcons.Outlined.Add.imageVector,
     contentDescription: String = "Adicionar",
     onClick: () -> Unit,
     enabled: Boolean = true,
