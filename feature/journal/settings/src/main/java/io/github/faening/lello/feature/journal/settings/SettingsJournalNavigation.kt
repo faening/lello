@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalScreen
@@ -18,10 +18,10 @@ object SettingsJournalDestinations {
     const val SETTINGS = "journal_settings/{option}/{colorScheme}"
     const val REGISTER = "journal_settings_register/{option}/{colorScheme}"
 
-    fun listRoute(type: JournalOptionType, scheme: LelloColorScheme) =
+    fun listRoute(type: JournalOptionType, scheme: MoodColor) =
         "journal_settings/${type.name}/${scheme.name}"
 
-    fun registerRoute(type: JournalOptionType, scheme: LelloColorScheme) =
+    fun registerRoute(type: JournalOptionType, scheme: MoodColor) =
         "journal_settings_register/${type.name}/${scheme.name}"
 }
 
@@ -32,39 +32,47 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
     ) {
         composable(SettingsJournalDestinations.SETTINGS) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
-            val optionType = optionName?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
+            val moodColorName = backStackEntry.arguments?.getString("colorScheme")
+
+            val optionType = optionName
+                ?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
-            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
-            val colorScheme = colorSchemeName
-                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
-                ?: LelloColorScheme.DEFAULT
+
+            val moodColor = moodColorName
+                ?.let { runCatching { MoodColor.valueOf(it) }.getOrNull() }
+                ?: MoodColor.DEFAULT
 
             val viewModel = sharedSettingsJournalViewModel(navController, backStackEntry)
+
             SettingsJournalScreen(
                 viewModel = viewModel,
                 optionType = optionType,
-                colorScheme = colorScheme,
+                moodColor = moodColor,
                 onBack = { navController.popBackStack() },
                 onRegister = {
-                    navController.navigate(SettingsJournalDestinations.registerRoute(optionType, colorScheme))
+                    navController.navigate(SettingsJournalDestinations.registerRoute(optionType, moodColor))
                 }
             )
         }
 
         composable(SettingsJournalDestinations.REGISTER) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
-            val optionType = optionName?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
+            val moodColorName = backStackEntry.arguments?.getString("colorScheme")
+
+            val optionType = optionName
+                ?.let { runCatching { JournalOptionType.valueOf(it) }.getOrNull() }
                 ?: JournalOptionType.EMOTION
-            val colorSchemeName = backStackEntry.arguments?.getString("colorScheme")
-            val colorScheme = colorSchemeName
-                ?.let { runCatching { LelloColorScheme.valueOf(it) }.getOrNull() }
-                ?: LelloColorScheme.DEFAULT
+
+            val moodColor = moodColorName
+                ?.let { runCatching { MoodColor.valueOf(it) }.getOrNull() }
+                ?: MoodColor.DEFAULT
 
             val viewModel = sharedSettingsJournalViewModel(navController, backStackEntry)
+
             SettingsJournalRegisterScreen(
                 viewModel = viewModel,
                 optionType = optionType,
-                colorScheme = colorScheme,
+                moodColor = moodColor,
                 onBack = { navController.popBackStack() }
             )
         }

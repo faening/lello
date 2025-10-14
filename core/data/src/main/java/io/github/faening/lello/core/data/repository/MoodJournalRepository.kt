@@ -7,21 +7,35 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.journal.mood.toModel
 import io.github.faening.lello.core.database.model.journal.mood.toEntity
+import io.github.faening.lello.core.database.model.journal.mood.toModel
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.model.journal.MoodJournal
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MoodJournalRepository @Inject constructor(
     private val dao: MoodJournalDao
 ) : JournalResources<MoodJournal> {
 
+    override fun getAll(): Flow<List<MoodJournal>> {
+        return dao
+            .getAllWithOptions()
+            .map { list -> list.map { it.toModel() } }
+    }
+
+    override fun getById(id: Long): Flow<MoodJournal>? {
+        return dao
+            .getByIdWithOptions(id)
+            ?.map { it.toModel() }
+    }
+
     override suspend fun insert(entry: MoodJournal) : Long {
         val moodJournalId = dao.insert(
             MoodJournalEntity(
                 moodJournalId = 0L,
-                date = entry.date,
+                createdAt = entry.createdAt,
                 mood = entry.mood,
                 reflection = entry.reflection ?: "",
             )
@@ -68,14 +82,6 @@ class MoodJournalRepository @Inject constructor(
         }
 
         return moodJournalId
-    }
-
-    override suspend fun getAll(): List<MoodJournal> {
-        return dao.getAll().map { it.toModel() }
-    }
-
-    override suspend fun getById(id: Long): MoodJournal? {
-        return dao.getByIdWithOptions(id)?.toModel()
     }
 
     override suspend fun delete(id: MoodJournal) {

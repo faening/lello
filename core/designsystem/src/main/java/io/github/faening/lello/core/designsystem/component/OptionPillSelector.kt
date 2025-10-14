@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.designsystem.component
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.faening.lello.core.designsystem.component.button.LelloFlowItemButton
+import io.github.faening.lello.core.designsystem.component.pill.LelloFilledPill
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.JournalOption
 
@@ -25,36 +29,42 @@ fun <T> LelloOptionPillSelector(
     options: List<T>,
     isSelected: (T) -> Boolean,
     onToggle: (T) -> Unit,
-    onOpenSettings: () -> Unit,
+    onOpenSettings: (() -> Unit)? = null,
     getLabel: (T) -> String,
+    moodColor: MoodColor = MoodColor.DEFAULT,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = Dimension.Medium)
+            .padding(bottom = Dimension.spacingRegular)
     ) {
         if (title != null) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge
             )
-            Spacer(modifier = Modifier.height(Dimension.Medium))
+            Spacer(modifier = Modifier.height(Dimension.spacingRegular))
         }
 
         FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(Dimension.Small),
-            verticalArrangement = Arrangement.spacedBy(Dimension.Small)
+            horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
+            verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
         ) {
             options.forEach { option ->
-                LelloSelectablePill(
+                LelloFilledPill(
                     label = getLabel(option),
                     selected = isSelected(option),
-                    onClick = { onToggle(option) }
+                    onClick = { onToggle(option) },
+                    moodColor = moodColor
                 )
             }
-            LelloFlowItemButton(
-                onClick = onOpenSettings
-            )
+            if (onOpenSettings != null) {
+                LelloFlowItemButton(
+                    onClick = onOpenSettings,
+                    moodColor = moodColor
+                )
+            }
         }
     }
 }
@@ -82,7 +92,8 @@ private fun LelloOptionPillSelectorPreview() {
             isSelected = { _ -> false },
             onToggle = { _ -> },
             onOpenSettings = {},
-            getLabel = { it.description }
+            getLabel = { it.description },
+            modifier = Modifier.padding(Dimension.paddingScreenHorizontal)
         )
     }
 }

@@ -1,6 +1,8 @@
 package io.github.faening.lello.core.authentication.repository
 
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import io.github.faening.lello.core.authentication.mapper.toUser
 import io.github.faening.lello.core.domain.repository.AuthenticationRepository
 import io.github.faening.lello.core.model.authentication.AuthResult
@@ -48,6 +50,16 @@ class FirebaseAuthenticationRepository @Inject constructor(
         AuthResult.Success(Unit)
     } catch (e: Exception) {
         AuthResult.Error(e.message ?: "Falha ao criar conta")
+    }
+
+    override suspend fun signInWithGoogle(
+        credential: GoogleIdTokenCredential
+    ): AuthResult<Unit> = try {
+        val firebaseCredential = GoogleAuthProvider.getCredential(credential.idToken, null)
+        firebaseAuth.signInWithCredential(firebaseCredential).await()
+        AuthResult.Success(Unit)
+    } catch (e: Exception) {
+        AuthResult.Error(e.message ?: "Falha ao fazer login com o Google")
     }
 
     override suspend fun sendPasswordResetEmail(

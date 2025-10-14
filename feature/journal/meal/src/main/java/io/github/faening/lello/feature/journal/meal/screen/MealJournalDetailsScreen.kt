@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.height
@@ -19,12 +20,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTextField
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.textfield.LelloTextField
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.FoodOptionMock
@@ -47,6 +48,7 @@ internal fun MealJournalDetailsScreen(
     onOpenLocationOptionSettings: () -> Unit,
     onOpenSocialOptionSettings: () -> Unit,
 ) {
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
     val foodOptions by viewModel.foodOptions.collectAsState()
     val portionOptions by viewModel.portionOptions.collectAsState()
     val locationOptions by viewModel.locationOptions.collectAsState()
@@ -54,6 +56,7 @@ internal fun MealJournalDetailsScreen(
 
     LelloTheme {
         MealJournalDetailsContainer(
+            coinsAcquired = coinsAcquired,
             mealTime = viewModel.mealTime.collectAsState().value,
             onMealTimeChange = viewModel::updateMealTime,
             foodOptions = foodOptions,
@@ -77,6 +80,7 @@ internal fun MealJournalDetailsScreen(
 
 @Composable
 private fun MealJournalDetailsContainer(
+    coinsAcquired: Int,
     mealTime: String,
     onMealTimeChange: (String) -> Unit,
     foodOptions: List<FoodOption>,
@@ -100,6 +104,7 @@ private fun MealJournalDetailsContainer(
         bottomBar = { MealJournalDetailsBottomBar(onSave, onFinish) }
     ) { paddingValues ->
         MealJournalDetailsContent(
+            coinsAcquired = coinsAcquired,
             mealTime = mealTime,
             onMealTimeChange = onMealTimeChange,
             foodOptions = foodOptions,
@@ -137,8 +142,8 @@ private fun MealJournalDetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LelloFilledButton(
@@ -153,6 +158,7 @@ private fun MealJournalDetailsBottomBar(
 
 @Composable
 private fun MealJournalDetailsContent(
+    coinsAcquired: Int,
     mealTime: String,
     onMealTimeChange: (String) -> Unit,
     foodOptions: List<FoodOption>,
@@ -171,68 +177,81 @@ private fun MealJournalDetailsContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(Dimension.Medium)
+            .fillMaxSize()
+            .padding(Dimension.spacingRegular)
     ) {
+        // Header
         Text(
             text = "Gostaria de adicionar mais detalhes sobre a sua alimentação?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
         Text(
-            text = "Que horas foi a refeição?",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = Dimension.Medium)
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
         )
-        LelloTextField(
-            value = mealTime,
-            onValueChange = onMealTimeChange,
-            placeholder = "Ex: 30min",
-            maxLength = 10,
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
-        LelloOptionPillSelector(
-            title = "Qual foi o tipo de alimento?",
-            options = foodOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onFoodOptionToggle(option.description) },
-            onOpenSettings = onOpenFoodOptionSettings,
-            getLabel = { it.description }
-        )
-        Spacer(modifier = Modifier.height(Dimension.Large))
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = "Que horas foi a refeição?",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+            )
+            LelloTextField(
+                value = mealTime,
+                onValueChange = onMealTimeChange,
+                placeholder = "Ex: 30min",
+                maxLength = 10,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
-        LelloOptionPillSelector(
-            title = "Quanto você comeu?",
-            options = portionOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onPortionOptionToggle(option.description) },
-            onOpenSettings = onOpenPortionOptionSettings,
-            getLabel = { it.description }
-        )
-        Spacer(modifier = Modifier.height(Dimension.Large))
+            LelloOptionPillSelector(
+                title = "Qual foi o tipo de alimento?",
+                options = foodOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onFoodOptionToggle(option.description) },
+                onOpenSettings = onOpenFoodOptionSettings,
+                getLabel = { it.description }
+            )
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
-        LelloOptionPillSelector(
-            title = "Onde você estava?",
-            options = locationOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onLocationOptionToggle(option.description) },
-            onOpenSettings = onOpenLocationOptionSettings,
-            getLabel = { it.description }
-        )
-        Spacer(modifier = Modifier.height(Dimension.Large))
+            LelloOptionPillSelector(
+                title = "Quanto você comeu?",
+                options = portionOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onPortionOptionToggle(option.description) },
+                onOpenSettings = onOpenPortionOptionSettings,
+                getLabel = { it.description }
+            )
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
-        LelloOptionPillSelector(
-            title = "Com quem você estava?",
-            options = socialOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onSocialOptionToggle(option.description) },
-            onOpenSettings = onOpenSocialOptionSettings,
-            getLabel = { it.description }
-        )
+            LelloOptionPillSelector(
+                title = "Onde você estava?",
+                options = locationOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onLocationOptionToggle(option.description) },
+                onOpenSettings = onOpenLocationOptionSettings,
+                getLabel = { it.description }
+            )
+            Spacer(modifier = Modifier.height(Dimension.spacingLarge))
+
+            LelloOptionPillSelector(
+                title = "Com quem você estava?",
+                options = socialOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onSocialOptionToggle(option.description) },
+                onOpenSettings = onOpenSocialOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
@@ -246,6 +265,7 @@ private fun MealJournalDetailsContent(
 fun MealJournalDetailsScreenPreview() {
     LelloTheme {
         MealJournalDetailsContainer(
+            coinsAcquired = 100,
             mealTime = "",
             onMealTimeChange = { _ -> },
             foodOptions = FoodOptionMock.list,

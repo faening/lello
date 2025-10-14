@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.lello.android.library)
+    alias(libs.plugins.lello.firebase.authentication)
     alias(libs.plugins.lello.hilt)
 }
 
@@ -10,9 +11,8 @@ android {
 dependencies {
     api(projects.core.domain)
     api(projects.core.model)
-
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.authentication)
+    api(projects.feature.onboarding)
+    api(projects.feature.home)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

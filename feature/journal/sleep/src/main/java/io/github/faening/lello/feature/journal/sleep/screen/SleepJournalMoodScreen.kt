@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,16 +20,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.SleepSensationOptionMock
 import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
@@ -42,12 +44,15 @@ internal fun SleepJournalMoodScreen(
     onOpenSleepSensationOptionSettings: () -> Unit
 ) {
     val sleepSensationOptions by viewModel.sleepSensationOptions.collectAsState()
+    val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+    LelloTheme(moodColor = MoodColor.DEFAULT) {
         SleepJournalMoodContainer(
+            coinsAcquired = coinsAcquired,
             sleepSensationOptions = sleepSensationOptions,
             onSleepSensationOptionToggle = viewModel::toggleSleepSensationSelection,
             onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
+            onSave = viewModel::saveSleepJournal,
             onBack = onBack,
             onNext = onNext,
             onFinish = onFinish
@@ -57,9 +62,11 @@ internal fun SleepJournalMoodScreen(
 
 @Composable
 private fun SleepJournalMoodContainer(
+    coinsAcquired: Int,
     sleepSensationOptions: List<SleepSensationOption>,
     onSleepSensationOptionToggle: (String) -> Unit,
     onOpenSleepSensationOptionSettings: () -> Unit,
+    onSave: () -> Unit,
     onBack: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit
@@ -68,9 +75,17 @@ private fun SleepJournalMoodContainer(
 
     Scaffold(
         topBar = { SleepJournalMoodTopBar(onBack) },
-        bottomBar = { SleepJournaBottomBar(anySelected, onNext, onFinish) }
+        bottomBar = {
+            SleepJournaBottomBar(
+            enabled = anySelected,
+            onSave = onSave,
+            onNext = onNext,
+            onFinish = onFinish
+            )
+        }
     ) { paddingValues ->
         SleepJournalMoodContent(
+            coinsAcquired = coinsAcquired,
             sleepSensationOptions = sleepSensationOptions,
             onSleepSensationOptionToggle = onSleepSensationOptionToggle,
             onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
@@ -92,20 +107,24 @@ private fun SleepJournalMoodTopBar(
 @Composable
 private fun SleepJournaBottomBar(
     enabled: Boolean,
+    onSave: () -> Unit,
     onNext: () -> Unit,
     onFinish: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium),
-        horizontalArrangement = Arrangement.spacedBy(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
         LelloFilledButton(
             label = "Concluir",
             enabled = enabled,
-            onClick = onFinish,
+            onClick = {
+                onSave()
+                onFinish()
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -120,6 +139,7 @@ private fun SleepJournaBottomBar(
 
 @Composable
 private fun SleepJournalMoodContent(
+    coinsAcquired: Int,
     sleepSensationOptions: List<SleepSensationOption>,
     onSleepSensationOptionToggle: (String) -> Unit,
     onOpenSleepSensationOptionSettings: () -> Unit,
@@ -127,23 +147,37 @@ private fun SleepJournalMoodContent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxHeight()
-            .padding(Dimension.Medium)
+            .fillMaxSize()
+            .padding(Dimension.spacingRegular)
     ) {
+        // Header
         Text(
             text = "Como você se sentiu ao acordar?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = sleepSensationOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onSleepSensationOptionToggle(option.description) },
-            onOpenSettings = onOpenSleepSensationOptionSettings,
-            getLabel = { it.description }
+        Text(
+            text = "Ganhe $coinsAcquired moeads ao concluir",
+            style = MaterialTheme.typography.bodyMedium
         )
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
+
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = sleepSensationOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onSleepSensationOptionToggle(option.description) },
+                onOpenSettings = onOpenSleepSensationOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
@@ -157,9 +191,11 @@ private fun SleepJournalMoodContent(
 private fun SleepJournalMoodScreenPreview() {
     LelloTheme {
         SleepJournalMoodContainer(
+            coinsAcquired = 100,
             sleepSensationOptions = SleepSensationOptionMock.list,
             onSleepSensationOptionToggle = { _ -> },
             onOpenSleepSensationOptionSettings = {},
+            onSave = {},
             onBack = {},
             onNext = {},
             onFinish = {}

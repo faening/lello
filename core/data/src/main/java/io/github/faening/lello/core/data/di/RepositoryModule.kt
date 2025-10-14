@@ -12,52 +12,76 @@ import io.github.faening.lello.core.data.repository.FoodOptionRepository
 import io.github.faening.lello.core.data.repository.HealthOptionRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.LocationOptionRepository
-import io.github.faening.lello.core.data.repository.MealOptionRepository
+import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.repository.MealJournalRepository
+import io.github.faening.lello.core.data.repository.MealOptionRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
-import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.data.repository.PortionOptionRepository
-import io.github.faening.lello.core.data.repository.SleepSensationOptionRepository
+import io.github.faening.lello.core.data.repository.RewardBalanceRepository
+import io.github.faening.lello.core.data.repository.RewardHistoryRepository
 import io.github.faening.lello.core.data.repository.SleepActivityOptionRepository
+import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.data.repository.SleepQualityOptionRepository
+import io.github.faening.lello.core.data.repository.SleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.SocialOptionRepository
+import io.github.faening.lello.core.data.repository.store.InventoryRepository
+import io.github.faening.lello.core.data.repository.store.ItemRepository
+import io.github.faening.lello.core.data.repository.store.PurchaseHistoryRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
+import io.github.faening.lello.core.database.dao.InventoryDao
+import io.github.faening.lello.core.database.dao.ItemCatalogDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
-import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MascotStatusDao
+import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
+import io.github.faening.lello.core.database.dao.MealOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
-import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
-import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
+import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
+import io.github.faening.lello.core.database.dao.RewardBalanceDao
+import io.github.faening.lello.core.database.dao.RewardHistoryDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
+import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
+import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.store.InventoryResource
+import io.github.faening.lello.core.domain.repository.store.ItemResource
+import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
+import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.DosageFormOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
-import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
-import io.github.faening.lello.core.model.journal.MealJournal
-import io.github.faening.lello.core.model.journal.MoodJournal
-import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.PortionOption
-import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SocialOption
+import io.github.faening.lello.core.model.reward.RewardBalance
+import io.github.faening.lello.core.model.reward.RewardHistory
+import io.github.faening.lello.core.model.store.InventoryItem
+import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.PurchaseHistory
+import io.github.faening.lello.core.domain.repository.MascotRepository as IMascotRepository
+import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
+import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 
 /**
  * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.
@@ -78,6 +102,8 @@ import io.github.faening.lello.core.model.option.SocialOption
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    // region: Journals
 
     @Provides
     fun provideMoodJournalRepository(
@@ -106,6 +132,10 @@ object RepositoryModule {
     ): JournalCategoryResources<JournalCategory> {
         return JournalCategoryRepository(dao)
     }
+
+    // endregion
+
+    // region: Options
 
     @Provides
     fun provideAppetiteOptionRepository(
@@ -197,4 +227,61 @@ object RepositoryModule {
     ) : OptionResources<SocialOption> {
         return SocialOptionRepository(dao)
     }
+
+    // endregion
+
+    // region: Rewards
+
+    @Provides
+    fun provideRewardHistoryRepository(
+        dao: RewardHistoryDao
+    ): IRewardHistoryRepository<RewardHistory> {
+        return RewardHistoryRepository(dao)
+    }
+
+    @Provides
+    fun provideRewardBalanceRepository(
+        dao: RewardBalanceDao
+    ) : IRewardBalanceRepository<RewardBalance> {
+        return RewardBalanceRepository(dao)
+    }
+
+    // endregion
+
+    // region: Mascot
+
+    @Provides
+    fun provideMascotRepository(
+        statusDao: MascotStatusDao,
+        historyDao: MascotVitalityHistoryDao
+    ): IMascotRepository {
+        return MascotRepositoryImpl(statusDao, historyDao)
+    }
+
+    // endregion
+
+    // region: Store
+
+    @Provides
+    fun provideItemRepository(
+        dao: ItemCatalogDao
+    ): ItemResource<Item> {
+        return ItemRepository(dao)
+    }
+
+    @Provides
+    fun provideInventoryRepository(
+        dao: InventoryDao
+    ): InventoryResource<InventoryItem> {
+        return InventoryRepository(dao)
+    }
+
+    @Provides
+    fun providePurchaseHistoryRepository(
+        dao: PurchaseHistoryDao
+    ): PurchaseHistoryResource<PurchaseHistory> {
+        return PurchaseHistoryRepository(dao)
+    }
+
+    // endregion
 }

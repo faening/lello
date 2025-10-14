@@ -4,4 +4,6 @@
     <string name="exception_description_empty">A descrição não pode estar vazia</string>
     <string name="exception_option_duplicate">Esta opção já existe</string>
     <string name="exception_option_blocked">Não é possível atualizar um item bloqueado</string>
+
+    <string name="default_web_client_id">453402448651-l8os59878q7cpjibe4m6mmjg81tvj8b7.apps.googleusercontent.com</string>
 </resources>

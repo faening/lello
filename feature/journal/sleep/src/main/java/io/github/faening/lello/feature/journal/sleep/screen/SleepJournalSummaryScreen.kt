@@ -1,24 +1,28 @@
 package io.github.faening.lello.feature.journal.sleep.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
+import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun SleepJournalSummaryScreen(
@@ -26,7 +30,7 @@ internal fun SleepJournalSummaryScreen(
     onExit: () -> Unit
 ) {
 
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+    LelloTheme(moodColor = MoodColor.DEFAULT) {
         SleepJournalSummaryContainer(
             onExit = onExit
         )
@@ -37,12 +41,22 @@ internal fun SleepJournalSummaryScreen(
 private fun SleepJournalSummaryContainer(
     onExit: () -> Unit
 ) {
-    Scaffold(
-        bottomBar = { SleepJournalSummaryBottomBar(onExit) }
-    ) { paddingValues ->
-        SleepJournalSummaryContent(
-            modifier = Modifier.padding(paddingValues)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = designsystemR.drawable.journal_summary),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
+
+        Scaffold(
+            containerColor = Color.Transparent,
+            bottomBar = { SleepJournalSummaryBottomBar(onExit) }
+        ) { paddingValues ->
+            SleepJournalSummaryContent(
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
     }
 }
 
@@ -53,7 +67,7 @@ private fun SleepJournalSummaryBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFilledButton(
             label = "Sair",
@@ -69,18 +83,10 @@ private fun SleepJournalSummaryContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(Dimension.Medium),
+            .padding(Dimension.spacingRegular),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Aqui virá a futura pontuação, conquistas, XP etc.
-        Text(
-            text = "Diário concluído!",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = Dimension.Large)
-        )
-        // Outras informações (pontuação, mascote etc.) vão aqui
-    }
+    ) { }
 }
 
 @Composable

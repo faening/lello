@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.lello.android.library)
+    alias(libs.plugins.lello.firebase.authentication)
     alias(libs.plugins.lello.hilt)
 }
 
@@ -9,6 +10,9 @@ android {
 
 dependencies {
     api(projects.core.model)
+    api(projects.core.designsystem)
+
+    implementation(libs.androidx.biometric)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

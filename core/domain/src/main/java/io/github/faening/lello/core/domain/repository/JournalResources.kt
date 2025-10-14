@@ -1,8 +1,10 @@
 package io.github.faening.lello.core.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+
 interface JournalResources<T> {
-    suspend fun getAll(): List<T>
-    suspend fun getById(id: Long): T?
+    fun getAll(): Flow<List<T>>
+    fun getById(id: Long): Flow<T>?
     suspend fun insert(entry: T) : Long
     suspend fun delete(id: T)
 }

@@ -3,17 +3,19 @@ package io.github.faening.lello.feature.journal.meal
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
+import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
-import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
+import io.github.faening.lello.core.domain.util.toEpochMillis
+import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.LocationOption
-import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SocialOption
@@ -22,7 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Date
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +35,8 @@ class MealJournalViewModel @Inject constructor(
     foodOptionUseCase: FoodOptionUseCase,
     portionOptionUseCase: PortionOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
-    socialOptionUseCase: SocialOptionUseCase
+    socialOptionUseCase: SocialOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
     private val _mealTime = MutableStateFlow("")
@@ -58,6 +61,9 @@ class MealJournalViewModel @Inject constructor(
     val socialOptions: StateFlow<List<SocialOption>> = _socialOptions
 
     private val _mealJournal = MutableStateFlow<MealJournal?>(null)
+
+    private val _coinsAcquired = MutableStateFlow<Int>(50)
+    val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
     init {
         viewModelScope.launch {
@@ -94,13 +100,12 @@ class MealJournalViewModel @Inject constructor(
     
     fun updateMealTime(time: String) {
         _mealTime.value = time
+        updateCoinsAcquired()
     }
 
     fun toggleMealSelection(description: String) {
         _mealOptions.update { list ->
-            list.map {
-                if (it.description == description) it.copy(selected = !it.selected) else it
-            }
+            list.map { it.copy(selected = it.description == description) }
         }
     }
 
@@ -110,6 +115,7 @@ class MealJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleFoodSelection(description: String) {
@@ -118,13 +124,16 @@ class MealJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
+
     fun togglePortionSelection(description: String) {
         _portionOptions.update { list ->
             list.map {
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleLocationSelection(description: String) {
@@ -133,6 +142,7 @@ class MealJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSocialSelection(description: String) {
@@ -141,11 +151,29 @@ class MealJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
+    }
+
+    private fun updateCoinsAcquired() {
+        val mealournal = buildMealournal()
+        val points = rewardCalculatorService.calculateForMealJournal(mealournal)
+        _coinsAcquired.value = points
+    }
+
+    fun saveMealJournal() {
+        if (_mealJournal.value == null) return
+        viewModelScope.launch {
+            val journal = buildMealournal()
+            mealJournalUseCase.save(journal)
+        }
     }
 
     private fun buildMealournal(): MealJournal {
+        val millis = LocalDateTime.now().toEpochMillis()
+
         return MealJournal(
-            mealTime = Date(),
+            mealTime = 0,
+            createdAt = millis,
             mealOptions = mealOptions.value.filter { it.selected },
             appetiteOptions = appetiteOptions.value.filter { it.selected },
             foodOptions = foodOptions.value.filter { it.selected },
@@ -154,14 +182,6 @@ class MealJournalViewModel @Inject constructor(
             socialOptions = socialOptions.value.filter { it.selected },
         ).also {
             _mealJournal.value = it
-        }
-    }
-
-    fun saveMealJournal() {
-        if (_mealJournal.value != null) return
-        viewModelScope.launch {
-            val journal = buildMealournal()
-            mealJournalUseCase.save(journal)
         }
     }
 }

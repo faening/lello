@@ -1,25 +1,29 @@
 package io.github.faening.lello.feature.journal.mood.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.mood.MoodJournalViewModel
 
 @Composable
@@ -27,65 +31,67 @@ internal fun MoodJournalSummaryScreen(
     viewModel: MoodJournalViewModel,
     onExit: () -> Unit
 ) {
-    val mood by viewModel.currentMood.collectAsState()
-    // LaunchedEffect(Unit) { viewModel.saveJournal() }
+    val moodColor by viewModel.currentMood.collectAsState()
 
-    LelloTheme(scheme = mood.colorScheme) {
-        MoodJournalSummaryContainer(
-            onExit = onExit
-        )
-    }
+    MoodJournalSummaryContainer(
+        moodColor = moodColor,
+        onExit = onExit
+    )
 }
 
 @Composable
 private fun MoodJournalSummaryContainer(
+    moodColor: MoodColor,
     onExit: () -> Unit
 ) {
-    Scaffold(
-        bottomBar = { MoodJournalSummaryBottomBar(onExit) }
-    ) { paddingValues ->
-        MoodJournalSummaryContent(
-            modifier = Modifier.padding(paddingValues)
-        )
+    LelloTheme(moodColor = moodColor) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background
+            Image(
+                painter = painterResource(LelloIcons.Graphic.MoodSummary.resId),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // Foreground
+            Scaffold(
+                containerColor = Color.Transparent,
+                bottomBar = {
+                    BottomBarSection(
+                        moodColor = moodColor,
+                        onExit = onExit
+                    )
+            }
+            ) { paddingValues ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(Dimension.spacingRegular),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) { }
+            }
+        }
     }
 }
 
 @Composable
-private fun MoodJournalSummaryBottomBar(
+private fun BottomBarSection(
+    moodColor: MoodColor,
     onExit: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
-        LelloFilledButton(
-            label = "Sair",
-            onClick = onExit
-        )
+        LelloFilledButton(label = "Sair", onClick = onExit, moodColor = moodColor)
     }
 }
 
-@Composable
-private fun MoodJournalSummaryContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimension.Medium),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Aqui virá a futura pontuação, conquistas, XP etc.
-        Text(
-            text = "Diário concluído!",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = Dimension.Large)
-        )
-        // Outras informações (pontuação, mascote etc.) vão aqui
-    }
-}
+// region Previews
 
 @Composable
 @Preview(
@@ -94,10 +100,13 @@ private fun MoodJournalSummaryContent(
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun MoodJournalSummaryScreenPreview() {
+private fun MoodJournalSummaryScreenPreview_LightMode() {
     LelloTheme {
         MoodJournalSummaryContainer(
+            moodColor = MoodColor.DEFAULT,
             onExit = {},
         )
     }
 }
+
+// endregion Previews

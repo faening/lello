@@ -3,19 +3,23 @@ package io.github.faening.lello.feature.journal.mood
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.util.toEpochMillis
+import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
-import io.github.faening.lello.core.model.journal.MoodJournal
-import io.github.faening.lello.core.model.journal.MoodType
 import io.github.faening.lello.core.model.option.SocialOption
+import io.github.faening.lello.feature.journal.mood.model.MoodColorMapping
 import io.github.faening.lello.feature.journal.mood.model.MoodJournalColorScheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,9 +29,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,11 +39,12 @@ class MoodJournalViewModel @Inject constructor(
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
     socialOptionUseCase: SocialOptionUseCase,
-    healthOptionUseCase: HealthOptionUseCase
+    healthOptionUseCase: HealthOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
-    private val _currentMood = MutableStateFlow(MoodJournalColorScheme.JOYFUL)
-    val currentMood: StateFlow<MoodJournalColorScheme> = _currentMood
+    private val _currentMood = MutableStateFlow(MoodColor.DEFAULT)
+    val currentMood: StateFlow<MoodColor> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
     val entryDateTime: StateFlow<String> = _entryDateTime
@@ -67,6 +70,9 @@ class MoodJournalViewModel @Inject constructor(
     val reflection: StateFlow<String> = _reflection
 
     private val _moodJournal = MutableStateFlow<MoodJournal?>(null)
+
+    private val _coinsAcquired = MutableStateFlow<Int>(50)
+    val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
     init {
         viewModelScope.launch {
@@ -99,8 +105,8 @@ class MoodJournalViewModel @Inject constructor(
     /**
      * Atualiza o humor selecionado pelo usuário.
      */
-    fun updateMood(mood: MoodJournalColorScheme) {
-        _currentMood.value = mood
+    fun updateMood(moodColor: MoodColor) {
+        _currentMood.value = moodColor
     }
 
     /**
@@ -119,6 +125,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleClimateSelection(description: String) {
@@ -127,6 +134,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleLocationSelection(description: String) {
@@ -135,6 +143,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleSocialSelection(description: String) {
@@ -143,6 +152,7 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun toggleHealthSelection(description: String) {
@@ -151,10 +161,45 @@ class MoodJournalViewModel @Inject constructor(
                 if (it.description == description) it.copy(selected = !it.selected) else it
             }
         }
+        updateCoinsAcquired()
     }
 
     fun updateReflection(text: String) {
         _reflection.value = text
+        updateCoinsAcquired()
+    }
+
+    private fun updateCoinsAcquired() {
+        val moodJournal = buildMoodJournal()
+        val points = rewardCalculatorService.calculateForMoodJournal(moodJournal)
+        _coinsAcquired.value = points
+    }
+
+    fun saveMoodJournal() {
+        // if (_moodJournal.value == null) return
+        viewModelScope.launch {
+            val journal = buildMoodJournal()
+            moodJournalUseCase.save(journal)
+            _moodJournal.value = journal
+        }
+    }
+
+    private fun buildMoodJournal(): MoodJournal {
+        val millis = (_entryDateTime.value ?: LocalDateTime.now()).toEpochMillis()
+        return MoodJournal(
+            mood = getMoodTypeFromMoodColor(currentMood.value),
+            reflection = reflection.value,
+            emotionOptions = emotionOptions.value.filter { it.selected },
+            climateOptions = climateOptions.value.filter { it.selected },
+            locationOptions = locationOptions.value.filter { it.selected },
+            socialOptions = socialOptions.value.filter { it.selected },
+            healthOptions = healthOptions.value.filter { it.selected },
+            createdAt = millis,
+        )
+    }
+
+    private fun getMoodTypeFromMoodColor(moodColor: MoodColor): MoodType {
+        return MoodColorMapping.moodMap[moodColor]?.moodType ?: MoodType.JOYFUL
     }
 
     private fun MoodJournalColorScheme.toMoodType(): MoodType = when (this) {
@@ -163,32 +208,5 @@ class MoodJournalViewModel @Inject constructor(
         MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
         MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
         MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
-    }
-
-    private fun buildMoodJournal(): MoodJournal {
-        val date = Date.from(
-            (_entryDateTime.value ?: LocalDateTime.now())
-                .atZone(ZoneId.systemDefault())
-                .toInstant()
-        )
-        return MoodJournal(
-            date = date,
-            mood = _currentMood.value.toMoodType(),
-            reflection = _reflection.value.ifBlank { null },
-            emotionOptions = _emotionOptions.value.filter { it.selected },
-            climateOptions = _climateOptions.value.filter { it.selected },
-            locationOptions = _locationOptions.value.filter { it.selected },
-            socialOptions = _socialOptions.value.filter { it.selected },
-            healthOptions = _healthOptions.value.filter { it.selected }
-        )
-    }
-
-    fun saveMoodJournal() {
-        if (_moodJournal.value != null) return
-        viewModelScope.launch {
-            val journal = buildMoodJournal()
-            moodJournalUseCase.save(journal)
-            _moodJournal.value = journal
-        }
     }
 }

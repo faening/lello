@@ -1,13 +1,13 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.JournalCategoryEntity
+import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 
 internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
     override val data = listOf(
         JournalCategoryEntity(
             id = 1,
-            name = "Diário de Humor",
-            shortDescription = "Registre suas emoções e compreenda melhor seus estados emocionais ao longo do dia",
+            name = "Humor",
+            shortDescription = "Registre suas emoções e compreenda melhor suas emoções.",
             longDescription = """
                        O Diário de Humor é uma ferramenta central do aplicativo, inspirada na Ficha de Regulação Emocional do Treinamento 
                        em DBT (Terapia Comportamental Dialética). Com ele, você poderá registrar suas emoções ao longo do dia, identificar 
@@ -22,8 +22,8 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 2,
-            name = "Diário de Medicamentos",
-            shortDescription = "Acompanhe sua medicação diária e monitore sua adaptação ao tratamento",
+            name = "Medicamentos",
+            shortDescription = "Registre sua medicação e monitore seu tratamento diariamente.",
             longDescription = """
                         O Diário de Medicamentos foi desenvolvido para ajudar no acompanhamento do uso contínuo de medicamentos reguladores. 
                         Ele permite registrar a ingestão diária, anotar possíveis efeitos colaterais e acompanhar como o organismo está se 
@@ -39,8 +39,8 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 3,
-            name = "Diário de Sono",
-            shortDescription = "Monitore seu sono e descubra como ele impacta seu bem-estar emocional",
+            name = "Sono",
+            shortDescription = "Monitore seu sono e descubra como ele impacta seu bem-estar ao longo do dia.",
             longDescription = """
                         O Diário de Sono foi criado para acompanhar a qualidade e a regularidade do seu descanso, ajudando a entender como 
                         os hábitos de sono influenciam diretamente seu humor, energia e equilíbrio emocional.
@@ -54,8 +54,8 @@ internal object JournalCategorySeed: Seed<JournalCategoryEntity> {
         ),
         JournalCategoryEntity(
             id = 4,
-            name = "Diário de Alimentação",
-            shortDescription = "Registre sua alimentação e compreenda como ela afeta sua saúde emocional",
+            name = "Alimentação",
+            shortDescription = "Registre sua alimentação e compreenda como ela afeta sua saúde emocional.",
             longDescription = """
                         O Diário de Alimentação tem como objetivo acompanhar seus hábitos alimentares e ajudar na compreensão da sua 
                         relação com a comida. Muitas vezes, alterações no padrão alimentar estão diretamente ligadas ao estado emocional, 

@@ -14,14 +14,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionList
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.feature.journal.settings.SettingsJournalViewModel
@@ -31,112 +31,119 @@ import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 internal fun SettingsJournalScreen(
     viewModel: SettingsJournalViewModel,
     optionType: JournalOptionType,
-    colorScheme: LelloColorScheme,
+    moodColor: MoodColor = MoodColor.DEFAULT,
     onBack: () -> Unit,
     onRegister: () -> Unit
 ) {
     val options by viewModel.optionsFlow(optionType).collectAsState()
 
-    LelloTheme(scheme = colorScheme) {
-        SettingsJournalContainer(
-            optionType = optionType,
-            options = options,
-            onToggle = { option, active -> viewModel.toggleOption(optionType, option, active) },
-            onBack = onBack,
-            onRegister = onRegister
-        )
-    }
-}
-
-@Composable
-private fun SettingsJournalContainer(
-    optionType: JournalOptionType,
-    options: List<JournalOption>,
-    onToggle: (JournalOption, Boolean) -> Unit,
-    onBack: () -> Unit,
-    onRegister: () -> Unit
-) {
-    Scaffold(
-        topBar = { SettingsJournalTopBar(optionType, onBack) },
-        bottomBar = { SettingsJournalBottomBar(optionType, onRegister) }
-    ) { paddingValues ->
-        SettingsJournalContent(
-            options = options,
-            onToggle = onToggle,
-            modifier = Modifier.padding(paddingValues)
-        )
-    }
-}
-
-@Composable
-private fun SettingsJournalTopBar(
-    optionType: JournalOptionType,
-    onBack: () -> Unit
-) {
-    val title = optionType.titleRes
-    LelloTopAppBar(
-        title = TopAppBarTitle(title),
-        navigateUp = TopAppBarAction(onClick = onBack),
+    SettingsJournalContent(
+        optionType = optionType,
+        moodColor = moodColor,
+        options = options,
+        onBack = onBack,
+        onRegister = onRegister,
+        onToggle = { option, active -> viewModel.toggleOption(optionType, option, active) }
     )
 }
 
 @Composable
-private fun SettingsJournalBottomBar(
+private fun SettingsJournalContent(
     optionType: JournalOptionType,
-    onRegister: () -> Unit
+    moodColor: MoodColor,
+    options: List<JournalOption>,
+    onBack: () -> Unit,
+    onRegister: () -> Unit,
+    onToggle: (JournalOption, Boolean) -> Unit
 ) {
-    val label = stringResource(optionType.registerLabelRes)
-    Row(
-        modifier = Modifier.padding(Dimension.Medium)
-    ) {
-        LelloFilledButton(
-            label = label,
-            onClick = onRegister,
-        )
+    LelloTheme(moodColor = moodColor) {
+        Scaffold(
+            topBar = {
+                TopAppBarSection(
+                    optionType = optionType,
+                    moodColor = moodColor,
+                    onBack = onBack
+                )
+            },
+            bottomBar = {
+                BottomBarSection(
+                    optionType = optionType,
+                    moodColor = moodColor,
+                    onRegister = onRegister
+                )
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(paddingValues)
+                    .padding(Dimension.spacingRegular)
+            ) {
+                Text(
+                    text = "Gerencie os itens disponíveis para preenchimento em seus diários",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                )
+
+                LelloOptionList(
+                    options = options,
+                    onToggle = onToggle,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun SettingsJournalContent(
-    options: List<JournalOption>,
-    onToggle: (JournalOption, Boolean) -> Unit,
-    modifier: Modifier = Modifier
+private fun TopAppBarSection(
+    optionType: JournalOptionType,
+    moodColor: MoodColor,
+    onBack: () -> Unit
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .padding(Dimension.Medium)
-    ) {
-        Text(
-            text = "Gerencie os itens disponíveis para preenchimento em seus diários",
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.padding(bottom = Dimension.ExtraLarge)
-        )
+    LelloTopAppBar(
+        title = TopAppBarTitle(optionType.titleRes),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = moodColor
+    )
+}
 
-        LelloOptionList(
-            options = options,
-            onToggle = onToggle,
-            modifier = Modifier.weight(1f)
+@Composable
+private fun BottomBarSection(
+    optionType: JournalOptionType,
+    moodColor: MoodColor,
+    onRegister: () -> Unit
+) {
+    val label = stringResource(optionType.registerLabelRes)
+    Row(
+        modifier = Modifier.padding(Dimension.spacingRegular)
+    ) {
+        LelloFilledButton(
+            label = label,
+            onClick = onRegister,
+            moodColor = moodColor
         )
     }
 }
 
+// region Previews
+
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-fun SettingsJournalScreenPreview() {
-    LelloTheme {
-        SettingsJournalContainer(
-            optionType = JournalOptionType.EMOTION,
-            options = EmotionOptionMock.list,
-            onToggle = { _, _ -> },
-            onBack = {},
-            onRegister = {}
-        )
-    }
+private fun SettingsJournalScreenPreview_LightMode() {
+    SettingsJournalContent(
+        optionType = JournalOptionType.EMOTION,
+        moodColor = MoodColor.DEFAULT,
+        options = EmotionOptionMock.list,
+        onBack = {},
+        onRegister = {},
+        onToggle = { _, _ -> }
+    )
 }
+
+// endregion Previews

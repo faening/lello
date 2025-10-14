@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.designsystem.component
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -11,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,13 +25,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.R
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
-import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -49,6 +45,7 @@ fun LelloSliderVertical(
     val baseModifier = Modifier
         .fillMaxHeight()
         .fillMaxWidth()
+        .padding(vertical = 32.dp)
         .then(
             if (enableStepDrag) Modifier.pointerInput(steps, currentStep) {
                 detectVerticalDragGestures { _, dragAmount ->
@@ -125,51 +122,5 @@ fun LelloSliderVertical(
                 )
             }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    name = "Light",
-    group = "Default",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 300,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloSliderVerticalDefaultLightPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.DEFAULT
-    ) {
-        LelloSliderVertical(
-            steps = 5,
-            currentStep = 1,
-            enableStepDrag = true,
-            onStepSelected = {}
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    name = "Light",
-    group = "Aquamarine",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 300,
-    backgroundColor = 0xFFFFFBF0
-)
-@Composable
-private fun LelloSliderVerticalAquamarineLightPreview() {
-    LelloTheme(
-        scheme = LelloColorScheme.AQUAMARINE
-    ) {
-        LelloSliderVertical(
-            steps = 5,
-            currentStep = 1,
-            enableStepDrag = true,
-            onStepSelected = {}
-        )
     }
 }

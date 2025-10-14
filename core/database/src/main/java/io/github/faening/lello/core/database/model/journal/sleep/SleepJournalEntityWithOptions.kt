@@ -12,26 +12,18 @@ import io.github.faening.lello.core.model.journal.SleepJournal
 
 data class SleepJournalEntityWithOptions(
     @Embedded val entry: SleepJournalEntity,
+
     @Relation(
         parentColumn = "sleepJournalId",
-        entityColumn = "sleepSensationOptionId",
+        entityColumn = "locationOptionId",
         associateBy = Junction(
-            value = SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
+            value = SleepJournalEntityLocationOptionEntityCrossRef::class,
             parentColumn = "sleepJournalId",
-            entityColumn = "sleepSensationOptionId"
+            entityColumn = "locationOptionId"
         )
     )
-    val sleepSensationOptions: List<SleepSensationOptionEntity>,
-    @Relation(
-        parentColumn = "sleepJournalId",
-        entityColumn = "sleepQualityOptionId",
-        associateBy = Junction(
-            value = SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
-            parentColumn = "sleepJournalId",
-            entityColumn = "sleepQualityOptionId"
-        )
-    )
-    val sleepQualityOptions: List<SleepQualityOptionEntity>,
+    val locationOptions: List<LocationOptionEntity>,
+
     @Relation(
         parentColumn = "sleepJournalId",
         entityColumn = "sleepActivityOptionId",
@@ -42,25 +34,37 @@ data class SleepJournalEntityWithOptions(
         )
     )
     val sleepActivityOptions: List<SleepActivityOptionEntity>,
+
     @Relation(
         parentColumn = "sleepJournalId",
-        entityColumn = "locationOptionId",
+        entityColumn = "sleepQualityOptionId",
         associateBy = Junction(
-            value = SleepJournalEntityLocationOptionEntityCrossRef::class,
+            value = SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
             parentColumn = "sleepJournalId",
-            entityColumn = "locationOptionId"
+            entityColumn = "sleepQualityOptionId"
         )
     )
-    val locationOptions: List<LocationOptionEntity>
+    val sleepQualityOptions: List<SleepQualityOptionEntity>,
+
+    @Relation(
+        parentColumn = "sleepJournalId",
+        entityColumn = "sleepSensationOptionId",
+        associateBy = Junction(
+            value = SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
+            parentColumn = "sleepJournalId",
+            entityColumn = "sleepSensationOptionId"
+        )
+    )
+    val sleepSensationOptions: List<SleepSensationOptionEntity>,
 )
 
 fun SleepJournalEntityWithOptions.toModel() = SleepJournal(
     id = entry.sleepJournalId,
-    date = entry.date,
-    duration = entry.duration,
+    sleepDuration = entry.sleepDuration,
     sleeplessTime = entry.sleeplessTime,
     sleepSensationOptions = sleepSensationOptions.map { it.toModel() },
     sleepQualityOptions = sleepQualityOptions.map { it.toModel() },
     sleepActivityOptions = sleepActivityOptions.map { it.toModel() },
-    locationOptions = locationOptions.map { it.toModel() }
+    locationOptions = locationOptions.map { it.toModel() },
+    createdAt = entry.createdAt,
 )

@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,14 +20,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
-import io.github.faening.lello.core.designsystem.component.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
-import io.github.faening.lello.core.designsystem.theme.LelloColorScheme
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.domain.mock.MealOptionMock
 import io.github.faening.lello.core.model.option.MealOption
@@ -42,7 +42,7 @@ internal fun MealJournalScreen(
 ) {
     val mealOptions by viewModel.mealOptions.collectAsState()
 
-    LelloTheme(scheme = LelloColorScheme.DEFAULT) {
+    LelloTheme {
         MealJournalContainer(
             mealOptions = mealOptions,
             onMealOptionToggle = viewModel::toggleMealSelection,
@@ -95,7 +95,7 @@ private fun MealJournalBottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.Medium)
+            .padding(Dimension.spacingRegular)
     ) {
         LelloFloatingActionButton(
             icon = LelloIcons.customIcon(designsystemR.drawable.ic_arrow_large_right),
@@ -115,23 +115,31 @@ private fun MealJournalContent(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(Dimension.Medium)
+            .fillMaxSize()
+            .padding(Dimension.spacingRegular)
     ) {
+        // Header
         Text(
             text = "Qual refeição você fez?",
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(Dimension.ExtraLarge))
+        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
 
-        LelloOptionPillSelector(
-            title = null,
-            options = mealOptions,
-            isSelected = { it.selected },
-            onToggle = { option -> onMealOptionToggle(option.description) },
-            onOpenSettings = onOpenMealOptionSettings,
-            getLabel = { it.description }
-        )
+        // Scrollable area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            LelloOptionPillSelector(
+                title = null,
+                options = mealOptions,
+                isSelected = { it.selected },
+                onToggle = { option -> onMealOptionToggle(option.description) },
+                onOpenSettings = onOpenMealOptionSettings,
+                getLabel = { it.description }
+            )
+        }
     }
 }
 
