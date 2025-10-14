@@ -1,95 +1,95 @@
-# GDD – Lello: Diário Gamificado de Autocuidado
+# Lello: Diário Gamificado de Autocuidado para Android
 
-## Estória
+**Lello** é um projeto de TCC do curso de Engenharia de Software, desenvolvido como um aplicativo Android nativo e modular. O objetivo é oferecer uma ferramenta de suporte para pessoas em tratamento psicológico e psiquiátrico, transformando a jornada de autocuidado em uma experiência mais leve, divertida e engajadora.
 
-O usuário embarca em uma jornada de autocuidado, tendo como companheira a capivara Lello. A cada dia, ao registrar seus hábitos e emoções, o usuário cuida não só de si, mas também do seu mascote, que evolui e recebe itens conforme o progresso nas atividades. O objetivo é tornar o acompanhamento terapêutico, a adesão ao tratamento e o registro dos sentimentos mais leves, acessíveis e divertidos, recompensando a disciplina e o autoconhecimento com novas possibilidades de personalização do mascote.
+Inspirado na simbologia da **Casa Amarela de Van Gogh** e na campanha do **Setembro Amarelo**, o aplicativo foi concebido para ser um espaço seguro e acolhedor. Nele, o usuário pode registrar suas emoções, hábitos e rotinas, fortalecendo o autoconhecimento e a adesão ao tratamento.
 
-## Fragmentos da Estória
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/onboarding_screen_1.png" alt="Onboarding Tela 1" width="200"/>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/onboarding_screen_2.png" alt="Onboarding Tela 2" width="200"/>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/onboarding_screen_3.png" alt="Onboarding Tela 3" width="200"/>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/onboarding_screen_4.png" alt="Onboarding Tela 4" width="200"/>
+    </td>
+        <td align="center">
+      <img src="assets/screenshots/home.png" alt="Home" width="200"/>
+    </td>
+  </tr>
+</table>
 
-Cada registro nos diários representa um passo no processo de autoconhecimento e cuidado diário. Ao preencher os diários de humor, alimentação, sono e medicação, o usuário fortalece seu vínculo com Lello e conquista pequenas vitórias cotidianas, visíveis por meio de conquistas, moedas e itens para o mascote. O app reforça o progresso contínuo, premiando a regularidade, a atenção aos detalhes e o engajamento nas próprias rotinas de saúde mental.
+## 🌟 Visão Geral do Aplicativo
 
-## Especificações
+O Lello utiliza a gamificação para incentivar o registro contínuo e a disciplina. O usuário é acompanhado pela **Lello, uma capivara de estimação**, que evolui e recebe itens conforme o progresso nas atividades de autocuidado.
 
-### Estrutura do Jogo
+A cada registro nos diários, o usuário ganha moedas e recompensas, que podem ser trocadas por itens para personalizar sua mascote, tornando o processo de acompanhamento terapêutico mais dinâmico e recompensador.
 
-O aplicativo é organizado em torno de **quatro diários principais**:
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/achievement.png" alt="Onboarding Tela 1" width="220"/>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/achievement_store_item.png" alt="Onboarding Tela 2" width="220"/>
+    </td>
+  </tr>
+</table>
 
-- **Diário de Humor**
-- **Diário de Sono**
-- **Diário de Alimentação**
-- **Diário de Medicamentos**
+## ✨ Funcionalidades Principais
 
-O usuário pode preencher cada diário dentro do seu respectivo intervalo de tempo (respawn), ganhando moedas que podem ser trocadas por itens de personalização para Lello, a mascote. Se o usuário preencher todos os quatro diários em um mesmo dia, recebe um bônus especial de moedas.
+As funcionalidades foram baseadas no livro "Treinamento de Habilidades em DBT" de Marsha M. Linehan, focando em quatro diários principais:
 
-Cada diário é composto por 3 ou 4 telas. As **duas primeiras telas de cada diário são obrigatórias**: ao preenchê-las, o usuário ganha **50 moedas**. Telas adicionais trazem perguntas ou opções extras; cada grupo respondido gera **+5 moedas**.
+-   **Diário de Humor:** Permite ao usuário registrar suas emoções, identificar gatilhos e compreender melhor seu estado emocional ao longo do dia.
+-   **Diário de Sono:** Monitora a qualidade e a duração do sono, ajudando a identificar padrões que impactam o bem-estar.
+-   **Diário de Alimentação:** Auxilia no registro de hábitos alimentares e na percepção de como a alimentação afeta o humor e a energia.
+-   **Diário de Medicamentos:** Facilita o acompanhamento da adesão ao tratamento, com lembretes e espaço para registrar efeitos colaterais.
 
-### Estrutura dos Diários e Tempos de Respawn
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/mood_journal_screen_1_blue.png" alt="Onboarding Tela 1" width="200"/>
+    </td>
+        <td align="center">
+      <img src="assets/screenshots/mood_journal_screen_2_blue.png" alt="Onboarding Tela 2" width="200"/>
+    </td>
+    </td>
+        <td align="center">
+      <img src="assets/screenshots/mood_journal_screen_3_blue.png" alt="Onboarding Tela 3" width="200"/>
+    </td>
+    </td>
+        <td align="center">
+      <img src="assets/screenshots/mood_journal_screen_4_blue.png" alt="Onboarding Tela 4" width="200"/>
+    </td>
+    </td>
+        <td align="center">
+      <img src="assets/screenshots/mood_journal_screen_5_blue.png" alt="Onboarding Tela 5" width="200"/>
+    </td>  
+  </tr>
+</table>
 
-| Diário              | Respawn para ganhar moedas | Tela obrigatória | Telas opcionais | Moedas por obrigatória | Moedas por grupo extra |
-|---------------------|---------------------------|------------------|-----------------|------------------------|------------------------|
-| Humor               | 6 horas                   | 2                | 1–2             | 50                     | 5                      |
-| Alimentação         | 8 horas                   | 2                | 1–2             | 50                     | 5                      |
-| Sono                | 8 horas                   | 2                | 1–2             | 50                     | 5                      |
-| Medicamentos        | 24 horas                  | 2                | 1–2             | 50                     | 5                      |
-| Bônus de 4 diários  | 24 horas                  | –                | –               | 50                     | –                      |
+## 🛠️ Arquitetura e Tecnologias
 
-- Mesmo que o usuário preencha vários diários seguidos, só receberá moedas novamente após o tempo de respawn.
-- O preenchimento completo dos 4 diários em um dia concede um bônus extra de moedas (com respawn de 24h).
+O Lello foi projetado com foco em boas práticas de desenvolvimento e uma arquitetura escalável, inspirada em projetos de referência como o [Now in Android](https://github.com/android/nowinandroid).
 
-### Estrutura do Cenário
+-   **Arquitetura Modular:** O projeto é dividido em módulos independentes (`app`, `core`, `features`), garantindo baixo acoplamento, testabilidade e manutenibilidade.
+-   **Clean Architecture & MVVM:** A estrutura segue os princípios da Clean Architecture, com uma separação clara de responsabilidades entre as camadas de UI, domínio e dados, utilizando o padrão MVVM.
+-   **100% Kotlin & Jetpack Compose:** A interface é construída de forma declarativa com o Jetpack Compose, e todo o código é escrito em Kotlin.
+-   **Injeção de Dependências com Dagger Hilt:** Para gerenciar as dependências de forma robusta e escalável.
+-   **Persistência de Dados com Room:** Os dados são armazenados localmente no dispositivo usando o banco de dados SQLite através da biblioteca Room.
+-   **Firebase:** Utilização de serviços como Firebase Authentication, Analytics e Crashlytics.
+-   **Gerenciamento de Dependências:** Uso do `libs.versions.toml` para um controle centralizado e organizado das bibliotecas.
 
-O mascote Lello é o centro visual do app. Os cenários mudam de acordo com os itens adquiridos pelo usuário (como fundos, acessórios, brinquedos e alimentos para Lello). Cada novo item adquirido personaliza a tela do mascote e reforça o senso de progresso e conquista.
+## 📚 Documentação e Protótipo
 
-### Mecânicas do Jogador
+-   **[Documentação Técnica]([https://link-para-sua-documentacao.com](https://docs.google.com/document/d/1VX06Tmg64IOdRQsGVi1NcmZzmNdOQ3sQXTSLNWhziWs/edit?usp=sharing))** *(Substitua pelo link do seu documento)*
+-   **[Protótipo no Figma]([https://link-para-seu-figma.com](https://www.figma.com/design/PXDYBv1gR2Vp49vuCRUqHa/Lello?node-id=1-964&t=FF7y1C2sVSNB8cZi-1))** *(Substitua pelo link do seu protótipo)*
 
-- O usuário registra informações em diários diários (humor, alimentação, sono, medicamentos).
-- Ganha moedas ao completar as etapas obrigatórias e opcionais de cada diário.
-- Troca moedas por itens cosméticos para personalizar o mascote.
-- Pode consultar o histórico de diários, conquistas e moedas.
-- O mascote reage a interações, mudanças e itens conquistados.
+## 🎨 Design e Créditos
 
-### Atributos do Mascote
-
-- **Aparência**: Personalizável conforme itens adquiridos.
-- **Vitalidade/Felicidade**: Pode ser representada visualmente, mas não limita funções do app (não existe “perda”).
-- **Conquistas**: Desbloqueadas ao atingir metas (ex: sequência de dias, primeiros itens, completar todos os diários em um dia, etc).
-
-### Tipos de Itens (Power-ups/Cosméticos)
-
-- Itens de personalização do mascote (acessórios, brinquedos, comidas, fundos, sons).
-- Não existem power-ups clássicos; os itens são puramente cosméticos e reforçam o vínculo entre o usuário e Lello.
-
-### Sistema de Pontuação e Moedas
-
-- **50 moedas** por preencher os itens obrigatórios de um diário.
-- **5 moedas** para cada grupo de itens opcionais preenchido.
-- **Bônus de 50 moedas** ao preencher os 4 diários no mesmo dia.
-- Moedas podem ser usadas exclusivamente para aquisição de itens cosméticos para Lello.
-
-### Progressão e Balanceamento
-
-- O sistema de respawn impede o acúmulo excessivo de moedas, garantindo progressão constante sem exploração.
-- O usuário é incentivado a registrar todos os diários ao longo do dia para maximizar recompensas e personalização.
-- Não há finais, derrotas nem penalidades: o objetivo é a constância e o autocuidado, não a competição.
-
-### Especificação de Som e Gráficos
-
-- **Gráficos**: Visual leve, amigável, com destaque para o mascote e seus itens. O cenário se transforma conforme a personalização escolhida.
-- **Som**: Trilha sonora suave e relaxante no app, podendo variar entre ambientes (home, diário, loja). Efeitos sonoros para interações com Lello e ao receber recompensas.
-
-### Opções do Menu
-
-O app conta com um menu inferior de cinco abas:
-
-1. **Início**: Resumo dos bônus e progresso.
-2. **Diários**: Lista de diários preenchidos, com filtro de datas.
-3. **Lello (Central)**: Acesso à tela do mascote, loja e conquistas.
-4. **Remédios**: Cadastro e gestão dos medicamentos.
-5. **Perfil**: Dados do usuário, preferências e configurações.
-
----
-
-Se quiser, posso complementar com wireframes, exemplos de telas ou adicionar detalhes sobre os fluxos internos!  
-Se quiser um resumo do histórico de decisões do projeto para anexar ao GDD, também posso gerar.
-
-Se precisar do texto pronto para copiar e colar, só avisar! Posso ajustar tom, formato e nível de detalhe conforme seu público do GitHub.
+Todo o conceito visual, as ilustrações e a identidade do aplicativo foram criados em conjunto com a incrível designer **[Julia Della Nora](https://www.linkedin.com/in/jdn91/)**. De todo meu :heart:, muito obrigado!
