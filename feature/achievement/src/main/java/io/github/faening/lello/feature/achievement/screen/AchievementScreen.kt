@@ -30,7 +30,6 @@ import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.achievement.AchievementViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 fun AchievementScreen(
@@ -70,7 +69,7 @@ private fun AchievementContainer(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = designsystemR.drawable.img_achievements),
+            painter = painterResource(id = LelloIcons.Graphic.AchievementsBackgroundForest.resId),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -107,12 +106,12 @@ private fun AchievementContent(
 
 
         // Mascote aqui
-        val mascot = LelloIcons.customIcon(designsystemR.drawable.mascot_lello_bard)
+        val mascot = LelloIcons.Graphic.AchievementsMascotLelloBard.imageVector
 
         // Lojas aqui
         // 2 icones na vertical
-        val iconshop = LelloIcons.customIcon(designsystemR.drawable.ic_shop)
-        val iconInventory = LelloIcons.customIcon(designsystemR.drawable.ic_inventory)
+        val iconshop = LelloIcons.Graphic.AchievementsShop.imageVector
+        val iconInventory = LelloIcons.Graphic.AchievementsInventory.imageVector
     }
 }
 
@@ -128,9 +127,9 @@ private fun AchievementTopAppBar(
         actions = listOf(
             TopAppBarAction(
                 icon = if (isMuted) {
-                    LelloIcons.customIcon(designsystemR.drawable.ic_sound_off)
+                    LelloIcons.customIcon(LelloIcons.Outlined.SoundOff.resId)
                 } else {
-                    LelloIcons.customIcon(designsystemR.drawable.ic_sound)
+                    LelloIcons.customIcon(LelloIcons.Outlined.Sound.resId)
                 },
                 contentDescription = "Icone de Áudio",
                 onClick = onMuteToggle

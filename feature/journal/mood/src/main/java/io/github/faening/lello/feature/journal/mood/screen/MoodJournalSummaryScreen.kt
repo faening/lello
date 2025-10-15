@@ -48,7 +48,7 @@ private fun MoodJournalSummaryContainer(
         Box(modifier = Modifier.fillMaxSize()) {
             // Background
             Image(
-                painter = painterResource(LelloIcons.Graphic.MoodSummary.resId),
+                painter = painterResource(LelloIcons.Graphic.JournalSummary.resId),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

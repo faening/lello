@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.designsystem.component.appbar
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -60,7 +59,7 @@ internal fun TopAppBarNavigationIcon(
         ) {
             TopAppBarActionButton(
                 action = it.also {
-                    it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_large_left)
+                    it.icon = LelloIcons.customIcon(R.drawable.ic_arrow_left_lg_outlined)
                     it.contentDescription = "Voltar"
                 },
                 moodColor = moodColor,

@@ -43,7 +43,7 @@ private fun SleepJournalSummaryContainer(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = designsystemR.drawable.journal_summary),
+            painter = painterResource(id = designsystemR.drawable.img_journal_summary),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

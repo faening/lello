@@ -94,7 +94,7 @@ private fun EmailSignUpScreenContent(
                 LelloTopAppBar(
                     title = TopAppBarTitle(text = "Criar conta"),
                     navigateUp = TopAppBarAction(
-                        icon = LelloIcons.ArrowLargeLeft.imageVector,
+                        icon = LelloIcons.Outlined.ArrowLeftLarge.imageVector,
                         contentDescription = "Voltar",
                         onClick = onBackClick
                     ),

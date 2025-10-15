@@ -147,7 +147,7 @@ private fun BottomBarSection(
             .padding(Dimension.spacingRegular)
     ) {
         LelloFloatingActionButton(
-            icon = LelloIcons.ArrowLargeRight.imageVector,
+            icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
             contentDescription = "Próximo",
             onClick = onNext,
             moodColor = moodColor

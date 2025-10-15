@@ -95,7 +95,7 @@ private fun ForgotPasswordScreenContent(
                 LelloTopAppBar(
                     title = TopAppBarTitle(text = "Recuperar Senha"),
                     navigateUp = TopAppBarAction(
-                        icon = LelloIcons.ArrowLargeLeft.imageVector,
+                        icon = LelloIcons.Outlined.ArrowLeftLarge.imageVector,
                         contentDescription = "Voltar",
                         onClick = onBackClick
                     ),

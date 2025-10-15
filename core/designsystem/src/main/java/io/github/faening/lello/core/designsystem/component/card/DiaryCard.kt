@@ -124,7 +124,7 @@ fun LelloDiaryCard(
                 }
 
                 Image(
-                    painter = painterResource(LelloIcons.ChevronRight.resId),
+                    painter = painterResource(LelloIcons.Outlined.ChevronRight.resId),
                     contentDescription = "Arrow Icon",
                     modifier = Modifier.size(Dimension.iconSizeDefault)
                 )
@@ -153,27 +153,27 @@ sealed class DiaryCardOptions(
     )
 
     object MoodJournalSerene : DiaryCardOptions(
-        iconRes = LelloIcons.Graphic.JournalMoodSerene.resId,
+        iconRes = LelloIcons.Graphic.CapybaraSerene.resId,
         title = "Diário de Humor"
     )
 
     object MoodJournalJoyful : DiaryCardOptions(
-        iconRes = LelloIcons.Graphic.JournalMoodJoyful.resId,
+        iconRes = LelloIcons.Graphic.CapybaraJoyful.resId,
         title = "Diário de Humor"
     )
 
     object MoodJournalBalanced : DiaryCardOptions(
-        iconRes = LelloIcons.Graphic.JournalMoodBalanced.resId,
+        iconRes = LelloIcons.Graphic.CapybaraBalanced.resId,
         title = "Diário de Humor"
     )
 
     object MoodJournalTroubled : DiaryCardOptions(
-        iconRes = LelloIcons.Graphic.JournalMoodTroubled.resId,
+        iconRes = LelloIcons.Graphic.CapybaraTroubled.resId,
         title = "Diário de Humor"
     )
 
     object MoodJournalOverwhelmed : DiaryCardOptions(
-        iconRes = LelloIcons.Graphic.JournalMoodOverwhelmed.resId,
+        iconRes = LelloIcons.Graphic.CapybaraOverwhelmed.resId,
         title = "Diário de Humor"
     )
 }

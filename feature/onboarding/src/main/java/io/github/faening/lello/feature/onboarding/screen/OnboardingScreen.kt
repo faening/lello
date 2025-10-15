@@ -93,7 +93,7 @@ private fun OnboardingScreenContent(
                     val next = pagerState.currentPage + 1
                     if (next < pages.size) {
                         LelloFloatingActionButton(
-                            icon = LelloIcons.ArrowLargeRight.imageVector,
+                            icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
                             contentDescription = "Próximo",
                             onClick = {
                                 coroutineScope.launch {

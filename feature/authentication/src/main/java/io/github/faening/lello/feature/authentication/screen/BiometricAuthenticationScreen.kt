@@ -108,7 +108,7 @@ private fun BiometricAuthenticationContent(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(
-                        imageVector = LelloIcons.Outlined.Fingerprint,
+                        imageVector = LelloIcons.Outlined.Fingerprint.imageVector,
                         contentDescription = "Biometria",
                         modifier = Modifier
                             .size(104.dp)

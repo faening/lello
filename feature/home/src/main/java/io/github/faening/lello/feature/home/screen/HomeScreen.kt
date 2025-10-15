@@ -89,7 +89,7 @@ private fun HomeScreenContent(
                     Text(
                         text = "Meus diários",
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                        modifier = Modifier.padding(bottom = Dimension.spacingMedium)
                     )
                     if (journalCategories.isEmpty()) {
                         Text("Carregando...")

@@ -130,7 +130,7 @@ private fun CalendarTopAppBarTitle(
             modifier = Modifier.width(Dimension.paddingComponentSmall)
         )
         Icon(
-            imageVector = if (isPreview) Icons.Default.ArrowDropDown else LelloIcons.ChevronDown.imageVector,
+            imageVector = if (isPreview) Icons.Default.ArrowDropDown else LelloIcons.Outlined.ChevronDown.imageVector,
             contentDescription = null,
             tint = TopAppBarProperties.titleTextColor(colorScheme, moodColor)
         )
@@ -192,11 +192,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Primary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -219,11 +219,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Secondary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -247,11 +247,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Aquamarine() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -275,11 +275,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Blue() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -303,11 +303,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Orange() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -331,11 +331,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Red() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -359,11 +359,11 @@ private fun LelloCalendarTopAppBar_LightTheme_Inverse() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -391,11 +391,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Primary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -418,11 +418,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Secondary() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -446,11 +446,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Aquamarine() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -474,11 +474,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Blue() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -502,11 +502,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Orange() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -530,11 +530,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Red() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),
@@ -558,11 +558,11 @@ private fun LelloCalendarTopAppBar_DarkTheme_Inverse() {
             navigateUp = TopAppBarAction(),
             actions = listOf(
                 TopAppBarAction(
-                    icon = LelloIcons.Favorite,
+                    icon = LelloIcons.Filled.Heart.imageVector,
                     contentDescription = "Favoritos"
                 ),
                 TopAppBarAction(
-                    icon = LelloIcons.MoreVert,
+                    icon = LelloIcons.Outlined.MoreVertical.imageVector,
                     contentDescription = "Mais opções"
                 )
             ),

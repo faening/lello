@@ -1,73 +1,110 @@
 package io.github.faening.lello.core.designsystem.icon
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Fingerprint
-import androidx.compose.material.icons.outlined.Fingerprint
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
 object LelloIcons {
-
-    // Base Icons
-    val Add = Icons.Rounded.Add
-    val ArrowLargeUp = LelloIcon(designsystemR.drawable.ic_arrow_large_up)
-    val ArrowLargeRight = LelloIcon(designsystemR.drawable.ic_arrow_large_right)
-    val ArrowLargeLeft = LelloIcon(designsystemR.drawable.ic_arrow_large_left)
-    val ArrowLargeDown = LelloIcon(designsystemR.drawable.ic_arrow_large_down)
-    val ChevronUp = LelloIcon(designsystemR.drawable.ic_chevron_up)
-    val ChevronRight = LelloIcon(designsystemR.drawable.ic_chevron_right)
-    val ChevronDown = LelloIcon(designsystemR.drawable.ic_chevron_down)
-    val ChevronLeft = LelloIcon(designsystemR.drawable.ic_chevron_left)
-    val Favorite = Icons.Rounded.Favorite
-    val Logo = LelloIcon(designsystemR.drawable.ic_lello_logo)
-    val MoreVert = Icons.Rounded.MoreVert
-
     object Graphic {
+        val Logotipo = LelloIcon(designsystemR.drawable.ic_lello_logotipo_custom)
+        val Logo = LelloIcon(designsystemR.drawable.ic_lello_logo_custom)
+
+        // Achievements
+        val AchievementsBackgroundForest = LelloIcon(designsystemR.drawable.img_achievements_background_forest)
+        val AchievementsMascotLelloBard = LelloIcon(designsystemR.drawable.img_achievements_mascot_lello_bard)
+        val AchievementsInventory = LelloIcon(designsystemR.drawable.ic_achievements_inventory_custom)
+        val AchievementsShop = LelloIcon(designsystemR.drawable.ic_achievements_shop_custom)
+
         // Card - Check-in Daily
-        val BonusHexagon = LelloIcon(designsystemR.drawable.ic_bonus_hexagon_10)
+        val BonusHexagon = LelloIcon(designsystemR.drawable.img_bonus_hexagon_10)
 
         // Card - Diary
-        val Coin = LelloIcon(designsystemR.drawable.ic_coin)
-        val JournalMeal = LelloIcon(designsystemR.drawable.ic_journal_meal)
-        val JournalMedication = LelloIcon(designsystemR.drawable.ic_journal_medication)
-        val JournalMood = LelloIcon(designsystemR.drawable.ic_journal_mood)
-        val JournalMoodSerene = LelloIcon(designsystemR.drawable.ic_capy_serene)
-        val JournalMoodJoyful = LelloIcon(designsystemR.drawable.ic_capy_joyful)
-        val JournalMoodBalanced = LelloIcon(designsystemR.drawable.ic_capy_balanced)
-        val JournalMoodTroubled = LelloIcon(designsystemR.drawable.ic_capy_troubled)
-        val JournalMoodOverwhelmed = LelloIcon(designsystemR.drawable.ic_capy_overwhelmed)
-        val JournalSleep = LelloIcon(designsystemR.drawable.ic_journal_sleep)
+        val Coin = LelloIcon(designsystemR.drawable.ic_coin_custom)
 
         // Journals
-        val MoodSummary = LelloIcon(designsystemR.drawable.journal_summary)
+        val JournalMeal = LelloIcon(designsystemR.drawable.ic_journal_meal_custom)
+        val JournalMedication = LelloIcon(designsystemR.drawable.ic_journal_medication_custom)
+        val JournalMood = LelloIcon(designsystemR.drawable.ic_journal_mood_custom)
+        val JournalSleep = LelloIcon(designsystemR.drawable.ic_journal_sleep_custom)
+        val JournalSummary = LelloIcon(designsystemR.drawable.img_journal_summary)
+
+        // Capybaras
+        val CapybaraBalanced = LelloIcon(designsystemR.drawable.ic_capybara_balanced_custom)
+        val CapybaraJoyful = LelloIcon(designsystemR.drawable.ic_capybara_joyful_custom)
+        val CapybaraOverwhelmed = LelloIcon(designsystemR.drawable.ic_capybara_overwhelmed_custom)
+        val CapybaraSerene = LelloIcon(designsystemR.drawable.ic_capybara_serene_custom)
+        val CapybaraTroubled = LelloIcon(designsystemR.drawable.ic_capybara_troubled_custom)
     }
 
     object Outlined {
-        val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
+        val Add = LelloIcon(designsystemR.drawable.ic_plus_add_outlined)
+        val ArrowUpLarge = LelloIcon(designsystemR.drawable.ic_arrow_up_lg_outlined)
+        val ArrowUpSmall = LelloIcon(designsystemR.drawable.ic_arrow_up_sm_outlined)
+        val ArrowRightLarge = LelloIcon(designsystemR.drawable.ic_arrow_right_lg_outlined)
+        val ArrowRightSmall = LelloIcon(designsystemR.drawable.ic_arrow_right_sm_outlined)
+        val ArrowLeftLarge = LelloIcon(designsystemR.drawable.ic_arrow_left_lg_outlined)
+        val ArrowLeftSmall = LelloIcon(designsystemR.drawable.ic_arrow_left_sm_outlined)
+        val ArrowDownLarge = LelloIcon(designsystemR.drawable.ic_arrow_down_lg_outlined)
+        val ArrowDownSmall = LelloIcon(designsystemR.drawable.ic_arrow_down_sm_outlined)
+        val ArrowTopLeftRound = LelloIcon(designsystemR.drawable.ic_arrow_top_left_round_outlined)
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_outlined)
-        val Calendar = LelloIcon(designsystemR.drawable.ic_outlined_calendar)
+        val Calendar = LelloIcon(designsystemR.drawable.ic_calendar_outlined)
+        val ChevronUp = LelloIcon(designsystemR.drawable.ic_chevron_up_outlined)
+        val ChevronRight = LelloIcon(designsystemR.drawable.ic_chevron_right_outlined)
+        val ChevronDown = LelloIcon(designsystemR.drawable.ic_chevron_down_outlined)
+        val ChevronLeft = LelloIcon(designsystemR.drawable.ic_chevron_left_outlined)
+        val ChevronMirrored = LelloIcon(designsystemR.drawable.ic_chevron_mirrored_outlined)
+        val Clock = LelloIcon(designsystemR.drawable.ic_clock_outlined)
+        val CloseRound = LelloIcon(designsystemR.drawable.ic_close_round_outlined)
+        val Document = LelloIcon(designsystemR.drawable.ic_document_outlined)
+        val Download = LelloIcon(designsystemR.drawable.ic_download_outlined)
         val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_outlined)
-        val Fingerprint = Icons.Outlined.Fingerprint
+        val Fingerprint = LelloIcon(designsystemR.drawable.ic_fingerprint_outlined)
+        val Google = LelloIcon(designsystemR.drawable.ic_google_outlined)
+        val Heart = LelloIcon(designsystemR.drawable.ic_heart_outlined)
         val Home = LelloIcon(designsystemR.drawable.ic_home_outlined)
+        val Key = LelloIcon(designsystemR.drawable.ic_key_outlined)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_outlined)
         val Mail = LelloIcon(designsystemR.drawable.ic_mail_outlined)
+        val Menu = LelloIcon(designsystemR.drawable.ic_menu_outlined)
+        val MoreVertical = LelloIcon(designsystemR.drawable.ic_more_vertical_outlined)
+        val NotificationBell = LelloIcon(designsystemR.drawable.ic_notification_bell_outlined)
         val Profile = LelloIcon(designsystemR.drawable.ic_profile_outlined)
+        val Search = LelloIcon(designsystemR.drawable.ic_search_outlined)
+        val Settings = LelloIcon(designsystemR.drawable.ic_settings_outlined)
+        val Sound = LelloIcon(designsystemR.drawable.ic_sound_outlined)
+        val SoundOff = LelloIcon(designsystemR.drawable.ic_sound_off_outlined)
+        val Sum = LelloIcon(designsystemR.drawable.ic_sum_outlined)
+        val Trash = LelloIcon(designsystemR.drawable.ic_trash_outlined)
+        val Verified = LelloIcon(designsystemR.drawable.ic_verified_outlined)
     }
 
     object Filled {
-        val Achievement = LelloIcon(designsystemR.drawable.ic_achievements)
+        val ArrowTopLeftRound = LelloIcon(designsystemR.drawable.ic_arrow_top_left_round_filled)
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_filled)
+        val Calendar = LelloIcon(designsystemR.drawable.ic_calendar_filled)
+        val Clock = LelloIcon(designsystemR.drawable.ic_clock_filled)
+        val CloseRound = LelloIcon(designsystemR.drawable.ic_close_round_filled)
+        val Document = LelloIcon(designsystemR.drawable.ic_document_filled)
         val DrugPill = LelloIcon(designsystemR.drawable.ic_drug_pill_long_filled)
-        val Fingerprint = Icons.Filled.Fingerprint
-        val Google = LelloIcon(designsystemR.drawable.ic_google_filled)
+        val Google = LelloIcon(designsystemR.drawable.ic_google_outlined)
+        val Heart = LelloIcon(designsystemR.drawable.ic_heart_filled)
         val Home = LelloIcon(designsystemR.drawable.ic_home_filled)
+        val Key = LelloIcon(designsystemR.drawable.ic_key_filled)
         val Lock = LelloIcon(designsystemR.drawable.ic_lock_filled)
+        val Mail = LelloIcon(designsystemR.drawable.ic_mail_filled)
+        val Menu = LelloIcon(designsystemR.drawable.ic_menu_filled)
+        val MoreVertical = LelloIcon(designsystemR.drawable.ic_more_vertical_filled)
+        val NotificationBell = LelloIcon(designsystemR.drawable.ic_notification_bell_filled)
         val Profile = LelloIcon(designsystemR.drawable.ic_profile_filled)
+        val Search = LelloIcon(designsystemR.drawable.ic_search_filled)
+        val Settings = LelloIcon(designsystemR.drawable.ic_settings_filled)
+        val Sound = LelloIcon(designsystemR.drawable.ic_sound_filled)
+        val SoundOff = LelloIcon(designsystemR.drawable.ic_sound_off_filled)
+        val Sum = LelloIcon(designsystemR.drawable.ic_sum_filled)
+        val Trash = LelloIcon(designsystemR.drawable.ic_trash_filled)
+        val Verified = LelloIcon(designsystemR.drawable.ic_verified_filled)
     }
 
     @Composable

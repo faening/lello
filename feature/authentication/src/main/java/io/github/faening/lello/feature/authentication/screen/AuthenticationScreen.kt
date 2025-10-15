@@ -96,7 +96,7 @@ private fun AuthenticationScreenContent(
                     .weight(1f)
             ) {
                 Image(
-                    painter = painterResource(id = LelloIcons.Logo.resId),
+                    painter = painterResource(id = LelloIcons.Graphic.Logotipo.resId),
                     contentDescription = "Logotipo",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.size(140.dp)
