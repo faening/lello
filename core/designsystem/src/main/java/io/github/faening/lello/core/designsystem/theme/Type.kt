@@ -7,7 +7,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import io.github.faening.lello.core.designsystem.R
 
@@ -120,7 +119,7 @@ fun LelloTypography(): Typography {
             fontFamily = LelloFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
-            lineHeight = 1.3.em,
+            lineHeight = 18.sp,
             letterSpacing = 0.25.sp,
             color = textColor
         ),

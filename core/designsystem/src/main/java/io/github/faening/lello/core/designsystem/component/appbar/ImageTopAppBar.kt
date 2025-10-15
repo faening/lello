@@ -38,8 +38,7 @@ fun LelloImageTopAppBar(
     CenterAlignedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
-            .statusBarsPadding()
-            .clip(LelloShape.topAppBarShape),
+            .statusBarsPadding(),
         title = {
             Image(
                 painter = painterResource(imageResId),

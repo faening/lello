@@ -72,7 +72,7 @@ fun JournalCategoryCard(
 
         Card(
             modifier = Modifier
-                .height(116.dp)
+                .height(104.dp)
                 .fillMaxWidth()
                 .clickable { onClick() },
             shape = RoundedCornerShape(Dimension.cardRadiusLarge),
@@ -136,7 +136,7 @@ fun JournalCategoryCard(
                         text = description,
                         style = MaterialTheme.typography.bodyMedium,
                         color = JournalCategoryCardDefaults.primaryTextColor(),
-                        maxLines = 3,
+                        maxLines = 2,
                     )
                 }
             }
