@@ -97,7 +97,7 @@ fun LelloSettingsCard(
                             modifier = Modifier
                                 .size(Dimension.heightButtonDefault)
                                 .background(
-                                    color = colors.iconContainerColor(),
+                                    color = colors.iconContainerColor(item.isDangerousTheme),
                                     shape = LelloShape.cardShape
                                 )
                                 .clip(LelloShape.cardShape),
@@ -106,7 +106,7 @@ fun LelloSettingsCard(
                             Icon(
                                 imageVector = item.icon,
                                 contentDescription = null,
-                                tint = colors.iconColor(),
+                                tint = colors.iconColor(item.isDangerousTheme),
                             )
                         }
 
@@ -124,7 +124,7 @@ fun LelloSettingsCard(
                             )
                             Text(
                                 text = item.subtitle,
-                                color = colors.primaryTextColor(),
+                                color = colors.secondaryTextColor(),
                                 maxLines = 2,
                                 minLines = 1,
                                 style = MaterialTheme.typography.bodyMedium
@@ -136,7 +136,7 @@ fun LelloSettingsCard(
                                 Icon(
                                     imageVector = LelloIcons.Outlined.ChevronRight.imageVector,
                                     contentDescription = null,
-                                    tint = colors.iconColor(),
+                                    tint = colors.iconColor(false),
                                 )
                             }
 
@@ -175,7 +175,8 @@ data class SettingsItem(
     val type: SettingsItemType,
     val onCheckedChange: ((Boolean) -> Unit)? = null,
     val onClick: (() -> Unit)? = null,
-    val isChecked: Boolean? = null
+    val isChecked: Boolean? = null,
+    val isDangerousTheme: Boolean = false,
 )
 
 object SettingsCardDefaults {
@@ -201,17 +202,23 @@ object SettingsCardDefaults {
 
     @Composable
     fun secondaryTextColor(): Color {
-        return MaterialTheme.colorScheme.secondaryContainer
+        return MaterialTheme.colorScheme.onPrimaryContainer
     }
 
     @Composable
-    fun iconContainerColor(): Color {
-        return MaterialTheme.colorScheme.primary
+    fun iconContainerColor(isDangerousTheme: Boolean): Color {
+        return when {
+            isDangerousTheme -> MaterialTheme.colorScheme.error
+            else -> MaterialTheme.colorScheme.primary
+        }
     }
 
     @Composable
-    fun iconColor(): Color {
-        return MaterialTheme.colorScheme.onPrimary
+    fun iconColor(isDangerousTheme: Boolean): Color {
+        return when {
+            isDangerousTheme -> MaterialTheme.colorScheme.onError
+            else -> MaterialTheme.colorScheme.onPrimary
+        }
     }
 
     @Composable
@@ -227,6 +234,8 @@ object SettingsCardDefaults {
     }
 }
 
+// region Previews
+
 @Composable
 @Preview(
     name = "Multiple Items",
@@ -234,7 +243,7 @@ object SettingsCardDefaults {
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun LelloSettingsCardPreview_LightMode() {
+private fun LelloSettingsCardPreview_LightMode_MultipleItems() {
     LelloTheme {
         LelloSettingsCard(
             modifier = Modifier.padding(Dimension.spacingRegular),
@@ -266,3 +275,30 @@ private fun LelloSettingsCardPreview_LightMode() {
         )
     }
 }
+
+@Composable
+@Preview(
+    name = "Dangerous Item",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloSettingsCardPreview_LightMode_DangerousItem() {
+    LelloTheme {
+        LelloSettingsCard(
+            modifier = Modifier.padding(Dimension.spacingRegular),
+            sectionTitle = "Conta",
+            items = listOf(
+                SettingsItem(
+                    icon = LelloIcons.Outlined.Trash.imageVector,
+                    title = "Excluir conta",
+                    subtitle = "Excluir permanentemente sua conta e todos os dados associados",
+                    type = SettingsItemType.NAVIGATION,
+                    isDangerousTheme = true
+                )
+            )
+        )
+    }
+}
+
+// region Previews

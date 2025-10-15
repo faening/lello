@@ -24,7 +24,9 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             val viewModel = sharedSettingsViewModel(navController, backStackEntry)
 
             SettingsScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                onNavigateToNotifications = { },
+                onNavigateToTerms = {}
             )
         }
     }
