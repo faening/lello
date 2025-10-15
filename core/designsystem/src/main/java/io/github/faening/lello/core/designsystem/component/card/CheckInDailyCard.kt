@@ -100,7 +100,7 @@ fun LelloCheckInDailyCard(
                             "Preencha todos os diários uma vez ao dia para ganhar 10 moedas extra."
                         },
                         style = MaterialTheme.typography.bodyMedium,
-                        color = CheckInDailyCardDefaults.primaryTextColor(),
+                        color = CheckInDailyCardDefaults.secondaryTextColor(),
                         modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                     )
 
@@ -165,6 +165,11 @@ private object CheckInDailyCardDefaults {
     @Composable
     fun primaryTextColor(): Color {
         return MaterialTheme.colorScheme.onPrimary
+    }
+
+    @Composable
+    fun secondaryTextColor(): Color {
+        return MaterialTheme.colorScheme.onPrimaryContainer
     }
 }
 

@@ -6,10 +6,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -72,7 +74,7 @@ fun JournalCategoryCard(
 
         Card(
             modifier = Modifier
-                .height(104.dp)
+                .height(108.dp)
                 .fillMaxWidth()
                 .clickable { onClick() },
             shape = RoundedCornerShape(Dimension.cardRadiusLarge),
@@ -84,14 +86,25 @@ fun JournalCategoryCard(
             )
         ) {
             Row(
-                modifier = Modifier.padding(Dimension.spacingRegular),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Dimension.spacingRegular),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Image(
-                    painter = JournalCategoryCardDefaults.getIconResource(type),
-                    contentDescription = "Ícone do card de categoria de diário",
-                    modifier = Modifier.size(Dimension.iconSizeHuge)
-                )
+                // Icon
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterVertically),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = JournalCategoryCardDefaults.getIconResource(type),
+                        contentDescription = "Ícone do card de categoria de diário",
+                        modifier = Modifier.size(Dimension.iconSizeHuge),
+                    )
+                }
                 Spacer(modifier = Modifier.width(Dimension.spacingSmall))
 
                 Column(Modifier.weight(1f)) {
