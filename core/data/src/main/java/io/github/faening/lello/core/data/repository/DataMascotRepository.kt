@@ -9,7 +9,7 @@ import io.github.faening.lello.core.model.mascot.MascotStatus
 import io.github.faening.lello.core.model.mascot.MascotVitalityHistory
 import javax.inject.Inject
 
-class MascotRepositoryImpl @Inject constructor(
+class DataMascotRepository @Inject constructor(
     private val statusDao: MascotStatusDao,
     private val historyDao: MascotVitalityHistoryDao
 ) : MascotRepository {

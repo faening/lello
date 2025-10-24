@@ -2,15 +2,15 @@ package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.model.journal.toModel
-import io.github.faening.lello.core.domain.repository.JournalCategoryResources
+import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.model.journal.JournalCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class JournalCategoryRepository @Inject constructor(
-    private val journalCategoryDao: JournalCategoryDao
-) : JournalCategoryResources<JournalCategory> {
+class DataJournalCategoryRepository @Inject constructor(
+    private val dao: JournalCategoryDao
+) : JournalCategoryRepository<JournalCategory> {
 
     override fun getAll(
         useBlockedFilter: Boolean,
@@ -18,7 +18,7 @@ class JournalCategoryRepository @Inject constructor(
         useActiveFilter: Boolean,
         isActive: Boolean
     ): Flow<List<JournalCategory>> {
-        return journalCategoryDao
+        return dao
             .getAll(
                 useBlockedFilter = useBlockedFilter,
                 isBlocked = isBlocked,
@@ -29,6 +29,6 @@ class JournalCategoryRepository @Inject constructor(
     }
 
     override fun getById(id: Long): Flow<JournalCategory>? {
-        return journalCategoryDao.getById(id)?.map { it.toModel() }
+        return dao.getById(id)?.map { it.toModel() }
     }
 }

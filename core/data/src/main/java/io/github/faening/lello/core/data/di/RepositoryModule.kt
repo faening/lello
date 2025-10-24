@@ -17,23 +17,25 @@ import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
 import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemRepository
+import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
+import io.github.faening.lello.core.data.repository.DataMascotRepository
+import io.github.faening.lello.core.data.repository.DataMascotStatusRepository
+import io.github.faening.lello.core.data.repository.DataMascotVitalityRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
 import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepository
+import io.github.faening.lello.core.data.repository.DataRewardBalanceRepository
+import io.github.faening.lello.core.data.repository.DataRewardHistoryRepository
 import io.github.faening.lello.core.data.repository.DataSleepActivityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.DataSocialOptionRepository
 import io.github.faening.lello.core.data.repository.DataStoreOnboardingRepository
 import io.github.faening.lello.core.data.repository.DataStoreUserRepository
-import io.github.faening.lello.core.data.repository.JournalCategoryRepository
-import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.repository.MealJournalRepository
 import io.github.faening.lello.core.data.repository.MoodJournalRepository
-import io.github.faening.lello.core.data.repository.RewardBalanceRepository
-import io.github.faening.lello.core.data.repository.RewardHistoryRepository
 import io.github.faening.lello.core.data.repository.SleepJournalRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
@@ -62,18 +64,25 @@ import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
-import io.github.faening.lello.core.domain.repository.JournalCategoryResources
+import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.MascotRepository
+import io.github.faening.lello.core.domain.repository.MascotStatusRepository
+import io.github.faening.lello.core.domain.repository.MascotVitalityRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
+import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
+import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.mascot.MascotStatus
+import io.github.faening.lello.core.model.mascot.MascotVitalityHistory
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.DosageFormOption
@@ -93,9 +102,6 @@ import io.github.faening.lello.core.model.store.InventoryItem
 import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Singleton
-import io.github.faening.lello.core.domain.repository.MascotRepository as IMascotRepository
-import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
-import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lello_preferences")
 
@@ -135,9 +141,9 @@ object RepositoryModule {
     ): JournalResources<SleepJournal> = SleepJournalRepository(dao)
 
     @Provides
-    fun provideJournalCategoryRepository(
+    fun provideDataJournalCategoryRepository(
         dao: JournalCategoryDao
-    ): JournalCategoryResources<JournalCategory> = JournalCategoryRepository(dao)
+    ): JournalCategoryRepository<JournalCategory> = DataJournalCategoryRepository(dao)
 
     @Provides
     fun provideDataAppetiteOptionRepository(
@@ -205,20 +211,20 @@ object RepositoryModule {
     ): OptionRepository<SocialOption> = DataSocialOptionRepository(dao)
 
     @Provides
-    fun provideRewardHistoryRepository(
+    fun provideDataRewardHistoryRepository(
         dao: RewardHistoryDao
-    ): IRewardHistoryRepository<RewardHistory> = RewardHistoryRepository(dao)
+    ): RewardHistoryRepository<RewardHistory> = DataRewardHistoryRepository(dao)
 
     @Provides
-    fun provideRewardBalanceRepository(
+    fun provideDataRewardBalanceRepository(
         dao: RewardBalanceDao
-    ): IRewardBalanceRepository<RewardBalance> = RewardBalanceRepository(dao)
+    ): RewardBalanceRepository<RewardBalance> = DataRewardBalanceRepository(dao)
 
     @Provides
-    fun provideMascotRepository(
+    fun provideDataMascotRepository(
         statusDao: MascotStatusDao,
         historyDao: MascotVitalityHistoryDao
-    ): IMascotRepository = MascotRepositoryImpl(statusDao, historyDao)
+    ): MascotRepository = DataMascotRepository(statusDao, historyDao)
 
     @Provides
     fun provideDataItemRepository(
@@ -239,4 +245,14 @@ object RepositoryModule {
     fun provideDataMedicationRepository(
         dao: MedicationDao
     ): MedicationRepository<Medication> = DataMedicationRepository(dao)
+
+    @Provides
+    fun provideDataMascotStatusRepository(
+        dao: MascotStatusDao
+    ) : MascotStatusRepository<MascotStatus> = DataMascotStatusRepository(dao)
+
+    @Provides
+    fun provideDataMascotVitalityRepository(
+        dao: MascotVitalityHistoryDao
+    ): MascotVitalityRepository<MascotVitalityHistory> = DataMascotVitalityRepository(dao)
 }

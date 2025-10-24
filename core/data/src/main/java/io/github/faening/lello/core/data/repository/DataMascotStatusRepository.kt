@@ -3,13 +3,13 @@ package io.github.faening.lello.core.data.repository
 import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.model.mascot.toEntity
 import io.github.faening.lello.core.database.model.mascot.toModel
-import io.github.faening.lello.core.domain.repository.MascotStatusResource
+import io.github.faening.lello.core.domain.repository.MascotStatusRepository
 import io.github.faening.lello.core.model.mascot.MascotStatus
 import javax.inject.Inject
 
-class MascotStatusRepository @Inject constructor(
+class DataMascotStatusRepository @Inject constructor(
     private val dao: MascotStatusDao
-) : MascotStatusResource<MascotStatus> {
+) : MascotStatusRepository<MascotStatus> {
 
     override suspend fun getStatus(): MascotStatus? {
         return dao.getStatus()?.toModel()

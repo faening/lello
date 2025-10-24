@@ -1,13 +1,13 @@
 package io.github.faening.lello.core.domain.usecase.options
 
-import io.github.faening.lello.core.domain.repository.JournalCategoryResources
+import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.model.journal.JournalCategory
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class JournalCategoryUseCase @Inject constructor(
-    private val repository: JournalCategoryResources<JournalCategory>
+    private val repository: JournalCategoryRepository<JournalCategory>
 ) {
 
     fun getAll(

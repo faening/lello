@@ -4,12 +4,12 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
-import io.github.faening.lello.core.domain.repository.JournalCategoryResources
+import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface JournalCategoryDao : JournalCategoryResources<JournalCategoryEntity> {
+interface JournalCategoryDao : JournalCategoryRepository<JournalCategoryEntity> {
 
     /**
      * Busca recursos de diários que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser

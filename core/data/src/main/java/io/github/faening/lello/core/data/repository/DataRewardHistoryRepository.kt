@@ -9,9 +9,8 @@ import io.github.faening.lello.core.model.reward.RewardOrigin
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import kotlin.collections.map
 
-class RewardHistoryRepository @Inject constructor(
+class DataRewardHistoryRepository @Inject constructor(
     private val dao: RewardHistoryDao
 ) : RewardHistoryRepository<RewardHistory> {
 

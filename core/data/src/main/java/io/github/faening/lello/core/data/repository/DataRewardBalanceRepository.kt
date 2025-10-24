@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class RewardBalanceRepository @Inject constructor(
+class DataRewardBalanceRepository @Inject constructor(
     private val dao: RewardBalanceDao
 ) : RewardBalanceRepository<RewardBalance> {
 
