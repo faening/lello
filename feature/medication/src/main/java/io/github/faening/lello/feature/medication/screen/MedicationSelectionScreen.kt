@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
@@ -22,34 +23,40 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
-fun MedicationScreen(
+fun MedicationSelectionScreen(
     viewModel: MedicationViewModel,
+    onBack: () -> Unit,
     onNext: () -> Unit,
 ) {
 
-    MedicationScreenContainer(
+
+    MedicationSelectionContainer(
+        onBack = onBack,
         onNext = onNext
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MedicationScreenContainer(
+private fun MedicationSelectionContainer(
     moodColor: MoodColor = MoodColor.DEFAULT,
+    onBack: () -> Unit,
     onNext: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            MedicationTopAppBar()
+            MedicationSelectionTopAppBar(
+                onBack = onBack
+            )
         },
         bottomBar = {
-            MedicationBottomBar(
+            MedicationSelectionBottomBar(
                 moodColor = moodColor,
                 onNext = onNext
             )
         }
     ) { paddingValues ->
-        MedicationContent(
+        MedicationSelectionContent(
             moodColor = moodColor,
             modifier = Modifier.padding(paddingValues)
         )
@@ -57,17 +64,19 @@ private fun MedicationScreenContainer(
 }
 
 @Composable
-private fun MedicationTopAppBar(
+private fun MedicationSelectionTopAppBar(
     moodColor: MoodColor = MoodColor.INVERSE,
+    onBack: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Remédios"),
+        navigateUp = TopAppBarAction(onClick = onBack),
         moodColor = moodColor
     )
 }
 
 @Composable
-private fun MedicationBottomBar(
+private fun MedicationSelectionBottomBar(
     moodColor: MoodColor,
     onNext: () -> Unit,
 ) {
@@ -88,7 +97,7 @@ private fun MedicationBottomBar(
 }
 
 @Composable
-private fun MedicationContent(
+private fun MedicationSelectionContent(
     moodColor: MoodColor,
     modifier: Modifier = Modifier
 ) {
@@ -110,10 +119,11 @@ private fun MedicationContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun SettingsScreenPreview_LightMode() {
+private fun MedicationSelectionScreenPreview_LightMode() {
     LelloTheme {
-        MedicationScreenContainer(
+        MedicationSelectionContainer(
             moodColor = MoodColor.DEFAULT,
+            onBack = {},
             onNext = {}
         )
     }

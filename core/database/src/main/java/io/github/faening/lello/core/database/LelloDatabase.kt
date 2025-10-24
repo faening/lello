@@ -9,12 +9,18 @@ import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
+import io.github.faening.lello.core.database.dao.InventoryDao
+import io.github.faening.lello.core.database.dao.ItemCatalogDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.MascotStatusDao
+import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MedicationDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
+import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.dao.RewardBalanceDao
 import io.github.faening.lello.core.database.dao.RewardHistoryDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
@@ -22,11 +28,6 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
-import io.github.faening.lello.core.database.dao.MascotStatusDao
-import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
-import io.github.faening.lello.core.database.dao.ItemCatalogDao
-import io.github.faening.lello.core.database.dao.InventoryDao
-import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
@@ -46,6 +47,9 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepActivityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
+import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
+import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.option.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
 import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
@@ -61,10 +65,8 @@ import io.github.faening.lello.core.database.model.option.SleepSensationOptionEn
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
 import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
-import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
-import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
-import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
 import io.github.faening.lello.core.database.model.store.InventoryEntity
+import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
 import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
@@ -108,6 +110,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         RewardBalanceEntity::class,
         MascotStatusEntity::class,
         MascotVitalityHistoryEntity::class,
+        MedicationEntity::class,
         ItemCatalogEntity::class,
         InventoryEntity::class,
         PurchaseHistoryEntity::class,
@@ -155,4 +158,6 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun itemCatalogDao(): ItemCatalogDao
     abstract fun inventoryDao(): InventoryDao
     abstract fun purchaseHistoryDao(): PurchaseHistoryDao
+
+    abstract fun medicationDao(): MedicationDao
 }

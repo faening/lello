@@ -149,4 +149,9 @@ internal object DaoModule {
     ) = database.purchaseHistoryDao()
 
     // endregion
+
+    @Provides
+    fun provideMedicationDao(
+        database: LelloDatabase,
+    ) = database.medicationDao()
 }

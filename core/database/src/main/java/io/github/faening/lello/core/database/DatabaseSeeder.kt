@@ -11,6 +11,7 @@ import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
+import io.github.faening.lello.core.database.seed.MedicationSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
@@ -48,6 +49,7 @@ internal object DatabaseSeeder {
         seedSocialOptions(db)
         seedRewardBalance(db)
         seedMascotStatus(db)
+        seedMedication(db)
 
         Log.d(TAG, "Processo de seed do banco de dados concluído com sucesso")
     }
@@ -321,5 +323,35 @@ internal object DatabaseSeeder {
                 now
             )
         )
+    }
+
+    private fun seedMedication(db: SupportSQLiteDatabase) {
+        db.beginTransaction()
+        try {
+            for (item in MedicationSeed.data) {
+                db.execSQL(
+                    sql = """
+                    INSERT INTO medication (
+                        product_name,
+                        registration_number,
+                        therapeutic_class,
+                        company,
+                        active_ingredient
+                    ) VALUES (?, ?, ?, ?, ?)
+                """.trimIndent(),
+                    bindArgs = arrayOf(
+                        item.productName,
+                        item.registrationNumber,
+                        item.therapeuticClass,
+                        item.company,
+                        item.activeIngredient
+                    )
+                )
+            }
+            db.setTransactionSuccessful()
+            Log.d(TAG, "Seed de medicamentos concluído: ${MedicationSeed.data.size} registros")
+        } finally {
+            db.endTransaction()
+        }
     }
 }
