@@ -1,8 +1,13 @@
 package io.github.faening.lello.core.data.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.data.repository.DataAppetiteOptionRepository
 import io.github.faening.lello.core.data.repository.DataClimateOptionRepository
@@ -17,6 +22,8 @@ import io.github.faening.lello.core.data.repository.DataSleepActivityOptionRepos
 import io.github.faening.lello.core.data.repository.DataSleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.DataSocialOptionRepository
+import io.github.faening.lello.core.data.repository.DataStoreOnboardingRepository
+import io.github.faening.lello.core.data.repository.DataStoreUserRepository
 import io.github.faening.lello.core.data.repository.JournalCategoryRepository
 import io.github.faening.lello.core.data.repository.MascotRepositoryImpl
 import io.github.faening.lello.core.data.repository.MealJournalRepository
@@ -57,8 +64,10 @@ import io.github.faening.lello.core.domain.repository.ItemResource
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.MedicationRepository
+import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
@@ -82,29 +91,34 @@ import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
 import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.PurchaseHistory
+import javax.inject.Singleton
 import io.github.faening.lello.core.domain.repository.MascotRepository as IMascotRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository as IRewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository as IRewardHistoryRepository
 
-/**
- * Módulo responsável por fornecer as implementações de repositórios para o grafo de dependências do Dagger Hilt.
- *
- * Este módulo existe no módulo `app` pois é o único ponto da aplicação que possui visibilidade tanto para as abstrações definidas na
- * camada `domain`, quanto para as implementações localizadas na camada `data`.
- *
- * Como as boas práticas da Clean Architecture recomendam que a camada `domain` seja independente de não tenha conhecimento sobre `data`,
- * sabemos que `data` também não dependa de `app`, o binding das interfaces de repositório com suas implementações precisa ocorrer aqui.
- *
- * Essa abordagem garante que:
- * - O padrão MVVM e a separação de responsabilidades sejam respeitados.
- * - A manutenção e evolução do projeto sejam mais seguras e organizadas.
- * - Evitamos dependências circulares entre os módulos.
- *
- * Outros desenvolvedores devem utilizar este módulo para registrar novas implementações de repositórios sempre que necessário.
- */
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lello_preferences")
+
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+        return context.dataStore
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStoreOnboardingRepository(dataStore: DataStore<Preferences>): OnboardingRepository {
+        return DataStoreOnboardingRepository(dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStoreUserRepository(dataStore: DataStore<Preferences>) : UserRepository {
+        return DataStoreUserRepository(dataStore)
+    }
 
     // region: Journals
 

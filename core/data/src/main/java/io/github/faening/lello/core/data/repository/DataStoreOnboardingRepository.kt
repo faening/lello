@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.data.repository.datastore
+package io.github.faening.lello.core.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
