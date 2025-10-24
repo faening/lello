@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.usecase.store
 
-import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemResource
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class BuyItemUseCase @Inject constructor(
     private val itemResource: ItemResource<Item>,
-    private val inventoryResource: InventoryResource<InventoryItem>,
+    private val inventoryRepository: InventoryRepository<InventoryItem>,
     private val purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
     private val rewardBalanceUseCase: RewardBalanceUseCase
 ) {
@@ -23,7 +23,7 @@ class BuyItemUseCase @Inject constructor(
         require(balance.totalCoins >= cost) { "Insufficient coins" }
 
         rewardBalanceUseCase.insertOrUpdate(balance.copy(totalCoins = balance.totalCoins - cost))
-        inventoryResource.updateInventoryItem(itemId, amount)
+        inventoryRepository.updateInventoryItem(itemId, amount)
         return purchaseHistoryResource.addPurchase(itemId, amount, item.price)
     }
 }

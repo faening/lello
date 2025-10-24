@@ -15,6 +15,7 @@ import io.github.faening.lello.core.data.repository.DataDosageFormOptionReposito
 import io.github.faening.lello.core.data.repository.DataEmotionOptionRepository
 import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
+import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
@@ -31,7 +32,6 @@ import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.RewardBalanceRepository
 import io.github.faening.lello.core.data.repository.RewardHistoryRepository
 import io.github.faening.lello.core.data.repository.SleepJournalRepository
-import io.github.faening.lello.core.data.repository.store.InventoryRepository
 import io.github.faening.lello.core.data.repository.store.ItemRepository
 import io.github.faening.lello.core.data.repository.store.PurchaseHistoryRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
@@ -59,7 +59,7 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
-import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemResource
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
@@ -286,10 +286,10 @@ object RepositoryModule {
     }
 
     @Provides
-    fun provideInventoryRepository(
+    fun provideDataInventoryRepository(
         dao: InventoryDao
-    ): InventoryResource<InventoryItem> {
-        return InventoryRepository(dao)
+    ): InventoryRepository<InventoryItem> {
+        return DataInventoryRepository(dao)
     }
 
     @Provides

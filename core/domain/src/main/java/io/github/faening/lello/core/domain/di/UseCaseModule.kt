@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemResource
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.MascotRepository
@@ -75,21 +75,21 @@ object UseCaseModule {
     @Provides
     fun provideGetStoreItemsUseCase(
         itemResource: ItemResource<Item>,
-        inventoryResource: InventoryResource<InventoryItem>
-    ) = GetStoreItemsUseCase(itemResource, inventoryResource)
+        inventoryRepository: InventoryRepository<InventoryItem>
+    ) = GetStoreItemsUseCase(itemResource, inventoryRepository)
 
     @Provides
     fun provideGetInventoryItemsUseCase(
-        inventoryResource: InventoryResource<InventoryItem>
-    ) = GetInventoryItemsUseCase(inventoryResource)
+        inventoryRepository: InventoryRepository<InventoryItem>
+    ) = GetInventoryItemsUseCase(inventoryRepository)
 
     @Provides
     fun provideBuyItemUseCase(
         itemResource: ItemResource<Item>,
-        inventoryResource: InventoryResource<InventoryItem>,
+        inventoryRepository: InventoryRepository<InventoryItem>,
         purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
         rewardBalanceUseCase: RewardBalanceUseCase
-    ) = BuyItemUseCase(itemResource, inventoryResource, purchaseHistoryResource, rewardBalanceUseCase)
+    ) = BuyItemUseCase(itemResource, inventoryRepository, purchaseHistoryResource, rewardBalanceUseCase)
 
     @Provides
     fun provideGetPurchaseHistoryUseCase(

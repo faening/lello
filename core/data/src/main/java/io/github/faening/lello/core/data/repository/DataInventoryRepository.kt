@@ -1,14 +1,15 @@
-package io.github.faening.lello.core.data.repository.store
+package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.InventoryDao
 import io.github.faening.lello.core.database.model.store.toModel
-import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.model.store.InventoryItem
 import javax.inject.Inject
 
-class InventoryRepository @Inject constructor(
+class DataInventoryRepository @Inject constructor(
     private val dao: InventoryDao
-) : InventoryResource<InventoryItem> {
+) : InventoryRepository<InventoryItem> {
+
     override suspend fun getInventory(): List<InventoryItem> {
         return dao.getInventory().map { it.toModel() }
     }
