@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface EmotionOptionDao : OptionResources<EmotionOptionEntity> {
+interface EmotionOptionDao : OptionRepository<EmotionOptionEntity> {
 
     /**
      * Busca recursos de emoções que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser

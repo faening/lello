@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.SleepActivityOptionEnt
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import jakarta.inject.Inject
 
-class SleepActivityOptionRepository @Inject constructor(
+class DataSleepActivityOptionRepository @Inject constructor(
     dao: SleepActivityOptionDao
-) : OptionRepository<SleepActivityOption, SleepActivityOptionEntity>(dao) {
+) : DataAbstractOptionRepository<SleepActivityOption, SleepActivityOptionEntity>(dao) {
 
     override fun SleepActivityOptionEntity.toModel(): SleepActivityOption {
         return SleepActivityOption(

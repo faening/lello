@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
 import io.github.faening.lello.core.model.option.ClimateOption
 import jakarta.inject.Inject
 
-class ClimateOptionRepository @Inject constructor(
+class DataClimateOptionRepository @Inject constructor(
     dao: ClimateOptionDao
-) : OptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
+) : DataAbstractOptionRepository<ClimateOption, ClimateOptionEntity>(dao) {
 
     override fun ClimateOptionEntity.toModel(): ClimateOption {
         return ClimateOption(

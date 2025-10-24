@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.domain.usecase.options
 
 import io.github.faening.lello.core.domain.mock.ClimateOptionMock
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,7 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ClimateOptionUseCaseTest {
-    private val repository: OptionResources<ClimateOption> = mockk()
+    private val repository: OptionRepository<ClimateOption> = mockk()
     private val useCase = ClimateOptionUseCase(repository)
 
     @Test

@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface DosageFormOptionDao : OptionResources<DosageFormOptionEntity> {
+interface DosageFormOptionDao : OptionRepository<DosageFormOptionEntity> {
 
     @Transaction
     @Query(

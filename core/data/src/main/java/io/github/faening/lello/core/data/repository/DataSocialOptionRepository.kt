@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.model.option.SocialOption
 import jakarta.inject.Inject
 
-class SocialOptionRepository @Inject constructor(
+class DataSocialOptionRepository @Inject constructor(
     dao: SocialOptionDao
-) : OptionRepository<SocialOption, SocialOptionEntity>(dao) {
+) : DataAbstractOptionRepository<SocialOption, SocialOptionEntity>(dao) {
 
     override fun SocialOptionEntity.toModel(): SocialOption {
         return SocialOption(

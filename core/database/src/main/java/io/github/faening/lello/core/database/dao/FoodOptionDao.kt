@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.option.FoodOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface FoodOptionDao : OptionResources<FoodOptionEntity> {
+interface FoodOptionDao : OptionRepository<FoodOptionEntity> {
 
     @Transaction
     @Query(

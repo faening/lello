@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.model.option.LocationOption
 import jakarta.inject.Inject
 
-class LocationOptionRepository @Inject constructor(
+class DataLocationOptionRepository @Inject constructor(
     dao: LocationOptionDao
-) : OptionRepository<LocationOption, LocationOptionEntity>(dao) {
+) : DataAbstractOptionRepository<LocationOption, LocationOptionEntity>(dao) {
 
     override fun LocationOptionEntity.toModel(): LocationOption {
         return LocationOption(

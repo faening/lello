@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.model.option.HealthOption
 import jakarta.inject.Inject
 
-class HealthOptionRepository @Inject constructor(
+class DataHealthOptionRepository @Inject constructor(
     dao: HealthOptionDao
-) : OptionRepository<HealthOption, HealthOptionEntity>(dao) {
+) : DataAbstractOptionRepository<HealthOption, HealthOptionEntity>(dao) {
 
     override fun HealthOptionEntity.toModel(): HealthOption {
         return HealthOption(

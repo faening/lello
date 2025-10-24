@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.option.SleepSensationOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SleepSensationOptionDao : OptionResources<SleepSensationOptionEntity> {
+interface SleepSensationOptionDao : OptionRepository<SleepSensationOptionEntity> {
 
     /**
      * Busca recursos de localização que correspondem aos parâmetros da consulta. Os parâmetros são opcionais e podem ser

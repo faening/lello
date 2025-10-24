@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
 import io.github.faening.lello.core.model.option.EmotionOption
 import jakarta.inject.Inject
 
-class EmotionOptionRepository @Inject constructor(
+class DataEmotionOptionRepository @Inject constructor(
     dao: EmotionOptionDao
-) : OptionRepository<EmotionOption, EmotionOptionEntity>(dao) {
+) : DataAbstractOptionRepository<EmotionOption, EmotionOptionEntity>(dao) {
 
     override fun EmotionOptionEntity.toModel(): EmotionOption {
         return EmotionOption(

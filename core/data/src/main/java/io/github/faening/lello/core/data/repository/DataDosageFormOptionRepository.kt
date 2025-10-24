@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
 import io.github.faening.lello.core.model.option.DosageFormOption
 import jakarta.inject.Inject
 
-class DosageFormOptionRepository @Inject constructor(
+class DataDosageFormOptionRepository @Inject constructor(
     dao: DosageFormOptionDao
-) : OptionRepository<DosageFormOption, DosageFormOptionEntity>(dao) {
+) : DataAbstractOptionRepository<DosageFormOption, DosageFormOptionEntity>(dao) {
 
     override fun DosageFormOptionEntity.toModel(): DosageFormOption {
         return DosageFormOption(

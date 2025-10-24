@@ -5,9 +5,9 @@ import io.github.faening.lello.core.database.model.option.PortionOptionEntity
 import io.github.faening.lello.core.model.option.PortionOption
 import jakarta.inject.Inject
 
-class PortionOptionRepository @Inject constructor(
+class DataPortionOptionRepository @Inject constructor(
     dao: PortionOptionDao
-) : OptionRepository<PortionOption, PortionOptionEntity>(dao) {
+) : DataAbstractOptionRepository<PortionOption, PortionOptionEntity>(dao) {
 
     override fun PortionOptionEntity.toModel(): PortionOption {
         return PortionOption(
