@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.repository.store
+package io.github.faening.lello.core.domain.repository
 
 interface MedicationRepository<T> {
     suspend fun getMedicationById(id: Long): T?

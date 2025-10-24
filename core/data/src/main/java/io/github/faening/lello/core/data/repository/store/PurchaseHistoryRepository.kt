@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository.store
 
 import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.model.store.toModel
-import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 

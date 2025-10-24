@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.usecase.store
 
-import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 

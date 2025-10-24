@@ -51,12 +51,12 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
+import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.ItemResource
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.OptionResources
-import io.github.faening.lello.core.domain.repository.store.InventoryResource
-import io.github.faening.lello.core.domain.repository.store.ItemResource
-import io.github.faening.lello.core.domain.repository.store.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal

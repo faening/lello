@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.github.faening.lello.core.database.model.store.InventoryEntity
-import io.github.faening.lello.core.domain.repository.store.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryResource
 
 @Dao
 interface InventoryDao : InventoryResource<InventoryEntity> {

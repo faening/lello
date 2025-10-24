@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import io.github.faening.lello.core.database.model.medication.MedicationEntity
-import io.github.faening.lello.core.domain.repository.store.MedicationRepository
+import io.github.faening.lello.core.domain.repository.MedicationRepository
 
 @Suppress("unused")
 @Dao

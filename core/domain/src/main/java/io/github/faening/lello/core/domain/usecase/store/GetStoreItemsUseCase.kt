@@ -1,10 +1,10 @@
 package io.github.faening.lello.core.domain.usecase.store
 
-import io.github.faening.lello.core.domain.repository.store.InventoryResource
-import io.github.faening.lello.core.domain.repository.store.ItemResource
+import io.github.faening.lello.core.domain.repository.InventoryResource
+import io.github.faening.lello.core.domain.repository.ItemResource
+import io.github.faening.lello.core.model.store.InventoryItem
 import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.ItemType
-import io.github.faening.lello.core.model.store.InventoryItem
 import javax.inject.Inject
 
 class GetStoreItemsUseCase @Inject constructor(

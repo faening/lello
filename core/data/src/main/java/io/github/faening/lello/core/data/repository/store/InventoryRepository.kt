@@ -2,7 +2,7 @@ package io.github.faening.lello.core.data.repository.store
 
 import io.github.faening.lello.core.database.dao.InventoryDao
 import io.github.faening.lello.core.database.model.store.toModel
-import io.github.faening.lello.core.domain.repository.store.InventoryResource
+import io.github.faening.lello.core.domain.repository.InventoryResource
 import io.github.faening.lello.core.model.store.InventoryItem
 import javax.inject.Inject
 

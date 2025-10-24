@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.repository.store
+package io.github.faening.lello.core.domain.repository
 
 interface PurchaseHistoryResource<T> {
     suspend fun addPurchase(itemId: String, amount: Int, price: Int): T
