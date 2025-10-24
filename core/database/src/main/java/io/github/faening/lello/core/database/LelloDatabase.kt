@@ -74,90 +74,79 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
 
 @Database(
     entities = [
-        JournalCategoryEntity::class,
         AppetiteOptionEntity::class,
         ClimateOptionEntity::class,
         DosageFormOptionEntity::class,
         EmotionOptionEntity::class,
         FoodOptionEntity::class,
         HealthOptionEntity::class,
+        InventoryEntity::class,
+        ItemCatalogEntity::class,
+        JournalCategoryEntity::class,
         LocationOptionEntity::class,
+        MascotStatusEntity::class,
+        MascotVitalityHistoryEntity::class,
+        MealJournalEntity::class,
+        MealJournalEntityAppetiteOptionEntityCrossRef::class,
+        MealJournalEntityFoodOptionEntityCrossRef::class,
+        MealJournalEntityLocationOptionEntityCrossRef::class,
+        MealJournalEntityMealOptionEntityCrossRef::class,
+        MealJournalEntityPortionOptionEntityCrossRef::class,
+        MealJournalEntitySocialOptionEntityCrossRef::class,
         MealOptionEntity::class,
-        PortionOptionEntity::class,
-        SleepActivityOptionEntity::class,
-        SleepQualityOptionEntity::class,
-        SleepSensationOptionEntity::class,
-        SocialOptionEntity::class,
+        MedicationEntity::class,
         MoodJournalEntity::class,
-        MoodJournalEntityEmotionOptionEntityCrossRef::class,
         MoodJournalEntityClimateOptionEntityCrossRef::class,
+        MoodJournalEntityEmotionOptionEntityCrossRef::class,
+        MoodJournalEntityHealthOptionEntityCrossRef::class,
         MoodJournalEntityLocationOptionEntityCrossRef::class,
         MoodJournalEntitySocialOptionEntityCrossRef::class,
-        MoodJournalEntityHealthOptionEntityCrossRef::class,
+        PortionOptionEntity::class,
+        PurchaseHistoryEntity::class,
+        RewardBalanceEntity::class,
+        RewardHistoryEntity::class,
+        SleepActivityOptionEntity::class,
         SleepJournalEntity::class,
         SleepJournalEntityLocationOptionEntityCrossRef::class,
         SleepJournalEntitySleepActivityOptionEntityCrossRef::class,
-        SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
         SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
-        MealJournalEntity::class,
-        MealJournalEntityMealOptionEntityCrossRef::class,
-        MealJournalEntityAppetiteOptionEntityCrossRef::class,
-        MealJournalEntityFoodOptionEntityCrossRef::class,
-        MealJournalEntityPortionOptionEntityCrossRef::class,
-        MealJournalEntityLocationOptionEntityCrossRef::class,
-        MealJournalEntitySocialOptionEntityCrossRef::class,
-        RewardHistoryEntity::class,
-        RewardBalanceEntity::class,
-        MascotStatusEntity::class,
-        MascotVitalityHistoryEntity::class,
-        MedicationEntity::class,
-        ItemCatalogEntity::class,
-        InventoryEntity::class,
-        PurchaseHistoryEntity::class,
+        SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
+        SleepQualityOptionEntity::class,
+        SleepSensationOptionEntity::class,
+        SocialOptionEntity::class,
     ],
     version = 2,
     exportSchema = true
 )
 @TypeConverters(
+    DateConverter::class,
     InstantConverters::class,
     JournalMoodTypeConverter::class,
-    DateConverter::class
 )
 abstract class LelloDatabase : RoomDatabase() {
-
-    // journals
-    abstract fun mealJournalDao(): MealJournalDao
-    abstract fun sleepJournalDao(): SleepJournalDao
-    abstract fun moodJournalEntryDao(): MoodJournalDao
-    abstract fun journalCategoryDao(): JournalCategoryDao
-
-    // options
     abstract fun appetiteOptionDao(): AppetiteOptionDao
     abstract fun climateOptionDao(): ClimateOptionDao
     abstract fun dosageFormOptionDao(): DosageFormOptionDao
     abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun foodOptionDao(): FoodOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
-    abstract fun locationOptionDao() : LocationOptionDao
-    abstract fun mealOptionDao(): MealOptionDao
-    abstract fun portionOptionDao(): PortionOptionDao
-    abstract fun sleepActivityOptionDao() : SleepActivityOptionDao
-    abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
-    abstract fun sleepSensationOptionDao() : SleepSensationOptionDao
-    abstract fun socialOptionDao() : SocialOptionDao
-
-    // rewrds
-    abstract fun rewardHistoryDao() : RewardHistoryDao
-    abstract fun rewardBalanceDao() : RewardBalanceDao
-
-    // mascot
+    abstract fun inventoryDao(): InventoryDao
+    abstract fun itemCatalogDao(): ItemCatalogDao
+    abstract fun journalCategoryDao(): JournalCategoryDao
+    abstract fun locationOptionDao(): LocationOptionDao
     abstract fun mascotStatusDao(): MascotStatusDao
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
-
-    // store
-    abstract fun itemCatalogDao(): ItemCatalogDao
-    abstract fun inventoryDao(): InventoryDao
-    abstract fun purchaseHistoryDao(): PurchaseHistoryDao
-
+    abstract fun mealJournalDao(): MealJournalDao
+    abstract fun mealOptionDao(): MealOptionDao
     abstract fun medicationDao(): MedicationDao
+    abstract fun moodJournalEntryDao(): MoodJournalDao
+    abstract fun portionOptionDao(): PortionOptionDao
+    abstract fun purchaseHistoryDao(): PurchaseHistoryDao
+    abstract fun rewardBalanceDao(): RewardBalanceDao
+    abstract fun rewardHistoryDao(): RewardHistoryDao
+    abstract fun sleepActivityOptionDao(): SleepActivityOptionDao
+    abstract fun sleepJournalDao(): SleepJournalDao
+    abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
+    abstract fun sleepSensationOptionDao(): SleepSensationOptionDao
+    abstract fun socialOptionDao(): SocialOptionDao
 }
