@@ -9,26 +9,22 @@ import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntit
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.toEntity
 import io.github.faening.lello.core.database.model.journal.meal.toModel
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.model.journal.MealJournal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class MealJournalRepository @Inject constructor(
+class DataJournalMealRepository @Inject constructor(
     private val dao: MealJournalDao
-) : JournalResources<MealJournal> {
+) : JournalRepository<MealJournal> {
 
     override fun getAll(): Flow<List<MealJournal>> {
-        return dao
-            .getAllWithOptions()
-            .map { list -> list.map { it.toModel() } }
+        return dao.getAllWithOptions().map { list -> list.map { it.toModel() } }
     }
 
     override fun getById(id: Long): Flow<MealJournal>? {
-        return dao
-            .getByIdWithOptions(id)
-            ?.map { it.toModel() }
+        return dao.getByIdWithOptions(id)?.map { it.toModel() }
     }
 
     override suspend fun insert(entry: MealJournal): Long {

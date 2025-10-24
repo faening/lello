@@ -9,26 +9,22 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.toEntity
 import io.github.faening.lello.core.database.model.journal.mood.toModel
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.model.journal.MoodJournal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class MoodJournalRepository @Inject constructor(
+class DataJournalMoodRepository @Inject constructor(
     private val dao: MoodJournalDao
-) : JournalResources<MoodJournal> {
+) : JournalRepository<MoodJournal> {
 
     override fun getAll(): Flow<List<MoodJournal>> {
-        return dao
-            .getAllWithOptions()
-            .map { list -> list.map { it.toModel() } }
+        return dao.getAllWithOptions().map { list -> list.map { it.toModel() } }
     }
 
     override fun getById(id: Long): Flow<MoodJournal>? {
-        return dao
-            .getByIdWithOptions(id)
-            ?.map { it.toModel() }
+        return dao.getByIdWithOptions(id)?.map { it.toModel() }
     }
 
     override suspend fun insert(entry: MoodJournal) : Long {

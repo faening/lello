@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.usecase.journal
 
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MoodJournalUseCase @Inject constructor(
-    private val repository: JournalResources<MoodJournal>,
+    private val repository: JournalRepository<MoodJournal>,
     private val rewardCalculatorService: RewardCalculatorService,
     private val rewardBalanceUseCase: RewardBalanceUseCase,
     private val rewardHistoryUseCase: RewardHistoryUseCase

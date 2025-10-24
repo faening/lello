@@ -12,11 +12,11 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface SleepJournalDao : JournalResources<SleepJournalEntity> {
+interface SleepJournalDao : JournalRepository<SleepJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM sleep_journals ORDER BY created_at DESC")

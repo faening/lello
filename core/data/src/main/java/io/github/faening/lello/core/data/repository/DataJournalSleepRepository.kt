@@ -7,26 +7,22 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.toEntity
 import io.github.faening.lello.core.database.model.journal.sleep.toModel
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.model.journal.SleepJournal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class SleepJournalRepository @Inject constructor(
+class DataJournalSleepRepository @Inject constructor(
     private val dao: SleepJournalDao
-) : JournalResources<SleepJournal> {
+) : JournalRepository<SleepJournal> {
 
     override fun getAll(): Flow<List<SleepJournal>> {
-        return dao
-            .getAllWithOptions()
-            .map { list -> list.map { it.toModel() } }
+        return dao.getAllWithOptions().map { list -> list.map { it.toModel() } }
     }
 
     override fun getById(id: Long): Flow<SleepJournal>? {
-        return dao
-            .getByIdWithOptions(id)
-            ?.map { it.toModel() }
+        return dao.getByIdWithOptions(id)?.map { it.toModel() }
     }
 
     override suspend fun insert(entry: SleepJournal): Long {

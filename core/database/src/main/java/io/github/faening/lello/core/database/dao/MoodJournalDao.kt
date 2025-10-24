@@ -13,11 +13,11 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MoodJournalDao : JournalResources<MoodJournalEntity> {
+interface MoodJournalDao : JournalRepository<MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
