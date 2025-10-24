@@ -16,6 +16,7 @@ import io.github.faening.lello.core.data.repository.DataEmotionOptionRepository
 import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
 import io.github.faening.lello.core.data.repository.DataInventoryRepository
+import io.github.faening.lello.core.data.repository.DataItemRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
@@ -32,7 +33,6 @@ import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.RewardBalanceRepository
 import io.github.faening.lello.core.data.repository.RewardHistoryRepository
 import io.github.faening.lello.core.data.repository.SleepJournalRepository
-import io.github.faening.lello.core.data.repository.store.ItemRepository
 import io.github.faening.lello.core.data.repository.store.PurchaseHistoryRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
@@ -60,7 +60,7 @@ import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.InventoryRepository
-import io.github.faening.lello.core.domain.repository.ItemResource
+import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.MedicationRepository
@@ -279,10 +279,10 @@ object RepositoryModule {
     // region: Store
 
     @Provides
-    fun provideItemRepository(
+    fun provideDataItemRepository(
         dao: ItemCatalogDao
-    ): ItemResource<Item> {
-        return ItemRepository(dao)
+    ): ItemRepository<Item> {
+        return DataItemRepository(dao)
     }
 
     @Provides
