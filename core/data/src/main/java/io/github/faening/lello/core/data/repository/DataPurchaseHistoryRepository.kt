@@ -1,14 +1,15 @@
-package io.github.faening.lello.core.data.repository.store
+package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.model.store.toModel
-import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 
-class PurchaseHistoryRepository @Inject constructor(
+class DataPurchaseHistoryRepository @Inject constructor(
     private val dao: PurchaseHistoryDao
-) : PurchaseHistoryResource<PurchaseHistory> {
+) : PurchaseHistoryRepository<PurchaseHistory> {
+
     override suspend fun addPurchase(itemId: String, amount: Int, price: Int): PurchaseHistory {
         return dao.addPurchase(itemId, amount, price).toModel()
     }

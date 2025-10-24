@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
-import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 
 @Dao
-interface PurchaseHistoryDao : PurchaseHistoryResource<PurchaseHistoryEntity> {
+interface PurchaseHistoryDao : PurchaseHistoryRepository<PurchaseHistoryEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: PurchaseHistoryEntity): Long
 

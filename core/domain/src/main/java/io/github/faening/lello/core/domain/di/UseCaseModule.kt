@@ -9,7 +9,7 @@ import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryResources
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
-import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
@@ -87,14 +87,14 @@ object UseCaseModule {
     fun provideBuyItemUseCase(
         itemRepository: ItemRepository<Item>,
         inventoryRepository: InventoryRepository<InventoryItem>,
-        purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
+        purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
         rewardBalanceUseCase: RewardBalanceUseCase
-    ) = BuyItemUseCase(itemRepository, inventoryRepository, purchaseHistoryResource, rewardBalanceUseCase)
+    ) = BuyItemUseCase(itemRepository, inventoryRepository, purchaseHistoryRepository, rewardBalanceUseCase)
 
     @Provides
     fun provideGetPurchaseHistoryUseCase(
-        purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>
-    ) = GetPurchaseHistoryUseCase(purchaseHistoryResource)
+        purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>
+    ) = GetPurchaseHistoryUseCase(purchaseHistoryRepository)
 
     // region: User
 

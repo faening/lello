@@ -2,7 +2,7 @@ package io.github.faening.lello.core.domain.usecase.store
 
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
-import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class BuyItemUseCase @Inject constructor(
     private val itemRepository: ItemRepository<Item>,
     private val inventoryRepository: InventoryRepository<InventoryItem>,
-    private val purchaseHistoryResource: PurchaseHistoryResource<PurchaseHistory>,
+    private val purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
     private val rewardBalanceUseCase: RewardBalanceUseCase
 ) {
     suspend operator fun invoke(itemId: String, amount: Int): PurchaseHistory {
@@ -24,6 +24,6 @@ class BuyItemUseCase @Inject constructor(
 
         rewardBalanceUseCase.insertOrUpdate(balance.copy(totalCoins = balance.totalCoins - cost))
         inventoryRepository.updateInventoryItem(itemId, amount)
-        return purchaseHistoryResource.addPurchase(itemId, amount, item.price)
+        return purchaseHistoryRepository.addPurchase(itemId, amount, item.price)
     }
 }

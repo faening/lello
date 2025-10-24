@@ -19,7 +19,9 @@ import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
+import io.github.faening.lello.core.data.repository.DataMedicationRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
+import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepository
 import io.github.faening.lello.core.data.repository.DataSleepActivityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
@@ -33,7 +35,6 @@ import io.github.faening.lello.core.data.repository.MoodJournalRepository
 import io.github.faening.lello.core.data.repository.RewardBalanceRepository
 import io.github.faening.lello.core.data.repository.RewardHistoryRepository
 import io.github.faening.lello.core.data.repository.SleepJournalRepository
-import io.github.faening.lello.core.data.repository.store.PurchaseHistoryRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.DosageFormOptionDao
@@ -66,7 +67,7 @@ import io.github.faening.lello.core.domain.repository.JournalResources
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
-import io.github.faening.lello.core.domain.repository.PurchaseHistoryResource
+import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
@@ -104,207 +105,138 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
-        return context.dataStore
-    }
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> = context.dataStore
 
     @Provides
     @Singleton
-    fun provideDataStoreOnboardingRepository(dataStore: DataStore<Preferences>): OnboardingRepository {
-        return DataStoreOnboardingRepository(dataStore)
-    }
+    fun provideDataStoreOnboardingRepository(
+        dataStore: DataStore<Preferences>
+    ): OnboardingRepository = DataStoreOnboardingRepository(dataStore)
 
     @Provides
     @Singleton
-    fun provideDataStoreUserRepository(dataStore: DataStore<Preferences>) : UserRepository {
-        return DataStoreUserRepository(dataStore)
-    }
-
-    // region: Journals
+    fun provideDataStoreUserRepository(
+        dataStore: DataStore<Preferences>
+    ) : UserRepository = DataStoreUserRepository(dataStore)
 
     @Provides
     fun provideMoodJournalRepository(
         dao: MoodJournalDao
-    ): JournalResources<MoodJournal> {
-        return MoodJournalRepository(dao)
-    }
+    ): JournalResources<MoodJournal> = MoodJournalRepository(dao)
 
     @Provides
     fun provideMealJournalRepository(
         dao: MealJournalDao
-    ): JournalResources<MealJournal> {
-        return MealJournalRepository(dao)
-    }
+    ): JournalResources<MealJournal> = MealJournalRepository(dao)
 
     @Provides
     fun provideSleepJournalRepository(
         dao: SleepJournalDao
-    ): JournalResources<SleepJournal> {
-        return SleepJournalRepository(dao)
-    }
+    ): JournalResources<SleepJournal> = SleepJournalRepository(dao)
 
     @Provides
     fun provideJournalCategoryRepository(
         dao: JournalCategoryDao
-    ): JournalCategoryResources<JournalCategory> {
-        return JournalCategoryRepository(dao)
-    }
-
-    // endregion
-
-    // region: Options
+    ): JournalCategoryResources<JournalCategory> = JournalCategoryRepository(dao)
 
     @Provides
     fun provideDataAppetiteOptionRepository(
         dao: AppetiteOptionDao
-    ): OptionRepository<AppetiteOption> {
-        return DataAppetiteOptionRepository(dao)
-    }
+    ): OptionRepository<AppetiteOption> = DataAppetiteOptionRepository(dao)
 
     @Provides
     fun provideDataClimateOptionRepository(
         dao: ClimateOptionDao
-    ): OptionRepository<ClimateOption> {
-        return DataClimateOptionRepository(dao)
-    }
+    ): OptionRepository<ClimateOption> = DataClimateOptionRepository(dao)
 
     @Provides
     fun provideDataDosageFormOptionRepository(
         dao: DosageFormOptionDao
-    ): OptionRepository<DosageFormOption> {
-        return DataDosageFormOptionRepository(dao)
-    }
+    ): OptionRepository<DosageFormOption> = DataDosageFormOptionRepository(dao)
 
     @Provides
     fun provideDataEmotionOptionRepository(
         dao: EmotionOptionDao
-    ): OptionRepository<EmotionOption> {
-        return DataEmotionOptionRepository(dao)
-    }
+    ): OptionRepository<EmotionOption> = DataEmotionOptionRepository(dao)
 
     @Provides
     fun provideDataFoodOptionRepository(
         dao: FoodOptionDao
-    ): OptionRepository<FoodOption> {
-        return DataFoodOptionRepository(dao)
-    }
+    ): OptionRepository<FoodOption> = DataFoodOptionRepository(dao)
 
     @Provides
     fun provideDataHealthOptionRepository(
         dao: HealthOptionDao
-    ): OptionRepository<HealthOption> {
-        return DataHealthOptionRepository(dao)
-    }
+    ): OptionRepository<HealthOption> = DataHealthOptionRepository(dao)
 
     @Provides
     fun provideDataLocationOptionRepository(
         dao: LocationOptionDao
-    ): OptionRepository<LocationOption> {
-        return DataLocationOptionRepository(dao)
-    }
+    ): OptionRepository<LocationOption> = DataLocationOptionRepository(dao)
 
     @Provides
     fun provideDataMealOptionRepository(
         dao: MealOptionDao
-    ): OptionRepository<MealOption> {
-        return DataMealOptionRepository(dao)
-    }
+    ): OptionRepository<MealOption> = DataMealOptionRepository(dao)
 
     @Provides
     fun provideDataPortionOptionRepository(
         dao: PortionOptionDao
-    ): OptionRepository<PortionOption> {
-        return DataPortionOptionRepository(dao)
-    }
+    ): OptionRepository<PortionOption> = DataPortionOptionRepository(dao)
 
     @Provides
     fun provideDataSleepSensationOptionRepository(
         dao: SleepSensationOptionDao
-    ): OptionRepository<SleepSensationOption> {
-        return DataSleepSensationOptionRepository(dao)
-    }
+    ): OptionRepository<SleepSensationOption> = DataSleepSensationOptionRepository(dao)
 
     @Provides
     fun provideDataSleepActivityOptionRepository(
         dao: SleepActivityOptionDao
-    ): OptionRepository<SleepActivityOption> {
-        return DataSleepActivityOptionRepository(dao)
-    }
+    ): OptionRepository<SleepActivityOption> = DataSleepActivityOptionRepository(dao)
 
     @Provides
     fun provideDataSleepQualityOptionRepository(
         dao: SleepQualityOptionDao
-    ): OptionRepository<SleepQualityOption> {
-        return DataSleepQualityOptionRepository(dao)
-    }
+    ): OptionRepository<SleepQualityOption> = DataSleepQualityOptionRepository(dao)
 
     @Provides
     fun provideDataSocialOptionRepository(
         dao: SocialOptionDao
-    ): OptionRepository<SocialOption> {
-        return DataSocialOptionRepository(dao)
-    }
-
-    // endregion
-
-    // region: Rewards
+    ): OptionRepository<SocialOption> = DataSocialOptionRepository(dao)
 
     @Provides
     fun provideRewardHistoryRepository(
         dao: RewardHistoryDao
-    ): IRewardHistoryRepository<RewardHistory> {
-        return RewardHistoryRepository(dao)
-    }
+    ): IRewardHistoryRepository<RewardHistory> = RewardHistoryRepository(dao)
 
     @Provides
     fun provideRewardBalanceRepository(
         dao: RewardBalanceDao
-    ): IRewardBalanceRepository<RewardBalance> {
-        return RewardBalanceRepository(dao)
-    }
-
-    // endregion
-
-    // region: Mascot
+    ): IRewardBalanceRepository<RewardBalance> = RewardBalanceRepository(dao)
 
     @Provides
     fun provideMascotRepository(
-        statusDao: MascotStatusDao, historyDao: MascotVitalityHistoryDao
-    ): IMascotRepository {
-        return MascotRepositoryImpl(statusDao, historyDao)
-    }
-
-    // endregion
-
-    // region: Store
+        statusDao: MascotStatusDao,
+        historyDao: MascotVitalityHistoryDao
+    ): IMascotRepository = MascotRepositoryImpl(statusDao, historyDao)
 
     @Provides
     fun provideDataItemRepository(
         dao: ItemCatalogDao
-    ): ItemRepository<Item> {
-        return DataItemRepository(dao)
-    }
+    ): ItemRepository<Item> = DataItemRepository(dao)
 
     @Provides
     fun provideDataInventoryRepository(
         dao: InventoryDao
-    ): InventoryRepository<InventoryItem> {
-        return DataInventoryRepository(dao)
-    }
+    ): InventoryRepository<InventoryItem> = DataInventoryRepository(dao)
 
     @Provides
-    fun providePurchaseHistoryRepository(
+    fun provideDataPurchaseHistoryRepository(
         dao: PurchaseHistoryDao
-    ): PurchaseHistoryResource<PurchaseHistory> {
-        return PurchaseHistoryRepository(dao)
-    }
-
-    // endregion
+    ): PurchaseHistoryRepository<PurchaseHistory> = DataPurchaseHistoryRepository(dao)
 
     @Provides
     fun provideDataMedicationRepository(
         dao: MedicationDao
-    ): MedicationRepository<Medication> {
-        return provideDataMedicationRepository(dao)
-    }
+    ): MedicationRepository<Medication> = DataMedicationRepository(dao)
 }
