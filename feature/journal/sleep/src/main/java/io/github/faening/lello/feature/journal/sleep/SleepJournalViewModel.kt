@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.GetAllSleepActivityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetAllSleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -32,7 +32,7 @@ class SleepJournalViewModel @Inject constructor(
     // Options
     private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
     private val getAllSleepActivityOptionUseCase: GetAllSleepActivityOptionUseCase,
-    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
+    private val getAllSleepQualityOptionUseCase: GetAllSleepQualityOptionUseCase,
     private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
 ) : ViewModel() {
 
@@ -88,7 +88,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadSleepQualityOptions() {
         viewModelScope.launch {
-            sleepQualityOptionUseCase.getAll()
+            getAllSleepQualityOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepQualityOptions.value = it }
         }

@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
@@ -35,6 +34,9 @@ import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortion
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.GetAllSleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.SaveSleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.UpdateSleepActivityOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetAllSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.SaveSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.UpdateSleepQualityOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
@@ -100,14 +102,16 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllSleepActivityOptionUseCase: GetAllSleepActivityOptionUseCase,
     private val saveSleepActivityOptionUseCase: SaveSleepActivityOptionUseCase,
     private val updateSleepActivityOptionActiveStatusUseCase: UpdateSleepActivityOptionActiveStatusUseCase,
+    // Sleep Quality Options
+    private val getAllSleepQualityOptionUseCase: GetAllSleepQualityOptionUseCase,
+    private val saveSleepQualityOptionUseCase: SaveSleepQualityOptionUseCase,
+    private val updateSleepQualityOptionActiveStatusUseCase: UpdateSleepQualityOptionActiveStatusUseCase,
     // Social Options
     private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
     private val saveSocialOptionUseCase: SaveSocialOptionUseCase,
     private val updateSocialOptionActiveStatusUseCase: UpdateSocialOptionActiveStatusUseCase,
 
-
     private val sensationOptionUseCase: SleepSensationOptionUseCase,
-    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
 ) : ViewModel() {
 
     private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
@@ -187,7 +191,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllSleepActivityOptionUseCase.invoke().collect { _sleepActivityOptions.value = it }
         }
         viewModelScope.launch {
-            sleepQualityOptionUseCase.getAll().collect { _sleepQualityOptions.value = it }
+            getAllSleepQualityOptionUseCase.invoke().collect { _sleepQualityOptions.value = it }
         }
     }
 
@@ -288,74 +292,83 @@ class SettingsJournalViewModel @Inject constructor(
     fun toggleOption(type: JournalOptionType, option: JournalOption, active: Boolean) {
         viewModelScope.launch {
             when (type) {
-                JournalOptionType.EMOTION -> {
-                    updateEmotionOptionActiveStatusUseCase.invoke((option as EmotionOption).copy(active = active))
-                    toggleEmotionOption(option, active)
-                }
-
-                JournalOptionType.CLIMATE -> {
-                    updateClimateOptionActiveStatusUseCase.invoke((option as ClimateOption).copy(active = active))
-                    toggleClimateOption(option, active)
-                }
-
-                JournalOptionType.LOCATION -> {
-                    updateLocationOptionActiveStatusUseCase.invoke((option as LocationOption).copy(active = active))
-                    toggleLocationOption(option, active)
-                }
-
-                JournalOptionType.SOCIAL -> {
-                    updateSocialOptionActiveStatusUseCase.invoke((option as SocialOption).copy(active = active))
-                    toggleSocialOption(option, active)
-                }
-
-                JournalOptionType.HEALTH -> {
-                    updateHealthOptionActiveStatusUseCase.invoke((option as HealthOption).copy(active = active))
-                    toggleHealthOption(option, active)
-                }
-
                 JournalOptionType.APPETITE -> {
-                    updateAppetiteOptionActiveStatusUseCase.invoke((option as AppetiteOption).copy(active = active))
+                    updateAppetiteOptionActiveStatusUseCase.invoke(
+                        (option as AppetiteOption).copy(active = active)
+                    )
                     toggleAppetiteOption(option, active)
                 }
-
+                JournalOptionType.CLIMATE -> {
+                    updateClimateOptionActiveStatusUseCase.invoke(
+                        (option as ClimateOption).copy(active = active)
+                    )
+                    toggleClimateOption(option, active)
+                }
                 JournalOptionType.DOSAGE_FORM -> {
-                    updateDosageFormOptionActiveStatusUseCase.invoke((option as DosageFormOption).copy(active = active))
+                    updateDosageFormOptionActiveStatusUseCase.invoke(
+                        (option as DosageFormOption).copy(active = active)
+                    )
                     toggleDosageFormOption(option, active)
                 }
-
+                JournalOptionType.EMOTION -> {
+                    updateEmotionOptionActiveStatusUseCase.invoke(
+                        (option as EmotionOption).copy(active = active)
+                    )
+                    toggleEmotionOption(option, active)
+                }
                 JournalOptionType.FOOD -> {
-                    updateFoodOptionActiveStatusUseCase.invoke((option as FoodOption).copy(active = active))
+                    updateFoodOptionActiveStatusUseCase.invoke(
+                        (option as FoodOption).copy(active = active)
+                    )
                     toggleFoodOption(option, active)
                 }
-
+                JournalOptionType.HEALTH -> {
+                    updateHealthOptionActiveStatusUseCase.invoke(
+                        (option as HealthOption).copy(active = active)
+                    )
+                    toggleHealthOption(option, active)
+                }
+                JournalOptionType.LOCATION -> {
+                    updateLocationOptionActiveStatusUseCase.invoke(
+                        (option as LocationOption).copy(active = active)
+                    )
+                    toggleLocationOption(option, active)
+                }
                 JournalOptionType.MEAL -> {
-                    updateMealOptionActiveStatusUseCase.invoke((option as MealOption).copy(active = active))
+                    updateMealOptionActiveStatusUseCase.invoke(
+                        (option as MealOption).copy(active = active)
+                    )
                     toggleMealOption(option, active)
                 }
-
                 JournalOptionType.PORTION -> {
-                    updatePortionOptionActiveStatusUseCase.invoke((option as PortionOption).copy(active = active))
+                    updatePortionOptionActiveStatusUseCase.invoke(
+                        (option as PortionOption).copy(active = active)
+                    )
                     togglePortionOption(option, active)
                 }
-
-                JournalOptionType.SLEEP_SENSATION -> {
-                    sensationOptionUseCase.updateActiveStatus((option as SleepSensationOption).copy(active = active))
-                    toggleSensationOption(option, active)
-                }
-
                 JournalOptionType.SLEEP_ACTIVITY -> {
                     updateSleepActivityOptionActiveStatusUseCase.invoke(
-                        (option as SleepActivityOption).copy(
-                            active =
-                                active
-                        )
+                        (option as SleepActivityOption).copy(active = active)
                     )
                     toggleSleepActivityOption(option, active)
                 }
-
                 JournalOptionType.SLEEP_QUALITY -> {
-                    sleepQualityOptionUseCase.updateActiveStatus((option as SleepQualityOption).copy(active = active))
+                    updateSleepQualityOptionActiveStatusUseCase.invoke(
+                        (option as SleepQualityOption).copy(active = active)
+                    )
                     toggleSleepQualityOption(option, active)
+                }
+                JournalOptionType.SLEEP_SENSATION -> {
+                    sensationOptionUseCase.updateActiveStatus(
+                        (option as SleepSensationOption).copy(active = active)
+                    )
+                    toggleSensationOption(option, active)
+                }
+                JournalOptionType.SOCIAL -> {
+                    updateSocialOptionActiveStatusUseCase.invoke(
+                        (option as SocialOption).copy(active = active)
+                    )
+                    toggleSocialOption(option, active)
                 }
             }
         }
@@ -364,24 +377,45 @@ class SettingsJournalViewModel @Inject constructor(
     fun saveOption(type: JournalOptionType, description: String) {
         viewModelScope.launch {
             when (type) {
-                JournalOptionType.APPETITE -> saveAppetiteOptionUseCase.invoke(AppetiteOption(description = description))
-                JournalOptionType.CLIMATE -> saveClimateOptionUseCase.invoke(ClimateOption(description = description))
-                JournalOptionType.DOSAGE_FORM -> saveDosageFormOptionUseCase.invoke(DosageFormOption(description = description))
-                JournalOptionType.EMOTION -> saveEmotionOptionUseCase.invoke(EmotionOption(description = description))
-                JournalOptionType.FOOD -> saveFoodOptionUseCase.invoke(FoodOption(description = description))
-                JournalOptionType.HEALTH -> saveHealthOptionUseCase.invoke(HealthOption(description = description))
-                JournalOptionType.LOCATION -> saveLocationOptionUseCase.invoke(LocationOption(description = description))
-                JournalOptionType.MEAL -> saveMealOptionUseCase.invoke(MealOption(description = description))
-                JournalOptionType.PORTION -> savePortionOptionUseCase.invoke(PortionOption(description = description))
-                JournalOptionType.SLEEP_ACTIVITY -> saveSleepActivityOptionUseCase.invoke(
-                    SleepActivityOption(
-                        description = description
-                    )
+                JournalOptionType.APPETITE -> saveAppetiteOptionUseCase.invoke(
+                    AppetiteOption(description = description)
                 )
-
-                JournalOptionType.SLEEP_QUALITY -> sleepQualityOptionUseCase.save(SleepQualityOption(description = description))
-                JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))
-                JournalOptionType.SOCIAL -> saveSocialOptionUseCase.invoke(SocialOption(description = description))
+                JournalOptionType.CLIMATE -> saveClimateOptionUseCase.invoke(
+                    ClimateOption(description = description)
+                )
+                JournalOptionType.DOSAGE_FORM -> saveDosageFormOptionUseCase.invoke(
+                    DosageFormOption(description = description)
+                )
+                JournalOptionType.EMOTION -> saveEmotionOptionUseCase.invoke(
+                    EmotionOption(description = description)
+                )
+                JournalOptionType.FOOD -> saveFoodOptionUseCase.invoke(
+                    FoodOption(description = description)
+                )
+                JournalOptionType.HEALTH -> saveHealthOptionUseCase.invoke(
+                    HealthOption(description = description)
+                )
+                JournalOptionType.LOCATION -> saveLocationOptionUseCase.invoke(
+                    LocationOption(description = description)
+                )
+                JournalOptionType.MEAL -> saveMealOptionUseCase.invoke(
+                    MealOption(description = description)
+                )
+                JournalOptionType.PORTION -> savePortionOptionUseCase.invoke(
+                    PortionOption(description = description)
+                )
+                JournalOptionType.SLEEP_ACTIVITY -> saveSleepActivityOptionUseCase.invoke(
+                    SleepActivityOption(description = description)
+                )
+                JournalOptionType.SLEEP_QUALITY -> saveSleepQualityOptionUseCase.invoke(
+                    SleepQualityOption(description = description)
+                )
+                JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(
+                    SleepSensationOption(description = description)
+                )
+                JournalOptionType.SOCIAL -> saveSocialOptionUseCase.invoke(
+                    SocialOption(description = description)
+                )
             }
         }
     }

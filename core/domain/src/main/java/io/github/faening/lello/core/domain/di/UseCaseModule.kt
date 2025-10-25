@@ -99,6 +99,12 @@ import io.github.faening.lello.core.domain.usecase.options.sleep.activity.GetSle
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.SaveSleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.UpdateSleepActivityOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.activity.UpdateSleepActivityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.DeleteSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetAllSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetSleepQualityOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.SaveSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.UpdateSleepQualityOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.UpdateSleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.DeleteSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetSocialOptionByIdUseCase
@@ -139,6 +145,7 @@ import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
+import io.github.faening.lello.core.model.option.SleepQualityOption
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
@@ -653,6 +660,40 @@ object UseCaseModule {
     ) = DeleteSleepActivityOptionUseCase(repository)
 
     // endregion: Options SleepActivity
+
+    // region: Options Sleep Quality
+
+    @Provides
+    fun provideGetAllSleepQualityOptionUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = GetAllSleepQualityOptionUseCase(repository)
+
+    @Provides
+    fun provideGetSleepQualityOptionByIdUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = GetSleepQualityOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveSleepQualityOptionUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = SaveSleepQualityOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateSleepQualityOptionUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = UpdateSleepQualityOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateSleepQualityOptionActiveStatusUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = UpdateSleepQualityOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteSleepQualityOptionUseCase(
+        repository: OptionRepository<SleepQualityOption>
+    ) = DeleteSleepQualityOptionUseCase(repository)
+
+    // endregion: Options Sleep Quality
 
     // region: Options Social
 
