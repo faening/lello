@@ -6,6 +6,7 @@ import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.SaveRewardHistoryUseCase
 import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.reward.DailyCheckInData
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -24,7 +25,7 @@ class GetDailyCheckInUseCase @Inject constructor(
     private val sleepJournalUseCase: SleepJournalUseCase,
     private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
     private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
-    private val rewardHistoryUseCase: RewardHistoryUseCase
+    private val saveRewardHistoryUseCase: SaveRewardHistoryUseCase
 ) : DailyCheckInRepository {
 
     override fun observeDailyCheckIn(): Flow<DailyCheckInState> {
@@ -64,7 +65,7 @@ class GetDailyCheckInUseCase @Inject constructor(
                 rewardAmount = RewardPoints.DAILY_ACHIEVEMENTS.basePoints,
                 createdAt = now
             )
-            rewardHistoryUseCase.insert(history)
+            saveRewardHistoryUseCase.invoke(history)
             return DailyCheckInState(currentStep = steps, bonusReceived = true)
         }
 

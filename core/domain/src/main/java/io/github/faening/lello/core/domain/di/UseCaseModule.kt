@@ -25,11 +25,16 @@ import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByPro
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.ClearRewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardAmountByOriginUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardHistoryByOriginUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.ObserveRewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.SaveRewardHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.store.BuyItemUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetInventoryItemsUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetPurchaseHistoryUseCase
@@ -140,6 +145,36 @@ object UseCaseModule {
         repository: RewardBalanceRepository<RewardBalance>
     ) = SaveOrUpdateRewardBalanceUseCase(repository)
 
+    @Provides
+    fun provideObserveRewardHistoryUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = ObserveRewardHistoryUseCase(repository)
+
+    @Provides
+    fun provideGetRewardHistoryUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = GetRewardHistoryUseCase(repository)
+
+    @Provides
+    fun provideGetRewardHistoryByOriginUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = GetRewardHistoryByOriginUseCase(repository)
+
+    @Provides
+    fun provideGetRewardAmountByOriginUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = GetRewardAmountByOriginUseCase(repository)
+
+    @Provides
+    fun provideSaveRewardHistoryUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = SaveRewardHistoryUseCase(repository)
+
+    @Provides
+    fun provideClearRewardHistoryUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = ClearRewardHistoryUseCase(repository)
+
     // endregion: Reward
 
     // region: Store
@@ -200,18 +235,4 @@ object UseCaseModule {
     ) = SetUserBiometricPreferencesUseCase(repository)
 
     // endregion: User
-
-
-
-
-    @Provides
-    fun provideRewardHistoryUseCase(
-        repository: RewardHistoryRepository<RewardHistory>
-    ) = RewardHistoryUseCase(repository)
-
-
-
-
-
-
 }

@@ -2,9 +2,9 @@ package io.github.faening.lello.core.domain.usecase.journal
 
 import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.SaveRewardHistoryUseCase
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardCooldown
@@ -18,7 +18,7 @@ class MoodJournalUseCase @Inject constructor(
     private val rewardCalculatorService: RewardCalculatorService,
     private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
     private val getRewardBalanceUseCase: GetRewardBalanceUseCase,
-    private val rewardHistoryUseCase: RewardHistoryUseCase
+    private val saveRewardHistoryUseCase: SaveRewardHistoryUseCase
 ) {
     fun getAll(): Flow<List<MoodJournal>> {
         return repository.getAll()
@@ -64,7 +64,7 @@ class MoodJournalUseCase @Inject constructor(
                     rewardAmount = rewardAmount,
                     createdAt = now
                 )
-                rewardHistoryUseCase.insert(history)
+                saveRewardHistoryUseCase.invoke(history)
             }
         }
     }

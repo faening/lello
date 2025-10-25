@@ -9,7 +9,7 @@ import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswo
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardAmountByOriginUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
 import io.github.faening.lello.core.model.authentication.AuthenticationState
 import io.github.faening.lello.core.model.journal.MealJournal
@@ -29,7 +29,7 @@ class DiaryViewModel @Inject constructor(
     private val mealJournalUseCase: MealJournalUseCase,
     private val moodJournalUseCase: MoodJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
-    private val rewardHistoryUseCase: RewardHistoryUseCase,
+    private val getRewardAmountByOriginUseCase: GetRewardAmountByOriginUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
 
@@ -124,7 +124,7 @@ class DiaryViewModel @Inject constructor(
     }
 
     suspend fun getRewardAmount(origin: RewardOrigin, originId: Long): Int {
-        return rewardHistoryUseCase.getRewardAmountByOrigin(origin, originId) ?: 0
+        return getRewardAmountByOriginUseCase.invoke(origin, originId) ?: 0
     }
 
     fun authenticateWithPassword(password: String) {
