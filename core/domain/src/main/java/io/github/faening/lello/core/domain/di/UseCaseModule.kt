@@ -57,6 +57,12 @@ import io.github.faening.lello.core.domain.usecase.options.emotion.GetEmotionOpt
 import io.github.faening.lello.core.domain.usecase.options.emotion.SaveEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.DeleteDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.GetAllDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.GetDosageFormOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.SaveDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -83,6 +89,7 @@ import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.DosageFormOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
@@ -359,6 +366,40 @@ object UseCaseModule {
     ) = DeleteEmotionOptionUseCase(repository)
 
     // endregion: Options Emotion
+
+    // region: Options DosageForm
+
+    @Provides
+    fun provideGetAllDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = GetAllDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideGetDosageFormOptionByIdUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = GetDosageFormOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = SaveDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = UpdateDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateDosageFormOptionActiveStatusUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = UpdateDosageFormOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = DeleteDosageFormOptionUseCase(repository)
+
+    // endregion: Options DosageForm
 
     // region: Reward
 

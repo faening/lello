@@ -3,10 +3,12 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.DosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.SaveEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.GetAllDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.SaveDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
@@ -62,7 +64,12 @@ class SettingsJournalViewModel @Inject constructor(
     private val locationOptionUseCase: LocationOptionUseCase,
     private val socialOptionUseCase: SocialOptionUseCase,
     private val healthOptionUseCase: HealthOptionUseCase,
-    private val dosageFormOptionUseCase: DosageFormOptionUseCase,
+
+    // DosageForm Options
+    private val getAllDosageFormOptionUseCase: GetAllDosageFormOptionUseCase,
+    private val saveDosageFormOptionUseCase: SaveDosageFormOptionUseCase,
+    private val updateDosageFormOptionActiveStatusUseCase: UpdateDosageFormOptionActiveStatusUseCase,
+
     private val foodOptionUseCase: FoodOptionUseCase,
     private val mealOptionUseCase: MealOptionUseCase,
     private val portionOptionUseCase: PortionOptionUseCase,
@@ -130,7 +137,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllAppetiteOptionUseCase.invoke().collect { _appetiteOptions.value = it }
         }
         viewModelScope.launch {
-            dosageFormOptionUseCase.getAll().collect { _dosageFormOptions.value = it }
+            getAllDosageFormOptionUseCase.invoke().collect { _dosageFormOptions.value = it }
         }
         viewModelScope.launch {
             foodOptionUseCase.getAll().collect { _foodOptions.value = it }
@@ -274,7 +281,7 @@ class SettingsJournalViewModel @Inject constructor(
                     toggleAppetiteOption(option, active)
                 }
                 JournalOptionType.DOSAGE_FORM -> {
-                    dosageFormOptionUseCase.updateActiveStatus((option as DosageFormOption).copy(active = active))
+                    updateDosageFormOptionActiveStatusUseCase.invoke((option as DosageFormOption).copy(active = active))
                     toggleDosageFormOption(option, active)
                 }
                 JournalOptionType.FOOD -> {
@@ -314,7 +321,7 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.SOCIAL -> socialOptionUseCase.save(SocialOption(description = description))
                 JournalOptionType.HEALTH -> healthOptionUseCase.save(HealthOption(description = description))
                 JournalOptionType.APPETITE -> saveAppetiteOptionUseCase.invoke(AppetiteOption(description = description))
-                JournalOptionType.DOSAGE_FORM -> dosageFormOptionUseCase.save(DosageFormOption(description = description))
+                JournalOptionType.DOSAGE_FORM -> saveDosageFormOptionUseCase.invoke(DosageFormOption(description = description))
                 JournalOptionType.FOOD -> foodOptionUseCase.save(FoodOption(description = description))
                 JournalOptionType.MEAL -> mealOptionUseCase.save(MealOption(description = description))
                 JournalOptionType.PORTION -> portionOptionUseCase.save(PortionOption(description = description))
