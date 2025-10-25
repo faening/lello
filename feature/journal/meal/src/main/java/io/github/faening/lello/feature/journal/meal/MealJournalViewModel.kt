@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.food.GetAllFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
@@ -30,13 +30,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MealJournalViewModel @Inject constructor(
     private val saveMealJournalUseCase: SaveMealJournalUseCase,
-    mealOptionUseCase: MealOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService,
+    // Options
     private val getAllAppetiteOptionUseCase: GetAllAppetiteOptionUseCase,
     private val getAllFoodOptionUseCase: GetAllFoodOptionUseCase,
+    private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
+    mealOptionUseCase: MealOptionUseCase,
     portionOptionUseCase: PortionOptionUseCase,
-    locationOptionUseCase: LocationOptionUseCase,
     socialOptionUseCase: SocialOptionUseCase,
-    private val rewardCalculatorService: RewardCalculatorService
 ) : ViewModel() {
 
     private val _mealTime = MutableStateFlow("")
@@ -87,7 +88,7 @@ class MealJournalViewModel @Inject constructor(
                 .collect { _portionOptions.value = it }
         }
         viewModelScope.launch {
-            locationOptionUseCase.getAll()
+            getAllLocationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }

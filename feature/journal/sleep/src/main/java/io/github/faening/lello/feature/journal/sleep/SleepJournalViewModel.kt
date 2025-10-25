@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -28,11 +28,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SleepJournalViewModel @Inject constructor(
     private val saveSleepJournalUseCase: SaveSleepJournalUseCase,
-    private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
-    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService,
+    // Options
+    private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
     private val sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
-    private val locationOptionUseCase: LocationOptionUseCase,
-    private val rewardCalculatorService: RewardCalculatorService
+    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
+    private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
 ) : ViewModel() {
 
     private val _currentSleepDuration = MutableStateFlow<SleepDurationOption>(SleepDurationOption.BETWEEN_6_TO_8_HOURS)
@@ -71,7 +72,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadLocationOptions() {
         viewModelScope.launch {
-            locationOptionUseCase.getAll()
+            getAllLocationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }

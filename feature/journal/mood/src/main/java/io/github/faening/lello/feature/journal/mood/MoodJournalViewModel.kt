@@ -6,11 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.GetAllClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.GetAllHealthOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.MoodType
@@ -35,21 +35,22 @@ import javax.inject.Inject
 @HiltViewModel
 class MoodJournalViewModel @Inject constructor(
     private val saveMoodJournalUseCase: SaveMoodJournalUseCase,
-    getAllEmotionOptionUseCase: GetAllEmotionOptionUseCase,
+    private val rewardCalculatorService: RewardCalculatorService,
+    // Options
     private val getAllClimateOptionUseCase: GetAllClimateOptionUseCase,
-    locationOptionUseCase: LocationOptionUseCase,
-    socialOptionUseCase: SocialOptionUseCase,
-    healthOptionUseCase: HealthOptionUseCase,
-    private val rewardCalculatorService: RewardCalculatorService
+    private val getAllEmotionOptionUseCase: GetAllEmotionOptionUseCase,
+    private val getAllHealthOptionUseCase: GetAllHealthOptionUseCase,
+    private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
+    socialOptionUseCase: SocialOptionUseCase
 ) : ViewModel() {
 
     private val _currentMood = MutableStateFlow(MoodColor.DEFAULT)
     val currentMood: StateFlow<MoodColor> = _currentMood
 
     private val _entryDateTime = MutableStateFlow<LocalDateTime?>(null)
-    val entryDateTime: StateFlow<String> = _entryDateTime
-        .map { dt -> dt?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "" }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, "")
+    val entryDateTime: StateFlow<String> =
+        _entryDateTime.map { dt -> dt?.format(DateTimeFormatter.ofPattern("HH:mm")) ?: "" }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "")
 
     private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
     val emotionOptions: StateFlow<List<EmotionOption>> = _emotionOptions
@@ -81,7 +82,7 @@ class MoodJournalViewModel @Inject constructor(
                 .collect { _emotionOptions.value = it }
         }
         viewModelScope.launch {
-            healthOptionUseCase.getAll()
+            getAllHealthOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _healthOptions.value = it }
         }
@@ -91,7 +92,7 @@ class MoodJournalViewModel @Inject constructor(
                 .collect { _climateOptions.value = it }
         }
         viewModelScope.launch {
-            locationOptionUseCase.getAll()
+            getAllLocationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }
