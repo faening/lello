@@ -14,6 +14,8 @@ import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
+import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
+import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoryByIdUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
@@ -21,15 +23,16 @@ import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdU
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByProductNameUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
-import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.store.BuyItemUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetInventoryItemsUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetPurchaseHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetStoreItemsUseCase
+import io.github.faening.lello.core.domain.usecase.user.GetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
+import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.RewardBalance
@@ -42,18 +45,21 @@ import io.github.faening.lello.core.model.store.PurchaseHistory
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
-    @Provides
-    fun provideBuyItemUseCase(
-        itemRepository: ItemRepository<Item>,
-        inventoryRepository: InventoryRepository<InventoryItem>,
-        purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
-        rewardBalanceUseCase: RewardBalanceUseCase
-    ) = BuyItemUseCase(itemRepository, inventoryRepository, purchaseHistoryRepository, rewardBalanceUseCase)
+    // region: Journal Category
 
     @Provides
-    fun provideGetInventoryItemsUseCase(
-        inventoryRepository: InventoryRepository<InventoryItem>
-    ) = GetInventoryItemsUseCase(inventoryRepository)
+    fun provideGetJournalCategoriesUseCase(
+        repository: JournalCategoryRepository<JournalCategory>
+    ) = GetJournalCategoriesUseCase(repository)
+
+    @Provides
+    fun provideGetJournalCategoryByIdUseCase(
+        repository: JournalCategoryRepository<JournalCategory>
+    ) = GetJournalCategoryByIdUseCase(repository)
+
+    // endregion: Journal Category
+
+    // region: Mascot
 
     @Provides
     fun provideGetMascotStatusUseCase(
@@ -66,49 +72,11 @@ object UseCaseModule {
     ) = GetMascotVitalityHistoryUseCase(repository)
 
     @Provides
-    fun provideGetPurchaseHistoryUseCase(
-        purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>
-    ) = GetPurchaseHistoryUseCase(purchaseHistoryRepository)
-
-    @Provides
-    fun provideGetStoreItemsUseCase(
-        itemRepository: ItemRepository<Item>,
-        inventoryRepository: InventoryRepository<InventoryItem>
-    ) = GetStoreItemsUseCase(itemRepository, inventoryRepository)
-
-    @Provides
-    fun provideGetUserEmailUseCase(
-        repository: UserRepository
-    ) = GetUserEmailUseCase(repository)
-
-    @Provides
-    fun provideJournalCategoryUseCases(
-        repository: JournalCategoryRepository<JournalCategory>
-    ) = JournalCategoryUseCase(repository)
-
-    @Provides
-    fun provideOnboardingUseCase(
-        repository: OnboardingRepository
-    ) = OnboardingUseCase(repository)
-
-    @Provides
-    fun provideRewardBalanceUseCase(
-        repository: RewardBalanceRepository<RewardBalance>
-    ) = RewardBalanceUseCase(repository)
-
-    @Provides
-    fun provideRewardHistoryUseCase(
-        repository: RewardHistoryRepository<RewardHistory>
-    ) = RewardHistoryUseCase(repository)
-
-    fun provideSaveUserEmailUseCase(
-        repository: UserRepository
-    ) = SaveUserEmailUseCase(repository)
-
-    @Provides
     fun provideUpdateMascotVitalityUseCase(
         repository: MascotRepository
     ) = UpdateMascotVitalityUseCase(repository)
+
+    // endregion: Mascot
 
     // region: Medication
 
@@ -128,4 +96,82 @@ object UseCaseModule {
     ) = GetMedicationByTherapeuticClassUseCase(repository)
 
     // endregion: Medication
+
+    // region: Onboarding
+
+    @Provides
+    fun provideOnboardingUseCase(
+        repository: OnboardingRepository
+    ) = OnboardingUseCase(repository)
+
+    // endregion: Onboarding
+
+    // region: Store
+
+    @Provides
+    fun provideBuyItemUseCase(
+        itemRepository: ItemRepository<Item>,
+        inventoryRepository: InventoryRepository<InventoryItem>,
+        purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
+        rewardBalanceUseCase: RewardBalanceUseCase
+    ) = BuyItemUseCase(itemRepository, inventoryRepository, purchaseHistoryRepository, rewardBalanceUseCase)
+
+    @Provides
+    fun provideGetInventoryItemsUseCase(
+        repository: InventoryRepository<InventoryItem>
+    ) = GetInventoryItemsUseCase(repository)
+
+    @Provides
+    fun provideGetPurchaseHistoryUseCase(
+        repository: PurchaseHistoryRepository<PurchaseHistory>
+    ) = GetPurchaseHistoryUseCase(repository)
+
+    @Provides
+    fun provideGetStoreItemsUseCase(
+        itemRepository: ItemRepository<Item>,
+        inventoryRepository: InventoryRepository<InventoryItem>
+    ) = GetStoreItemsUseCase(itemRepository, inventoryRepository)
+
+    // endregion: Store
+
+    // region: User
+
+    @Provides
+    fun provideGetUserBiometricPreferencesUseCase(
+        repository: UserRepository
+    ) = GetUserBiometricPreferencesUseCase(repository)
+
+    @Provides
+    fun provideGetUserEmailUseCase(
+        repository: UserRepository
+    ) = GetUserEmailUseCase(repository)
+
+    @Provides
+    fun provideSaveUserEmailUseCase(
+        repository: UserRepository
+    ) = SaveUserEmailUseCase(repository)
+
+    @Provides
+    fun provideSetUserBiometricPreferencesUseCase(
+        repository: UserRepository
+    ) = SetUserBiometricPreferencesUseCase(repository)
+
+    // endregion: User
+
+
+    @Provides
+    fun provideRewardBalanceUseCase(
+        repository: RewardBalanceRepository<RewardBalance>
+    ) = RewardBalanceUseCase(repository)
+
+    @Provides
+    fun provideRewardHistoryUseCase(
+        repository: RewardHistoryRepository<RewardHistory>
+    ) = RewardHistoryUseCase(repository)
+
+
+
+
+
+
 }
