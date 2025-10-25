@@ -1,16 +1,16 @@
-package io.github.faening.lello.core.domain.usecase.options
+package io.github.faening.lello.core.domain.usecase.options.portion
 
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.util.capitalizeFirst
 import io.github.faening.lello.core.domain.util.validateDescription
 import io.github.faening.lello.core.domain.util.validateId
 import io.github.faening.lello.core.domain.util.validateNotBlocked
-import io.github.faening.lello.core.model.option.MealOption
+import io.github.faening.lello.core.model.option.PortionOption
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class MealOptionUseCase @Inject constructor(
-    private val repository: OptionRepository<MealOption>
+class PortionOptionUseCase @Inject constructor(
+    private val repository: OptionRepository<PortionOption>
 ) {
 
     fun getAll(
@@ -18,16 +18,16 @@ class MealOptionUseCase @Inject constructor(
         isBlocked: Boolean = true,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ): Flow<List<MealOption>> {
+    ): Flow<List<PortionOption>> {
         return repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
     }
 
-    fun getById(id: Long): Flow<MealOption>? {
+    fun getById(id: Long): Flow<PortionOption>? {
         id.validateId()
         return repository.getById(id)
     }
 
-    suspend fun save(vararg items: MealOption) {
+    suspend fun save(vararg items: PortionOption) {
         val formattedItems = items.map { item ->
             item.description.validateDescription()
             item.copy(description = item.description.capitalizeFirst())
@@ -35,7 +35,7 @@ class MealOptionUseCase @Inject constructor(
         formattedItems.forEach { item -> repository.insert(item) }
     }
 
-    suspend fun update(vararg items: MealOption) {
+    suspend fun update(vararg items: PortionOption) {
         val formattedItems = items.map { item ->
             item.blocked.validateNotBlocked()
             item.id.validateId()
@@ -46,16 +46,16 @@ class MealOptionUseCase @Inject constructor(
     }
 
     /**
-     * Update only the active property of the provided meal options.
+     * Updates only the active state of the portion options.
      */
-    suspend fun updateActiveStatus(vararg items: MealOption) {
+    suspend fun updateActiveStatus(vararg items: PortionOption) {
         items.forEach { item ->
             item.id.validateId()
         }
         items.forEach { item -> repository.update(item) }
     }
 
-    suspend fun delete(vararg items: MealOption) {
+    suspend fun delete(vararg items: PortionOption) {
         items.forEach { item ->
             item.blocked.validateNotBlocked()
             item.id.validateId()
