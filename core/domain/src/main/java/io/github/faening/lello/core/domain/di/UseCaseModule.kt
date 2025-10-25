@@ -51,6 +51,12 @@ import io.github.faening.lello.core.domain.usecase.options.climate.GetClimateOpt
 import io.github.faening.lello.core.domain.usecase.options.climate.SaveClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.DeleteHealthOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.GetAllHealthOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.GetHealthOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.SaveHealthOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.UpdateHealthOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.health.UpdateHealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -77,6 +83,7 @@ import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -318,6 +325,40 @@ object UseCaseModule {
     ) = DeleteClimateOptionUseCase(repository)
 
     // endregion: Options Climate
+
+    // region: Options Health
+
+    @Provides
+    fun provideGetAllHealthOptionUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = GetAllHealthOptionUseCase(repository)
+
+    @Provides
+    fun provideGetHealthOptionByIdUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = GetHealthOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveHealthOptionUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = SaveHealthOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateHealthOptionUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = UpdateHealthOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateHealthOptionActiveStatusUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = UpdateHealthOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteHealthOptionUseCase(
+        repository: OptionRepository<HealthOption>
+    ) = DeleteHealthOptionUseCase(repository)
+
+    // endregion: Options Health
 
     // region: Reward
 
