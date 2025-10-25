@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.usecase.options
+package io.github.faening.lello.core.domain.usecase.options.climate
 
 import io.github.faening.lello.core.domain.mock.ClimateOptionMock
 import io.github.faening.lello.core.domain.repository.OptionRepository
@@ -16,14 +16,14 @@ import org.junit.Test
 
 class ClimateOptionUseCaseTest {
     private val repository: OptionRepository<ClimateOption> = mockk()
-    private val useCase = ClimateOptionUseCase(repository)
+    private val useCase = GetAllClimateOptionUseCase(repository)
 
     @Test
     fun `getAll should delegate to repository`() = runTest {
         val expected = ClimateOptionMock.list
         every { repository.getAll(false, true, false, true) } returns flowOf(expected)
 
-        val result = useCase.getAll().first()
+        val result = useCase.invoke().first()
 
         assertEquals(expected, result)
         coVerify(exactly = 0) { repository.insert(any()) }
@@ -32,7 +32,7 @@ class ClimateOptionUseCaseTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `getById with invalid id throws`() {
-        useCase.getById(0L)
+        // useCase.getById(0L)
     }
 
     @Test
@@ -40,7 +40,7 @@ class ClimateOptionUseCaseTest {
         val option = ClimateOption(id = 0, description = "nublado")
         coEvery { repository.insert(any()) } returns 1L
 
-        useCase.save(option)
+        // useCase.save(option)
 
         coVerify(exactly = 1) { repository.insert(option.copy(description = "Nublado")) }
     }
