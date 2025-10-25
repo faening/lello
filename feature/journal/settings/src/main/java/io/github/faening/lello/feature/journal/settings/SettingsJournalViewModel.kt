@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.DosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
@@ -12,24 +11,27 @@ import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionActiveStatusUseCase
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.DosageFormOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
+import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.PortionOption
-import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
+import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SocialOption
-import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +45,9 @@ class SettingsJournalViewModel @Inject constructor(
     private val locationOptionUseCase: LocationOptionUseCase,
     private val socialOptionUseCase: SocialOptionUseCase,
     private val healthOptionUseCase: HealthOptionUseCase,
-    private val appetiteOptionUseCase: AppetiteOptionUseCase,
+    private val getAllAppetiteOptionUseCase: GetAllAppetiteOptionUseCase,
+    private val saveAppetiteOptionUseCase: SaveAppetiteOptionUseCase,
+    private val updateAppetiteOptionActiveStatusUseCase: UpdateAppetiteOptionActiveStatusUseCase,
     private val dosageFormOptionUseCase: DosageFormOptionUseCase,
     private val foodOptionUseCase: FoodOptionUseCase,
     private val mealOptionUseCase: MealOptionUseCase,
@@ -109,7 +113,7 @@ class SettingsJournalViewModel @Inject constructor(
             healthOptionUseCase.getAll().collect { _healthOptions.value = it }
         }
         viewModelScope.launch {
-            appetiteOptionUseCase.getAll().collect { _appetiteOptions.value = it }
+            getAllAppetiteOptionUseCase.invoke().collect { _appetiteOptions.value = it }
         }
         viewModelScope.launch {
             dosageFormOptionUseCase.getAll().collect { _dosageFormOptions.value = it }
@@ -252,7 +256,7 @@ class SettingsJournalViewModel @Inject constructor(
                     toggleHealthOption(option, active)
                 }
                 JournalOptionType.APPETITE -> {
-                    appetiteOptionUseCase.updateActiveStatus((option as AppetiteOption).copy(active = active))
+                    updateAppetiteOptionActiveStatusUseCase.invoke((option as AppetiteOption).copy(active = active))
                     toggleAppetiteOption(option, active)
                 }
                 JournalOptionType.DOSAGE_FORM -> {
@@ -295,7 +299,7 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.LOCATION -> locationOptionUseCase.save(LocationOption(description = description))
                 JournalOptionType.SOCIAL -> socialOptionUseCase.save(SocialOption(description = description))
                 JournalOptionType.HEALTH -> healthOptionUseCase.save(HealthOption(description = description))
-                JournalOptionType.APPETITE -> appetiteOptionUseCase.save(AppetiteOption(description = description))
+                JournalOptionType.APPETITE -> saveAppetiteOptionUseCase.invoke(AppetiteOption(description = description))
                 JournalOptionType.DOSAGE_FORM -> dosageFormOptionUseCase.save(DosageFormOption(description = description))
                 JournalOptionType.FOOD -> foodOptionUseCase.save(FoodOption(description = description))
                 JournalOptionType.MEAL -> mealOptionUseCase.save(MealOption(description = description))
@@ -306,5 +310,4 @@ class SettingsJournalViewModel @Inject constructor(
             }
         }
     }
-
 }

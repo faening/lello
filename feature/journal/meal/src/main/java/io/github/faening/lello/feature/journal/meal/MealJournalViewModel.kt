@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class MealJournalViewModel @Inject constructor(
     private val saveMealJournalUseCase: SaveMealJournalUseCase,
     mealOptionUseCase: MealOptionUseCase,
-    appetiteOptionUseCase: AppetiteOptionUseCase,
+    private val getAllAppetiteOptionUseCase: GetAllAppetiteOptionUseCase,
     foodOptionUseCase: FoodOptionUseCase,
     portionOptionUseCase: PortionOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
@@ -72,7 +72,7 @@ class MealJournalViewModel @Inject constructor(
                 .collect { _mealOptions.value = it }
         }
         viewModelScope.launch {
-            appetiteOptionUseCase.getAll()
+            getAllAppetiteOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _appetiteOptions.value = it }
         }

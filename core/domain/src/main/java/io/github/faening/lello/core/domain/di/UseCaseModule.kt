@@ -12,6 +12,7 @@ import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
@@ -38,6 +39,12 @@ import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdU
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByProductNameUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.DeleteAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.GetAppetiteOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -62,6 +69,7 @@ import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -235,6 +243,40 @@ object UseCaseModule {
     ) = OnboardingUseCase(repository)
 
     // endregion: Onboarding
+
+    // region: Options Appetite
+
+    @Provides
+    fun provideGetAllAppetiteOptionUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = GetAllAppetiteOptionUseCase(repository)
+
+    @Provides
+    fun provideGetAppetiteOptionByIdUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = GetAppetiteOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveAppetiteOptionUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = SaveAppetiteOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateAppetiteOptionUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = UpdateAppetiteOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateAppetiteOptionActiveStatusUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = UpdateAppetiteOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteAppetiteOptionUseCase(
+        repository: OptionRepository<AppetiteOption>
+    ) = DeleteAppetiteOptionUseCase(repository)
+
+    // endregion: Options Appetite
 
     // region: Reward
 
