@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.portion.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
@@ -31,6 +30,9 @@ import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocati
 import io.github.faening.lello.core.domain.usecase.options.meal.GetAllMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.SaveMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.UpdateMealOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.SavePortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortionOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
@@ -80,24 +82,24 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllHealthOptionUseCase: GetAllHealthOptionUseCase,
     private val saveHealthOptionUseCase: SaveHealthOptionUseCase,
     private val updateHealthOptionActiveStatusUseCase: UpdateHealthOptionActiveStatusUseCase,
-
-
     // Location Options
     private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
     private val saveLocationOptionUseCase: SaveLocationOptionUseCase,
     private val updateLocationOptionActiveStatusUseCase: UpdateLocationOptionActiveStatusUseCase,
-
-    // Social Options
-    private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
-    private val saveSocialOptionUseCase: SaveSocialOptionUseCase,
-    private val updateSocialOptionActiveStatusUseCase: UpdateSocialOptionActiveStatusUseCase,
     // Meal Options
     private val getAllMealOptionUseCase: GetAllMealOptionUseCase,
     private val saveMealOptionUseCase: SaveMealOptionUseCase,
     private val updateMealOptionActiveStatusUseCase: UpdateMealOptionActiveStatusUseCase,
+    // Portion Options
+    private val getAllPortionOptionUseCase: GetAllPortionOptionUseCase,
+    private val savePortionOptionUseCase: SavePortionOptionUseCase,
+    private val updatePortionOptionActiveStatusUseCase: UpdatePortionOptionActiveStatusUseCase,
+    // Social Options
+    private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
+    private val saveSocialOptionUseCase: SaveSocialOptionUseCase,
+    private val updateSocialOptionActiveStatusUseCase: UpdateSocialOptionActiveStatusUseCase,
 
-    private val mealOptionUseCase: MealOptionUseCase,
-    private val portionOptionUseCase: PortionOptionUseCase,
+
     private val sensationOptionUseCase: SleepSensationOptionUseCase,
     private val sleepActivityOptionUseCase: SleepActivityOptionUseCase,
     private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
@@ -171,7 +173,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllMealOptionUseCase.invoke().collect { _mealOptions.value = it }
         }
         viewModelScope.launch {
-            portionOptionUseCase.getAll().collect { _portionOptions.value = it }
+            getAllPortionOptionUseCase.invoke().collect { _portionOptions.value = it }
         }
         viewModelScope.launch {
             sensationOptionUseCase.getAll().collect { _sensationOptions.value = it }
@@ -318,7 +320,7 @@ class SettingsJournalViewModel @Inject constructor(
                     toggleMealOption(option, active)
                 }
                 JournalOptionType.PORTION -> {
-                    portionOptionUseCase.updateActiveStatus((option as PortionOption).copy(active = active))
+                    updatePortionOptionActiveStatusUseCase.invoke((option as PortionOption).copy(active = active))
                     togglePortionOption(option, active)
                 }
                 JournalOptionType.SLEEP_SENSATION -> {
@@ -348,7 +350,7 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.HEALTH -> saveHealthOptionUseCase.invoke(HealthOption(description = description))
                 JournalOptionType.LOCATION -> saveLocationOptionUseCase.invoke(LocationOption(description = description))
                 JournalOptionType.MEAL -> saveMealOptionUseCase.invoke(MealOption(description = description))
-                JournalOptionType.PORTION -> portionOptionUseCase.save(PortionOption(description = description))
+                JournalOptionType.PORTION -> savePortionOptionUseCase.invoke(PortionOption(description = description))
                 JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptionUseCase.save(SleepActivityOption(description = description))
                 JournalOptionType.SLEEP_QUALITY -> sleepQualityOptionUseCase.save(SleepQualityOption(description = description))
                 JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))

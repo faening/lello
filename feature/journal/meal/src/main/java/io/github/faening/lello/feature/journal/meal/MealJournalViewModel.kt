@@ -5,13 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.portion.PortionOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.food.GetAllFoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.GetAllMealOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MealJournal
@@ -38,9 +36,8 @@ class MealJournalViewModel @Inject constructor(
     private val getAllFoodOptionUseCase: GetAllFoodOptionUseCase,
     private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
     private val getAllMealOptionUseCase: GetAllMealOptionUseCase,
+    private val getAllPortionOptionUseCase: GetAllPortionOptionUseCase,
     private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
-    mealOptionUseCase: MealOptionUseCase,
-    portionOptionUseCase: PortionOptionUseCase,
 ) : ViewModel() {
 
     private val _mealTime = MutableStateFlow("")
@@ -86,7 +83,7 @@ class MealJournalViewModel @Inject constructor(
                 .collect { _foodOptions.value = it }
         }
         viewModelScope.launch {
-            portionOptionUseCase.getAll()
+            getAllPortionOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _portionOptions.value = it }
         }
