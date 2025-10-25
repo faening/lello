@@ -51,6 +51,12 @@ import io.github.faening.lello.core.domain.usecase.options.climate.GetClimateOpt
 import io.github.faening.lello.core.domain.usecase.options.climate.SaveClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.DeleteLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetLocationOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.SaveLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -77,6 +83,7 @@ import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
+import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -318,6 +325,40 @@ object UseCaseModule {
     ) = DeleteClimateOptionUseCase(repository)
 
     // endregion: Options Climate
+
+    // region: Options Location
+
+    @Provides
+    fun provideGetAllLocationOptionUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = GetAllLocationOptionUseCase(repository)
+
+    @Provides
+    fun provideGetLocationOptionByIdUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = GetLocationOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveLocationOptionUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = SaveLocationOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateLocationOptionUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = UpdateLocationOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateLocationOptionActiveStatusUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = UpdateLocationOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteLocationOptionUseCase(
+        repository: OptionRepository<LocationOption>
+    ) = DeleteLocationOptionUseCase(repository)
+
+    // endregion: Options Location
 
     // region: Reward
 
