@@ -3,7 +3,7 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.DosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase

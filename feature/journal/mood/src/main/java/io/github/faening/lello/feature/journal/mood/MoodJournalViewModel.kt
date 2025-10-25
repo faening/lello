@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
