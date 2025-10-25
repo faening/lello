@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.food.GetAllFoodOptionUseCase
