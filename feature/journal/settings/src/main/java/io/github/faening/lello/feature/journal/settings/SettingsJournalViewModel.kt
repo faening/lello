@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionActiveStatusUseCase
@@ -37,6 +36,9 @@ import io.github.faening.lello.core.domain.usecase.options.sleep.activity.Update
 import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetAllSleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.quality.SaveSleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.sleep.quality.UpdateSleepQualityOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.sensation.GetAllSleepSensationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.sensation.SaveSleepSensationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.sensation.UpdateSleepSensationOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
@@ -106,12 +108,14 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllSleepQualityOptionUseCase: GetAllSleepQualityOptionUseCase,
     private val saveSleepQualityOptionUseCase: SaveSleepQualityOptionUseCase,
     private val updateSleepQualityOptionActiveStatusUseCase: UpdateSleepQualityOptionActiveStatusUseCase,
+    // Sleep Sensation Options
+    private val getAllSleepSensationOptionUseCase: GetAllSleepSensationOptionUseCase,
+    private val saveSleepSensationOptionUseCase: SaveSleepSensationOptionUseCase,
+    private val updateSleepSensationOptionActiveStatusUseCase: UpdateSleepSensationOptionActiveStatusUseCase,
     // Social Options
     private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
     private val saveSocialOptionUseCase: SaveSocialOptionUseCase,
     private val updateSocialOptionActiveStatusUseCase: UpdateSocialOptionActiveStatusUseCase,
-
-    private val sensationOptionUseCase: SleepSensationOptionUseCase,
 ) : ViewModel() {
 
     private val _emotionOptions = MutableStateFlow<List<EmotionOption>>(emptyList())
@@ -185,7 +189,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllPortionOptionUseCase.invoke().collect { _portionOptions.value = it }
         }
         viewModelScope.launch {
-            sensationOptionUseCase.getAll().collect { _sensationOptions.value = it }
+            getAllSleepSensationOptionUseCase.invoke().collect { _sensationOptions.value = it }
         }
         viewModelScope.launch {
             getAllSleepActivityOptionUseCase.invoke().collect { _sleepActivityOptions.value = it }
@@ -359,7 +363,7 @@ class SettingsJournalViewModel @Inject constructor(
                     toggleSleepQualityOption(option, active)
                 }
                 JournalOptionType.SLEEP_SENSATION -> {
-                    sensationOptionUseCase.updateActiveStatus(
+                    updateSleepSensationOptionActiveStatusUseCase.invoke(
                         (option as SleepSensationOption).copy(active = active)
                     )
                     toggleSensationOption(option, active)
@@ -410,7 +414,7 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.SLEEP_QUALITY -> saveSleepQualityOptionUseCase.invoke(
                     SleepQualityOption(description = description)
                 )
-                JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(
+                JournalOptionType.SLEEP_SENSATION -> saveSleepSensationOptionUseCase.invoke(
                     SleepSensationOption(description = description)
                 )
                 JournalOptionType.SOCIAL -> saveSocialOptionUseCase.invoke(
