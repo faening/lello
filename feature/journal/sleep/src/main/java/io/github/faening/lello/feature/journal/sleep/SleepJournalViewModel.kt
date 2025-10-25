@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SleepJournalViewModel @Inject constructor(
-    private val sleepJournalUseCase: SleepJournalUseCase,
+    private val saveSleepJournalUseCase: SaveSleepJournalUseCase,
     private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
     private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
     private val sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
@@ -158,7 +158,7 @@ class SleepJournalViewModel @Inject constructor(
         if (_sleepJournal.value == null) return
         viewModelScope.launch {
             val journal = buildSleepJournal()
-            sleepJournalUseCase.save(journal)
+            saveSleepJournalUseCase.invoke(journal)
         }
     }
 

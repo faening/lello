@@ -27,6 +27,10 @@ import io.github.faening.lello.core.domain.usecase.journal.mood.DeleteMoodJourna
 import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.mood.GetMoodJournalByIdUseCase
 import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.DeleteSleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.GetSleepJournalByIdUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
@@ -57,6 +61,7 @@ import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
+import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -149,6 +154,40 @@ object UseCaseModule {
     ) = DeleteMoodJournalUseCase(repository)
 
     // endregion: Journal Mood
+
+    // region: Journal Sleep
+
+    @Provides
+    fun provideGetAllSleepJournalUseCase(
+        repository: JournalRepository<SleepJournal>
+    ) = GetAllSleepJournalUseCase(repository)
+
+    @Provides
+    fun provideGetSleepJournalByIdUseCase(
+        repository: JournalRepository<SleepJournal>
+    ) = GetSleepJournalByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveSleepJournalUseCase(
+        repository: JournalRepository<SleepJournal>,
+        rewardCalculatorService: RewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase,
+        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
+    ) = SaveSleepJournalUseCase(
+        repository,
+        rewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase,
+        saveRewardHistoryUseCase
+    )
+
+    @Provides
+    fun provideDeleteSleepJournalUseCase(
+        repository: JournalRepository<SleepJournal>
+    ) = DeleteSleepJournalUseCase(repository)
+
+    // endregion: Journal Sleep
 
     // region: Mascot
 
