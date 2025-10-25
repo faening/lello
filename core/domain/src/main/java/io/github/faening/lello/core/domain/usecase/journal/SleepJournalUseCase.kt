@@ -2,8 +2,9 @@ package io.github.faening.lello.core.domain.usecase.journal
 
 import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardCooldown
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class SleepJournalUseCase @Inject constructor(
     private val repository: JournalRepository<SleepJournal>,
     private val rewardCalculatorService: RewardCalculatorService,
-    private val rewardBalanceUseCase: RewardBalanceUseCase,
+    private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+    private val getRewardBalanceUseCase: GetRewardBalanceUseCase,
     private val rewardHistoryUseCase: RewardHistoryUseCase
 ) {
     fun getAll(): Flow<List<SleepJournal>> {
@@ -34,7 +36,7 @@ class SleepJournalUseCase @Inject constructor(
             val entryId = repository.insert(entry)
 
             // Buscar balance atual
-            val currentBalance = rewardBalanceUseCase.getBalance()
+            val currentBalance = getRewardBalanceUseCase.invoke()
             val lastSleepReward = currentBalance?.lastSleepReward
 
             // Checar se o cooldown permite uma nova recompensa
@@ -53,7 +55,7 @@ class SleepJournalUseCase @Inject constructor(
                     totalCoins = amountCoins,
                     lastSleepReward = now
                 )
-                rewardBalanceUseCase.insertOrUpdate(updatedBalance)
+                saveOrUpdateRewardBalanceUseCase.invoke(updatedBalance)
 
                 // Registrar histórico
                 val history = RewardHistory(

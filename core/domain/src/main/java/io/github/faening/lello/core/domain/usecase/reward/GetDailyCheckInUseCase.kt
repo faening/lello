@@ -4,6 +4,8 @@ import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
 import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.reward.DailyCheckInData
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -20,7 +22,8 @@ class GetDailyCheckInUseCase @Inject constructor(
     private val moodJournalUseCase: MoodJournalUseCase,
     private val mealJournalUseCase: MealJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
-    private val rewardBalanceUseCase: RewardBalanceUseCase,
+    private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+    private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
     private val rewardHistoryUseCase: RewardHistoryUseCase
 ) : DailyCheckInRepository {
 
@@ -29,7 +32,7 @@ class GetDailyCheckInUseCase @Inject constructor(
             moodJournalUseCase.getAll(),
             mealJournalUseCase.getAll(),
             sleepJournalUseCase.getAll(),
-            rewardBalanceUseCase.observeBalance()
+            observeRewardBalanceUseCase.invoke()
         ) { mood, meal, sleep, balance ->
             DailyCheckInData(mood, meal, sleep, balance)
         }.mapLatest { data ->
@@ -55,7 +58,7 @@ class GetDailyCheckInUseCase @Inject constructor(
                 totalCoins = data.rewardBalance.totalCoins + RewardPoints.DAILY_ACHIEVEMENTS.basePoints,
                 lastDailyAchievementReward = now
             )
-            rewardBalanceUseCase.insertOrUpdate(updatedBalance)
+            saveOrUpdateRewardBalanceUseCase.invoke(updatedBalance)
             val history = RewardHistory(
                 rewardOrigin = RewardOrigin.DAILY_ACHIEVEMENT,
                 rewardAmount = RewardPoints.DAILY_ACHIEVEMENTS.basePoints,

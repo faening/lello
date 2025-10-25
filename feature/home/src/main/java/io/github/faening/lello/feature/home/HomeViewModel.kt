@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getJournalCategoriesUseCase: GetJournalCategoriesUseCase,
-    private val rewardBalanceUseCase: RewardBalanceUseCase,
+    private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
     private val getDailyCheckInUseCase: GetDailyCheckInUseCase
 ) : ViewModel() {
 
@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
 
         // Observa o reward balance do banco e atualiza o timer sempre que mudar
         viewModelScope.launch {
-            rewardBalanceUseCase.observeBalance().collect { balance ->
+            observeRewardBalanceUseCase.invoke().collect { balance ->
                 lastRewardBalance = balance
                 _journalBonusState.value = mapToBonusState(balance)
             }

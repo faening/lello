@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
@@ -23,8 +24,12 @@ import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdU
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByProductNameUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardHistoryUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.store.BuyItemUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetInventoryItemsUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetPurchaseHistoryUseCase
@@ -40,6 +45,7 @@ import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
 import io.github.faening.lello.core.model.store.Item
 import io.github.faening.lello.core.model.store.PurchaseHistory
+import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -106,6 +112,36 @@ object UseCaseModule {
 
     // endregion: Onboarding
 
+    // region: Reward
+
+    @Provides
+    @Singleton
+    fun provideDailyCheckInRepository(
+        useCase: GetDailyCheckInUseCase
+    ): DailyCheckInRepository = useCase
+
+    @Provides
+    fun provideClearRewardBalanceUseCase(
+        repository: RewardBalanceRepository<RewardBalance>
+    ) = ClearRewardBalanceUseCase(repository)
+
+    @Provides
+    fun provideGetRewardBalanceUseCase(
+        repository: RewardBalanceRepository<RewardBalance>
+    ) = GetRewardBalanceUseCase(repository)
+
+    @Provides
+    fun provideObserveRewardBalanceUseCase(
+        repository: RewardBalanceRepository<RewardBalance>
+    ) = ObserveRewardBalanceUseCase(repository)
+
+    @Provides
+    fun provideSaveOrUpdateRewardBalanceUseCase(
+        repository: RewardBalanceRepository<RewardBalance>
+    ) = SaveOrUpdateRewardBalanceUseCase(repository)
+
+    // endregion: Reward
+
     // region: Store
 
     @Provides
@@ -113,8 +149,15 @@ object UseCaseModule {
         itemRepository: ItemRepository<Item>,
         inventoryRepository: InventoryRepository<InventoryItem>,
         purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
-        rewardBalanceUseCase: RewardBalanceUseCase
-    ) = BuyItemUseCase(itemRepository, inventoryRepository, purchaseHistoryRepository, rewardBalanceUseCase)
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase
+    ) = BuyItemUseCase(
+        itemRepository,
+        inventoryRepository,
+        purchaseHistoryRepository,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase
+    )
 
     @Provides
     fun provideGetInventoryItemsUseCase(
@@ -159,10 +202,7 @@ object UseCaseModule {
     // endregion: User
 
 
-    @Provides
-    fun provideRewardBalanceUseCase(
-        repository: RewardBalanceRepository<RewardBalance>
-    ) = RewardBalanceUseCase(repository)
+
 
     @Provides
     fun provideRewardHistoryUseCase(
