@@ -3,10 +3,12 @@ package io.github.faening.lello.feature.journal.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.SaveEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.dosageform.GetAllDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.dosageform.SaveDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionActiveStatusUseCase
-import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
@@ -44,7 +46,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsJournalViewModel @Inject constructor(
-    private val emotionOptionUseCase: EmotionOptionUseCase,
+    // Emotion Options
+    private val getAllEmotionOptionUseCase: GetAllEmotionOptionUseCase,
+    private val saveEmotionOptionUseCase: SaveEmotionOptionUseCase,
+    private val updateEmotionOptionActiveStatusUseCase: UpdateEmotionOptionActiveStatusUseCase,
 
     // Appetite Options
     private val getAllAppetiteOptionUseCase: GetAllAppetiteOptionUseCase,
@@ -59,12 +64,12 @@ class SettingsJournalViewModel @Inject constructor(
     private val locationOptionUseCase: LocationOptionUseCase,
     private val socialOptionUseCase: SocialOptionUseCase,
     private val healthOptionUseCase: HealthOptionUseCase,
-    
+
     // DosageForm Options
     private val getAllDosageFormOptionUseCase: GetAllDosageFormOptionUseCase,
     private val saveDosageFormOptionUseCase: SaveDosageFormOptionUseCase,
     private val updateDosageFormOptionActiveStatusUseCase: UpdateDosageFormOptionActiveStatusUseCase,
-    
+
     private val foodOptionUseCase: FoodOptionUseCase,
     private val mealOptionUseCase: MealOptionUseCase,
     private val portionOptionUseCase: PortionOptionUseCase,
@@ -114,7 +119,7 @@ class SettingsJournalViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            emotionOptionUseCase.getAll().collect { _emotionOptions.value = it }
+            getAllEmotionOptionUseCase.invoke().collect { _emotionOptions.value = it }
         }
         viewModelScope.launch {
             getAllClimateOptionUseCase.invoke().collect { _climateOptions.value = it }
@@ -252,7 +257,7 @@ class SettingsJournalViewModel @Inject constructor(
         viewModelScope.launch {
             when (type) {
                 JournalOptionType.EMOTION -> {
-                    emotionOptionUseCase.updateActiveStatus((option as EmotionOption).copy(active = active))
+                    updateEmotionOptionActiveStatusUseCase.invoke((option as EmotionOption).copy(active = active))
                     toggleEmotionOption(option, active)
                 }
                 JournalOptionType.CLIMATE -> {
@@ -310,7 +315,7 @@ class SettingsJournalViewModel @Inject constructor(
     fun saveOption(type: JournalOptionType, description: String) {
         viewModelScope.launch {
             when (type) {
-                JournalOptionType.EMOTION -> emotionOptionUseCase.save(EmotionOption(description = description))
+                JournalOptionType.EMOTION -> saveEmotionOptionUseCase.invoke(EmotionOption(description = description))
                 JournalOptionType.CLIMATE -> saveClimateOptionUseCase.invoke(ClimateOption(description = description))
                 JournalOptionType.LOCATION -> locationOptionUseCase.save(LocationOption(description = description))
                 JournalOptionType.SOCIAL -> socialOptionUseCase.save(SocialOption(description = description))
