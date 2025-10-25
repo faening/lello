@@ -81,6 +81,12 @@ import io.github.faening.lello.core.domain.usecase.options.location.GetLocationO
 import io.github.faening.lello.core.domain.usecase.options.location.SaveLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.DeleteSocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.GetSocialOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.DeleteMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.GetAllMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.GetMealOptionByIdUseCase
@@ -124,6 +130,7 @@ import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.reward.RewardBalance
@@ -605,6 +612,40 @@ object UseCaseModule {
     ) = DeletePortionOptionUseCase(repository)
 
     // endregion: Options Portion
+
+    // region: Options Social
+
+    @Provides
+    fun provideGetAllSocialOptionUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = GetAllSocialOptionUseCase(repository)
+
+    @Provides
+    fun provideGetSocialOptionByIdUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = GetSocialOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveSocialOptionUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = SaveSocialOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateSocialOptionUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = UpdateSocialOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateSocialOptionActiveStatusUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = UpdateSocialOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteSocialOptionUseCase(
+        repository: OptionRepository<SocialOption>
+    ) = DeleteSocialOptionUseCase(repository)
+
+    // endregion: Options Social
 
     // region: Reward
 
