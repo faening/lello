@@ -1,14 +1,12 @@
 package io.github.faening.lello.core.domain.usecase.reward
 
+import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.util.isSameDay
-import io.github.faening.lello.core.model.journal.MealJournal
-import io.github.faening.lello.core.model.journal.MoodJournal
-import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.reward.DailyCheckInData
 import io.github.faening.lello.core.model.reward.DailyCheckInState
-import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.reward.RewardOrigin
 import io.github.faening.lello.core.model.reward.RewardPoints
@@ -18,15 +16,15 @@ import kotlinx.coroutines.flow.mapLatest
 import java.time.LocalDate
 import javax.inject.Inject
 
-class DailyCheckInUseCase @Inject constructor(
+class GetDailyCheckInUseCase @Inject constructor(
     private val moodJournalUseCase: MoodJournalUseCase,
     private val mealJournalUseCase: MealJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
     private val rewardBalanceUseCase: RewardBalanceUseCase,
     private val rewardHistoryUseCase: RewardHistoryUseCase
-) {
+) : DailyCheckInRepository {
 
-    fun observeDailyCheckIn(): Flow<DailyCheckInState> {
+    override fun observeDailyCheckIn(): Flow<DailyCheckInState> {
         return combine(
             moodJournalUseCase.getAll(),
             mealJournalUseCase.getAll(),
@@ -69,11 +67,4 @@ class DailyCheckInUseCase @Inject constructor(
 
         return DailyCheckInState(currentStep = steps, bonusReceived = bonusAlreadyGiven)
     }
-
-    private data class DailyCheckInData(
-        val moodJournals: List<MoodJournal>,
-        val mealJournals: List<MealJournal>,
-        val sleepJournals: List<SleepJournal>,
-        val rewardBalance: RewardBalance
-    )
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
-import io.github.faening.lello.core.domain.usecase.reward.DailyCheckInUseCase
+import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getJournalCategoriesUseCase: GetJournalCategoriesUseCase,
     private val rewardBalanceUseCase: RewardBalanceUseCase,
-    private val dailyCheckInUseCase: DailyCheckInUseCase
+    private val getDailyCheckInUseCase: GetDailyCheckInUseCase
 ) : ViewModel() {
 
     private val _journalCategories = MutableStateFlow<List<JournalCategory>>(emptyList())
@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            dailyCheckInUseCase.observeDailyCheckIn().collect { state ->
+            getDailyCheckInUseCase.observeDailyCheckIn().collect { state ->
                 _dailyCheckInState.value = state
             }
         }
