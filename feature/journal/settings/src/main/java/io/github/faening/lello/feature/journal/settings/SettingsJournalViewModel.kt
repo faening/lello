@@ -8,7 +8,6 @@ import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionActiveStatusUseCase
@@ -30,6 +29,9 @@ import io.github.faening.lello.core.domain.usecase.options.health.UpdateHealthOp
 import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.SaveLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.DosageFormOption
@@ -83,8 +85,11 @@ class SettingsJournalViewModel @Inject constructor(
     private val saveLocationOptionUseCase: SaveLocationOptionUseCase,
     private val updateLocationOptionActiveStatusUseCase: UpdateLocationOptionActiveStatusUseCase,
 
+    // Social Options
+    private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
+    private val saveSocialOptionUseCase: SaveSocialOptionUseCase,
+    private val updateSocialOptionActiveStatusUseCase: UpdateSocialOptionActiveStatusUseCase,
 
-    private val socialOptionUseCase: SocialOptionUseCase,
     private val mealOptionUseCase: MealOptionUseCase,
     private val portionOptionUseCase: PortionOptionUseCase,
     private val sensationOptionUseCase: SleepSensationOptionUseCase,
@@ -142,7 +147,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllLocationOptionUseCase.invoke().collect { _locationOptions.value = it }
         }
         viewModelScope.launch {
-            socialOptionUseCase.getAll().collect { _socialOptions.value = it }
+            getAllSocialOptionUseCase.invoke().collect { _socialOptions.value = it }
         }
         viewModelScope.launch {
             getAllHealthOptionUseCase.invoke().collect { _healthOptions.value = it }
@@ -283,7 +288,7 @@ class SettingsJournalViewModel @Inject constructor(
                     toggleLocationOption(option, active)
                 }
                 JournalOptionType.SOCIAL -> {
-                    socialOptionUseCase.updateActiveStatus((option as SocialOption).copy(active = active))
+                    updateSocialOptionActiveStatusUseCase.invoke((option as SocialOption).copy(active = active))
                     toggleSocialOption(option, active)
                 }
                 JournalOptionType.HEALTH -> {
@@ -341,7 +346,7 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.SLEEP_ACTIVITY -> sleepActivityOptionUseCase.save(SleepActivityOption(description = description))
                 JournalOptionType.SLEEP_QUALITY -> sleepQualityOptionUseCase.save(SleepQualityOption(description = description))
                 JournalOptionType.SLEEP_SENSATION -> sensationOptionUseCase.save(SleepSensationOption(description = description))
-                JournalOptionType.SOCIAL -> socialOptionUseCase.save(SocialOption(description = description))
+                JournalOptionType.SOCIAL -> saveSocialOptionUseCase.invoke(SocialOption(description = description))
             }
         }
     }

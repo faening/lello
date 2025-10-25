@@ -6,11 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.GetAllClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.health.GetAllHealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.MoodType
@@ -41,7 +41,7 @@ class MoodJournalViewModel @Inject constructor(
     private val getAllEmotionOptionUseCase: GetAllEmotionOptionUseCase,
     private val getAllHealthOptionUseCase: GetAllHealthOptionUseCase,
     private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
-    socialOptionUseCase: SocialOptionUseCase
+    private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
 ) : ViewModel() {
 
     private val _currentMood = MutableStateFlow(MoodColor.DEFAULT)
@@ -97,7 +97,7 @@ class MoodJournalViewModel @Inject constructor(
                 .collect { _locationOptions.value = it }
         }
         viewModelScope.launch {
-            socialOptionUseCase.getAll()
+            getAllSocialOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _socialOptions.value = it }
         }
