@@ -23,6 +23,10 @@ import io.github.faening.lello.core.domain.usecase.journal.meal.DeleteMealJourna
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetMealJournalByIdUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.DeleteMoodJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.GetMoodJournalByIdUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
@@ -52,6 +56,7 @@ import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferen
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -110,6 +115,40 @@ object UseCaseModule {
     ) = DeleteMealJournalUseCase(repository)
 
     // endregion: Journal Meal
+
+    // region: Journal Mood
+
+    @Provides
+    fun provideGetAllMoodJournalUseCase(
+        repository: JournalRepository<MoodJournal>
+    ) = GetAllMoodJournalUseCase(repository)
+
+    @Provides
+    fun provideGetMoodJournalByIdUseCase(
+        repository: JournalRepository<MoodJournal>
+    ) = GetMoodJournalByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMoodJournalUseCase(
+        repository: JournalRepository<MoodJournal>,
+        rewardCalculatorService: RewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase,
+        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
+    ) = SaveMoodJournalUseCase(
+        repository,
+        rewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase,
+        saveRewardHistoryUseCase
+    )
+
+    @Provides
+    fun provideDeleteMoodJournalUseCase(
+        repository: JournalRepository<MoodJournal>
+    ) = DeleteMoodJournalUseCase(repository)
+
+    // endregion: Journal Mood
 
     // region: Mascot
 

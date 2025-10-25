@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswordUseCase
-import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardAmountByOriginUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
 import io.github.faening.lello.core.model.authentication.AuthenticationState
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class DiaryViewModel @Inject constructor(
     private val biometricAuthUseCase: BiometricAuthenticationUseCase,
     private val getAllMealJournalUseCase: GetAllMealJournalUseCase,
-    private val moodJournalUseCase: MoodJournalUseCase,
+    private val getAllMoodJournalUseCase: GetAllMoodJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
     private val getRewardAmountByOriginUseCase: GetRewardAmountByOriginUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase
@@ -69,9 +69,7 @@ class DiaryViewModel @Inject constructor(
 
     private fun loadMoodJournals() {
         viewModelScope.launch {
-            moodJournalUseCase
-                .getAll()
-                .collect { _moodJournals.value = it }
+            getAllMoodJournalUseCase.invoke().collect { _moodJournals.value = it }
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.ClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.EmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.HealthOptionUseCase
@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoodJournalViewModel @Inject constructor(
-    private val moodJournalUseCase: MoodJournalUseCase,
+    private val saveMoodJournalUseCase: SaveMoodJournalUseCase,
     emotionOptionUseCase: EmotionOptionUseCase,
     climateOptionUseCase: ClimateOptionUseCase,
     locationOptionUseCase: LocationOptionUseCase,
@@ -179,7 +179,7 @@ class MoodJournalViewModel @Inject constructor(
         // if (_moodJournal.value == null) return
         viewModelScope.launch {
             val journal = buildMoodJournal()
-            moodJournalUseCase.save(journal)
+            saveMoodJournalUseCase.invoke(journal)
             _moodJournal.value = journal
         }
     }
