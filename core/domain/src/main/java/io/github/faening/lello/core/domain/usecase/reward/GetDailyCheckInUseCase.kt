@@ -1,9 +1,9 @@
 package io.github.faening.lello.core.domain.usecase.reward
 
 import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
-import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.MoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.history.SaveRewardHistoryUseCase
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class GetDailyCheckInUseCase @Inject constructor(
     private val moodJournalUseCase: MoodJournalUseCase,
-    private val mealJournalUseCase: MealJournalUseCase,
+    private val getAllMealJournalUseCase: GetAllMealJournalUseCase,
     private val sleepJournalUseCase: SleepJournalUseCase,
     private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
     private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
@@ -31,7 +31,7 @@ class GetDailyCheckInUseCase @Inject constructor(
     override fun observeDailyCheckIn(): Flow<DailyCheckInState> {
         return combine(
             moodJournalUseCase.getAll(),
-            mealJournalUseCase.getAll(),
+            getAllMealJournalUseCase.invoke(),
             sleepJournalUseCase.getAll(),
             observeRewardBalanceUseCase.invoke()
         ) { mood, meal, sleep, balance ->

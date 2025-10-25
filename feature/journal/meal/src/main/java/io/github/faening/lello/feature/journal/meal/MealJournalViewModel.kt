@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MealJournalViewModel @Inject constructor(
-    private val mealJournalUseCase: MealJournalUseCase,
+    private val saveMealJournalUseCase: SaveMealJournalUseCase,
     mealOptionUseCase: MealOptionUseCase,
     appetiteOptionUseCase: AppetiteOptionUseCase,
     foodOptionUseCase: FoodOptionUseCase,
@@ -164,7 +164,7 @@ class MealJournalViewModel @Inject constructor(
         if (_mealJournal.value == null) return
         viewModelScope.launch {
             val journal = buildMealournal()
-            mealJournalUseCase.save(journal)
+            saveMealJournalUseCase.invoke(journal)
         }
     }
 

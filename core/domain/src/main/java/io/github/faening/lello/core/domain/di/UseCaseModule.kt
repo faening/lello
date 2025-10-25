@@ -8,6 +8,7 @@ import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
@@ -15,8 +16,13 @@ import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoryByIdUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.DeleteMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.GetMealJournalByIdUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
@@ -45,6 +51,7 @@ import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.model.Medication
 import io.github.faening.lello.core.model.journal.JournalCategory
+import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -69,6 +76,40 @@ object UseCaseModule {
     ) = GetJournalCategoryByIdUseCase(repository)
 
     // endregion: Journal Category
+
+    // region: Journal Meal
+
+    @Provides
+    fun provideGetAllMealJournalUseCase(
+        repository: JournalRepository<MealJournal>
+    ) = GetAllMealJournalUseCase(repository)
+
+    @Provides
+    fun provideGetMealJournalByIdUseCase(
+        repository: JournalRepository<MealJournal>
+    ) = GetMealJournalByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMealJournalUseCase(
+        repository: JournalRepository<MealJournal>,
+        rewardCalculatorService: RewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase,
+        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
+    ) = SaveMealJournalUseCase(
+        repository,
+        rewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase,
+        saveRewardHistoryUseCase
+    )
+
+    @Provides
+    fun provideDeleteMealJournalUseCase(
+        repository: JournalRepository<MealJournal>
+    ) = DeleteMealJournalUseCase(repository)
+
+    // endregion: Journal Meal
 
     // region: Mascot
 
