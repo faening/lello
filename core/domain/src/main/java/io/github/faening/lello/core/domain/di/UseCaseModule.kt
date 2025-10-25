@@ -81,6 +81,12 @@ import io.github.faening.lello.core.domain.usecase.options.location.GetLocationO
 import io.github.faening.lello.core.domain.usecase.options.location.SaveLocationOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.DeletePortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.GetPortionOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.SavePortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortionOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -112,6 +118,7 @@ import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
+import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -523,6 +530,40 @@ object UseCaseModule {
     ) = DeleteLocationOptionUseCase(repository)
 
     // endregion: Options Location
+
+    // region: Options Portion
+
+    @Provides
+    fun provideGetAllPortionOptionUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = GetAllPortionOptionUseCase(repository)
+
+    @Provides
+    fun provideGetPortionOptionByIdUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = GetPortionOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSavePortionOptionUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = SavePortionOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdatePortionOptionUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = UpdatePortionOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdatePortionOptionActiveStatusUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = UpdatePortionOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeletePortionOptionUseCase(
+        repository: OptionRepository<PortionOption>
+    ) = DeletePortionOptionUseCase(repository)
+
+    // endregion: Options Portion
 
     // region: Reward
 
