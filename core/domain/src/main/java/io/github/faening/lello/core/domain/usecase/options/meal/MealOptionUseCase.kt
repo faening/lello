@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.domain.usecase.options
+package io.github.faening.lello.core.domain.usecase.options.meal
 
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.util.capitalizeFirst
