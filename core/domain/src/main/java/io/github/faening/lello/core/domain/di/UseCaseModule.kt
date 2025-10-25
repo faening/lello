@@ -57,6 +57,24 @@ import io.github.faening.lello.core.domain.usecase.options.health.GetHealthOptio
 import io.github.faening.lello.core.domain.usecase.options.health.SaveHealthOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.health.UpdateHealthOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.health.UpdateHealthOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.DeleteFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.GetAllFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.GetFoodOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.SaveFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.UpdateFoodOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.UpdateFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.DeleteEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.GetEmotionOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.SaveEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.DeleteDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.GetAllDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.GetDosageFormOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.SaveDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -84,6 +102,9 @@ import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.HealthOption
+import io.github.faening.lello.core.model.option.DosageFormOption
+import io.github.faening.lello.core.model.option.EmotionOption
+import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -359,6 +380,108 @@ object UseCaseModule {
     ) = DeleteHealthOptionUseCase(repository)
 
     // endregion: Options Health
+
+    // region: Options Food
+
+    @Provides
+    fun provideGetAllFoodOptionUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = GetAllFoodOptionUseCase(repository)
+
+    @Provides
+    fun provideGetFoodOptionByIdUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = GetFoodOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveFoodOptionUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = SaveFoodOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateFoodOptionUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = UpdateFoodOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateFoodOptionActiveStatusUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = UpdateFoodOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteFoodOptionUseCase(
+        repository: OptionRepository<FoodOption>
+    ) = DeleteFoodOptionUseCase(repository)
+
+    // endregion: Options Food
+
+    // region: Options Emotion
+
+    @Provides
+    fun provideGetAllEmotionOptionUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = GetAllEmotionOptionUseCase(repository)
+
+    @Provides
+    fun provideGetEmotionOptionByIdUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = GetEmotionOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveEmotionOptionUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = SaveEmotionOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateEmotionOptionUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = UpdateEmotionOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateEmotionOptionActiveStatusUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = UpdateEmotionOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteEmotionOptionUseCase(
+        repository: OptionRepository<EmotionOption>
+    ) = DeleteEmotionOptionUseCase(repository)
+
+    // endregion: Options Emotion
+
+    // region: Options DosageForm
+
+    @Provides
+    fun provideGetAllDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = GetAllDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideGetDosageFormOptionByIdUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = GetDosageFormOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = SaveDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = UpdateDosageFormOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateDosageFormOptionActiveStatusUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = UpdateDosageFormOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteDosageFormOptionUseCase(
+        repository: OptionRepository<DosageFormOption>
+    ) = DeleteDosageFormOptionUseCase(repository)
+
+    // endregion: Options DosageForm
 
     // region: Reward
 
