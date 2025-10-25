@@ -45,6 +45,12 @@ import io.github.faening.lello.core.domain.usecase.options.appetite.GetAppetiteO
 import io.github.faening.lello.core.domain.usecase.options.appetite.SaveAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.DeleteClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.GetAllClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.GetClimateOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.SaveClimateOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ClearRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -70,6 +76,7 @@ import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
+import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
@@ -277,6 +284,40 @@ object UseCaseModule {
     ) = DeleteAppetiteOptionUseCase(repository)
 
     // endregion: Options Appetite
+
+    // region: Options Climate
+
+    @Provides
+    fun provideGetAllClimateOptionUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = GetAllClimateOptionUseCase(repository)
+
+    @Provides
+    fun provideGetClimateOptionByIdUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = GetClimateOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveClimateOptionUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = SaveClimateOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateClimateOptionUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = UpdateClimateOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateClimateOptionActiveStatusUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = UpdateClimateOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteClimateOptionUseCase(
+        repository: OptionRepository<ClimateOption>
+    ) = DeleteClimateOptionUseCase(repository)
+
+    // endregion: Options Climate
 
     // region: Reward
 
