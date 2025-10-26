@@ -9,5 +9,6 @@ android {
 
 dependencies {
     api(projects.core.model)
+    api(projects.core.testing)
     implementation(libs.androidx.core.ktx)
 }
