@@ -95,6 +95,12 @@ import io.github.faening.lello.core.domain.usecase.options.medication.dosageform
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.SaveMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.UpdateMedicationDosageFormOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.UpdateMedicationDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.DeleteMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.GetAllMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.GetMedicationDosageUnitOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.SaveMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.UpdateMedicationDosageUnitOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.UpdateMedicationDosageUnitOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.DeletePortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetPortionOptionByIdUseCase
@@ -158,6 +164,7 @@ import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
+import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -653,6 +660,40 @@ object UseCaseModule {
 
     // endregion: Options Medication Dosage Form
 
+    // region: Options Medication Dosage Unit
+
+    @Provides
+    fun provideGetAllMedicationDosageUnitOptionUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = GetAllMedicationDosageUnitOptionUseCase(repository)
+
+    @Provides
+    fun provideGetMedicationDosageUnitOptionByIdUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = GetMedicationDosageUnitOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMedicationDosageUnitOptionUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = SaveMedicationDosageUnitOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationDosageUnitOptionUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = UpdateMedicationDosageUnitOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationDosageUnitOptionActiveStatusUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = UpdateMedicationDosageUnitOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteMedicationDosageUnitOptionUseCase(
+        repository: OptionRepository<MedicationDosageUnitOption>
+    ) = DeleteMedicationDosageUnitOptionUseCase(repository)
+
+    // endregion: Options Medication Dosage Unit
+    
     // region: Options Portion
 
     @Provides

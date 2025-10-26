@@ -2,7 +2,6 @@ package io.github.faening.lello.core.database
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
-import io.github.faening.lello.core.database.seed.AnvisaMedicationSeed
 import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
@@ -13,6 +12,7 @@ import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.MedicationActiveIngredientSeed
 import io.github.faening.lello.core.database.seed.MedicationDosageFormOptionSeed
+import io.github.faening.lello.core.database.seed.MedicationDosageUnitOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
@@ -34,7 +34,6 @@ internal object DatabaseSeeder {
     fun seedAll(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Iniciando processo de seed do banco de dados...")
 
-        seedAnvisaMedication(db)
         seedAppetiteOptions(db)
         seedClimateOptions(db)
         seedEmotionOptions(db)
@@ -46,6 +45,7 @@ internal object DatabaseSeeder {
         seedMealOptions(db)
         seedMedicationActiveIngredientOption(db)
         seedMedicationDosageFormOptions(db)
+        seedMedicationDosageUnitOptions(db)
         seedPortionOptions(db)
         seedRewardBalance(db)
         seedSleepActivityOptions(db)
@@ -225,6 +225,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO medication_dosage_form_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    private fun seedMedicationDosageUnitOptions(db: SupportSQLiteDatabase) {
+        for (item in MedicationDosageUnitOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO medication_dosage_unit_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

@@ -86,6 +86,11 @@ internal object DaoModule {
     ) = database.medicationDosageFormOptionDao()
 
     @Provides
+    fun provideMedicationDosageUnitOptionDao(
+        database: LelloDatabase,
+    ) = database.medicationDosageUnitOptionDao()
+
+    @Provides
     fun provideMealOptionDao(
         database: LelloDatabase,
     ) = database.mealOptionDao()
