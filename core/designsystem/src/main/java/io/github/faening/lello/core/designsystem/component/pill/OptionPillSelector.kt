@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.designsystem.component
+package io.github.faening.lello.core.designsystem.component.pill
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.button.LelloFlowItemButton
-import io.github.faening.lello.core.designsystem.component.pill.LelloFilledPill
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
