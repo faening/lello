@@ -12,7 +12,6 @@ import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.data.repository.DataAnvisaMedicationRepository
 import io.github.faening.lello.core.data.repository.DataAppetiteOptionRepository
 import io.github.faening.lello.core.data.repository.DataClimateOptionRepository
-import io.github.faening.lello.core.data.repository.DataDosageFormOptionRepository
 import io.github.faening.lello.core.data.repository.DataEmotionOptionRepository
 import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
@@ -27,6 +26,7 @@ import io.github.faening.lello.core.data.repository.DataMascotRepository
 import io.github.faening.lello.core.data.repository.DataMascotStatusRepository
 import io.github.faening.lello.core.data.repository.DataMascotVitalityRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
+import io.github.faening.lello.core.data.repository.DataMedicationDosageFormOptionRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
 import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepository
 import io.github.faening.lello.core.data.repository.DataRewardBalanceRepository
@@ -40,7 +40,6 @@ import io.github.faening.lello.core.data.repository.DataStoreUserRepository
 import io.github.faening.lello.core.database.dao.AnvisaMedicationDao
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
-import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
@@ -52,6 +51,7 @@ import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
@@ -85,12 +85,12 @@ import io.github.faening.lello.core.model.mascot.MascotStatus
 import io.github.faening.lello.core.model.mascot.MascotVitalityHistory
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
-import io.github.faening.lello.core.model.option.DosageFormOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
+import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -123,11 +123,6 @@ object RepositoryModule {
     fun provideDataClimateOptionRepository(
         dao: ClimateOptionDao
     ): OptionRepository<ClimateOption> = DataClimateOptionRepository(dao)
-
-    @Provides
-    fun provideDataDosageFormOptionRepository(
-        dao: DosageFormOptionDao
-    ): OptionRepository<DosageFormOption> = DataDosageFormOptionRepository(dao)
 
     @Provides
     fun provideDataEmotionOptionRepository(
@@ -163,6 +158,11 @@ object RepositoryModule {
     fun provideDataJournalMealRepository(
         dao: MealJournalDao
     ): JournalRepository<MealJournal> = DataJournalMealRepository(dao)
+
+    @Provides
+    fun provideDataMedicationDosageFormOptionRepository(
+        dao: MedicationDosageFormOptionDao
+    ): OptionRepository<MedicationDosageFormOption> = DataMedicationDosageFormOptionRepository(dao)
 
     @Provides
     fun provideDataJournalMoodRepository(

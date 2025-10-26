@@ -7,18 +7,18 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationDosageFormOptionEntity
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface DosageFormOptionDao : OptionRepository<DosageFormOptionEntity> {
+interface MedicationDosageFormOptionDao : OptionRepository<MedicationDosageFormOptionEntity> {
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM dosage_form_options
+            SELECT * FROM medication_dosage_form_options
             WHERE
                 CASE WHEN :useBlockedFilter
                     THEN blocked = :isBlocked
@@ -35,24 +35,24 @@ interface DosageFormOptionDao : OptionRepository<DosageFormOptionEntity> {
         isBlocked: Boolean,
         useActiveFilter: Boolean,
         isActive: Boolean
-    ): Flow<List<DosageFormOptionEntity>>
+    ): Flow<List<MedicationDosageFormOptionEntity>>
 
     @Transaction
     @Query(
         value = """
-            SELECT * FROM dosage_form_options
+            SELECT * FROM medication_dosage_form_options
             WHERE dosageFormOptionId = :id
             LIMIT 1
         """
     )
-    override fun getById(id: Long): Flow<DosageFormOptionEntity>
+    override fun getById(id: Long): Flow<MedicationDosageFormOptionEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    override suspend fun insert(item: DosageFormOptionEntity): Long
+    override suspend fun insert(item: MedicationDosageFormOptionEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun update(item: DosageFormOptionEntity)
+    override suspend fun update(item: MedicationDosageFormOptionEntity)
 
     @Delete
-    override suspend fun delete(item: DosageFormOptionEntity)
+    override suspend fun delete(item: MedicationDosageFormOptionEntity)
 }

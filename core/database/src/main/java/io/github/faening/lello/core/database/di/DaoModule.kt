@@ -26,11 +26,6 @@ internal object DaoModule {
     ) = database.climateOptionDao()
 
     @Provides
-    fun provideDosageFormOptionDao(
-        database: LelloDatabase,
-    ) = database.dosageFormOptionDao()
-
-    @Provides
     fun provideEmotionDao(
         database: LelloDatabase,
     ) = database.emotionOptionDao()
@@ -79,6 +74,11 @@ internal object DaoModule {
     fun provideMealJournalDao(
         database: LelloDatabase,
     ) = database.mealJournalDao()
+
+    @Provides
+    fun provideMedicationDosageFormOptionDao(
+        database: LelloDatabase,
+    ) = database.medicationDosageFormOptionDao()
 
     @Provides
     fun provideMealOptionDao(

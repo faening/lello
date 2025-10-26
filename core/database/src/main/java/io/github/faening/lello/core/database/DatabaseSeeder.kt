@@ -5,13 +5,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.faening.lello.core.database.seed.AnvisaMedicationSeed
 import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
-import io.github.faening.lello.core.database.seed.DosageFormOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
+import io.github.faening.lello.core.database.seed.MedicationDosageFormOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
@@ -36,7 +36,6 @@ internal object DatabaseSeeder {
         seedAnvisaMedication(db)
         seedAppetiteOptions(db)
         seedClimateOptions(db)
-        seedDosageFormOptions(db)
         seedEmotionOptions(db)
         seedFoodOptions(db)
         seedHealthOptions(db)
@@ -44,6 +43,7 @@ internal object DatabaseSeeder {
         seedLocationOptions(db)
         seedMascotStatus(db)
         seedMealOptions(db)
+        seedMedicationDosageFormOptions(db)
         seedPortionOptions(db)
         seedRewardBalance(db)
         seedSleepActivityOptions(db)
@@ -75,22 +75,6 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO climate_options (description, blocked, active)
-                        VALUES (?, ?, ?)
-                    """.trimIndent(),
-                bindArgs = arrayOf(
-                    item.description,
-                    if (item.blocked) 1 else 0,
-                    if (item.active) 1 else 0
-                )
-            )
-        }
-    }
-
-    private fun seedDosageFormOptions(db: SupportSQLiteDatabase) {
-        for (item in DosageFormOptionSeed.data) {
-            db.execSQL(
-                sql = """
-                        INSERT INTO dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -207,6 +191,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO meal_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    private fun seedMedicationDosageFormOptions(db: SupportSQLiteDatabase) {
+        for (item in MedicationDosageFormOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO medication_dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

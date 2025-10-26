@@ -9,9 +9,6 @@ import io.github.faening.lello.core.domain.usecase.options.appetite.UpdateAppeti
 import io.github.faening.lello.core.domain.usecase.options.climate.GetAllClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.SaveClimateOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.climate.UpdateClimateOptionActiveStatusUseCase
-import io.github.faening.lello.core.domain.usecase.options.dosageform.GetAllDosageFormOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.dosageform.SaveDosageFormOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.dosageform.UpdateDosageFormOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.GetAllEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.SaveEmotionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.emotion.UpdateEmotionOptionActiveStatusUseCase
@@ -27,6 +24,9 @@ import io.github.faening.lello.core.domain.usecase.options.location.UpdateLocati
 import io.github.faening.lello.core.domain.usecase.options.meal.GetAllMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.SaveMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.UpdateMealOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.SaveMedicationDosageFormOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.UpdateMedicationDosageFormOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.SavePortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortionOptionActiveStatusUseCase
@@ -44,13 +44,13 @@ import io.github.faening.lello.core.domain.usecase.options.social.SaveSocialOpti
 import io.github.faening.lello.core.domain.usecase.options.social.UpdateSocialOptionActiveStatusUseCase
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
-import io.github.faening.lello.core.model.option.DosageFormOption
 import io.github.faening.lello.core.model.option.EmotionOption
 import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
+import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -72,10 +72,6 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllClimateOptionUseCase: GetAllClimateOptionUseCase,
     private val saveClimateOptionUseCase: SaveClimateOptionUseCase,
     private val updateClimateOptionActiveStatusUseCase: UpdateClimateOptionActiveStatusUseCase,
-    // DosageForm Options
-    private val getAllDosageFormOptionUseCase: GetAllDosageFormOptionUseCase,
-    private val saveDosageFormOptionUseCase: SaveDosageFormOptionUseCase,
-    private val updateDosageFormOptionActiveStatusUseCase: UpdateDosageFormOptionActiveStatusUseCase,
     // Emotion Options
     private val getAllEmotionOptionUseCase: GetAllEmotionOptionUseCase,
     private val saveEmotionOptionUseCase: SaveEmotionOptionUseCase,
@@ -96,6 +92,10 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllMealOptionUseCase: GetAllMealOptionUseCase,
     private val saveMealOptionUseCase: SaveMealOptionUseCase,
     private val updateMealOptionActiveStatusUseCase: UpdateMealOptionActiveStatusUseCase,
+    // Medication DosageForm Options
+    private val getAllMedicationDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
+    private val saveMedicationDosageFormOptionUseCase: SaveMedicationDosageFormOptionUseCase,
+    private val updateMedicationDosageFormOptionActiveStatusUseCase: UpdateMedicationDosageFormOptionActiveStatusUseCase,
     // Portion Options
     private val getAllPortionOptionUseCase: GetAllPortionOptionUseCase,
     private val savePortionOptionUseCase: SavePortionOptionUseCase,
@@ -136,8 +136,8 @@ class SettingsJournalViewModel @Inject constructor(
     private val _appetiteOptions = MutableStateFlow<List<AppetiteOption>>(emptyList())
     val appetiteOptions: StateFlow<List<AppetiteOption>> = _appetiteOptions
 
-    private val _dosageFormOptions = MutableStateFlow<List<DosageFormOption>>(emptyList())
-    val dosageFormOptions: StateFlow<List<DosageFormOption>> = _dosageFormOptions
+    private val _medicationDosageFormOptions = MutableStateFlow<List<MedicationDosageFormOption>>(emptyList())
+    val medicationDosageFormOptions: StateFlow<List<MedicationDosageFormOption>> = _medicationDosageFormOptions
 
     private val _foodOptions = MutableStateFlow<List<FoodOption>>(emptyList())
     val foodOptions: StateFlow<List<FoodOption>> = _foodOptions
@@ -177,7 +177,7 @@ class SettingsJournalViewModel @Inject constructor(
             getAllAppetiteOptionUseCase.invoke().collect { _appetiteOptions.value = it }
         }
         viewModelScope.launch {
-            getAllDosageFormOptionUseCase.invoke().collect { _dosageFormOptions.value = it }
+            getAllMedicationDosageFormOptionUseCase.invoke().collect { _medicationDosageFormOptions.value = it }
         }
         viewModelScope.launch {
             getAllFoodOptionUseCase.invoke().collect { _foodOptions.value = it }
@@ -235,8 +235,8 @@ class SettingsJournalViewModel @Inject constructor(
         }
     }
 
-    fun toggleDosageFormOption(option: DosageFormOption, active: Boolean) {
-        _dosageFormOptions.value = _dosageFormOptions.value.map {
+    fun toggleDosageFormOption(option: MedicationDosageFormOption, active: Boolean) {
+        _medicationDosageFormOptions.value = _medicationDosageFormOptions.value.map {
             if (it.id == option.id) it.copy(active = active) else it
         }
     }
@@ -284,7 +284,7 @@ class SettingsJournalViewModel @Inject constructor(
         JournalOptionType.SOCIAL -> socialOptions
         JournalOptionType.HEALTH -> healthOptions
         JournalOptionType.APPETITE -> appetiteOptions
-        JournalOptionType.DOSAGE_FORM -> dosageFormOptions
+        JournalOptionType.MEDICATION_DOSAGE_FORM -> medicationDosageFormOptions
         JournalOptionType.FOOD -> foodOptions
         JournalOptionType.MEAL -> mealOptions
         JournalOptionType.PORTION -> portionOptions
@@ -308,9 +308,9 @@ class SettingsJournalViewModel @Inject constructor(
                     )
                     toggleClimateOption(option, active)
                 }
-                JournalOptionType.DOSAGE_FORM -> {
-                    updateDosageFormOptionActiveStatusUseCase.invoke(
-                        (option as DosageFormOption).copy(active = active)
+                JournalOptionType.MEDICATION_DOSAGE_FORM -> {
+                    updateMedicationDosageFormOptionActiveStatusUseCase.invoke(
+                        (option as MedicationDosageFormOption).copy(active = active)
                     )
                     toggleDosageFormOption(option, active)
                 }
@@ -387,9 +387,6 @@ class SettingsJournalViewModel @Inject constructor(
                 JournalOptionType.CLIMATE -> saveClimateOptionUseCase.invoke(
                     ClimateOption(description = description)
                 )
-                JournalOptionType.DOSAGE_FORM -> saveDosageFormOptionUseCase.invoke(
-                    DosageFormOption(description = description)
-                )
                 JournalOptionType.EMOTION -> saveEmotionOptionUseCase.invoke(
                     EmotionOption(description = description)
                 )
@@ -404,6 +401,9 @@ class SettingsJournalViewModel @Inject constructor(
                 )
                 JournalOptionType.MEAL -> saveMealOptionUseCase.invoke(
                     MealOption(description = description)
+                )
+                JournalOptionType.MEDICATION_DOSAGE_FORM -> saveMedicationDosageFormOptionUseCase.invoke(
+                    MedicationDosageFormOption(description = description)
                 )
                 JournalOptionType.PORTION -> savePortionOptionUseCase.invoke(
                     PortionOption(description = description)

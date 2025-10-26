@@ -22,7 +22,7 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
-import io.github.faening.lello.core.model.option.DosageFormOption
+import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
@@ -44,7 +44,7 @@ fun MedicationDosageScreen(
 @Composable
 private fun MedicationDosageScreenContainer(
     moodColor: MoodColor = MoodColor.DEFAULT,
-    dosageForms: List<DosageFormOption>,
+    dosageForms: List<MedicationDosageFormOption>,
     onBack: () -> Unit,
     onSave: () -> Unit,
 ) {

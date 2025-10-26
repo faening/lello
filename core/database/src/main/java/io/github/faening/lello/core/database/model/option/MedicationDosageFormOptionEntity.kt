@@ -2,24 +2,24 @@ package io.github.faening.lello.core.database.model.option
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.option.DosageFormOption
+import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 
-@Entity(tableName = "dosage_form_options")
-data class DosageFormOptionEntity(
+@Entity(tableName = "medication_dosage_form_options")
+data class MedicationDosageFormOptionEntity(
     @PrimaryKey(autoGenerate = true) val dosageFormOptionId: Long,
     override val description: String,
     override val blocked: Boolean,
     override val active: Boolean
 ) : OptionEntity()
 
-fun DosageFormOptionEntity.toModel() = DosageFormOption(
+fun MedicationDosageFormOptionEntity.toModel() = MedicationDosageFormOption(
     id = dosageFormOptionId,
     description = description,
     blocked = blocked,
     active = active
 )
 
-fun DosageFormOption.toEntity() = DosageFormOptionEntity(
+fun MedicationDosageFormOption.toEntity() = MedicationDosageFormOptionEntity(
     dosageFormOptionId = id,
     description = description,
     blocked = blocked,

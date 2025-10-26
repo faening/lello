@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 import io.github.faening.lello.core.database.dao.AnvisaMedicationDao
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
-import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
@@ -18,6 +17,7 @@ import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
@@ -52,12 +52,12 @@ import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryE
 import io.github.faening.lello.core.database.model.medication.AnvisaMedicationEntity
 import io.github.faening.lello.core.database.model.option.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
-import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
 import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
 import io.github.faening.lello.core.database.model.option.FoodOptionEntity
 import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.MealOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationDosageFormOptionEntity
 import io.github.faening.lello.core.database.model.option.PortionOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
@@ -77,7 +77,6 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         AnvisaMedicationEntity::class,
         AppetiteOptionEntity::class,
         ClimateOptionEntity::class,
-        DosageFormOptionEntity::class,
         EmotionOptionEntity::class,
         FoodOptionEntity::class,
         HealthOptionEntity::class,
@@ -95,6 +94,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         MealJournalEntityPortionOptionEntityCrossRef::class,
         MealJournalEntitySocialOptionEntityCrossRef::class,
         MealOptionEntity::class,
+        MedicationDosageFormOptionEntity::class,
         MoodJournalEntity::class,
         MoodJournalEntityClimateOptionEntityCrossRef::class,
         MoodJournalEntityEmotionOptionEntityCrossRef::class,
@@ -127,7 +127,6 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun anvisaMedicationDao(): AnvisaMedicationDao
     abstract fun appetiteOptionDao(): AppetiteOptionDao
     abstract fun climateOptionDao(): ClimateOptionDao
-    abstract fun dosageFormOptionDao(): DosageFormOptionDao
     abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun foodOptionDao(): FoodOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
@@ -139,6 +138,7 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
     abstract fun mealJournalDao(): MealJournalDao
     abstract fun mealOptionDao(): MealOptionDao
+    abstract fun medicationDosageFormOptionDao(): MedicationDosageFormOptionDao
     abstract fun moodJournalEntryDao(): MoodJournalDao
     abstract fun portionOptionDao(): PortionOptionDao
     abstract fun purchaseHistoryDao(): PurchaseHistoryDao
