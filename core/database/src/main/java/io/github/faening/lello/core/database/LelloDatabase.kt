@@ -17,6 +17,7 @@ import io.github.faening.lello.core.database.dao.MascotStatusDao
 import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MedicationActiveIngredientOptionDao
 import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
@@ -57,6 +58,7 @@ import io.github.faening.lello.core.database.model.option.FoodOptionEntity
 import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.MealOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationActiveIngredientOptionEntity
 import io.github.faening.lello.core.database.model.option.MedicationDosageFormOptionEntity
 import io.github.faening.lello.core.database.model.option.PortionOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
@@ -94,6 +96,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         MealJournalEntityPortionOptionEntityCrossRef::class,
         MealJournalEntitySocialOptionEntityCrossRef::class,
         MealOptionEntity::class,
+        MedicationActiveIngredientOptionEntity::class,
         MedicationDosageFormOptionEntity::class,
         MoodJournalEntity::class,
         MoodJournalEntityClimateOptionEntityCrossRef::class,
@@ -138,6 +141,7 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
     abstract fun mealJournalDao(): MealJournalDao
     abstract fun mealOptionDao(): MealOptionDao
+    abstract fun medicationActiveIngredientOptionDao(): MedicationActiveIngredientOptionDao
     abstract fun medicationDosageFormOptionDao(): MedicationDosageFormOptionDao
     abstract fun moodJournalEntryDao(): MoodJournalDao
     abstract fun portionOptionDao(): PortionOptionDao

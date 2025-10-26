@@ -83,6 +83,12 @@ import io.github.faening.lello.core.domain.usecase.options.meal.GetMealOptionByI
 import io.github.faening.lello.core.domain.usecase.options.meal.SaveMealOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.UpdateMealOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.meal.UpdateMealOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.DeleteMedicationActiveIngredientOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetMedicationActiveIngredientOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.SaveMedicationActiveIngredientOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.UpdateMedicationActiveIngredientOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.UpdateMedicationActiveIngredientOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.DeleteMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetMedicationDosageFormOptionByIdUseCase
@@ -150,6 +156,7 @@ import io.github.faening.lello.core.model.option.FoodOption
 import io.github.faening.lello.core.model.option.HealthOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
+import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
@@ -578,6 +585,40 @@ object UseCaseModule {
 
     // endregion: Options Meal
 
+    // region: Options Medication Active Ingredient
+
+    @Provides
+    fun provideGetAllMedicationActiveIngredientOptionUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = GetAllMedicationActiveIngredientOptionUseCase(repository)
+
+    @Provides
+    fun provideGetMedicationActiveIngredientOptionByIdUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = GetMedicationActiveIngredientOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMedicationActiveIngredientOptionUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = SaveMedicationActiveIngredientOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationActiveIngredientOptionUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = UpdateMedicationActiveIngredientOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationActiveIngredientOptionActiveStatusUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = UpdateMedicationActiveIngredientOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteMedicationActiveIngredientOptionUseCase(
+        repository: OptionRepository<MedicationActiveIngredientOption>
+    ) = DeleteMedicationActiveIngredientOptionUseCase(repository)
+
+    // endregion: Options Medication Active Ingredient
+    
     // region: Options Medication Dosage Form
 
     @Provides
