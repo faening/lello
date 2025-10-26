@@ -14,21 +14,28 @@ interface AnvisaMedicationDao : AnvisaMedicationRepository<AnvisaMedicationEntit
     @Query(
         value = """
             SELECT * FROM anvisa_medications
+        """,
+    )
+    override suspend fun getAll(): List<AnvisaMedicationEntity>
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM anvisa_medications
             WHERE id = :id
             LIMIT 1
         """,
     )
-    override suspend fun getMedicationById(id: Long): AnvisaMedicationEntity?
+    override suspend fun getById(id: Long): AnvisaMedicationEntity?
 
     @Transaction
     @Query(
         value = """
             SELECT * FROM anvisa_medications
             WHERE LOWER(product_name) LIKE '%' || LOWER(:productName) || '%'
-            LIMIT 1
         """,
     )
-    override suspend fun getMedicationByProductName(productName: String): AnvisaMedicationEntity?
+    override suspend fun getByProductName(productName: String): List<AnvisaMedicationEntity>?
 
     @Transaction
     @Query(
@@ -37,5 +44,14 @@ interface AnvisaMedicationDao : AnvisaMedicationRepository<AnvisaMedicationEntit
             WHERE LOWER(therapeutic_class) LIKE '%' || LOWER(:therapeuticClass) || '%'
         """,
     )
-    override suspend fun getMedicationByTherapeuticClass(therapeuticClass: String): List<AnvisaMedicationEntity>
+    override suspend fun getByTherapeuticClass(therapeuticClass: String): List<AnvisaMedicationEntity>?
+
+    @Transaction
+    @Query(
+        value = """
+            SELECT * FROM anvisa_medications
+            WHERE LOWER(active_ingredient) LIKE '%' || LOWER(:activeIngredient) || '%'
+        """,
+    )
+    override suspend fun getByActiveIngredient(activeIngredient: String): List<AnvisaMedicationEntity>?
 }

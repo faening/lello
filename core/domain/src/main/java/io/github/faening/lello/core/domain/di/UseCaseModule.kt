@@ -35,9 +35,11 @@ import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJourna
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByIdUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByProductNameUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByTherapeuticClassUseCase
+import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAllAnvisaMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByActiveIngredientUseCase
+import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByIdUseCase
+import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByProductNameUseCase
+import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.DeleteAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
@@ -301,6 +303,16 @@ object UseCaseModule {
     // endregion: Mascot
 
     // region: Anvisa Medication
+
+    @Provides
+    fun provideGetAllAnvisaMedicationUseCase(
+        repository: AnvisaMedicationRepository<AnvisaMedication>
+    ) = GetAllAnvisaMedicationUseCase(repository)
+
+    @Provides
+    fun provideGetAnvisaMedicationByActiveIngredientUseCase(
+        repository: AnvisaMedicationRepository<AnvisaMedication>
+    ) = GetAnvisaMedicationByActiveIngredientUseCase(repository)
 
     @Provides
     fun provideGetAnvisaMedicationByIdUseCase(
