@@ -3,10 +3,10 @@ package io.github.faening.lello.core.database.model.medication
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.faening.lello.core.model.Medication
+import io.github.faening.lello.core.model.AnvisaMedication
 
-@Entity(tableName = "medication")
-data class MedicationEntity(
+@Entity(tableName = "anvisa_medications")
+data class AnvisaMedicationEntity(
     @PrimaryKey val id: Long,
 
     @ColumnInfo(name = "product_name")
@@ -25,7 +25,7 @@ data class MedicationEntity(
     val activeIngredient: String?
 )
 
-fun MedicationEntity.toModel() = Medication(
+fun AnvisaMedicationEntity.toModel() = AnvisaMedication(
     id = id,
     productName = productName,
     registrationNumber = registrationNumber,
@@ -34,7 +34,7 @@ fun MedicationEntity.toModel() = Medication(
     activeIngredient = activeIngredient
 )
 
-fun Medication.toEntity() = MedicationEntity(
+fun AnvisaMedication.toEntity() = AnvisaMedicationEntity(
     id = id,
     productName = productName,
     registrationNumber = registrationNumber,

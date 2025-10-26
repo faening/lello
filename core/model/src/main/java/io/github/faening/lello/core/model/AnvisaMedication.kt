@@ -3,7 +3,7 @@ package io.github.faening.lello.core.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Medication(
+data class AnvisaMedication(
     val id: Long,
     val productName: String,
     val registrationNumber: String?,

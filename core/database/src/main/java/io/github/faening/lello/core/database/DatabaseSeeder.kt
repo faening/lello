@@ -2,6 +2,7 @@ package io.github.faening.lello.core.database
 
 import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
+import io.github.faening.lello.core.database.seed.AnvisaMedicationSeed
 import io.github.faening.lello.core.database.seed.AppetiteOptionSeed
 import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.DosageFormOptionSeed
@@ -11,7 +12,6 @@ import io.github.faening.lello.core.database.seed.HealthOptionSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
-import io.github.faening.lello.core.database.seed.MedicationSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
@@ -33,6 +33,7 @@ internal object DatabaseSeeder {
     fun seedAll(db: SupportSQLiteDatabase) {
         Log.d(TAG, "Iniciando processo de seed do banco de dados...")
 
+        seedAnvisaMedication(db)
         seedAppetiteOptions(db)
         seedClimateOptions(db)
         seedDosageFormOptions(db)
@@ -43,7 +44,6 @@ internal object DatabaseSeeder {
         seedLocationOptions(db)
         seedMascotStatus(db)
         seedMealOptions(db)
-        seedMedication(db)
         seedPortionOptions(db)
         seedRewardBalance(db)
         seedSleepActivityOptions(db)
@@ -218,13 +218,13 @@ internal object DatabaseSeeder {
         }
     }
 
-    private fun seedMedication(db: SupportSQLiteDatabase) {
+    private fun seedAnvisaMedication(db: SupportSQLiteDatabase) {
         db.beginTransaction()
         try {
-            for (item in MedicationSeed.data) {
+            for (item in AnvisaMedicationSeed.data) {
                 db.execSQL(
                     sql = """
-                    INSERT INTO medication (
+                    INSERT INTO anvisa_medications (
                         product_name,
                         registration_number,
                         therapeutic_class,
@@ -242,7 +242,7 @@ internal object DatabaseSeeder {
                 )
             }
             db.setTransactionSuccessful()
-            Log.d(TAG, "Seed de medicamentos concluído: ${MedicationSeed.data.size} registros")
+            Log.d(TAG, "Seed de medicamentos concluído: ${AnvisaMedicationSeed.data.size} registros")
         } finally {
             db.endTransaction()
         }

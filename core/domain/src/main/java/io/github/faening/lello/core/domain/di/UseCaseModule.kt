@@ -4,13 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.domain.repository.AnvisaMedicationRepository
 import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
-import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
@@ -35,9 +35,9 @@ import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJourna
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByProductNameUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByTherapeuticClassUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByIdUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByProductNameUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAnvisaMedicationByTherapeuticClassUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.DeleteAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
@@ -136,7 +136,7 @@ import io.github.faening.lello.core.domain.usecase.user.GetUserBiometricPreferen
 import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
-import io.github.faening.lello.core.model.Medication
+import io.github.faening.lello.core.model.AnvisaMedication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
@@ -300,24 +300,24 @@ object UseCaseModule {
 
     // endregion: Mascot
 
-    // region: Medication
+    // region: Anvisa Medication
 
     @Provides
-    fun provideGetMedicationByIdUseCase(
-        repository: MedicationRepository<Medication>
-    ) = GetMedicationByIdUseCase(repository)
+    fun provideGetAnvisaMedicationByIdUseCase(
+        repository: AnvisaMedicationRepository<AnvisaMedication>
+    ) = GetAnvisaMedicationByIdUseCase(repository)
 
     @Provides
-    fun provideGetMedicationByProductNameUseCase(
-        repository: MedicationRepository<Medication>
-    ) = GetMedicationByProductNameUseCase(repository)
+    fun provideGetAnvisaMedicationByProductNameUseCase(
+        repository: AnvisaMedicationRepository<AnvisaMedication>
+    ) = GetAnvisaMedicationByProductNameUseCase(repository)
 
     @Provides
-    fun provideGetMedicationByTherapeuticClassUseCase(
-        repository: MedicationRepository<Medication>
-    ) = GetMedicationByTherapeuticClassUseCase(repository)
+    fun provideGetAnvisaMedicationByTherapeuticClassUseCase(
+        repository: AnvisaMedicationRepository<AnvisaMedication>
+    ) = GetAnvisaMedicationByTherapeuticClassUseCase(repository)
 
-    // endregion: Medication
+    // endregion: Anvisa Medication
 
     // region: Onboarding
 
