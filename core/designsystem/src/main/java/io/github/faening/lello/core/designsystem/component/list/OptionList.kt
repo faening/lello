@@ -1,4 +1,4 @@
-package io.github.faening.lello.core.designsystem.component
+package io.github.faening.lello.core.designsystem.component.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
