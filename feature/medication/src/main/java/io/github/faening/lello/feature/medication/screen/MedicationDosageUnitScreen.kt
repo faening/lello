@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,46 +20,43 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
-import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
-fun MedicationDosageScreen(
+fun MedicationDosageUnitScreen(
     viewModel: MedicationViewModel,
     onBack: () -> Unit,
-    onFinish: () -> Unit,
+    onNext: () -> Unit,
 ) {
-    val dosageForms by viewModel.dosageFormOptions.collectAsState()
 
-    MedicationDosageScreenContainer(
-        dosageForms = dosageForms,
+
+    MedicationSelectionContainer(
         onBack = onBack,
-        onSave = onFinish
+        onNext = onNext
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MedicationDosageScreenContainer(
+private fun MedicationSelectionContainer(
     moodColor: MoodColor = MoodColor.DEFAULT,
-    dosageForms: List<MedicationDosageFormOption>,
     onBack: () -> Unit,
-    onSave: () -> Unit,
+    onNext: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            MedicationDosageTopAppBar(
+            MedicationSelectionTopAppBar(
                 onBack = onBack
             )
         },
         bottomBar = {
-            MedicationDosageBottomBar(
+            MedicationSelectionBottomBar(
                 moodColor = moodColor,
-                onSave = onSave
+                onNext = onNext
             )
         }
     ) { paddingValues ->
-        MedicationDosageContent(
+        MedicationSelectionContent(
             moodColor = moodColor,
             modifier = Modifier.padding(paddingValues)
         )
@@ -69,9 +64,9 @@ private fun MedicationDosageScreenContainer(
 }
 
 @Composable
-private fun MedicationDosageTopAppBar(
+private fun MedicationSelectionTopAppBar(
     moodColor: MoodColor = MoodColor.INVERSE,
-    onBack: () -> Unit,
+    onBack: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Remédios"),
@@ -81,9 +76,9 @@ private fun MedicationDosageTopAppBar(
 }
 
 @Composable
-private fun MedicationDosageBottomBar(
+private fun MedicationSelectionBottomBar(
     moodColor: MoodColor,
-    onSave: () -> Unit,
+    onNext: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -96,13 +91,13 @@ private fun MedicationDosageBottomBar(
             icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
             contentDescription = "Próximo",
             moodColor = moodColor,
-            onClick = onSave
+            onClick = onNext
         )
     }
 }
 
 @Composable
-private fun MedicationDosageContent(
+private fun MedicationSelectionContent(
     moodColor: MoodColor,
     modifier: Modifier = Modifier
 ) {
@@ -124,13 +119,12 @@ private fun MedicationDosageContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun MedicationDosageScreenPreview_LightMode() {
+private fun MedicationSelectionScreenPreview_LightMode() {
     LelloTheme {
-        MedicationDosageScreenContainer(
+        MedicationSelectionContainer(
             moodColor = MoodColor.DEFAULT,
-            dosageForms = emptyList(),
             onBack = {},
-            onSave = {}
+            onNext = {}
         )
     }
 }

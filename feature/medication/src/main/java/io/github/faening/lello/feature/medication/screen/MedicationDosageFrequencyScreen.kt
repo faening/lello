@@ -23,40 +23,40 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
-fun MedicationSelectionScreen(
+fun MedicationDosageFrequencyScreen(
     viewModel: MedicationViewModel,
     onBack: () -> Unit,
-    onNext: () -> Unit,
+    onFinish: () -> Unit,
 ) {
 
 
-    MedicationSelectionContainer(
+    MedicationTypeScreenContainer(
         onBack = onBack,
-        onNext = onNext
+        onNext = onFinish
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MedicationSelectionContainer(
+private fun MedicationTypeScreenContainer(
     moodColor: MoodColor = MoodColor.DEFAULT,
     onBack: () -> Unit,
     onNext: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            MedicationSelectionTopAppBar(
+            MedicationTypeTopAppBar(
                 onBack = onBack
             )
         },
         bottomBar = {
-            MedicationSelectionBottomBar(
+            MedicationTypeBottomBar(
                 moodColor = moodColor,
                 onNext = onNext
             )
         }
     ) { paddingValues ->
-        MedicationSelectionContent(
+        MedicationTypeContent(
             moodColor = moodColor,
             modifier = Modifier.padding(paddingValues)
         )
@@ -64,9 +64,9 @@ private fun MedicationSelectionContainer(
 }
 
 @Composable
-private fun MedicationSelectionTopAppBar(
+private fun MedicationTypeTopAppBar(
     moodColor: MoodColor = MoodColor.INVERSE,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Remédios"),
@@ -76,7 +76,7 @@ private fun MedicationSelectionTopAppBar(
 }
 
 @Composable
-private fun MedicationSelectionBottomBar(
+private fun MedicationTypeBottomBar(
     moodColor: MoodColor,
     onNext: () -> Unit,
 ) {
@@ -97,7 +97,7 @@ private fun MedicationSelectionBottomBar(
 }
 
 @Composable
-private fun MedicationSelectionContent(
+private fun MedicationTypeContent(
     moodColor: MoodColor,
     modifier: Modifier = Modifier
 ) {
@@ -119,9 +119,9 @@ private fun MedicationSelectionContent(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun MedicationSelectionScreenPreview_LightMode() {
+private fun MedicationTypeScreenPreview_LightMode() {
     LelloTheme {
-        MedicationSelectionContainer(
+        MedicationTypeScreenContainer(
             moodColor = MoodColor.DEFAULT,
             onBack = {},
             onNext = {}

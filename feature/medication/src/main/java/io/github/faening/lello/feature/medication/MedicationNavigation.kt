@@ -8,17 +8,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.medication.screen.MedicationDosageScreen
+import io.github.faening.lello.feature.medication.screen.MedicationDosageFormScreen
+import io.github.faening.lello.feature.medication.screen.MedicationDosageFrequencyScreen
+import io.github.faening.lello.feature.medication.screen.MedicationDosageUnitScreen
 import io.github.faening.lello.feature.medication.screen.MedicationScreen
-import io.github.faening.lello.feature.medication.screen.MedicationSelectionScreen
-import io.github.faening.lello.feature.medication.screen.MedicationTypeScreen
 
 object MedicationDestinations {
     const val GRAPH = "medication_graph"
     const val HOME = "medication_home"
-    const val SELECT_MEDICATION = "medication_select_medication"
-    const val SELECT_TYPE = "medication_select_type"
-    const val SELECT_DOSAGE = "medication_select_dosage"
+    const val DOSAGE_UNIT = "medication_dosage_unit"
+    const val DOSAGE_FORM = "medication_dosage_form"
+    const val DOSAGE_FREQUENCY = "medication_dosage_frequency"
 }
 
 fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
@@ -26,42 +26,43 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         startDestination = MedicationDestinations.HOME,
         route = MedicationDestinations.GRAPH
     ) {
-        // Step 1: Medication Home Screen
+        // Step 1: Select medication (active ingredient)
         composable(MedicationDestinations.HOME) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
+
             MedicationScreen(
                 viewModel = viewModel,
-                onNext = { navController.navigate(MedicationDestinations.SELECT_MEDICATION) }
+                onNext = { navController.navigate(MedicationDestinations.DOSAGE_UNIT) }
             )
         }
 
-        // Step 2: Select Medication Screen
-        composable(MedicationDestinations.SELECT_MEDICATION) { backStackEntry ->
+        // Step 2: Select dosage unit (dosage unit option)
+        composable(MedicationDestinations.DOSAGE_UNIT) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-            MedicationSelectionScreen(
+            MedicationDosageUnitScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(MedicationDestinations.SELECT_TYPE) }
+                onNext = { navController.navigate(MedicationDestinations.DOSAGE_FORM) }
             )
         }
 
-        // Step 3: Select Medication Type Screen
-        composable(MedicationDestinations.SELECT_TYPE) { backStackEntry ->
+        // Step 3: Select Dosage Screen (dosage form option)
+        composable(MedicationDestinations.DOSAGE_FORM) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-             MedicationTypeScreen(
+             MedicationDosageFormScreen(
                  viewModel = viewModel,
                  onBack = { navController.popBackStack() },
-                 onNext = { navController.navigate(MedicationDestinations.SELECT_DOSAGE) }
+                 onNext = { navController.navigate(MedicationDestinations.DOSAGE_FREQUENCY) }
              )
         }
 
-        // Step 4: Select Dosage Screen
-        composable(MedicationDestinations.SELECT_DOSAGE) { backStackEntry ->
+        // Step 4: Select Type Screen (medication type)
+        composable(MedicationDestinations.DOSAGE_FREQUENCY) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-             MedicationDosageScreen(
+             MedicationDosageFrequencyScreen(
                  viewModel = viewModel,
                  onBack = { navController.popBackStack() },
                  onFinish = { navController.popBackStack(MedicationDestinations.HOME, inclusive = false) }
