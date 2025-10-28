@@ -4,13 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.domain.repository.AnvisaMedicationRepository
 import io.github.faening.lello.core.domain.repository.DailyCheckInRepository
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
+import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
@@ -35,11 +35,11 @@ import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJourna
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.UpdateMascotVitalityUseCase
-import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAllAnvisaMedicationUseCase
-import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByActiveIngredientUseCase
-import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByIdUseCase
-import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByProductNameUseCase
-import io.github.faening.lello.core.domain.usecase.medication.anvisa.GetAnvisaMedicationByTherapeuticClassUseCase
+import io.github.faening.lello.core.domain.usecase.medication.DisableMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdUseCase
+import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.UpdateMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.onboarding.OnboardingUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.DeleteAppetiteOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
@@ -150,11 +150,11 @@ import io.github.faening.lello.core.domain.usecase.user.GetUserBiometricPreferen
 import io.github.faening.lello.core.domain.usecase.user.GetUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SaveUserEmailUseCase
 import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
-import io.github.faening.lello.core.model.AnvisaMedication
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.option.AppetiteOption
 import io.github.faening.lello.core.model.option.ClimateOption
 import io.github.faening.lello.core.model.option.EmotionOption
@@ -316,34 +316,34 @@ object UseCaseModule {
 
     // endregion: Mascot
 
-    // region: Anvisa Medication
+    // region: Medication
 
     @Provides
-    fun provideGetAllAnvisaMedicationUseCase(
-        repository: AnvisaMedicationRepository<AnvisaMedication>
-    ) = GetAllAnvisaMedicationUseCase(repository)
+    fun provideDisableMedicationUseCase(
+        repository: MedicationRepository<Medication>
+    ) = DisableMedicationUseCase(repository)
 
     @Provides
-    fun provideGetAnvisaMedicationByActiveIngredientUseCase(
-        repository: AnvisaMedicationRepository<AnvisaMedication>
-    ) = GetAnvisaMedicationByActiveIngredientUseCase(repository)
+    fun provideGetAllMedicationUseCase(
+        repository: MedicationRepository<Medication>
+    ) = GetAllMedicationUseCase(repository)
 
     @Provides
-    fun provideGetAnvisaMedicationByIdUseCase(
-        repository: AnvisaMedicationRepository<AnvisaMedication>
-    ) = GetAnvisaMedicationByIdUseCase(repository)
+    fun provideGetMedicationByIdUseCase(
+        repository: MedicationRepository<Medication>
+    ) = GetMedicationByIdUseCase(repository)
 
     @Provides
-    fun provideGetAnvisaMedicationByProductNameUseCase(
-        repository: AnvisaMedicationRepository<AnvisaMedication>
-    ) = GetAnvisaMedicationByProductNameUseCase(repository)
+    fun provideSaveMedicationUseCase(
+        repository: MedicationRepository<Medication>
+    ) = SaveMedicationUseCase(repository)
 
     @Provides
-    fun provideGetAnvisaMedicationByTherapeuticClassUseCase(
-        repository: AnvisaMedicationRepository<AnvisaMedication>
-    ) = GetAnvisaMedicationByTherapeuticClassUseCase(repository)
+    fun provideUpdateMedicationUseCase(
+        repository: MedicationRepository<Medication>
+    ) = UpdateMedicationUseCase(repository)
 
-    // endregion: Anvisa Medication
+    // endregion: Medication
 
     // region: Onboarding
 

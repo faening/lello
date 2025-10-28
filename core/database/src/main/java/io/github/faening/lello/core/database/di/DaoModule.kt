@@ -11,11 +11,6 @@ import io.github.faening.lello.core.database.LelloDatabase
 internal object DaoModule {
 
     @Provides
-    fun provideAnvisaMedicationDao(
-        database: LelloDatabase,
-    ) = database.anvisaMedicationDao()
-
-    @Provides
     fun provideAppetiteOptionDao(
         database: LelloDatabase,
     ) = database.appetiteOptionDao()
@@ -79,6 +74,11 @@ internal object DaoModule {
     fun provideMedicationActiveIngredientOptionDao(
         database: LelloDatabase,
     ) = database.medicationActiveIngredientOptionDao()
+
+    @Provides
+    fun provideMedicationDao(
+        database: LelloDatabase,
+    ) = database.medicationDao()
 
     @Provides
     fun provideMedicationDosageFormOptionDao(
