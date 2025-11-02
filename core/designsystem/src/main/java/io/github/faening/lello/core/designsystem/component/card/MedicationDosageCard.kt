@@ -35,9 +35,6 @@ import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.testing.data.MedicationDosageTestData
-import kotlin.rem
-import kotlin.text.toInt
-import kotlin.toString
 
 @Composable
 fun LelloMedicationDosageCard(
@@ -116,7 +113,7 @@ fun LelloMedicationDosageCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Quantidade: ")
                             }
-                            append("$formattedQuantity ${dosage.unit}")
+                            append("$formattedQuantity ${dosage.unitOption.description.lowercase()}")
                         },
                         color = MedicationDosageCardDefaults.secondaryTextColor(),
                         style = MaterialTheme.typography.bodyLarge,

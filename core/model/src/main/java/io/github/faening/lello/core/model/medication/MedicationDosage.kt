@@ -1,24 +1,25 @@
 package io.github.faening.lello.core.model.medication
 
+import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
 import java.time.LocalTime
 
 data class MedicationDosage(
     val dosageNumber: Int,
     val quantity: Double,
-    val unit: String,
+    val unitOption: MedicationDosageUnitOption,
     val time: LocalTime
 ) {
     companion object {
         fun fromViewModel(
             quantity: Double,
-            unit: String,
+            unit: MedicationDosageUnitOption,
             timeString: String
         ): MedicationDosage {
             val time = LocalTime.parse(timeString)
             return MedicationDosage(
                 dosageNumber = 0,
                 quantity = quantity,
-                unit = unit,
+                unitOption = unit,
                 time = time
             )
         }

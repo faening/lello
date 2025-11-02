@@ -191,13 +191,13 @@ class MedicationViewModel @Inject constructor(
 
     fun saveDosage() {
         val quantity = _dosageQuantity.value
-        val unit = _selectedDosageUnit.value?.description ?: return
+        val unit = _selectedDosageUnit.value ?: return
         val timeString = _selectedDosageTime.value
 
         if (quantity <= 0.0) return
 
         try {
-            val newDosage = MedicationDosage.fromViewModel(quantity, unit.lowercase(), timeString)
+            val newDosage = MedicationDosage.fromViewModel(quantity, unit, timeString)
             val updatedList = (_dosages.value + newDosage)
                 .sortedBy { it.time }
                 .mapIndexed { index, dosage ->
