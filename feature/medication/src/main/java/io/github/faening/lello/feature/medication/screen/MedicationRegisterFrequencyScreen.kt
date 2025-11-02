@@ -40,14 +40,16 @@ fun MedicationRegisterFrequencyScreen(
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
     val dosages by viewModel.dosages.collectAsState()
+    val isMedicationValid by viewModel.isMedicationValid.collectAsState()
 
     MedicationRegisterFrequencyScreenContent(
         selectedActiveIngredient = selectedActiveIngredient,
         dosages = dosages,
+        isMedicationValid = isMedicationValid,
         onRemoveDosage = viewModel::removeDosage,
         onBack = onBack,
         onRegisterDosage = onRegisterDosage,
-        onSave = {}
+        onSave = viewModel::saveMedication
     )
 }
 
@@ -56,6 +58,7 @@ fun MedicationRegisterFrequencyScreen(
 private fun MedicationRegisterFrequencyScreenContent(
     selectedActiveIngredient: MedicationActiveIngredientOption? = null,
     dosages: List<MedicationDosage>,
+    isMedicationValid: Boolean = false,
     onRemoveDosage: (MedicationDosage) -> Unit = {},
     onBack: () -> Unit,
     onRegisterDosage: () -> Unit,
@@ -66,7 +69,11 @@ private fun MedicationRegisterFrequencyScreenContent(
             MedicationRegisterFrequencyTopAppBar(onBack)
         },
         bottomBar = {
-            MedicationRegisterFrequencyBottomBar(onRegisterDosage, onSave)
+            MedicationRegisterFrequencyBottomBar(
+                onRegisterDosage = onRegisterDosage,
+                isMedicationValid = isMedicationValid,
+                onSave = onSave
+            )
         }
     ) { paddingValues ->
         Column(
@@ -80,7 +87,10 @@ private fun MedicationRegisterFrequencyScreenContent(
             if (dosages.isEmpty()) {
                 MedicationRegisterFrequencyEmptyContentSection()
             } else {
-                MedicationRegisterFrequencyDosageListSection(dosages, onRemoveDosage)
+                MedicationRegisterFrequencyDosageListSection(
+                    dosages = dosages,
+                    onRemoveDosage = onRemoveDosage
+                )
             }
         }
     }
@@ -100,6 +110,7 @@ private fun MedicationRegisterFrequencyTopAppBar(
 @Composable
 private fun MedicationRegisterFrequencyBottomBar(
     onRegisterDosage: () -> Unit,
+    isMedicationValid: Boolean,
     onSave: () -> Unit
 ) {
     Column (
@@ -115,7 +126,7 @@ private fun MedicationRegisterFrequencyBottomBar(
         )
         LelloFilledButton(
             label = "Salvar remédio",
-            enabled = false,
+            enabled = isMedicationValid,
             onClick = onSave
         )
     }

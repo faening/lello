@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import io.github.faening.lello.core.database.model.medication.MedicationDosageEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntityWithOptions
 import io.github.faening.lello.core.domain.repository.MedicationRepository
@@ -53,8 +54,26 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(entry: MedicationEntity): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDosages(dosages: List<MedicationDosageEntity>)
+
     @Update
     override suspend fun update(entry: MedicationEntity)
+
+    @Query(
+        value = """
+        UPDATE medication_dosages
+        SET active = 0
+        WHERE medication_id = :medicationId
+    """
+    )
+    suspend fun disableDosagesForMedication(medicationId: Long)
+
+    @Transaction
+    suspend fun disableMedicationWithDosages(medicationId: Long) {
+        disable(medicationId)
+        disableDosagesForMedication(medicationId)
+    }
 
     @Transaction
     @Query(

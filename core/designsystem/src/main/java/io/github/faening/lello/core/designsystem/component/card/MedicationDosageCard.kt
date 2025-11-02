@@ -113,7 +113,7 @@ fun LelloMedicationDosageCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Quantidade: ")
                             }
-                            append("$formattedQuantity ${dosage.unitOption.description.lowercase()}")
+                            append("$formattedQuantity ${dosage.unitOption?.description?.lowercase()}")
                         },
                         color = MedicationDosageCardDefaults.secondaryTextColor(),
                         style = MaterialTheme.typography.bodyLarge,

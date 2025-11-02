@@ -3,9 +3,11 @@ package io.github.faening.lello.feature.medication
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.GetAllMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
@@ -26,9 +28,9 @@ class MedicationViewModel @Inject constructor(
     private val getAllActiveIngredientOptionUseCase: GetAllMedicationActiveIngredientOptionUseCase,
     private val getAllMedicationDosageUnitOptionUseCase: GetAllMedicationDosageUnitOptionUseCase,
     private val getAllDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
+    private val saveMedicationUseCase: SaveMedicationUseCase
 ) : ViewModel() {
 
-    // Loaded data and states
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
@@ -42,7 +44,6 @@ class MedicationViewModel @Inject constructor(
     private val _dosageUnitOptions = MutableStateFlow<List<MedicationDosageUnitOption>>(emptyList())
     val dosageUnitOptions: StateFlow<List<MedicationDosageUnitOption>> = _dosageUnitOptions
 
-    // Selected values
     private val _selectedActiveIngredient = MutableStateFlow<MedicationActiveIngredientOption?>(null)
     val selectedActiveIngredient: StateFlow<MedicationActiveIngredientOption?> = _selectedActiveIngredient
 
@@ -59,6 +60,9 @@ class MedicationViewModel @Inject constructor(
     private val _selectedDosageTime = MutableStateFlow("22:00")
     val selectedDosageTime: StateFlow<String> = _selectedDosageTime.asStateFlow()
 
+    private val _dosages = MutableStateFlow<List<MedicationDosage>>(emptyList())
+    val dosages: StateFlow<List<MedicationDosage>> = _dosages.asStateFlow()
+
     /**
      * Indica se a dosagem atual é válida para ser adicionada à lista de dosagens
      */
@@ -74,8 +78,20 @@ class MedicationViewModel @Inject constructor(
         initialValue = false
     )
 
-    private val _dosages = MutableStateFlow<List<MedicationDosage>>(emptyList())
-    val dosages: StateFlow<List<MedicationDosage>> = _dosages.asStateFlow()
+    /**
+     * Indica se o medicamento atual é válido para ser salvo
+     */
+    val isMedicationValid: StateFlow<Boolean> = combine(
+        _selectedActiveIngredient,
+        _selectedDosageForm,
+        _dosages
+    ) { activeIngredient, dosageForm, dosages ->
+        activeIngredient != null && dosageForm != null && dosages.isNotEmpty()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
 
     init {
         loadActiveIngredients()
@@ -223,6 +239,42 @@ class MedicationViewModel @Inject constructor(
                 d.copy(dosageNumber = index + 1)
             }
         _dosages.value = updatedList
+    }
+
+    fun saveMedication() {
+        viewModelScope.launch {
+            try {
+                val activeIngredient = _selectedActiveIngredient.value
+                    ?: throw IllegalArgumentException("Princípio ativo não selecionado")
+
+                val dosageForm = _selectedDosageForm.value
+                    ?: throw IllegalArgumentException("Forma farmacêutica não selecionada")
+
+                val now = System.currentTimeMillis()
+
+                val medication = Medication(
+                    id = null,
+                    activeIngredientOption = activeIngredient,
+                    dosageFormOption = dosageForm,
+                    dosages = _dosages.value,
+                    active = true,
+                    createdAt = now,
+                    updatedAt = now
+                )
+
+                saveMedicationUseCase.invoke(medication)
+
+                clearMedicationData()
+            } catch (_: IllegalArgumentException) { }
+        }
+    }
+
+    private fun clearMedicationData() {
+        _searchQuery.value = ""
+        _selectedActiveIngredient.value = null
+        _selectedDosageForm.value = null
+        _dosages.value = emptyList()
+        resetDosageFields()
     }
 
     // endregion: Setters and updaters

@@ -4,7 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import io.github.faening.lello.core.database.model.option.MedicationActiveIngredientOptionEntity
 import io.github.faening.lello.core.database.model.option.MedicationDosageFormOptionEntity
-import io.github.faening.lello.core.database.model.option.MedicationDosageUnitOptionEntity
 import io.github.faening.lello.core.database.model.option.toModel
 import io.github.faening.lello.core.model.medication.Medication
 
@@ -21,18 +20,17 @@ data class MedicationEntityWithOptions(
     )
     val dosageFormOption: MedicationDosageFormOptionEntity?,
     @Relation(
-        parentColumn = "dosage_unit_option_id",
-        entityColumn = "dosageUnitOptionId"
+        parentColumn = "medicationId",
+        entityColumn = "medication_id"
     )
-    val dosageUnitOptionId: MedicationDosageUnitOptionEntity?
+    val dosages: List<MedicationDosageEntity>
 )
 
 fun MedicationEntityWithOptions.toModel() = Medication(
     id = medication.medicationId,
     activeIngredientOption = activeIngredientOption?.toModel(),
     dosageFormOption = dosageFormOption?.toModel(),
-    dosageUnitOption = dosageUnitOptionId?.toModel(),
-    strengthValue = medication.strengthValue ?: 0.0,
+    dosages = dosages.map { it.toModel() },
     active = medication.active,
     createdAt = medication.createdAt,
     updatedAt = medication.updatedAt,

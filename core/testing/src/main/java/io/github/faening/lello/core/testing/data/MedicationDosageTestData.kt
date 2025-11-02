@@ -15,7 +15,8 @@ object MedicationDosageTestData {
                 blocked = true,
                 active = true
             ),
-            time = LocalTime.of(8, 0)
+            time = LocalTime.of(8, 0),
+            active = true
         ),
         MedicationDosage(
             dosageNumber = 2,
@@ -26,7 +27,8 @@ object MedicationDosageTestData {
                 blocked = true,
                 active = true
             ),
-            time = LocalTime.of(14, 0)
+            time = LocalTime.of(14, 0),
+            active = true
         ),
         MedicationDosage(
             dosageNumber = 3,
@@ -37,7 +39,8 @@ object MedicationDosageTestData {
                 blocked = true,
                 active = true
             ),
-            time = LocalTime.of(20, 0)
+            time = LocalTime.of(20, 0),
+            active = true
         )
     )
 }

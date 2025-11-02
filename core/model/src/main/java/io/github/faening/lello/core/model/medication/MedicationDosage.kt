@@ -1,13 +1,16 @@
 package io.github.faening.lello.core.model.medication
 
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
+import kotlinx.serialization.Serializable
 import java.time.LocalTime
 
+@Serializable
 data class MedicationDosage(
     val dosageNumber: Int,
     val quantity: Double,
-    val unitOption: MedicationDosageUnitOption,
-    val time: LocalTime
+    val unitOption: MedicationDosageUnitOption?,
+    val time: LocalTime,
+    val active: Boolean
 ) {
     companion object {
         fun fromViewModel(
@@ -20,7 +23,8 @@ data class MedicationDosage(
                 dosageNumber = 0,
                 quantity = quantity,
                 unitOption = unit,
-                time = time
+                time = time,
+                active = true
             )
         }
     }

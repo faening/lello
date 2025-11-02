@@ -51,6 +51,7 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
 import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
+import io.github.faening.lello.core.database.model.medication.MedicationDosageEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.option.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
@@ -99,6 +100,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         MealOptionEntity::class,
         MedicationActiveIngredientOptionEntity::class,
         MedicationEntity::class,
+        MedicationDosageEntity::class,
         MedicationDosageFormOptionEntity::class,
         MedicationDosageUnitOptionEntity::class,
         MoodJournalEntity::class,
