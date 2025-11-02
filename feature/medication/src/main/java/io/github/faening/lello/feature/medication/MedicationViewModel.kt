@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.GetAllMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
@@ -15,8 +16,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,6 +55,9 @@ class MedicationViewModel @Inject constructor(
 
     private val _selectedDosageTime = MutableStateFlow("22:00")
     val selectedDosageTime: StateFlow<String> = _selectedDosageTime.asStateFlow()
+
+    private val _dosages = MutableStateFlow<List<MedicationDosage>>(emptyList())
+    val dosages: StateFlow<List<MedicationDosage>> = _dosages.asStateFlow()
 
     init {
         loadActiveIngredients()
@@ -169,13 +171,40 @@ class MedicationViewModel @Inject constructor(
         _selectedDosageTime.value = time
     }
 
-    fun getFormattedTime(): String? {
-        return try {
-            val formatter = DateTimeFormatter.ofPattern("HH:mm")
-            LocalTime.parse(_selectedDosageTime.value, formatter).format(formatter)
-        } catch (e: Exception) {
-            null
-        }
+    fun saveDosage() {
+        val quantity = _dosageQuantity.value
+        val unit = _selectedDosageUnit.value?.description ?: return
+        val timeString = _selectedDosageTime.value
+
+        if (quantity <= 0.0) return
+
+        try {
+            val newDosage = MedicationDosage.fromViewModel(quantity, unit.lowercase(), timeString)
+            val updatedList = (_dosages.value + newDosage)
+                .sortedBy { it.time }
+                .mapIndexed { index, dosage ->
+                    dosage.copy(dosageNumber = index + 1)
+                }
+
+            _dosages.value = updatedList
+            resetDosageFields()
+        } catch (_: Exception) { }
+    }
+
+    private fun resetDosageFields() {
+        _dosageQuantity.value = 0.0
+        _dosageQuantityString.value = ""
+        _selectedDosageTime.value = "22:00"
+    }
+
+    fun removeDosage(dosage: MedicationDosage) {
+        val updatedList = _dosages.value
+            .filter { it != dosage }
+            .sortedBy { it.time }
+            .mapIndexed { index, d ->
+                d.copy(dosageNumber = index + 1)
+            }
+        _dosages.value = updatedList
     }
 
     // endregion: Setters and updaters

@@ -6,73 +6,73 @@ object MedicationDosageUnitOptionSeed : Seed<MedicationDosageUnitOptionEntity> {
     override val data = listOf(
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 1,
-            description = "Miligrama (mg)",
+            description = "Miligrama(s) (mg)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 2,
-            description = "Grama (g)",
+            description = "Grama(s) (g)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 3,
-            description = "Micrograma (mcg)",
+            description = "Micrograma(s) (mcg)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 4,
-            description = "Mililitro (ml)",
+            description = "Mililitro(s) (ml)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 5,
-            description = "Centímetro Cúbico (cc)",
+            description = "Centímetro(s) Cúbico(s) (cc)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 6,
-            description = "Gota (gts)",
+            description = "Gota(s) (gts)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 7,
-            description = "Litro (L)",
+            description = "Litro(s) (L)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 8,
-            description = "Unidade Internacional (UI)",
+            description = "Unidade(s) Internacional(is) (UI)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 9,
-            description = "Miliunidade Internacional (mUI)",
+            description = "Miliunidade(s) Internacional(is) (mUI)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 10,
-            description = "Jato",
+            description = "Jato(s)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 11,
-            description = "Borrifada",
+            description = "Borrifada(s)",
             blocked = true,
             active = true
         ),
         MedicationDosageUnitOptionEntity(
             dosageUnitOptionId = 12,
-            description = "Inalação",
+            description = "Inalação(ões)",
             blocked = true,
             active = true
         ),

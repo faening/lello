@@ -72,7 +72,10 @@ fun MedicationRegisterDosageScreen(
         selectedDosageTime = selectedDosageTime,
         onDosageTimeChange = viewModel::updateSelectedDosageTime,
         onBack = onBack,
-        onSave = {}
+        onSave = {
+            viewModel.saveDosage()
+            onBack()
+        }
     )
 }
 

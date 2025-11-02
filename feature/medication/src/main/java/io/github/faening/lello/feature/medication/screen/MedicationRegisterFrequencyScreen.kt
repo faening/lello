@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,10 +24,13 @@ import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.card.LelloMedicationDosageCard
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
+import io.github.faening.lello.core.testing.data.MedicationDosageTestData
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
@@ -35,9 +40,12 @@ fun MedicationRegisterFrequencyScreen(
     onRegister: () -> Unit,
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
+    val dosages by viewModel.dosages.collectAsState()
 
     MedicationRegisterFrequencyScreenContent(
         selectedActiveIngredient = selectedActiveIngredient,
+        dosages = dosages,
+        onRemoveDosage = viewModel::removeDosage,
         onBack = onBack,
         onRegister = onRegister
     )
@@ -46,33 +54,18 @@ fun MedicationRegisterFrequencyScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MedicationRegisterFrequencyScreenContent(
-    moodColor: MoodColor = MoodColor.DEFAULT,
     selectedActiveIngredient: MedicationActiveIngredientOption? = null,
-    dosages: List<Any> = emptyList(),
+    dosages: List<MedicationDosage>,
+    onRemoveDosage: (MedicationDosage) -> Unit = {},
     onBack: () -> Unit,
     onRegister: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            LelloTopAppBar(
-                title = TopAppBarTitle(text = "Registrar remédio"),
-                navigateUp = TopAppBarAction(onClick = onBack),
-                moodColor = MoodColor.INVERSE
-            )
+            MedicationRegisterFrequencyTopAppBar(onBack)
         },
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Dimension.spacingRegular),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                LelloFilledButton(
-                    label = "Cadastrar",
-                    onClick = onRegister
-                )
-            }
+            MedicationRegisterFrequencyBottomBar(onRegister)
         }
     ) { paddingValues ->
         Column(
@@ -81,34 +74,98 @@ private fun MedicationRegisterFrequencyScreenContent(
                 .padding(paddingValues)
                 .padding(Dimension.spacingRegular)
         ) {
-            // Header
-            Text(
-                text = "Cadastre as dosagens para o remédio selecionado:",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-            )
-            Text(
-                text = "${selectedActiveIngredient?.description?.uppercase()}",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-            )
+            MedicationRegisterFrequencyHeaderSection(selectedActiveIngredient)
 
             if (dosages.isEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Você ainda não registrou nenhuma dose para este remédio.",
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-                    )
-                }
+                MedicationRegisterFrequencyEmptyContentSection()
             } else {
-                // Dosage list would go here
+                MedicationRegisterFrequencyDosageListSection(dosages, onRemoveDosage)
             }
+        }
+    }
+}
+
+@Composable
+private fun MedicationRegisterFrequencyTopAppBar(
+    onBack: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Registrar remédio"),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = MoodColor.INVERSE
+    )
+}
+
+@Composable
+private fun MedicationRegisterFrequencyBottomBar(
+    onRegister: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LelloFilledButton(
+            label = "Cadastrar",
+            onClick = onRegister
+        )
+    }
+}
+
+@Composable
+private fun MedicationRegisterFrequencyHeaderSection(
+    selectedActiveIngredient: MedicationActiveIngredientOption?
+) {
+    Text(
+        text = "Cadastre as dosagens para o remédio selecionado:",
+        style = MaterialTheme.typography.headlineSmall,
+        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+    )
+    Text(
+        text = "${selectedActiveIngredient?.description?.uppercase()}",
+        style = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+    )
+}
+
+@Composable
+private fun MedicationRegisterFrequencyEmptyContentSection() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Você ainda não registrou nenhuma dose para este remédio.",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+        )
+    }
+}
+
+@Composable
+private fun MedicationRegisterFrequencyDosageListSection(
+    dosages: List<MedicationDosage>,
+    onRemoveDosage: (MedicationDosage) -> Unit
+) {
+    Text(
+        text = "Dosagens cadastradas (${dosages.size}):",
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+    )
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingMedium)
+    ) {
+        items(dosages) { dosage ->
+            LelloMedicationDosageCard(
+                dosage = dosage,
+                onRemove = { onRemoveDosage(dosage) }
+            )
         }
     }
 }
@@ -117,15 +174,34 @@ private fun MedicationRegisterFrequencyScreenContent(
 
 @Composable
 @Preview(
-    name = "Default",
+    name = "Empty State",
     group = "Light Mode",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun MedicationRegisterFrequencyScreenPreview_LightMode() {
+private fun MedicationRegisterFrequencyScreenPreview_EmptyState_LightMode() {
     LelloTheme {
         MedicationRegisterFrequencyScreenContent(
-            moodColor = MoodColor.DEFAULT,
+            dosages = emptyList(),
+            onBack = {},
+            onRegister = {}
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Dosages List",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun MedicationRegisterFrequencyScreenPreview_DosagesList_LightMode() {
+    val dosages = MedicationDosageTestData.list
+
+    LelloTheme {
+        MedicationRegisterFrequencyScreenContent(
+            dosages = dosages,
             onBack = {},
             onRegister = {}
         )
