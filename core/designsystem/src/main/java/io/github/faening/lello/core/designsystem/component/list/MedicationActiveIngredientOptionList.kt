@@ -18,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,26 +33,43 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.testing.data.MedicationActiveIngredientOptionTestData
 
 @Composable
 fun LelloMedicationActiveIngredientOptionList(
-    items: List<MedicationActiveIngredientOption>,
-    onSelect: (MedicationActiveIngredientOption) -> Unit,
+    items: List<JournalOption>,
+    onSelect: (JournalOption) -> Unit,
     searchQuery: String = "",
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
+    val selectedItem = remember { mutableStateOf<JournalOption?>(null) }
+
     LazyColumn(modifier = modifier) {
         itemsIndexed(items) { index, item ->
-            // Superior divider
             if (index == 0) { DividerLine() }
 
-            // Medication Item
+            val isSelected = selectedItem.value == item
+            val backgroundColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                Color.Transparent
+            }
+            val textColor = if (isSelected) {
+                MaterialTheme.colorScheme.onPrimary
+            } else {
+                MedicationListDefaults.textColor()
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onSelect(item) }
+                    .background(backgroundColor)
+                    .clickable {
+                        selectedItem.value = item
+                        onSelect(item)
+                    }
                     .padding(horizontal = Dimension.spacingRegular, vertical = Dimension.spacingMedium),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
@@ -62,11 +81,10 @@ fun LelloMedicationActiveIngredientOptionList(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Medication Name
                     Text(
-                        text = buildHighlightedText(item.description.uppercase(), searchQuery.uppercase()),
+                        text = buildHighlightedText(item.description.uppercase(), searchQuery.uppercase(), isSelected),
                         style = MaterialTheme.typography.titleMedium,
-                        color = MedicationListDefaults.textColor(),
+                        color = textColor,
                         maxLines = 6,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.fillMaxSize()
@@ -74,7 +92,6 @@ fun LelloMedicationActiveIngredientOptionList(
                 }
             }
 
-            // Inferior divider
             DividerLine()
         }
     }
@@ -94,11 +111,11 @@ private fun DividerLine() {
 }
 
 @Composable
-private fun buildHighlightedText(text: String, searchQuery: String): AnnotatedString {
+private fun buildHighlightedText(text: String, searchQuery: String, isSelected: Boolean): AnnotatedString {
     if (searchQuery.isEmpty()) {
         return AnnotatedString(text, listOf(
             AnnotatedString.Range(
-                SpanStyle(color = MedicationListDefaults.textColor()),
+                SpanStyle(color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MedicationListDefaults.textColor()),
                 0,
                 text.length
             )
@@ -112,7 +129,7 @@ private fun buildHighlightedText(text: String, searchQuery: String): AnnotatedSt
         regex.findAll(text).forEach { match ->
             append(text.substring(lastIndex, match.range.first))
             withStyle(style = SpanStyle(
-                color = MedicationListDefaults.activeTextColor(),
+                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MedicationListDefaults.activeTextColor(),
                 fontWeight = FontWeight.Bold
             )) {
                 append(match.value)
@@ -151,12 +168,30 @@ private object MedicationListDefaults {
     backgroundColor = 0xFFFFFBF0
 )
 @Composable
-private fun LelloMedicationItemPreview_LightMode() {
+private fun LelloMedicationItemPreview_LightMode_Default() {
     val items = MedicationActiveIngredientOptionTestData.list
     LelloTheme {
         LelloMedicationActiveIngredientOptionList(
             items = items,
             onSelect = {}
+        )
+    }
+}
+
+@Preview(
+    name = "Light",
+    group = "Unselected",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    backgroundColor = 0xFFFFFBF0
+)
+@Composable
+private fun LelloMedicationItemPreview_LightMode_Selected() {
+    val items = MedicationActiveIngredientOptionTestData.list
+    LelloTheme {
+        LelloMedicationActiveIngredientOptionList(
+            items = items,
+            onSelect = { items.first() }
         )
     }
 }

@@ -8,17 +8,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.feature.medication.screen.MedicationDosageFormScreen
-import io.github.faening.lello.feature.medication.screen.MedicationDosageFrequencyScreen
-import io.github.faening.lello.feature.medication.screen.MedicationDosageUnitScreen
+import io.github.faening.lello.feature.medication.screen.MedicationRegisterActiveIngredientScreen
+import io.github.faening.lello.feature.medication.screen.MedicationRegisterDosageScreen
+import io.github.faening.lello.feature.medication.screen.MedicationRegisterFormScreen
+import io.github.faening.lello.feature.medication.screen.MedicationRegisterFrequencyScreen
 import io.github.faening.lello.feature.medication.screen.MedicationScreen
 
 object MedicationDestinations {
     const val GRAPH = "medication_graph"
     const val HOME = "medication_home"
-    const val DOSAGE_UNIT = "medication_dosage_unit"
-    const val DOSAGE_FORM = "medication_dosage_form"
-    const val DOSAGE_FREQUENCY = "medication_dosage_frequency"
+    const val MEDICATION_REGISTER_ACTIVE_INGREDIENT = "medication_register_active_ingredient"
+    const val MEDICATION_REGISTER_FORM = "medication_register_form"
+    const val MEDICATION_REGISTER_FREQUENCY = "medication_register_frequency"
+    const val MEDICATION_REGISTER_DOSAGE = "medication_register_dosage"
 }
 
 fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
@@ -26,47 +28,59 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         startDestination = MedicationDestinations.HOME,
         route = MedicationDestinations.GRAPH
     ) {
-        // Step 1: Select medication (active ingredient)
+        // Home Screen
         composable(MedicationDestinations.HOME) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
             MedicationScreen(
-                viewModel = viewModel,
-                onNext = { navController.navigate(MedicationDestinations.DOSAGE_UNIT) }
-            )
+                 viewModel = viewModel,
+                 onRegisterMedication = {
+                     navController.navigate(MedicationDestinations.MEDICATION_REGISTER_ACTIVE_INGREDIENT)
+                 }
+             )
         }
 
-        // Step 2: Select dosage unit (dosage unit option)
-        composable(MedicationDestinations.DOSAGE_UNIT) { backStackEntry ->
+        // Step 1: Select medication (active ingredient)
+        composable(MedicationDestinations.MEDICATION_REGISTER_ACTIVE_INGREDIENT) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-            MedicationDosageUnitScreen(
+            MedicationRegisterActiveIngredientScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onNext = { navController.navigate(MedicationDestinations.DOSAGE_FORM) }
+                onNext = { navController.navigate(MedicationDestinations.MEDICATION_REGISTER_FORM) }
             )
         }
 
-        // Step 3: Select Dosage Screen (dosage form option)
-        composable(MedicationDestinations.DOSAGE_FORM) { backStackEntry ->
+        // Step 2: Select medication presentation (dosage form)
+        composable(MedicationDestinations.MEDICATION_REGISTER_FORM) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-             MedicationDosageFormScreen(
-                 viewModel = viewModel,
-                 onBack = { navController.popBackStack() },
-                 onNext = { navController.navigate(MedicationDestinations.DOSAGE_FREQUENCY) }
-             )
+            MedicationRegisterFormScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onNext = { navController.navigate(MedicationDestinations.MEDICATION_REGISTER_FREQUENCY) }
+            )
         }
 
-        // Step 4: Select Type Screen (medication type)
-        composable(MedicationDestinations.DOSAGE_FREQUENCY) { backStackEntry ->
+        // Step 3: Select dosage list (dosage quantity and frequency)
+        composable(MedicationDestinations.MEDICATION_REGISTER_FREQUENCY) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
-             MedicationDosageFrequencyScreen(
-                 viewModel = viewModel,
-                 onBack = { navController.popBackStack() },
-                 onFinish = { navController.popBackStack(MedicationDestinations.HOME, inclusive = false) }
-             )
+            MedicationRegisterFrequencyScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onRegister = { navController.navigate(MedicationDestinations.MEDICATION_REGISTER_DOSAGE) }
+            )
+        }
+
+        // Step 4: Select dosage unit (dosage unit option)
+        composable(MedicationDestinations.MEDICATION_REGISTER_DOSAGE) { backStackEntry ->
+            val viewModel = sharedMedicationViewModel(navController, backStackEntry)
+
+            MedicationRegisterDosageScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
