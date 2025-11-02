@@ -35,6 +35,9 @@ import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.testing.data.MedicationDosageTestData
+import kotlin.rem
+import kotlin.text.toInt
+import kotlin.toString
 
 @Composable
 fun LelloMedicationDosageCard(
@@ -42,6 +45,18 @@ fun LelloMedicationDosageCard(
     onRemove: () -> Unit,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
+
+    @SuppressLint("DefaultLocale")
+    val formattedTime = dosage.time.let { time ->
+        String.format("%02dh %02dm", time.hour, time.minute)
+    }
+
+    val formattedQuantity = if (dosage.quantity % 1 == 0.0) {
+        dosage.quantity.toInt().toString()
+    } else {
+        dosage.quantity.toString()
+    }
+
 
     Box(
         modifier.padding(end = Dimension.spacingSmall, bottom = Dimension.spacingSmall)
@@ -89,7 +104,7 @@ fun LelloMedicationDosageCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Horário: ")
                             }
-                            append("${dosage.time} hora(s)")
+                            append(formattedTime)
                         },
                         style = MaterialTheme.typography.bodyLarge,
                         color = MedicationDosageCardDefaults.secondaryTextColor(),
@@ -101,7 +116,7 @@ fun LelloMedicationDosageCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("Quantidade: ")
                             }
-                            append("${dosage.quantity} ${dosage.unit}")
+                            append("$formattedQuantity ${dosage.unit}")
                         },
                         color = MedicationDosageCardDefaults.secondaryTextColor(),
                         style = MaterialTheme.typography.bodyLarge,

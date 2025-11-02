@@ -12,9 +12,12 @@ import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,6 +58,21 @@ class MedicationViewModel @Inject constructor(
 
     private val _selectedDosageTime = MutableStateFlow("22:00")
     val selectedDosageTime: StateFlow<String> = _selectedDosageTime.asStateFlow()
+
+    /**
+     * Indica se a dosagem atual é válida para ser adicionada à lista de dosagens
+     */
+    val isDosageValid: StateFlow<Boolean> = combine(
+        _dosageQuantity,
+        _selectedDosageUnit,
+        _selectedDosageTime
+    ) { quantity, unit, _ ->
+        quantity > 0.0 && unit != null
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
 
     private val _dosages = MutableStateFlow<List<MedicationDosage>>(emptyList())
     val dosages: StateFlow<List<MedicationDosage>> = _dosages.asStateFlow()

@@ -61,6 +61,7 @@ fun MedicationRegisterDosageScreen(
     val dosageUnitOptions by viewModel.dosageUnitOptions.collectAsState()
     val selectedDosageUnit by viewModel.selectedDosageUnit.collectAsState()
     val selectedDosageTime by viewModel.selectedDosageTime.collectAsState()
+    val isDosageValid by viewModel.isDosageValid.collectAsState()
 
     MedicationRegisterDosageScreenContent(
         selectedActiveIngredient = selectedActiveIngredient,
@@ -71,6 +72,7 @@ fun MedicationRegisterDosageScreen(
         onDosageUnitSelect = viewModel::selectDosageUnit,
         selectedDosageTime = selectedDosageTime,
         onDosageTimeChange = viewModel::updateSelectedDosageTime,
+        isDosageValid = isDosageValid,
         onBack = onBack,
         onSave = {
             viewModel.saveDosage()
@@ -90,6 +92,7 @@ private fun MedicationRegisterDosageScreenContent(
     onDosageUnitSelect: (MedicationDosageUnitOption?) -> Unit = {},
     selectedDosageTime: String,
     onDosageTimeChange: (String) -> Unit = {},
+    isDosageValid: Boolean = false,
     onBack: () -> Unit,
     onSave: () -> Unit
 ) {
@@ -98,7 +101,7 @@ private fun MedicationRegisterDosageScreenContent(
             MedicationRegisterDosageTopAppBar(onBack)
         },
         bottomBar = {
-            MedicationRegisterDosageBottomBar(onSave)
+            MedicationRegisterDosageBottomBar(isDosageValid, onSave)
         }
     ) { paddingValues ->
         Column(
@@ -138,6 +141,7 @@ private fun MedicationRegisterDosageTopAppBar(
 
 @Composable
 private fun MedicationRegisterDosageBottomBar(
+    isEnabled: Boolean,
     onSave: () -> Unit
 ) {
     Row(
@@ -149,6 +153,7 @@ private fun MedicationRegisterDosageBottomBar(
     ) {
         LelloFilledButton(
             label = "Salvar",
+            enabled = isEnabled,
             onClick = onSave
         )
     }
