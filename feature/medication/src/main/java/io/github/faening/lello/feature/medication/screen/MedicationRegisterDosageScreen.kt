@@ -33,6 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
@@ -49,6 +53,7 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
+import io.github.faening.lello.core.testing.data.MedicationActiveIngredientOptionTestData
 import io.github.faening.lello.feature.medication.MedicationViewModel
 
 @Composable
@@ -166,7 +171,7 @@ private fun MedicationRegisterDosageHeaderSection(
     Text(
         text = "Cadastre a dosagem para o remédio selecionado",
         style = MaterialTheme.typography.headlineSmall,
-        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+        modifier = Modifier.padding(bottom = Dimension.spacingRegular)
     )
     Text(
         text = "${selectedActiveIngredient?.description?.uppercase()}",
@@ -351,9 +356,11 @@ private fun MedicationRegisterDosageTimeSection(
     showBackground = true
 )
 private fun MedicationRegisterDosageScreenPreview_LightMode() {
+    val selectedActiveIngredient = MedicationActiveIngredientOptionTestData.list.first()
+
     LelloTheme {
         MedicationRegisterDosageScreenContent(
-            selectedActiveIngredient = null,
+            selectedActiveIngredient = selectedActiveIngredient,
             dosageQuantity = "",
             onDosageQuantityChange = {},
             dosageUnitOptions = emptyList(),

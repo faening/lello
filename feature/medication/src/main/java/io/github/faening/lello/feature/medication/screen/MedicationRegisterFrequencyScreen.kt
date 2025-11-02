@@ -119,7 +119,7 @@ private fun MedicationRegisterFrequencyHeaderSection(
     selectedActiveIngredient: MedicationActiveIngredientOption?
 ) {
     Text(
-        text = "Cadastre as dosagens para o remédio selecionado:",
+        text = "Dosagens cadastradas para o remédio selecionado",
         style = MaterialTheme.typography.headlineSmall,
         modifier = Modifier.padding(bottom = Dimension.spacingRegular)
     )
