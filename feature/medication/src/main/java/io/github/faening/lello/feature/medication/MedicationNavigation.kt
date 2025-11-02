@@ -69,7 +69,7 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
             MedicationRegisterFrequencyScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onRegister = { navController.navigate(MedicationDestinations.MEDICATION_REGISTER_DOSAGE) }
+                onRegisterDosage = { navController.navigate(MedicationDestinations.MEDICATION_REGISTER_DOSAGE) }
             )
         }
 

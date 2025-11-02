@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.medication.screen
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +36,7 @@ import io.github.faening.lello.feature.medication.MedicationViewModel
 fun MedicationRegisterFrequencyScreen(
     viewModel: MedicationViewModel,
     onBack: () -> Unit,
-    onRegister: () -> Unit,
+    onRegisterDosage: () -> Unit,
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
     val dosages by viewModel.dosages.collectAsState()
@@ -47,7 +46,8 @@ fun MedicationRegisterFrequencyScreen(
         dosages = dosages,
         onRemoveDosage = viewModel::removeDosage,
         onBack = onBack,
-        onRegister = onRegister
+        onRegisterDosage = onRegisterDosage,
+        onSave = {}
     )
 }
 
@@ -58,14 +58,15 @@ private fun MedicationRegisterFrequencyScreenContent(
     dosages: List<MedicationDosage>,
     onRemoveDosage: (MedicationDosage) -> Unit = {},
     onBack: () -> Unit,
-    onRegister: () -> Unit,
+    onRegisterDosage: () -> Unit,
+    onSave: () -> Unit
 ) {
     Scaffold(
         topBar = {
             MedicationRegisterFrequencyTopAppBar(onBack)
         },
         bottomBar = {
-            MedicationRegisterFrequencyBottomBar(onRegister)
+            MedicationRegisterFrequencyBottomBar(onRegisterDosage, onSave)
         }
     ) { paddingValues ->
         Column(
@@ -98,18 +99,24 @@ private fun MedicationRegisterFrequencyTopAppBar(
 
 @Composable
 private fun MedicationRegisterFrequencyBottomBar(
-    onRegister: () -> Unit
+    onRegisterDosage: () -> Unit,
+    onSave: () -> Unit
 ) {
-    Row(
+    Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.spacingRegular),
-        horizontalArrangement = Arrangement.End,
-        verticalAlignment = Alignment.CenterVertically
+            .padding(Dimension.spacingMedium),
     ) {
         LelloFilledButton(
-            label = "Cadastrar",
-            onClick = onRegister
+            label = "Cadastrar dose",
+            onClick = onRegisterDosage,
+            moodColor = MoodColor.SECONDARY,
+            modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+        )
+        LelloFilledButton(
+            label = "Salvar remédio",
+            enabled = false,
+            onClick = onSave
         )
     }
 }
@@ -184,7 +191,8 @@ private fun MedicationRegisterFrequencyScreenPreview_EmptyState_LightMode() {
         MedicationRegisterFrequencyScreenContent(
             dosages = emptyList(),
             onBack = {},
-            onRegister = {}
+            onRegisterDosage = {},
+            onSave = {}
         )
     }
 }
@@ -203,7 +211,8 @@ private fun MedicationRegisterFrequencyScreenPreview_DosagesList_LightMode() {
         MedicationRegisterFrequencyScreenContent(
             dosages = dosages,
             onBack = {},
-            onRegister = {}
+            onRegisterDosage = {},
+            onSave = {}
         )
     }
 }
