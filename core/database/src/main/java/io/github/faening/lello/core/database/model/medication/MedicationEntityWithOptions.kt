@@ -21,9 +21,10 @@ data class MedicationEntityWithOptions(
     val dosageFormOption: MedicationDosageFormOptionEntity?,
     @Relation(
         parentColumn = "medicationId",
-        entityColumn = "medication_id"
+        entityColumn = "medication_id",
+        entity = MedicationDosageEntity::class
     )
-    val dosages: List<MedicationDosageEntity>
+    val dosages: List<MedicationDosageEntityWithOption>
 )
 
 fun MedicationEntityWithOptions.toModel() = Medication(

@@ -34,7 +34,7 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
 
             MedicationScreen(
                  viewModel = viewModel,
-                 onRegisterMedication = {
+                 onRegister = {
                      navController.navigate(MedicationDestinations.MEDICATION_REGISTER_ACTIVE_INGREDIENT)
                  }
              )

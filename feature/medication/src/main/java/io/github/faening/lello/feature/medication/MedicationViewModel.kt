@@ -33,6 +33,9 @@ class MedicationViewModel @Inject constructor(
     private val saveMedicationUseCase: SaveMedicationUseCase
 ) : ViewModel() {
 
+    private val _medications = MutableStateFlow<List<Medication>>(emptyList())
+    val medications: StateFlow<List<Medication>> = _medications.asStateFlow()
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
@@ -99,6 +102,7 @@ class MedicationViewModel @Inject constructor(
     )
 
     init {
+        loadMedications()
         loadActiveIngredients()
         loadDosageUnits()
         loadDosageForms()
@@ -108,6 +112,12 @@ class MedicationViewModel @Inject constructor(
     }
 
     // region: Loaders and setups
+
+    private fun loadMedications() {
+        viewModelScope.launch {
+            getAllMedicationUseCase.invoke().collect { _medications.value = it }
+        }
+    }
 
     private fun loadActiveIngredients() {
         viewModelScope.launch {

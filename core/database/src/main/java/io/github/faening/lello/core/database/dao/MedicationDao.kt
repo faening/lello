@@ -10,6 +10,7 @@ import io.github.faening.lello.core.database.model.medication.MedicationDosageEn
 import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntityWithOptions
 import io.github.faening.lello.core.domain.repository.MedicationRepository
+import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
@@ -21,7 +22,7 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
             SELECT * FROM medications
         """,
     )
-    override suspend fun getAll(): List<MedicationEntity>
+    override fun getAll(): Flow<List<MedicationEntity>>
 
     @Transaction
     @Query(
@@ -29,7 +30,7 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
         SELECT * FROM medications
     """,
     )
-    suspend fun getAllWithOptions(): List<MedicationEntityWithOptions>
+    fun getAllWithOptions(): Flow<List<MedicationEntityWithOptions>>
 
     @Transaction
     @Query(

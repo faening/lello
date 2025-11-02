@@ -6,13 +6,15 @@ import io.github.faening.lello.core.database.model.medication.toModel
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.model.medication.Medication
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DataMedicationRepository @Inject constructor(
     private val dao: MedicationDao
 ) : MedicationRepository<Medication> {
 
-    override suspend fun getAll(): List<Medication> {
-        return dao.getAllWithOptions().map { it.toModel() }
+    override fun getAll(): Flow<List<Medication>> {
+        return dao.getAllWithOptions().map { entities -> entities.map { it.toModel() } }
     }
 
     override suspend fun getById(id: Long): Medication? {
