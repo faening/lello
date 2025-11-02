@@ -57,14 +57,14 @@ fun MedicationRegisterDosageScreen(
     onBack: () -> Unit
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
-    val dosageQuantityString by viewModel.dosageQuantityString.collectAsState()
+    val dosageQuantity by viewModel.dosageQuantityString.collectAsState()
     val dosageUnitOptions by viewModel.dosageUnitOptions.collectAsState()
     val selectedDosageUnit by viewModel.selectedDosageUnit.collectAsState()
     val selectedDosageTime by viewModel.selectedDosageTime.collectAsState()
 
     MedicationRegisterDosageScreenContent(
         selectedActiveIngredient = selectedActiveIngredient,
-        dosageQuantityString = dosageQuantityString,
+        dosageQuantity = dosageQuantity,
         onDosageQuantityChange = viewModel::updateDosageQuantity,
         dosageUnitOptions = dosageUnitOptions,
         selectedDosageUnit = selectedDosageUnit,
@@ -80,7 +80,7 @@ fun MedicationRegisterDosageScreen(
 @Composable
 private fun MedicationRegisterDosageScreenContent(
     selectedActiveIngredient: MedicationActiveIngredientOption? = null,
-    dosageQuantityString: String,
+    dosageQuantity: String,
     onDosageQuantityChange: (String) -> Unit = {},
     dosageUnitOptions: List<MedicationDosageUnitOption> = emptyList(),
     selectedDosageUnit: MedicationDosageUnitOption? = null,
@@ -90,31 +90,12 @@ private fun MedicationRegisterDosageScreenContent(
     onBack: () -> Unit,
     onSave: () -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
-    val timePickerState = rememberTimePickerState()
-
     Scaffold(
         topBar = {
-            LelloTopAppBar(
-                title = TopAppBarTitle(text = "Registrar remédio"),
-                navigateUp = TopAppBarAction(onClick = onBack),
-                moodColor = MoodColor.INVERSE
-            )
+            MedicationRegisterDosageTopAppBar(onBack)
         },
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Dimension.spacingRegular),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                LelloFilledButton(
-                    label = "Salvar",
-                    onClick = onSave
-                )
-            }
+            MedicationRegisterDosageBottomBar(onSave)
         }
     ) { paddingValues ->
         Column(
@@ -123,156 +104,229 @@ private fun MedicationRegisterDosageScreenContent(
                 .padding(paddingValues)
                 .padding(Dimension.spacingRegular)
         ) {
-            // Header
-            Text(
-                text = "Cadastre a dosagem para o remédio selecionado",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-            )
-            Text(
-                text = "${selectedActiveIngredient?.description?.uppercase()}",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            MedicationRegisterDosageHeaderSection(selectedActiveIngredient)
+
+            MedicationRegisterDosageUnitSection(
+                dosageQuantity,
+                onDosageQuantityChange,
+                selectedDosageUnit,
+                onDosageUnitSelect,
+                dosageUnitOptions
             )
 
-            // Dosage Unit Section
+            MedicationRegisterDosageTimeSection(
+                selectedDosageTime,
+                onDosageTimeChange
+            )
+        }
+    }
+}
+
+@Composable
+private fun MedicationRegisterDosageTopAppBar(
+    onBack: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Registrar remédio"),
+        navigateUp = TopAppBarAction(onClick = onBack),
+        moodColor = MoodColor.INVERSE
+    )
+}
+
+@Composable
+private fun MedicationRegisterDosageBottomBar(
+    onSave: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimension.spacingRegular),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        LelloFilledButton(
+            label = "Salvar",
+            onClick = onSave
+        )
+    }
+}
+
+@Composable
+private fun MedicationRegisterDosageHeaderSection(
+    selectedActiveIngredient: MedicationActiveIngredientOption?
+) {
+    Text(
+        text = "Cadastre a dosagem para o remédio selecionado",
+        style = MaterialTheme.typography.headlineSmall,
+        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+    )
+    Text(
+        text = "${selectedActiveIngredient?.description?.uppercase()}",
+        style = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+    )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun MedicationRegisterDosageUnitSection(
+    dosageQuantity: String,
+    onDosageQuantityChange: (String) -> Unit,
+    selectedDosageUnit: MedicationDosageUnitOption?,
+    onDosageUnitSelect: (MedicationDosageUnitOption?) -> Unit,
+    dosageUnitOptions: List<MedicationDosageUnitOption>
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = Dimension.spacingExtraLarge)
+    ) {
+        Text(
+            text = "Qual é a quantidade total dessa dose?",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = Dimension.spacingRegular),
+            horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Dosage Quantity
+            LelloDosageTextField(
+                value = dosageQuantity,
+                onValueChange = { onDosageQuantityChange(it) },
+                placeholder = "Ex: 1 ou 0.5",
+                modifier = Modifier
+                    .padding(end = Dimension.spacingSmall)
+                    .weight(1f)
+            )
+
+            // Dosage Unit
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = { expanded = !expanded },
+                modifier = Modifier.weight(2f)
+            ) {
+                LelloSimpleSearchTextField(
+                    value = selectedDosageUnit?.description ?: "",
+                    onValueChange = { },
+                    placeholder = "Unidade",
+                    trailingIcon = {
+                        if (selectedDosageUnit?.description?.isNotEmpty() == true) {
+                            IconButton(
+                                onClick = { onDosageUnitSelect(null) },
+                                modifier = Modifier.size(Dimension.iconSizeDefault)
+                            ) {
+                                Icon(
+                                    imageVector = LelloIcons.Outlined.Close.imageVector,
+                                    contentDescription = "Open Menu",
+                                    tint = SimpleSearchTextFieldDefaults.drawColor()
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true)
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    dosageUnitOptions.forEach { unit ->
+                        DropdownMenuItem(
+                            text = { Text(unit.description) },
+                            onClick = {
+                                onDosageUnitSelect(unit)
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun MedicationRegisterDosageTimeSection(
+    selectedDosageTime: String,
+    onDosageTimeChange: (String) -> Unit
+) {
+    var showTimePicker by remember { mutableStateOf(false) }
+    val timePickerState = rememberTimePickerState()
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        // Label
+        Text(
+            text = "Qual horário você costuma tomar?",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            // Selected Time Pill
+            LelloFilledPill(
+                label = selectedDosageTime,
+                onClick = {},
+                modifier = Modifier.padding(end = Dimension.spacingSmall)
+            )
+
+            // Edit Button
+            LelloFlowItemButton(
+                icon = LelloIcons.Outlined.Edit.imageVector,
+                contentDescription = "Atualizar",
+                onClick = { showTimePicker = true },
+                modifier = Modifier
+            )
+        }
+    }
+
+    // Time Picker Dialog
+    if (showTimePicker) {
+        BasicAlertDialog(
+            onDismissRequest = { showTimePicker = false },
+            modifier = Modifier
+                .clip(RoundedCornerShape(Dimension.borderRadiusLarge))
+        ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = Dimension.spacingExtraLarge)
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(Dimension.spacingLarge),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Qual é a quantidade total dessa dose?",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                TimePicker(
+                    state = timePickerState,
+                    layoutType = TimePickerLayoutType.Vertical,
                 )
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = Dimension.spacingRegular),
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(top = Dimension.spacingSmall),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    // Dosage Quantity
-                    LelloDosageTextField(
-                        value = dosageQuantityString,
-                        onValueChange = { onDosageQuantityChange(it) },
-                        placeholder = "Ex: 1 ou 0.5",
-                        modifier = Modifier
-                            .padding(end = Dimension.spacingSmall)
-                            .weight(1f)
-                    )
-
-                    // Dosage Unit
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        LelloSimpleSearchTextField(
-                            value = selectedDosageUnit?.description ?: "",
-                            onValueChange = { },
-                            placeholder = "Unidade",
-                            trailingIcon = {
-                                if (selectedDosageUnit?.description?.isNotEmpty() == true) {
-                                    IconButton(
-                                        onClick = { onDosageUnitSelect(null) },
-                                        modifier = Modifier.size(Dimension.iconSizeDefault)
-                                    ) {
-                                        Icon(
-                                            imageVector = LelloIcons.Outlined.Close.imageVector,
-                                            contentDescription = "Open Menu",
-                                            tint = SimpleSearchTextFieldDefaults.drawColor()
-                                        )
-                                    }
-                                }
-                            },
-                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true)
-                        )
-
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            dosageUnitOptions.forEach { unit ->
-                                DropdownMenuItem(
-                                    text = { Text(unit.description) },
-                                    onClick = {
-                                        onDosageUnitSelect(unit)
-                                        expanded = false
-                                    }
-                                )
-                            }
-                        }
+                    TextButton(onClick = { showTimePicker = false }) {
+                        Text("Cancelar")
                     }
-                }
-            }
-
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Qual horário você costuma tomar?",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    LelloFilledPill(
-                        label = selectedDosageTime,
-                        onClick = {},
-                        modifier = Modifier.padding(end = Dimension.spacingSmall)
-                    )
-
-                    LelloFlowItemButton(
-                        icon = LelloIcons.Outlined.Edit.imageVector,
-                        contentDescription = "Atualizar",
-                        onClick = { showTimePicker = true },
-                        modifier = Modifier
-                    )
-                }
-            }
-
-            if (showTimePicker) {
-                BasicAlertDialog(
-                    onDismissRequest = { showTimePicker = false },
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(Dimension.borderRadiusLarge))
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(Dimension.spacingLarge),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        TimePicker(
-                            state = timePickerState,
-                            layoutType = TimePickerLayoutType.Vertical,
-                        )
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = Dimension.spacingSmall),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            TextButton(onClick = { showTimePicker = false }) {
-                                Text("Cancelar")
-                            }
-                            TextButton(
-                                onClick = {
-                                    val hour = timePickerState.hour.toString().padStart(2, '0')
-                                    val minute = timePickerState.minute.toString().padStart(2, '0')
-                                    onDosageTimeChange("$hour:$minute")
-                                    showTimePicker = false
-                                }
-                            ) { Text("OK") }
+                    TextButton(
+                        onClick = {
+                            val hour = timePickerState.hour.toString().padStart(2, '0')
+                            val minute = timePickerState.minute.toString().padStart(2, '0')
+                            onDosageTimeChange("$hour:$minute")
+                            showTimePicker = false
                         }
-                    }
+                    ) { Text("OK") }
                 }
             }
         }
@@ -292,7 +346,7 @@ private fun MedicationRegisterDosageScreenPreview_LightMode() {
     LelloTheme {
         MedicationRegisterDosageScreenContent(
             selectedActiveIngredient = null,
-            dosageQuantityString = "",
+            dosageQuantity = "",
             onDosageQuantityChange = {},
             dosageUnitOptions = emptyList(),
             selectedDosageUnit = null,

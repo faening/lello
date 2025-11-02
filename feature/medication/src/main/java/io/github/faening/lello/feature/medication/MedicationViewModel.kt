@@ -63,6 +63,7 @@ class MedicationViewModel @Inject constructor(
         loadDosageForms()
         setupSearch()
         setupSearchQueryObserver()
+        setupDefaultDosageUnit()
     }
 
     // region: Loaders and setups
@@ -106,6 +107,18 @@ class MedicationViewModel @Inject constructor(
             _searchQuery.collect { query ->
                 if (query.isEmpty()) _selectedActiveIngredient.value = null
                 filterActiveIngredients()
+            }
+        }
+    }
+
+    private fun setupDefaultDosageUnit() {
+        viewModelScope.launch {
+            _dosageUnitOptions.collect { options ->
+                if (options.isNotEmpty() && _selectedDosageUnit.value == null) {
+                    val target = "miligrama (mg)"
+                    val mgOption = options.firstOrNull { it.description.lowercase().contains(target) }
+                    _selectedDosageUnit.value = mgOption ?: options.first()
+                }
             }
         }
     }
