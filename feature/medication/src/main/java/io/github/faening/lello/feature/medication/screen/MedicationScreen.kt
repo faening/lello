@@ -97,7 +97,7 @@ private fun MedicationBottomBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         LelloFilledButton(
-            label = "Cadastrar Remédio",
+            label = "Cadastrar remédio",
             onClick = { onRegister() },
         )
     }
