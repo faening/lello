@@ -37,6 +37,7 @@ fun MedicationRegisterFrequencyScreen(
     viewModel: MedicationViewModel,
     onBack: () -> Unit,
     onRegisterDosage: () -> Unit,
+    onSaveSuccess: () -> Unit
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
     val dosages by viewModel.dosages.collectAsState()
@@ -49,7 +50,10 @@ fun MedicationRegisterFrequencyScreen(
         onRemoveDosage = viewModel::removeDosage,
         onBack = onBack,
         onRegisterDosage = onRegisterDosage,
-        onSave = viewModel::saveMedication
+        onSave = {
+            viewModel.saveMedication()
+            onSaveSuccess()
+        }
     )
 }
 
