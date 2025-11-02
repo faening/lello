@@ -45,7 +45,7 @@ fun MedicationRegisterActiveIngredientScreen(
         selectedActiveIngredient = selectedActiveIngredient,
         searchQuery = searchQuery,
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
-        onSelectActiveIngredient = { viewModel.selectActiveIngredient(it) },
+        onSelectActiveIngredient = { viewModel.updateActiveIngredient(it) },
         onBack = onBack,
         onNext = onNext
     )

@@ -33,10 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
@@ -62,7 +58,7 @@ fun MedicationRegisterDosageScreen(
     onBack: () -> Unit
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
-    val dosageQuantity by viewModel.dosageQuantityString.collectAsState()
+    val dosageQuantity by viewModel.selectedDosageQuantityString.collectAsState()
     val dosageUnitOptions by viewModel.dosageUnitOptions.collectAsState()
     val selectedDosageUnit by viewModel.selectedDosageUnit.collectAsState()
     val selectedDosageTime by viewModel.selectedDosageTime.collectAsState()
@@ -74,13 +70,13 @@ fun MedicationRegisterDosageScreen(
         onDosageQuantityChange = viewModel::updateDosageQuantity,
         dosageUnitOptions = dosageUnitOptions,
         selectedDosageUnit = selectedDosageUnit,
-        onDosageUnitSelect = viewModel::selectDosageUnit,
+        onDosageUnitSelect = viewModel::updateDosageUnit,
         selectedDosageTime = selectedDosageTime,
-        onDosageTimeChange = viewModel::updateSelectedDosageTime,
+        onDosageTimeChange = viewModel::updateDosageTime,
         isDosageValid = isDosageValid,
         onBack = onBack,
         onSave = {
-            viewModel.saveDosage()
+            viewModel.saveStageDosage()
             onBack()
         }
     )

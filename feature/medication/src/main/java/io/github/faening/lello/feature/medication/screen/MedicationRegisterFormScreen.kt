@@ -44,7 +44,7 @@ fun MedicationRegisterFormScreen(
     MedicationRegisterFormScreenContent(
         selectedActiveIngredient = selectedActiveIngredient,
         dosageForms = dosageForms,
-        onSelectDosageForm = { viewModel.selectDosageForm(it) },
+        onSelectDosageForm = { viewModel.updateDosageForm(it) },
         selectedDosageForm = selectedDosageForm,
         onBack = onBack,
         onNext = onNext
