@@ -31,10 +31,6 @@ enum class JournalOptionType(
         R.string.journal_settings_appetite_appbar_title,
         R.string.journal_settings_appetite_register_button_label
     ),
-    DOSAGE_FORM(
-        R.string.journal_settings_dosageform_appbar_title,
-        R.string.journal_settings_dosageform_register_button_label
-    ),
     FOOD(
         R.string.journal_settings_food_appbar_title,
         R.string.journal_settings_food_register_button_label
@@ -42,6 +38,10 @@ enum class JournalOptionType(
     MEAL(
         R.string.journal_settings_meal_appbar_title,
         R.string.journal_settings_meal_register_button_label
+    ),
+    MEDICATION_DOSAGE_FORM(
+        R.string.journal_settings_dosageform_appbar_title,
+        R.string.journal_settings_dosageform_register_button_label
     ),
     PORTION(
         R.string.journal_settings_portion_appbar_title,

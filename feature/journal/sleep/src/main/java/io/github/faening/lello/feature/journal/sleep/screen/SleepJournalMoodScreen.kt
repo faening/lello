@@ -20,12 +20,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
-import io.github.faening.lello.core.designsystem.component.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
 import io.github.faening.lello.core.designsystem.component.button.LelloFloatingActionButton
+import io.github.faening.lello.core.designsystem.component.pill.LelloOptionPillSelector
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -33,7 +33,6 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.SleepSensationOptionMock
 import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
 
 @Composable
 internal fun SleepJournalMoodScreen(

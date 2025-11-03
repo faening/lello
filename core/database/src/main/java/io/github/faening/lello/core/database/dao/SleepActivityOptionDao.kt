@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
-import io.github.faening.lello.core.domain.repository.OptionResources
+import io.github.faening.lello.core.domain.repository.OptionRepository
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface SleepActivityOptionDao : OptionResources<SleepActivityOptionEntity> {
+interface SleepActivityOptionDao : OptionRepository<SleepActivityOptionEntity> {
 
     @Transaction
     @Query(

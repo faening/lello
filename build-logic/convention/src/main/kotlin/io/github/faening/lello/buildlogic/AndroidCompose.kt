@@ -54,6 +54,8 @@ internal fun Project.configureAndroidComposeUI(
             add("implementation", libs.findLibrary("androidx-compose-foundation").get())
             add("implementation", libs.findLibrary("androidx-compose-foundation-layout").get())
 
+            add("implementation", libs.findLibrary("material").get())
+
             add("implementation", libs.findLibrary("androidx-compose-material-icons-core").get())
             add("implementation", libs.findLibrary("androidx-compose-material-icons-extended").get())
 

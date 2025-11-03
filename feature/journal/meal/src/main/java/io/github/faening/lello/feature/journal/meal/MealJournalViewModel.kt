@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.MealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.AppetiteOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.FoodOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.MealOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.PortionOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SocialOptionUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.options.appetite.GetAllAppetiteOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.food.GetAllFoodOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.meal.GetAllMealOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.social.GetAllSocialOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.option.AppetiteOption
@@ -29,14 +29,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MealJournalViewModel @Inject constructor(
-    private val mealJournalUseCase: MealJournalUseCase,
-    mealOptionUseCase: MealOptionUseCase,
-    appetiteOptionUseCase: AppetiteOptionUseCase,
-    foodOptionUseCase: FoodOptionUseCase,
-    portionOptionUseCase: PortionOptionUseCase,
-    locationOptionUseCase: LocationOptionUseCase,
-    socialOptionUseCase: SocialOptionUseCase,
-    private val rewardCalculatorService: RewardCalculatorService
+    private val saveMealJournalUseCase: SaveMealJournalUseCase,
+    private val rewardCalculatorService: RewardCalculatorService,
+    // Options
+    private val getAllAppetiteOptionUseCase: GetAllAppetiteOptionUseCase,
+    private val getAllFoodOptionUseCase: GetAllFoodOptionUseCase,
+    private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
+    private val getAllMealOptionUseCase: GetAllMealOptionUseCase,
+    private val getAllPortionOptionUseCase: GetAllPortionOptionUseCase,
+    private val getAllSocialOptionUseCase: GetAllSocialOptionUseCase,
 ) : ViewModel() {
 
     private val _mealTime = MutableStateFlow("")
@@ -67,32 +68,32 @@ class MealJournalViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            mealOptionUseCase.getAll()
+            getAllMealOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _mealOptions.value = it }
         }
         viewModelScope.launch {
-            appetiteOptionUseCase.getAll()
+            getAllAppetiteOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _appetiteOptions.value = it }
         }
         viewModelScope.launch {
-            foodOptionUseCase.getAll()
+            getAllFoodOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _foodOptions.value = it }
         }
         viewModelScope.launch {
-            portionOptionUseCase.getAll()
+            getAllPortionOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _portionOptions.value = it }
         }
         viewModelScope.launch {
-            locationOptionUseCase.getAll()
+            getAllLocationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }
         viewModelScope.launch {
-            socialOptionUseCase.getAll()
+            getAllSocialOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _socialOptions.value = it }
         }
@@ -164,7 +165,7 @@ class MealJournalViewModel @Inject constructor(
         if (_mealJournal.value == null) return
         viewModelScope.launch {
             val journal = buildMealournal()
-            mealJournalUseCase.save(journal)
+            saveMealJournalUseCase.invoke(journal)
         }
     }
 

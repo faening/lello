@@ -3,9 +3,9 @@ package io.github.faening.lello.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.options.JournalCategoryUseCase
-import io.github.faening.lello.core.domain.usecase.reward.DailyCheckInUseCase
-import io.github.faening.lello.core.domain.usecase.reward.RewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
+import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.reward.DailyCheckInState
@@ -20,9 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val journalCategoryUseCase: JournalCategoryUseCase,
-    private val rewardBalanceUseCase: RewardBalanceUseCase,
-    private val dailyCheckInUseCase: DailyCheckInUseCase
+    private val getJournalCategoriesUseCase: GetJournalCategoriesUseCase,
+    private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
+    private val getDailyCheckInUseCase: GetDailyCheckInUseCase
 ) : ViewModel() {
 
     private val _journalCategories = MutableStateFlow<List<JournalCategory>>(emptyList())
@@ -40,21 +40,21 @@ class HomeViewModel @Inject constructor(
     init {
         // Observa os diários normalmente
         viewModelScope.launch {
-            journalCategoryUseCase.getAll().collect { categories ->
+            getJournalCategoriesUseCase.invoke().collect { categories ->
                 _journalCategories.value = categories.sortedBy { it.id }
             }
         }
 
         // Observa o reward balance do banco e atualiza o timer sempre que mudar
         viewModelScope.launch {
-            rewardBalanceUseCase.observeBalance().collect { balance ->
+            observeRewardBalanceUseCase.invoke().collect { balance ->
                 lastRewardBalance = balance
                 _journalBonusState.value = mapToBonusState(balance)
             }
         }
 
         viewModelScope.launch {
-            dailyCheckInUseCase.observeDailyCheckIn().collect { state ->
+            getDailyCheckInUseCase.observeDailyCheckIn().collect { state ->
                 _dailyCheckInState.value = state
             }
         }

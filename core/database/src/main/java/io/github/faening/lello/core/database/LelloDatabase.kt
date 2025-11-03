@@ -5,16 +5,24 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
-import io.github.faening.lello.core.database.dao.DosageFormOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
+import io.github.faening.lello.core.database.dao.InventoryDao
+import io.github.faening.lello.core.database.dao.ItemCatalogDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
+import io.github.faening.lello.core.database.dao.MascotStatusDao
+import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
 import io.github.faening.lello.core.database.dao.MealJournalDao
 import io.github.faening.lello.core.database.dao.MealOptionDao
+import io.github.faening.lello.core.database.dao.MedicationActiveIngredientOptionDao
+import io.github.faening.lello.core.database.dao.MedicationDao
+import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
+import io.github.faening.lello.core.database.dao.MedicationDosageUnitOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
+import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.dao.RewardBalanceDao
 import io.github.faening.lello.core.database.dao.RewardHistoryDao
 import io.github.faening.lello.core.database.dao.SleepActivityOptionDao
@@ -22,11 +30,6 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
-import io.github.faening.lello.core.database.dao.MascotStatusDao
-import io.github.faening.lello.core.database.dao.MascotVitalityHistoryDao
-import io.github.faening.lello.core.database.dao.ItemCatalogDao
-import io.github.faening.lello.core.database.dao.InventoryDao
-import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
@@ -46,14 +49,20 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepActivityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
+import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
+import io.github.faening.lello.core.database.model.medication.MedicationDosageEntity
+import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.option.AppetiteOptionEntity
 import io.github.faening.lello.core.database.model.option.ClimateOptionEntity
-import io.github.faening.lello.core.database.model.option.DosageFormOptionEntity
 import io.github.faening.lello.core.database.model.option.EmotionOptionEntity
 import io.github.faening.lello.core.database.model.option.FoodOptionEntity
 import io.github.faening.lello.core.database.model.option.HealthOptionEntity
 import io.github.faening.lello.core.database.model.option.LocationOptionEntity
 import io.github.faening.lello.core.database.model.option.MealOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationActiveIngredientOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationDosageFormOptionEntity
+import io.github.faening.lello.core.database.model.option.MedicationDosageUnitOptionEntity
 import io.github.faening.lello.core.database.model.option.PortionOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepActivityOptionEntity
 import io.github.faening.lello.core.database.model.option.SleepQualityOptionEntity
@@ -61,10 +70,8 @@ import io.github.faening.lello.core.database.model.option.SleepSensationOptionEn
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
 import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
-import io.github.faening.lello.core.database.model.mascot.MascotStatusEntity
-import io.github.faening.lello.core.database.model.mascot.MascotVitalityHistoryEntity
-import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
 import io.github.faening.lello.core.database.model.store.InventoryEntity
+import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
 import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
@@ -72,87 +79,84 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
 
 @Database(
     entities = [
-        JournalCategoryEntity::class,
         AppetiteOptionEntity::class,
         ClimateOptionEntity::class,
-        DosageFormOptionEntity::class,
         EmotionOptionEntity::class,
         FoodOptionEntity::class,
         HealthOptionEntity::class,
+        InventoryEntity::class,
+        ItemCatalogEntity::class,
+        JournalCategoryEntity::class,
         LocationOptionEntity::class,
+        MascotStatusEntity::class,
+        MascotVitalityHistoryEntity::class,
+        MealJournalEntity::class,
+        MealJournalEntityAppetiteOptionEntityCrossRef::class,
+        MealJournalEntityFoodOptionEntityCrossRef::class,
+        MealJournalEntityLocationOptionEntityCrossRef::class,
+        MealJournalEntityMealOptionEntityCrossRef::class,
+        MealJournalEntityPortionOptionEntityCrossRef::class,
+        MealJournalEntitySocialOptionEntityCrossRef::class,
         MealOptionEntity::class,
-        PortionOptionEntity::class,
-        SleepActivityOptionEntity::class,
-        SleepQualityOptionEntity::class,
-        SleepSensationOptionEntity::class,
-        SocialOptionEntity::class,
+        MedicationActiveIngredientOptionEntity::class,
+        MedicationEntity::class,
+        MedicationDosageEntity::class,
+        MedicationDosageFormOptionEntity::class,
+        MedicationDosageUnitOptionEntity::class,
         MoodJournalEntity::class,
-        MoodJournalEntityEmotionOptionEntityCrossRef::class,
         MoodJournalEntityClimateOptionEntityCrossRef::class,
+        MoodJournalEntityEmotionOptionEntityCrossRef::class,
+        MoodJournalEntityHealthOptionEntityCrossRef::class,
         MoodJournalEntityLocationOptionEntityCrossRef::class,
         MoodJournalEntitySocialOptionEntityCrossRef::class,
-        MoodJournalEntityHealthOptionEntityCrossRef::class,
+        PortionOptionEntity::class,
+        PurchaseHistoryEntity::class,
+        RewardBalanceEntity::class,
+        RewardHistoryEntity::class,
+        SleepActivityOptionEntity::class,
         SleepJournalEntity::class,
         SleepJournalEntityLocationOptionEntityCrossRef::class,
         SleepJournalEntitySleepActivityOptionEntityCrossRef::class,
-        SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
         SleepJournalEntitySleepQualityOptionEntityCrossRef::class,
-        MealJournalEntity::class,
-        MealJournalEntityMealOptionEntityCrossRef::class,
-        MealJournalEntityAppetiteOptionEntityCrossRef::class,
-        MealJournalEntityFoodOptionEntityCrossRef::class,
-        MealJournalEntityPortionOptionEntityCrossRef::class,
-        MealJournalEntityLocationOptionEntityCrossRef::class,
-        MealJournalEntitySocialOptionEntityCrossRef::class,
-        RewardHistoryEntity::class,
-        RewardBalanceEntity::class,
-        MascotStatusEntity::class,
-        MascotVitalityHistoryEntity::class,
-        ItemCatalogEntity::class,
-        InventoryEntity::class,
-        PurchaseHistoryEntity::class,
+        SleepJournalEntitySleepSensationOptionEntityCrossRef::class,
+        SleepQualityOptionEntity::class,
+        SleepSensationOptionEntity::class,
+        SocialOptionEntity::class,
     ],
     version = 2,
     exportSchema = true
 )
 @TypeConverters(
+    DateConverter::class,
     InstantConverters::class,
     JournalMoodTypeConverter::class,
-    DateConverter::class
 )
 abstract class LelloDatabase : RoomDatabase() {
-
-    // journals
-    abstract fun mealJournalDao(): MealJournalDao
-    abstract fun sleepJournalDao(): SleepJournalDao
-    abstract fun moodJournalEntryDao(): MoodJournalDao
-    abstract fun journalCategoryDao(): JournalCategoryDao
-
-    // options
     abstract fun appetiteOptionDao(): AppetiteOptionDao
     abstract fun climateOptionDao(): ClimateOptionDao
-    abstract fun dosageFormOptionDao(): DosageFormOptionDao
     abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun foodOptionDao(): FoodOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
-    abstract fun locationOptionDao() : LocationOptionDao
-    abstract fun mealOptionDao(): MealOptionDao
-    abstract fun portionOptionDao(): PortionOptionDao
-    abstract fun sleepActivityOptionDao() : SleepActivityOptionDao
-    abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
-    abstract fun sleepSensationOptionDao() : SleepSensationOptionDao
-    abstract fun socialOptionDao() : SocialOptionDao
-
-    // rewrds
-    abstract fun rewardHistoryDao() : RewardHistoryDao
-    abstract fun rewardBalanceDao() : RewardBalanceDao
-
-    // mascot
+    abstract fun inventoryDao(): InventoryDao
+    abstract fun itemCatalogDao(): ItemCatalogDao
+    abstract fun journalCategoryDao(): JournalCategoryDao
+    abstract fun locationOptionDao(): LocationOptionDao
     abstract fun mascotStatusDao(): MascotStatusDao
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
-
-    // store
-    abstract fun itemCatalogDao(): ItemCatalogDao
-    abstract fun inventoryDao(): InventoryDao
+    abstract fun mealJournalDao(): MealJournalDao
+    abstract fun mealOptionDao(): MealOptionDao
+    abstract fun medicationActiveIngredientOptionDao(): MedicationActiveIngredientOptionDao
+    abstract fun medicationDao(): MedicationDao
+    abstract fun medicationDosageFormOptionDao(): MedicationDosageFormOptionDao
+    abstract fun medicationDosageUnitOptionDao(): MedicationDosageUnitOptionDao
+    abstract fun moodJournalEntryDao(): MoodJournalDao
+    abstract fun portionOptionDao(): PortionOptionDao
     abstract fun purchaseHistoryDao(): PurchaseHistoryDao
+    abstract fun rewardBalanceDao(): RewardBalanceDao
+    abstract fun rewardHistoryDao(): RewardHistoryDao
+    abstract fun sleepActivityOptionDao(): SleepActivityOptionDao
+    abstract fun sleepJournalDao(): SleepJournalDao
+    abstract fun sleepQualityOptionDao(): SleepQualityOptionDao
+    abstract fun sleepSensationOptionDao(): SleepSensationOptionDao
+    abstract fun socialOptionDao(): SocialOptionDao
 }

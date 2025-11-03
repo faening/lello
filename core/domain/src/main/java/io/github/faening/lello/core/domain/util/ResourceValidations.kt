@@ -18,3 +18,7 @@ internal fun Boolean.validateNotBlocked() {
         throw IllegalArgumentException("exception_option_blocked")
     }
 }
+
+internal fun Double.validateNotZero(): Boolean {
+    return (this == 0.0)
+}

@@ -14,11 +14,11 @@ import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntit
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityPortionOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalResources
+import io.github.faening.lello.core.domain.repository.JournalRepository
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MealJournalDao : JournalResources<MealJournalEntity> {
+interface MealJournalDao : JournalRepository<MealJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM meal_journals ORDER BY created_at DESC")

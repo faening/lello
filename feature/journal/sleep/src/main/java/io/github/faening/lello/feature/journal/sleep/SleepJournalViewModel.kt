@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.SleepJournalUseCase
-import io.github.faening.lello.core.domain.usecase.options.LocationOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SleepActivityOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SleepQualityOptionUseCase
-import io.github.faening.lello.core.domain.usecase.options.SleepSensationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.activity.GetAllSleepActivityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.quality.GetAllSleepQualityOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.sleep.sensation.GetAllSleepSensationOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillis
 import io.github.faening.lello.core.model.journal.SleepDurationOption
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -27,15 +27,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SleepJournalViewModel @Inject constructor(
-    private val sleepJournalUseCase: SleepJournalUseCase,
-    private val sleepSensationOptionUseCase: SleepSensationOptionUseCase,
-    private val sleepQualityOptionUseCase: SleepQualityOptionUseCase,
-    private val sleepAcitivityOptionUseCase: SleepActivityOptionUseCase,
-    private val locationOptionUseCase: LocationOptionUseCase,
-    private val rewardCalculatorService: RewardCalculatorService
+    private val saveSleepJournalUseCase: SaveSleepJournalUseCase,
+    private val rewardCalculatorService: RewardCalculatorService,
+    // Options
+    private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
+    private val getAllSleepActivityOptionUseCase: GetAllSleepActivityOptionUseCase,
+    private val getAllSleepQualityOptionUseCase: GetAllSleepQualityOptionUseCase,
+    private val getAllSleepSensationOptionUseCase: GetAllSleepSensationOptionUseCase,
 ) : ViewModel() {
 
-    private val _currentSleepDuration = MutableStateFlow<SleepDurationOption>(SleepDurationOption.BETWEEN_6_TO_8_HOURS)
+    private val _currentSleepDuration = MutableStateFlow(SleepDurationOption.BETWEEN_6_TO_8_HOURS)
     val currentSleepDuration: StateFlow<SleepDurationOption> = _currentSleepDuration
 
     private val _locationOptions = MutableStateFlow<List<LocationOption>>(emptyList())
@@ -57,7 +58,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private val _sleepJournal = MutableStateFlow<SleepJournal?>(null)
 
-    private val _coinsAcquired = MutableStateFlow<Int>(50)
+    private val _coinsAcquired = MutableStateFlow(50)
     val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
     init {
@@ -71,7 +72,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadLocationOptions() {
         viewModelScope.launch {
-            locationOptionUseCase.getAll()
+            getAllLocationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _locationOptions.value = it }
         }
@@ -79,7 +80,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadSleepActivityOptions() {
         viewModelScope.launch {
-            sleepAcitivityOptionUseCase.getAll()
+            getAllSleepActivityOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepActivityOptions.value = it }
         }
@@ -87,7 +88,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadSleepQualityOptions() {
         viewModelScope.launch {
-            sleepQualityOptionUseCase.getAll()
+            getAllSleepQualityOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepQualityOptions.value = it }
         }
@@ -95,7 +96,7 @@ class SleepJournalViewModel @Inject constructor(
 
     private fun loadSleepSensationOptions() {
         viewModelScope.launch {
-            sleepSensationOptionUseCase.getAll()
+            getAllSleepSensationOptionUseCase.invoke()
                 .map { list -> list.filter { it.active } }
                 .collect { _sleepSensationOptions.value = it }
         }
@@ -158,7 +159,7 @@ class SleepJournalViewModel @Inject constructor(
         if (_sleepJournal.value == null) return
         viewModelScope.launch {
             val journal = buildSleepJournal()
-            sleepJournalUseCase.save(journal)
+            saveSleepJournalUseCase.invoke(journal)
         }
     }
 
