@@ -29,6 +29,7 @@ import io.github.faening.lello.core.data.repository.DataMedicationActiveIngredie
 import io.github.faening.lello.core.data.repository.DataMedicationDosageFormOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationDosageUnitOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationRepository
+import io.github.faening.lello.core.data.repository.DataMedicationSkipReasonOptionRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
 import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepository
 import io.github.faening.lello.core.data.repository.DataRewardBalanceRepository
@@ -56,6 +57,7 @@ import io.github.faening.lello.core.database.dao.MedicationActiveIngredientOptio
 import io.github.faening.lello.core.database.dao.MedicationDao
 import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MedicationDosageUnitOptionDao
+import io.github.faening.lello.core.database.dao.MedicationSkipReasonOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
 import io.github.faening.lello.core.database.dao.PurchaseHistoryDao
@@ -97,6 +99,7 @@ import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
+import io.github.faening.lello.core.model.option.MedicationSkipReasonOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -179,6 +182,11 @@ object RepositoryModule {
     fun provideDataMedicationDosageUnitOptionRepository(
         dao: MedicationDosageUnitOptionDao
     ): OptionRepository<MedicationDosageUnitOption> = DataMedicationDosageUnitOptionRepository(dao)
+
+    @Provides
+    fun provideDataMedicationSkipReasonOptionRepository(
+        dao: MedicationSkipReasonOptionDao
+    ): OptionRepository<MedicationSkipReasonOption> = DataMedicationSkipReasonOptionRepository(dao)
 
     @Provides
     fun provideDataJournalMoodRepository(
