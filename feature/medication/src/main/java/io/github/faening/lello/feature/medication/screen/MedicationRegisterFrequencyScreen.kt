@@ -105,7 +105,7 @@ private fun MedicationRegisterFrequencyTopAppBar(
     onBack: () -> Unit
 ) {
     LelloTopAppBar(
-        title = TopAppBarTitle(text = "Registrar remédio"),
+        title = TopAppBarTitle(text = "Cadastrar remédio"),
         navigateUp = TopAppBarAction(onClick = onBack),
         moodColor = MoodColor.INVERSE
     )
