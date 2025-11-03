@@ -101,6 +101,12 @@ import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.SaveMedicationDosageUnitOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.UpdateMedicationDosageUnitOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.UpdateMedicationDosageUnitOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.DeleteMedicationSkipReasonOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.GetAllMedicationSkipReasonOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.GetMedicationSkipReasonOptionByIdUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.SaveMedicationSkipReasonOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.UpdateMedicationSkipReasonOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.UpdateMedicationSkipReasonOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.DeletePortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetPortionOptionByIdUseCase
@@ -165,6 +171,7 @@ import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
+import io.github.faening.lello.core.model.option.MedicationSkipReasonOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -693,6 +700,40 @@ object UseCaseModule {
     ) = DeleteMedicationDosageUnitOptionUseCase(repository)
 
     // endregion: Options Medication Dosage Unit
+
+    // region: Options Medication Skip Reason
+
+    @Provides
+    fun provideGetAllMedicationSkipReasonOptionUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = GetAllMedicationSkipReasonOptionUseCase(repository)
+
+    @Provides
+    fun provideGetMedicationSkipReasonOptionByIdUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = GetMedicationSkipReasonOptionByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMedicationSkipReasonOptionUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = SaveMedicationSkipReasonOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationSkipReasonOptionUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = UpdateMedicationSkipReasonOptionUseCase(repository)
+
+    @Provides
+    fun provideUpdateMedicationSkipReasonOptionActiveStatusUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = UpdateMedicationSkipReasonOptionActiveStatusUseCase(repository)
+
+    @Provides
+    fun provideDeleteMedicationSkipReasonOptionUseCase(
+        repository: OptionRepository<MedicationSkipReasonOption>
+    ) = DeleteMedicationSkipReasonOptionUseCase(repository)
+
+    // endregion: Options Medication Skip Reason
     
     // region: Options Portion
 
