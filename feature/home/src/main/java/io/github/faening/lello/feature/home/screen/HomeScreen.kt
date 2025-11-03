@@ -33,7 +33,7 @@ import io.github.faening.lello.core.model.journal.JournalType
 import io.github.faening.lello.core.model.reward.DailyCheckInState
 import io.github.faening.lello.feature.home.HomeViewModel
 import io.github.faening.lello.feature.journal.meal.JournalMealDestinations
-import io.github.faening.lello.feature.journal.medication.navigation.JournalMedicationDestinations
+import io.github.faening.lello.feature.journal.medication.JournalMedicationDestinations
 import io.github.faening.lello.feature.journal.mood.MoodJournalDestinations
 import io.github.faening.lello.feature.journal.sleep.SleepJournalDestinations
 

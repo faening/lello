@@ -50,6 +50,7 @@ import io.github.faening.lello.core.testing.data.MedicationTestData
 fun LelloMedicationCard(
     medication: Medication,
     onDosageClick: (Int) -> Unit = {},
+    isDisableEnabled: Boolean = true,
     onDisable: () -> Unit = {},
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
@@ -138,7 +139,9 @@ fun LelloMedicationCard(
                     }
                 }
 
-                DisableButton(onDisable = onDisable)
+                if (isDisableEnabled) {
+                    DisableButton(onDisable = onDisable)
+                }
             }
         }
     }

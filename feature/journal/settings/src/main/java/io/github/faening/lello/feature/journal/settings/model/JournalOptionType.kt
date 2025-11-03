@@ -43,6 +43,10 @@ enum class JournalOptionType(
         R.string.journal_settings_dosageform_appbar_title,
         R.string.journal_settings_dosageform_register_button_label
     ),
+    MEDICATION_SKIP_REASON(
+        R.string.journal_settings_medication_appbar_title,
+        R.string.journal_settings_medication_register_button_label
+    ),
     PORTION(
         R.string.journal_settings_portion_appbar_title,
         R.string.journal_settings_portion_register_button_label
