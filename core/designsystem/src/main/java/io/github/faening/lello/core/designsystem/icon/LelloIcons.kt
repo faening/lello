@@ -49,6 +49,7 @@ object LelloIcons {
         val ArrowDownSmall = LelloIcon(designsystemR.drawable.ic_arrow_down_sm_outlined)
         val ArrowTopLeftRound = LelloIcon(designsystemR.drawable.ic_arrow_top_left_round_outlined)
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_outlined)
+        val Blocked = LelloIcon(designsystemR.drawable.ic_blocked_outlined)
         val Calendar = LelloIcon(designsystemR.drawable.ic_calendar_outlined)
         val ChevronUp = LelloIcon(designsystemR.drawable.ic_chevron_up_outlined)
         val ChevronRight = LelloIcon(designsystemR.drawable.ic_chevron_right_outlined)

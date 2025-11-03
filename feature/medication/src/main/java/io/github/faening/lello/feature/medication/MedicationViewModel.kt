@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.medication
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.usecase.medication.DisableMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.invoke
 
 @HiltViewModel
 class MedicationViewModel @Inject constructor(
@@ -30,7 +32,8 @@ class MedicationViewModel @Inject constructor(
     private val getAllMedicationDosageUnitOptionUseCase: GetAllMedicationDosageUnitOptionUseCase,
     private val getAllDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
     private val getAllMedicationUseCase: GetAllMedicationUseCase,
-    private val saveMedicationUseCase: SaveMedicationUseCase
+    private val saveMedicationUseCase: SaveMedicationUseCase,
+    private val disableMedicationUseCase: DisableMedicationUseCase,
 ) : ViewModel() {
 
     private val _medications = MutableStateFlow<List<Medication>>(emptyList())
@@ -290,6 +293,14 @@ class MedicationViewModel @Inject constructor(
         _selectedDosageForm.value = null
         _stagedDosages.value = emptyList()
         resetDosageFields()
+    }
+
+    fun disableMedication(medication: Medication) {
+        viewModelScope.launch {
+            medication.id?.let { id ->
+                disableMedicationUseCase.invoke(id)
+            }
+        }
     }
 
     // endregion: Setters and updaters

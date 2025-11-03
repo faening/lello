@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -36,17 +41,35 @@ fun MedicationScreen(
     onRegister: () -> Unit,
 ) {
     val medications by viewModel.medications.collectAsState()
+    var medicationToDisable by remember { mutableStateOf<Medication?>(null) }
 
     MedicationScreenContent(
         medications = medications,
-        onRegister = onRegister
+        onRegister = onRegister,
+        onDisableRequest = { medication ->
+            medicationToDisable = medication
+        }
     )
+
+    medicationToDisable?.let { medication ->
+        DisableMedicationDialog(
+            medication = medication,
+            onConfirm = {
+                viewModel.disableMedication(medication)
+                medicationToDisable = null
+            },
+            onDismiss = {
+                medicationToDisable = null
+            }
+        )
+    }
 }
 
 @Composable
 private fun MedicationScreenContent(
     medications: List<Medication>,
     onRegister: () -> Unit,
+    onDisableRequest: (Medication) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -62,12 +85,15 @@ private fun MedicationScreenContent(
                 .padding(paddingValues)
                 .padding(Dimension.spacingRegular)
         ) {
-            MedicationHeaderSection()
+            // MedicationHeaderSection()
 
             if (medications.isEmpty()) {
                 MedicationEmptyContentSection()
             } else {
-                MedicationContentListSection(medications)
+                MedicationContentListSection(
+                    medications = medications,
+                    onDisableRequest = onDisableRequest
+                )
             }
         }
     }
@@ -129,24 +155,57 @@ private fun MedicationEmptyContentSection() {
 
 @Composable
 private fun MedicationContentListSection(
-    medications: List<Medication>
+    medications: List<Medication>,
+    onDisableRequest: (Medication) -> Unit
 ) {
+    val activeMedications = medications.filter { it.active == true }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(Dimension.spacingMedium)
     ) {
         items(
-            count = medications.size,
-            key = { index -> medications[index].id ?: index }
+            count = activeMedications.size,
+            key = { index -> activeMedications[index].id ?: index }
         ) { index ->
             LelloMedicationCard(
-                medication = medications[index],
+                medication = activeMedications[index],
                 onDosageClick = { dosageIndex ->
                     // TODO: Navegar para tela de edição com o índice da dosagem
+                },
+                onDisable = {
+                    onDisableRequest(activeMedications[index])
                 }
             )
         }
     }
+}
+
+@Composable
+private fun DisableMedicationDialog(
+    medication: Medication,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text("Desativar remédio")
+        },
+        text = {
+            Text("Tem certeza que deseja desativar o remédio ${medication.activeIngredientOption?.description}?")
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text("Sim")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Não")
+            }
+        }
+    )
 }
 
 // region Previews
@@ -162,7 +221,8 @@ private fun MedicationScreenPreview_EmptyState_LightMode() {
     LelloTheme {
         MedicationScreenContent(
             medications = emptyList(),
-            onRegister = {}
+            onRegister = {},
+            onDisableRequest = {}
         )
     }
 }
@@ -180,7 +240,8 @@ private fun MedicationScreenPreview_MedicationList_LightMode() {
     LelloTheme {
         MedicationScreenContent(
             medications = medications,
-            onRegister = {}
+            onRegister = {},
+            onDisableRequest = {}
         )
     }
 }

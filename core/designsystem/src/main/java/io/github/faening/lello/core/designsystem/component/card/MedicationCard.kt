@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -48,6 +50,7 @@ import io.github.faening.lello.core.testing.data.MedicationTestData
 fun LelloMedicationCard(
     medication: Medication,
     onDosageClick: (Int) -> Unit = {},
+    onDisable: () -> Unit = {},
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     Box(
@@ -134,6 +137,8 @@ fun LelloMedicationCard(
                         Spacer(modifier = Modifier.height(Dimension.spacingMedium))
                     }
                 }
+
+                DisableButton(onDisable = onDisable)
             }
         }
     }
@@ -232,7 +237,40 @@ private fun DosageItem(
     }
 }
 
-
+@Composable
+private fun DisableButton(
+    onDisable: () -> Unit = { }
+) {
+    Button(
+        onClick = { onDisable() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = Dimension.spacingMedium),
+        shape = LelloShape.buttonShape,
+        colors = ButtonColors(
+            containerColor = MedicationCardDefaults.buttonContainerColor(),
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.12f),
+            disabledContentColor = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.38f)
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = LelloIcons.Outlined.Blocked.imageVector,
+                contentDescription = "Desativar medicação",
+                tint = MedicationCardDefaults.buttonContentColor(),
+                modifier = Modifier.size(Dimension.iconSizeDefault)
+            )
+            Spacer(modifier = Modifier.width(Dimension.spacingSmall))
+            Text(
+                text = "Desativar",
+                color = MedicationCardDefaults.buttonContentColor()
+            )
+        }
+    }
+}
 
 private object MedicationCardDefaults {
     @Composable
@@ -273,6 +311,16 @@ private object MedicationCardDefaults {
     @Composable
     fun secondaryTextColor(): Color {
         return MaterialTheme.colorScheme.tertiary
+    }
+
+    @Composable
+    fun buttonContainerColor(): Color {
+        return MaterialTheme.colorScheme.errorContainer
+    }
+
+    @Composable
+    fun buttonContentColor(): Color {
+        return MaterialTheme.colorScheme.onErrorContainer
     }
 }
 
