@@ -91,6 +91,11 @@ internal object DaoModule {
     ) = database.medicationDosageUnitOptionDao()
 
     @Provides
+    fun provideMedicationSkipReasonOptionDao(
+        database: LelloDatabase,
+    ) = database.medicationSkipReasonOptionDao()
+
+    @Provides
     fun provideMealOptionDao(
         database: LelloDatabase,
     ) = database.mealOptionDao()
