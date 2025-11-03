@@ -55,6 +55,7 @@ import io.github.faening.lello.feature.medication.MedicationViewModel
 @Composable
 fun MedicationRegisterDosageScreen(
     viewModel: MedicationViewModel,
+    isEditMode: Boolean = false,
     onBack: () -> Unit
 ) {
     val selectedActiveIngredient by viewModel.selectedActiveIngredient.collectAsState()
@@ -62,10 +63,15 @@ fun MedicationRegisterDosageScreen(
     val dosageUnitOptions by viewModel.dosageUnitOptions.collectAsState()
     val selectedDosageUnit by viewModel.selectedDosageUnit.collectAsState()
     val selectedDosageTime by viewModel.selectedDosageTime.collectAsState()
-    val isDosageValid by viewModel.isDosageValid.collectAsState()
+    val canSave by if (isEditMode) {
+        viewModel.canSaveDosage.collectAsState()
+    } else {
+        viewModel.isDosageValid.collectAsState()
+    }
+    val editingMedication by viewModel.editingMedication.collectAsState()
 
     MedicationRegisterDosageScreenContent(
-        selectedActiveIngredient = selectedActiveIngredient,
+        selectedActiveIngredient = selectedActiveIngredient ?: editingMedication?.activeIngredientOption,
         dosageQuantity = dosageQuantity,
         onDosageQuantityChange = viewModel::updateDosageQuantity,
         dosageUnitOptions = dosageUnitOptions,
@@ -73,10 +79,15 @@ fun MedicationRegisterDosageScreen(
         onDosageUnitSelect = viewModel::updateDosageUnit,
         selectedDosageTime = selectedDosageTime,
         onDosageTimeChange = viewModel::updateDosageTime,
-        isDosageValid = isDosageValid,
+        isEnabled = canSave,
+        isEditMode = isEditMode,
         onBack = onBack,
         onSave = {
-            viewModel.saveStageDosage()
+            if (isEditMode) {
+                viewModel.updateMedicationDosage()
+            } else {
+                viewModel.saveStageDosage()
+            }
             onBack()
         }
     )
@@ -93,16 +104,23 @@ private fun MedicationRegisterDosageScreenContent(
     onDosageUnitSelect: (MedicationDosageUnitOption?) -> Unit = {},
     selectedDosageTime: String,
     onDosageTimeChange: (String) -> Unit = {},
-    isDosageValid: Boolean = false,
+    isEnabled: Boolean = false,
+    isEditMode: Boolean = false,
     onBack: () -> Unit,
     onSave: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            MedicationRegisterDosageTopAppBar(onBack)
+            MedicationRegisterDosageTopAppBar(
+                isEditMode = isEditMode,
+                onBack = onBack
+            )
         },
         bottomBar = {
-            MedicationRegisterDosageBottomBar(isDosageValid, onSave)
+            MedicationRegisterDosageBottomBar(
+                isEnabled = isEnabled,
+                onSave = onSave
+            )
         }
     ) { paddingValues ->
         Column(
@@ -131,10 +149,13 @@ private fun MedicationRegisterDosageScreenContent(
 
 @Composable
 private fun MedicationRegisterDosageTopAppBar(
+    isEditMode: Boolean,
     onBack: () -> Unit
 ) {
     LelloTopAppBar(
-        title = TopAppBarTitle(text = "Cadastrar dose"),
+        title = TopAppBarTitle(
+            text = if (isEditMode) "Editar dose" else "Cadastrar dose"
+        ),
         navigateUp = TopAppBarAction(onClick = onBack),
         moodColor = MoodColor.INVERSE
     )

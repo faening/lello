@@ -39,6 +39,7 @@ import io.github.faening.lello.feature.medication.MedicationViewModel
 fun MedicationScreen(
     viewModel: MedicationViewModel,
     onRegister: () -> Unit,
+    onEditDosage: (Medication, Int) -> Unit
 ) {
     val medications by viewModel.medications.collectAsState()
     var medicationToDisable by remember { mutableStateOf<Medication?>(null) }
@@ -46,6 +47,7 @@ fun MedicationScreen(
     MedicationScreenContent(
         medications = medications,
         onRegister = onRegister,
+        onEditDosage = onEditDosage,
         onDisableRequest = { medication ->
             medicationToDisable = medication
         }
@@ -69,6 +71,7 @@ fun MedicationScreen(
 private fun MedicationScreenContent(
     medications: List<Medication>,
     onRegister: () -> Unit,
+    onEditDosage: (Medication, Int) -> Unit,
     onDisableRequest: (Medication) -> Unit
 ) {
     Scaffold(
@@ -92,6 +95,7 @@ private fun MedicationScreenContent(
             } else {
                 MedicationContentListSection(
                     medications = medications,
+                    onEditDosage = onEditDosage,
                     onDisableRequest = onDisableRequest
                 )
             }
@@ -156,6 +160,7 @@ private fun MedicationEmptyContentSection() {
 @Composable
 private fun MedicationContentListSection(
     medications: List<Medication>,
+    onEditDosage: (Medication, Int) -> Unit,
     onDisableRequest: (Medication) -> Unit
 ) {
     val activeMedications = medications.filter { it.active == true }
@@ -171,7 +176,7 @@ private fun MedicationContentListSection(
             LelloMedicationCard(
                 medication = activeMedications[index],
                 onDosageClick = { dosageIndex ->
-                    // TODO: Navegar para tela de edição com o índice da dosagem
+                    onEditDosage(activeMedications[index], dosageIndex)
                 },
                 onDisable = {
                     onDisableRequest(activeMedications[index])
@@ -222,6 +227,7 @@ private fun MedicationScreenPreview_EmptyState_LightMode() {
         MedicationScreenContent(
             medications = emptyList(),
             onRegister = {},
+            onEditDosage = { _, _ -> },
             onDisableRequest = {}
         )
     }
@@ -241,6 +247,7 @@ private fun MedicationScreenPreview_MedicationList_LightMode() {
         MedicationScreenContent(
             medications = medications,
             onRegister = {},
+            onEditDosage = { _, _ -> },
             onDisableRequest = {}
         )
     }

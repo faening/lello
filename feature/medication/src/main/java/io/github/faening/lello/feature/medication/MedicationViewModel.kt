@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.medication.DisableMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.UpdateMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageunit.GetAllMedicationDosageUnitOptionUseCase
@@ -24,7 +25,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.invoke
 
 @HiltViewModel
 class MedicationViewModel @Inject constructor(
@@ -33,6 +33,7 @@ class MedicationViewModel @Inject constructor(
     private val getAllDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
     private val getAllMedicationUseCase: GetAllMedicationUseCase,
     private val saveMedicationUseCase: SaveMedicationUseCase,
+    private val updateMedicationUseCase: UpdateMedicationUseCase,
     private val disableMedicationUseCase: DisableMedicationUseCase,
 ) : ViewModel() {
 
@@ -74,6 +75,14 @@ class MedicationViewModel @Inject constructor(
     private val _stagedDosages = MutableStateFlow<List<MedicationDosage>>(emptyList())
     val stagedDosages: StateFlow<List<MedicationDosage>> = _stagedDosages.asStateFlow()
 
+    private val _editingMedication = MutableStateFlow<Medication?>(null)
+    val editingMedication: StateFlow<Medication?> = _editingMedication.asStateFlow()
+
+    private val _editingDosageIndex = MutableStateFlow<Int?>(null)
+    val editingDosageIndex: StateFlow<Int?> = _editingDosageIndex.asStateFlow()
+
+    private val _hasChanges = MutableStateFlow(false)
+
     /**
      * Indica se a dosagem atual é válida para ser adicionada à lista de dosagens
      */
@@ -98,6 +107,17 @@ class MedicationViewModel @Inject constructor(
         _stagedDosages
     ) { activeIngredient, dosageForm, dosages ->
         activeIngredient != null && dosageForm != null && dosages.isNotEmpty()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    val canSaveDosage: StateFlow<Boolean> = combine(
+        isDosageValid,
+        _hasChanges
+    ) { isValid, hasChanges ->
+        isValid && hasChanges
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -195,6 +215,7 @@ class MedicationViewModel @Inject constructor(
 
     fun updateDosageUnit(option: MedicationDosageUnitOption?) {
         _selectedDosageUnit.value = option
+        _hasChanges.value = true
     }
 
     fun updateDosageQuantity(newString: String) {
@@ -203,8 +224,10 @@ class MedicationViewModel @Inject constructor(
             _selectedDosageQuantity.value = 0.0
             return
         }
+
         val normalizedString = newString.replace(',', '.')
         val regex = Regex("^\\d*\\.?\\d*$")
+
         if (normalizedString.matches(regex)) {
             val cleanedString = if (normalizedString.startsWith("0") &&
                 normalizedString.length > 1 &&
@@ -217,10 +240,13 @@ class MedicationViewModel @Inject constructor(
             _selectedDosageQuantityString.value = cleanedString
             _selectedDosageQuantity.value = cleanedString.toDoubleOrNull() ?: 0.0
         }
+
+        _hasChanges.value = true
     }
 
     fun updateDosageTime(time: String) {
         _selectedDosageTime.value = time
+        _hasChanges.value = true
     }
 
     fun saveStageDosage() {
@@ -241,6 +267,22 @@ class MedicationViewModel @Inject constructor(
             _stagedDosages.value = updatedList
             resetDosageFields()
         } catch (_: Exception) { }
+    }
+
+    fun startEditingDosage(medication: Medication, dosageIndex: Int) {
+        _editingMedication.value = medication
+        _editingDosageIndex.value = dosageIndex
+
+        val dosage = medication.dosages.getOrNull(dosageIndex) ?: return
+
+        _selectedDosageQuantity.value = dosage.quantity
+        _selectedDosageQuantityString.value = dosage.quantity.toString()
+        _selectedDosageUnit.value = dosage.unitOption
+        _selectedDosageTime.value = dosage.time?.let {
+            String.format("%02d:%02d", it.hour, it.minute)
+        } ?: "22:00"
+
+        _hasChanges.value = false
     }
 
     private fun resetDosageFields() {
@@ -292,6 +334,48 @@ class MedicationViewModel @Inject constructor(
         _selectedActiveIngredient.value = null
         _selectedDosageForm.value = null
         _stagedDosages.value = emptyList()
+        resetDosageFields()
+    }
+
+    fun updateMedicationDosage() {
+        viewModelScope.launch {
+            try {
+                val medication = _editingMedication.value
+                    ?: throw IllegalArgumentException("Nenhum medicamento em edição")
+
+                val dosageIndex = _editingDosageIndex.value
+                    ?: throw IllegalArgumentException("Nenhuma dosagem em edição")
+
+                val quantity = _selectedDosageQuantity.value
+                val unit = _selectedDosageUnit.value
+                    ?: throw IllegalArgumentException("Unidade não selecionada")
+                val timeString = _selectedDosageTime.value
+
+                if (quantity <= 0.0) throw IllegalArgumentException("Quantidade inválida")
+
+                val updatedDosage = MedicationDosage.fromViewModel(quantity, unit, timeString)
+                    .copy(dosageNumber = dosageIndex + 1)
+
+                val updatedDosages = medication.dosages.toMutableList().apply {
+                    set(dosageIndex, updatedDosage)
+                }
+
+                val updatedMedication = medication.copy(
+                    dosages = updatedDosages,
+                    updatedAt = System.currentTimeMillis()
+                )
+
+                updateMedicationUseCase.invoke(updatedMedication)
+
+                clearEditingState()
+            } catch (_: Exception) { }
+        }
+    }
+
+    private fun clearEditingState() {
+        _editingMedication.value = null
+        _editingDosageIndex.value = null
+        _hasChanges.value = false
         resetDosageFields()
     }
 

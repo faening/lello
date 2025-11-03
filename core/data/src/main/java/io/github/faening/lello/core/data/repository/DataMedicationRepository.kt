@@ -30,7 +30,11 @@ class DataMedicationRepository @Inject constructor(
 
     override suspend fun update(entry: Medication) {
         dao.update(entry.toEntity())
-        dao.disableDosagesForMedication(entry.id ?: 0L)
+
+        // Remove todas as dosagens antigas do medicamento
+        dao.deleteDosagesForMedication(entry.id ?: 0L)
+
+        // Insere as novas dosagens
         val dosageEntities = entry.dosages.map { it.toEntity(entry.id ?: 0L) }
         dao.insertDosages(dosageEntities)
     }

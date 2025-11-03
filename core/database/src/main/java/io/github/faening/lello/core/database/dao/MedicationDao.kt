@@ -85,4 +85,12 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
         """,
     )
     override suspend fun disable(id: Long)
+
+    @Query(
+        value = """
+        DELETE FROM medication_dosages
+        WHERE medication_id = :medicationId
+    """
+    )
+    suspend fun deleteDosagesForMedication(medicationId: Long)
 }
