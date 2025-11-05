@@ -36,4 +36,8 @@ class DataMedicationJournalRepository @Inject constructor(
     override suspend fun insert(items: List<MedicationJournal>): List<Long> {
         return dao.insert(items.map { it.toEntity() })
     }
+
+    override suspend fun delete(item: MedicationJournal) {
+        dao.delete(item.toEntity())
+    }
 }

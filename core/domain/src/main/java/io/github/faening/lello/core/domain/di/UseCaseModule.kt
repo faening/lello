@@ -31,10 +31,6 @@ import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicat
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByTakenStatusUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.InsertMedicationJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.InsertMedicationJournalsUseCase
-import io.github.faening.lello.core.domain.usecase.journal.mood.DeleteMoodJournalUseCase
-import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalUseCase
-import io.github.faening.lello.core.domain.usecase.journal.mood.GetMoodJournalByIdUseCase
-import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.DeleteSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetSleepJournalByIdUseCase
@@ -166,7 +162,6 @@ import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferen
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MedicationJournal
-import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.option.AppetiteOption
@@ -276,40 +271,6 @@ object UseCaseModule {
     ) = InsertMedicationJournalsUseCase(repository)
 
     // endregion: Journal Medication
-
-    // region: Journal Mood
-
-    @Provides
-    fun provideGetAllMoodJournalUseCase(
-        repository: JournalRepository<MoodJournal>
-    ) = GetAllMoodJournalUseCase(repository)
-
-    @Provides
-    fun provideGetMoodJournalByIdUseCase(
-        repository: JournalRepository<MoodJournal>
-    ) = GetMoodJournalByIdUseCase(repository)
-
-    @Provides
-    fun provideSaveMoodJournalUseCase(
-        repository: JournalRepository<MoodJournal>,
-        rewardCalculatorService: RewardCalculatorService,
-        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
-        getRewardBalanceUseCase: GetRewardBalanceUseCase,
-        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
-    ) = SaveMoodJournalUseCase(
-        repository,
-        rewardCalculatorService,
-        saveOrUpdateRewardBalanceUseCase,
-        getRewardBalanceUseCase,
-        saveRewardHistoryUseCase
-    )
-
-    @Provides
-    fun provideDeleteMoodJournalUseCase(
-        repository: JournalRepository<MoodJournal>
-    ) = DeleteMoodJournalUseCase(repository)
-
-    // endregion: Journal Mood
 
     // region: Journal Sleep
 

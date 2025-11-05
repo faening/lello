@@ -21,4 +21,11 @@ interface BaseWrite<T> {
      * @return Lista com os IDs gerados para cada registro
      */
     suspend fun insert(items: List<T>): List<Long>
+
+    /**
+     * Exclui um registro.
+     *
+     * @param item Registro a ser excluído
+     */
+    suspend fun delete(item: T)
 }

@@ -18,7 +18,6 @@ import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemRepository
 import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
 import io.github.faening.lello.core.data.repository.DataJournalMealRepository
-import io.github.faening.lello.core.data.repository.DataJournalMoodRepository
 import io.github.faening.lello.core.data.repository.DataJournalSleepRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMascotRepository
@@ -31,6 +30,7 @@ import io.github.faening.lello.core.data.repository.DataMedicationDosageUnitOpti
 import io.github.faening.lello.core.data.repository.DataMedicationJournalRepository
 import io.github.faening.lello.core.data.repository.DataMedicationRepository
 import io.github.faening.lello.core.data.repository.DataMedicationSkipReasonOptionRepository
+import io.github.faening.lello.core.data.repository.DataMoodJournalRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
 import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepository
 import io.github.faening.lello.core.data.repository.DataRewardBalanceRepository
@@ -79,6 +79,7 @@ import io.github.faening.lello.core.domain.repository.MascotStatusRepository
 import io.github.faening.lello.core.domain.repository.MascotVitalityRepository
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
+import io.github.faening.lello.core.domain.repository.MoodJournalRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
@@ -200,7 +201,7 @@ object RepositoryModule {
     @Provides
     fun provideDataJournalMoodRepository(
         dao: MoodJournalDao
-    ): JournalRepository<MoodJournal> = DataJournalMoodRepository(dao)
+    ): MoodJournalRepository<MoodJournal> = DataMoodJournalRepository(dao)
 
     @Provides
     fun provideDataJournalSleepRepository(

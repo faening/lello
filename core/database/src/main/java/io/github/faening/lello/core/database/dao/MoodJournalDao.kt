@@ -13,19 +13,15 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalRepository
+import io.github.faening.lello.core.domain.repository.MoodJournalDaoContract
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MoodJournalDao : JournalRepository<MoodJournalEntity> {
+interface MoodJournalDao : MoodJournalDaoContract<MoodJournalEntityWithOptions, MoodJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
-    fun getAllWithOptions(): Flow<List<MoodJournalEntityWithOptions>>
-
-    @Transaction
-    @Query("SELECT * FROM mood_journals ORDER BY created_at DESC")
-    override fun getAll(): Flow<List<MoodJournalEntity>>
+    override fun getAllJournals(): Flow<List<MoodJournalEntityWithOptions>>
 
     @Transaction
     @Query(
@@ -35,22 +31,24 @@ interface MoodJournalDao : JournalRepository<MoodJournalEntity> {
             LIMIT 1
         """
     )
-    override fun getById(id: Long): Flow<MoodJournalEntity>?
+    override fun getJournalById(id: Long): Flow<MoodJournalEntityWithOptions>?
 
     @Transaction
     @Query(
         value = """
             SELECT * FROM mood_journals
-            WHERE moodJournalId = :id
-            LIMIT 1
+            WHERE mood = :mood
+            ORDER BY created_at DESC
         """
     )
-    fun getByIdWithOptions(id: Long): Flow<MoodJournalEntityWithOptions>?
+    override fun getJournalsByMood(mood: String): Flow<List<MoodJournalEntityWithOptions>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insert(entry: MoodJournalEntity): Long
+    override suspend fun insert(item: MoodJournalEntity): Long
 
-    // CrossRef inserts
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun insert(items: List<MoodJournalEntity>): List<Long>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEmotionRefs(refs: List<MoodJournalEntityEmotionOptionEntityCrossRef>)
 
@@ -67,5 +65,5 @@ interface MoodJournalDao : JournalRepository<MoodJournalEntity> {
     suspend fun insertHealthRefs(refs: List<MoodJournalEntityHealthOptionEntityCrossRef>)
 
     @Delete
-    override suspend fun delete(id: MoodJournalEntity)
+    override suspend fun delete(item: MoodJournalEntity)
 }
