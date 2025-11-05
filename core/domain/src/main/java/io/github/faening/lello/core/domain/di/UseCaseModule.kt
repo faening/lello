@@ -12,6 +12,7 @@ import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
+import io.github.faening.lello.core.domain.repository.MoodJournalRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
@@ -31,6 +32,9 @@ import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicat
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByTakenStatusUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.InsertMedicationJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.InsertMedicationJournalsUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalsUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.GetMoodJournalByIdUseCase
+import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.DeleteSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetSleepJournalByIdUseCase
@@ -162,6 +166,7 @@ import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferen
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
 import io.github.faening.lello.core.model.journal.MedicationJournal
+import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.option.AppetiteOption
@@ -240,6 +245,7 @@ object UseCaseModule {
     // endregion: Journal Meal
 
     // region: Journal Medication
+
     @Provides
     fun provideGetAllMedicationJournalsUseCase(
         repository: MedicationJournalRepository<MedicationJournal>
@@ -271,6 +277,35 @@ object UseCaseModule {
     ) = InsertMedicationJournalsUseCase(repository)
 
     // endregion: Journal Medication
+
+    // region: Journal Mood
+
+    @Provides
+    fun provideGetAllMoodJournalsUseCase(
+        repository: MoodJournalRepository<MoodJournal>
+    ) = GetAllMoodJournalsUseCase(repository)
+
+    @Provides
+    fun provideGetMoodJournalByIdUseCase(
+        repository: MoodJournalRepository<MoodJournal>
+    ) = GetMoodJournalByIdUseCase(repository)
+
+    @Provides
+    fun provideSaveMoodJournalUseCase(
+        repository: MoodJournalRepository<MoodJournal>,
+        rewardCalculatorService: RewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase,
+        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
+    ) = SaveMoodJournalUseCase(
+        repository,
+        rewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase,
+        saveRewardHistoryUseCase
+    )
+
+    // endregion: Journal Mood
 
     // region: Journal Sleep
 
