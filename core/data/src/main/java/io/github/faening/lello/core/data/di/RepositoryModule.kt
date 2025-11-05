@@ -28,6 +28,7 @@ import io.github.faening.lello.core.data.repository.DataMealOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationActiveIngredientOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationDosageFormOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationDosageUnitOptionRepository
+import io.github.faening.lello.core.data.repository.DataMedicationJournalRepository
 import io.github.faening.lello.core.data.repository.DataMedicationRepository
 import io.github.faening.lello.core.data.repository.DataMedicationSkipReasonOptionRepository
 import io.github.faening.lello.core.data.repository.DataPortionOptionRepository
@@ -57,6 +58,7 @@ import io.github.faening.lello.core.database.dao.MedicationActiveIngredientOptio
 import io.github.faening.lello.core.database.dao.MedicationDao
 import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MedicationDosageUnitOptionDao
+import io.github.faening.lello.core.database.dao.MedicationJournalDao
 import io.github.faening.lello.core.database.dao.MedicationSkipReasonOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
@@ -75,6 +77,7 @@ import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MascotStatusRepository
 import io.github.faening.lello.core.domain.repository.MascotVitalityRepository
+import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
@@ -84,6 +87,7 @@ import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MedicationJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.mascot.MascotStatus
@@ -182,6 +186,11 @@ object RepositoryModule {
     fun provideDataMedicationDosageUnitOptionRepository(
         dao: MedicationDosageUnitOptionDao
     ): OptionRepository<MedicationDosageUnitOption> = DataMedicationDosageUnitOptionRepository(dao)
+
+    @Provides
+    fun provideDataMedicationJournalRepository(
+        dao: MedicationJournalDao
+    ): MedicationJournalRepository<MedicationJournal> = DataMedicationJournalRepository(dao)
 
     @Provides
     fun provideDataMedicationSkipReasonOptionRepository(

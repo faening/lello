@@ -20,6 +20,7 @@ import io.github.faening.lello.core.database.dao.MedicationActiveIngredientOptio
 import io.github.faening.lello.core.database.dao.MedicationDao
 import io.github.faening.lello.core.database.dao.MedicationDosageFormOptionDao
 import io.github.faening.lello.core.database.dao.MedicationDosageUnitOptionDao
+import io.github.faening.lello.core.database.dao.MedicationJournalDao
 import io.github.faening.lello.core.database.dao.MedicationSkipReasonOptionDao
 import io.github.faening.lello.core.database.dao.MoodJournalDao
 import io.github.faening.lello.core.database.dao.PortionOptionDao
@@ -39,6 +40,7 @@ import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntit
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityMealOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityPortionOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
+import io.github.faening.lello.core.database.model.journal.medication.MedicationJournalEntity
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntity
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityClimateOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityEmotionOptionEntityCrossRef
@@ -99,6 +101,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         MealJournalEntityMealOptionEntityCrossRef::class,
         MealJournalEntityPortionOptionEntityCrossRef::class,
         MealJournalEntitySocialOptionEntityCrossRef::class,
+        MedicationJournalEntity::class,
         MealOptionEntity::class,
         MedicationActiveIngredientOptionEntity::class,
         MedicationEntity::class,
@@ -147,6 +150,7 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun mascotStatusDao(): MascotStatusDao
     abstract fun mascotVitalityHistoryDao(): MascotVitalityHistoryDao
     abstract fun mealJournalDao(): MealJournalDao
+    abstract fun medicationJournalDao(): MedicationJournalDao
     abstract fun mealOptionDao(): MealOptionDao
     abstract fun medicationActiveIngredientOptionDao(): MedicationActiveIngredientOptionDao
     abstract fun medicationDao(): MedicationDao
