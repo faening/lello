@@ -4,10 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.domain.repository.JournalRepository
+import io.github.faening.lello.core.domain.repository.SleepJournalRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
-import io.github.faening.lello.core.domain.usecase.journal.sleep.DeleteSleepJournalUseCase
-import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetSleepJournalByIdUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -21,17 +20,17 @@ object JournalSleepUseCaseModule {
 
     @Provides
     fun provideGetAllSleepJournalUseCase(
-        repository: JournalRepository<SleepJournal>
-    ) = GetAllSleepJournalUseCase(repository)
+        repository: SleepJournalRepository<SleepJournal>
+    ) = GetAllSleepJournalsUseCase(repository)
 
     @Provides
     fun provideGetSleepJournalByIdUseCase(
-        repository: JournalRepository<SleepJournal>
+        repository: SleepJournalRepository<SleepJournal>
     ) = GetSleepJournalByIdUseCase(repository)
 
     @Provides
     fun provideSaveSleepJournalUseCase(
-        repository: JournalRepository<SleepJournal>,
+        repository: SleepJournalRepository<SleepJournal>,
         rewardCalculatorService: RewardCalculatorService,
         saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
         getRewardBalanceUseCase: GetRewardBalanceUseCase,
@@ -43,9 +42,4 @@ object JournalSleepUseCaseModule {
         getRewardBalanceUseCase,
         saveRewardHistoryUseCase
     )
-
-    @Provides
-    fun provideDeleteSleepJournalUseCase(
-        repository: JournalRepository<SleepJournal>
-    ) = DeleteSleepJournalUseCase(repository)
 }

@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
-import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
+import io.github.faening.lello.core.domain.usecase.journal.category.GetAllJournalCategoriesUseCase
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoryByIdUseCase
 import io.github.faening.lello.core.model.journal.JournalCategory
 
@@ -16,7 +16,7 @@ object JournalCategoryUseCaseModule {
     @Provides
     fun provideGetJournalCategoriesUseCase(
         repository: JournalCategoryRepository<JournalCategory>
-    ) = GetJournalCategoriesUseCase(repository)
+    ) = GetAllJournalCategoriesUseCase(repository)
 
     @Provides
     fun provideGetJournalCategoryByIdUseCase(
