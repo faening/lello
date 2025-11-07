@@ -51,7 +51,10 @@ fun MedicationJournalSkipReasonScreen(
         skipReasonOptions =skipReasonOptions,
         onBack = onBack,
         onOpenSettings = onOpenSettings,
-        onFinish = onFinish
+        onSaveAndFinish = { taken, skipReason ->
+            viewModel.saveMedicationJournal(taken, skipReason)
+            onFinish()
+        }
     )
 }
 
@@ -62,10 +65,10 @@ private fun MedicationJournalSkipReasonContent(
     skipReasonOptions: List<MedicationSkipReasonOption>,
     onBack: () -> Unit,
     onOpenSettings: () -> Unit,
-    onFinish: () -> Unit
+    onSaveAndFinish: (Boolean, MedicationSkipReasonOption?) -> Unit
 ) {
     var showSkipReasons by remember { mutableStateOf(false) }
-    var selectedSkipReason by remember { mutableStateOf<String?>(null) }
+    var selectedSkipReason by remember { mutableStateOf<MedicationSkipReasonOption?>(null) }
 
     Scaffold(
         topBar = {
@@ -74,7 +77,7 @@ private fun MedicationJournalSkipReasonContent(
         bottomBar = {
             if (showSkipReasons) {
                 MedicationJournalSkipReasonBottomBar(
-                    onFinish = onFinish,
+                    onFinish = { onSaveAndFinish(false, selectedSkipReason) },
                     isEnabled = selectedSkipReason != null
                 )
             }
@@ -93,14 +96,12 @@ private fun MedicationJournalSkipReasonContent(
 
             MedicationJournalSkipReasonActionSection(
                 skipReasonOptions = skipReasonOptions,
-                onFinish = {
-                    showSkipReasons = true
-                    onFinish()
-                },
+                onTaken = { onSaveAndFinish(true, null) },
                 onShowSkipReasons = { showSkipReasons = true },
                 selectedSkipReason = selectedSkipReason,
                 onSkipReasonSelected = { selectedSkipReason = it },
-                onOpenSettings = onOpenSettings
+                onOpenSettings = onOpenSettings,
+                showSkipReasons = showSkipReasons
             )
         }
     }
@@ -157,13 +158,14 @@ private fun MedicationJournalSkipReasonHeaderSection(
 @Composable
 private fun MedicationJournalSkipReasonActionSection(
     skipReasonOptions: List<MedicationSkipReasonOption>,
-    onFinish: () -> Unit,
-    onShowSkipReasons: (Boolean) -> Unit,
-    selectedSkipReason: String?,
-    onSkipReasonSelected: (String) -> Unit,
+    onTaken: () -> Unit,
+    onShowSkipReasons: () -> Unit,
+    selectedSkipReason: MedicationSkipReasonOption?,
+    onSkipReasonSelected: (MedicationSkipReasonOption) -> Unit,
     onOpenSettings: () -> Unit,
+    showSkipReasons: Boolean
 ) {
-    var showSkipReasons by remember { mutableStateOf(false) }
+    // var showSkipReasons by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -178,16 +180,13 @@ private fun MedicationJournalSkipReasonActionSection(
         ) {
             LelloFilledButton(
                 label = "Sim",
-                onClick = onFinish,
+                onClick = onTaken,
                 enabled = !showSkipReasons,
                 modifier = Modifier.weight(1f)
             )
             LelloFilledButton(
                 label = "Não",
-                onClick = {
-                    showSkipReasons = true
-                    onShowSkipReasons(true)
-                },
+                onClick = onShowSkipReasons,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -196,8 +195,8 @@ private fun MedicationJournalSkipReasonActionSection(
             LelloOptionPillSelector(
                 title = "Por que você não tomou o remédio?",
                 options = skipReasonOptions,
-                isSelected = { it.description == selectedSkipReason },
-                onToggle = { option -> onSkipReasonSelected(option.description) },
+                isSelected = { it == selectedSkipReason },
+                onToggle = onSkipReasonSelected,
                 onOpenSettings = onOpenSettings,
                 getLabel = { it.description }
             )
@@ -223,7 +222,7 @@ private fun MedicationJournalSkipReasonScreenPreview_Default_LightMode() {
             dosageIndex = 1,
             skipReasonOptions = emptyList(),
             onBack = {},
-            onFinish = {},
+            onSaveAndFinish = { _, _ -> },
             onOpenSettings = {}
         )
     }

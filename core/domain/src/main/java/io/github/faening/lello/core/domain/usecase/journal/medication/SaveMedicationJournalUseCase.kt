@@ -4,10 +4,10 @@ import io.github.faening.lello.core.domain.repository.MedicationJournalRepositor
 import io.github.faening.lello.core.model.journal.MedicationJournal
 import jakarta.inject.Inject
 
-class InsertMedicationJournalsUseCase @Inject constructor(
+class SaveMedicationJournalUseCase @Inject constructor(
     private val repository: MedicationJournalRepository<MedicationJournal>
 ) {
-    suspend operator fun invoke(journals: List<MedicationJournal>): List<Long> {
-        return repository.insert(journals)
+    suspend operator fun invoke(journal: MedicationJournal): Long {
+        return repository.insert(journal)
     }
 }
