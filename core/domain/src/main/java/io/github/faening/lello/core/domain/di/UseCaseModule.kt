@@ -10,6 +10,7 @@ import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
+import io.github.faening.lello.core.domain.repository.MealJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.MoodJournalRepository
@@ -22,8 +23,7 @@ import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
 import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoryByIdUseCase
-import io.github.faening.lello.core.domain.usecase.journal.meal.DeleteMealJournalUseCase
-import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetMealJournalByIdUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.SaveMealJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetAllMedicationJournalsUseCase
@@ -213,18 +213,18 @@ object UseCaseModule {
     // region: Journal Meal
 
     @Provides
-    fun provideGetAllMealJournalUseCase(
-        repository: JournalRepository<MealJournal>
-    ) = GetAllMealJournalUseCase(repository)
+    fun provideGetAllMealJournalsUseCase(
+        repository: MealJournalRepository<MealJournal>
+    ) = GetAllMealJournalsUseCase(repository)
 
     @Provides
     fun provideGetMealJournalByIdUseCase(
-        repository: JournalRepository<MealJournal>
+        repository: MealJournalRepository<MealJournal>
     ) = GetMealJournalByIdUseCase(repository)
 
     @Provides
     fun provideSaveMealJournalUseCase(
-        repository: JournalRepository<MealJournal>,
+        repository: MealJournalRepository<MealJournal>,
         rewardCalculatorService: RewardCalculatorService,
         saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
         getRewardBalanceUseCase: GetRewardBalanceUseCase,
@@ -236,11 +236,6 @@ object UseCaseModule {
         getRewardBalanceUseCase,
         saveRewardHistoryUseCase
     )
-
-    @Provides
-    fun provideDeleteMealJournalUseCase(
-        repository: JournalRepository<MealJournal>
-    ) = DeleteMealJournalUseCase(repository)
 
     // endregion: Journal Meal
 

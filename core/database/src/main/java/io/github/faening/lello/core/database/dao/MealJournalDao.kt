@@ -14,19 +14,15 @@ import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntit
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityPortionOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntitySocialOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalRepository
+import io.github.faening.lello.core.domain.repository.MealJournalDaoContract
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MealJournalDao : JournalRepository<MealJournalEntity> {
+interface MealJournalDao : MealJournalDaoContract<MealJournalEntityWithOptions, MealJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM meal_journals ORDER BY created_at DESC")
-    fun getAllWithOptions(): Flow<List<MealJournalEntityWithOptions>>
-
-    @Transaction
-    @Query("SELECT * FROM meal_journals ORDER BY meal_time DESC")
-    override fun getAll(): Flow<List<MealJournalEntity>>
+    override fun getAllJournals(): Flow<List<MealJournalEntityWithOptions>>
 
     @Transaction
     @Query(
@@ -36,20 +32,10 @@ interface MealJournalDao : JournalRepository<MealJournalEntity> {
             LIMIT 1
         """
     )
-    override fun getById(id: Long): Flow<MealJournalEntity>?
-
-    @Transaction
-    @Query(
-        value = """
-            SELECT * FROM meal_journals
-            WHERE mealJournalId = :id
-            LIMIT 1
-        """
-    )
-    fun getByIdWithOptions(id: Long): Flow<MealJournalEntityWithOptions>?
+    override fun getJournalById(id: Long): Flow<MealJournalEntityWithOptions>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insert(entry: MealJournalEntity): Long
+    override suspend fun insert(item: MealJournalEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMealRefs(refs: List<MealJournalEntityMealOptionEntityCrossRef>)
@@ -69,6 +55,9 @@ interface MealJournalDao : JournalRepository<MealJournalEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSocialRefs(refs: List<MealJournalEntitySocialOptionEntityCrossRef>)
 
+    @Insert
+    override suspend fun insert(items: List<MealJournalEntity>): List<Long>
+
     @Delete
-    override suspend fun delete(id: MealJournalEntity)
+    override suspend fun delete(item: MealJournalEntity)
 }

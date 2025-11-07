@@ -17,12 +17,12 @@ import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
 import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemRepository
 import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
-import io.github.faening.lello.core.data.repository.DataJournalMealRepository
 import io.github.faening.lello.core.data.repository.DataJournalSleepRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMascotRepository
 import io.github.faening.lello.core.data.repository.DataMascotStatusRepository
 import io.github.faening.lello.core.data.repository.DataMascotVitalityRepository
+import io.github.faening.lello.core.data.repository.DataMealJournalRepository
 import io.github.faening.lello.core.data.repository.DataMealOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationActiveIngredientOptionRepository
 import io.github.faening.lello.core.data.repository.DataMedicationDosageFormOptionRepository
@@ -77,6 +77,7 @@ import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MascotStatusRepository
 import io.github.faening.lello.core.domain.repository.MascotVitalityRepository
+import io.github.faening.lello.core.domain.repository.MealJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.MoodJournalRepository
@@ -164,9 +165,9 @@ object RepositoryModule {
     ): JournalCategoryRepository<JournalCategory> = DataJournalCategoryRepository(dao)
 
     @Provides
-    fun provideDataJournalMealRepository(
+    fun provideDataMealJournalRepository(
         dao: MealJournalDao
-    ): JournalRepository<MealJournal> = DataJournalMealRepository(dao)
+    ): MealJournalRepository<MealJournal> = DataMealJournalRepository(dao)
 
     @Provides
     fun provideDataMedicationActiveIngredientOptionRepository(
