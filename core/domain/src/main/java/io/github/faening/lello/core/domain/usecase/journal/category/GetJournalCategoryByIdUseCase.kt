@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetJournalCategoryByIdUseCase @Inject constructor(
     private val repository: JournalCategoryRepository<JournalCategory>
 ) {
-    operator fun invoke(id: Long) = repository.getById(id)
+    operator fun invoke(id: Long) = repository.getJournalCategoryById(id)
 }

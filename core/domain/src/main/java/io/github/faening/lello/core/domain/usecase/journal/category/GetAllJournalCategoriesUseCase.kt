@@ -4,7 +4,7 @@ import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.model.journal.JournalCategory
 import javax.inject.Inject
 
-class GetJournalCategoriesUseCase @Inject constructor(
+class GetAllJournalCategoriesUseCase @Inject constructor(
     private val repository: JournalCategoryRepository<JournalCategory>
 ) {
     operator fun invoke(
@@ -12,5 +12,5 @@ class GetJournalCategoriesUseCase @Inject constructor(
         isBlocked: Boolean = true,
         useActiveFilter: Boolean = false,
         isActive: Boolean = true
-    ) = repository.getAll(useBlockedFilter, isBlocked, useActiveFilter, isActive)
+    ) = repository.getAllJournalCategories(useBlockedFilter, isBlocked, useActiveFilter, isActive)
 }
