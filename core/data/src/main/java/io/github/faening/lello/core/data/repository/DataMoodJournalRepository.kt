@@ -7,7 +7,6 @@ import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntit
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityHealthOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntityLocationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.mood.MoodJournalEntitySocialOptionEntityCrossRef
-import io.github.faening.lello.core.database.model.journal.mood.toEntity
 import io.github.faening.lello.core.database.model.journal.mood.toModel
 import io.github.faening.lello.core.domain.repository.MoodJournalRepository
 import io.github.faening.lello.core.model.journal.MoodJournal
@@ -116,9 +115,5 @@ class DataMoodJournalRepository @Inject constructor(
 
     override suspend fun insert(items: List<MoodJournal>): List<Long> {
         return items.map { insert(it) }
-    }
-
-    override suspend fun delete(item: MoodJournal) {
-        dao.delete(item.toEntity())
     }
 }

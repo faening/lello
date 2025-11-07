@@ -44,7 +44,7 @@ interface MedicationJournalResource<T> {
  */
 interface MedicationJournalDaoContract<O, E> :
     MedicationJournalResource<O>,
-    BaseWrite<E>
+    BaseJournalWrite<E>
 
 /**
  * Repositório para gerenciar registros do diário de medicamentos.
@@ -53,4 +53,4 @@ interface MedicationJournalDaoContract<O, E> :
  */
 interface MedicationJournalRepository<M> :
     MedicationJournalResource<M>,
-    BaseWrite<M>
+    BaseJournalWrite<M>

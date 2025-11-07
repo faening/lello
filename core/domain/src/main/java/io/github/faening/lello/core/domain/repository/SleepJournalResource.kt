@@ -27,7 +27,7 @@ interface SleepJournalResource<T> {
  */
 interface SleepJournalDaoContract<O, E> :
     SleepJournalResource<O>,
-    BaseWrite<E>
+    BaseJournalWrite<E>
 
 /**
  * Repositório para gerenciar registros do diário de sono.
@@ -36,7 +36,7 @@ interface SleepJournalDaoContract<O, E> :
  */
 interface SleepJournalRepository<M> :
     SleepJournalResource<M>,
-    BaseWrite<M> {
+    BaseJournalWrite<M> {
 
     /**
      * Insere referências de opções de sensação de sono para um registro do diário.

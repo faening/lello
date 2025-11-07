@@ -27,7 +27,7 @@ interface MealJournalResource<T> {
  */
 interface MealJournalDaoContract<O, E> :
     MealJournalResource<O>,
-    BaseWrite<E>
+    BaseJournalWrite<E>
 
 /**
  * Repositório para gerenciar registros do diário de alimentação.
@@ -36,7 +36,7 @@ interface MealJournalDaoContract<O, E> :
  */
 interface MealJournalRepository<M> :
     MealJournalResource<M>,
-    BaseWrite<M> {
+    BaseJournalWrite<M> {
 
     /**
      * Insere referências de opções de refeição para um registro do diário.

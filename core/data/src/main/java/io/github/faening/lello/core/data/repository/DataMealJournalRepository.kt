@@ -120,8 +120,4 @@ class DataMealJournalRepository @Inject constructor(
     override suspend fun insert(items: List<MealJournal>): List<Long> {
         return items.map { insert(it) }
     }
-
-    override suspend fun delete(item: MealJournal) {
-        dao.delete(item.toEntity())
-    }
 }

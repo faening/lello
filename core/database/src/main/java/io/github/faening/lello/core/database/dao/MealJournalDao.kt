@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -57,7 +56,4 @@ interface MealJournalDao : MealJournalDaoContract<MealJournalEntityWithOptions, 
 
     @Insert
     override suspend fun insert(items: List<MealJournalEntity>): List<Long>
-
-    @Delete
-    override suspend fun delete(item: MealJournalEntity)
 }

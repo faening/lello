@@ -35,7 +35,7 @@ interface MoodJournalResource<T> {
  */
 interface MoodJournalDaoContract<O, E> :
     MoodJournalResource<O>,
-    BaseWrite<E>
+    BaseJournalWrite<E>
 
 /**
  * Repositório para gerenciar registros do diário de humor.
@@ -44,7 +44,7 @@ interface MoodJournalDaoContract<O, E> :
  */
 interface MoodJournalRepository<M> :
     MoodJournalResource<M>,
-    BaseWrite<M> {
+    BaseJournalWrite<M> {
 
     /**
      * Insere referências de opções de emoção para um registro do diário.

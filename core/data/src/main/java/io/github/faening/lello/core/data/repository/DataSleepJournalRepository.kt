@@ -90,8 +90,4 @@ class DataSleepJournalRepository @Inject constructor(
     override suspend fun insert(items: List<SleepJournal>): List<Long> {
         return items.map { insert(it) }
     }
-
-    override suspend fun delete(item: SleepJournal) {
-        dao.delete(item.toEntity())
-    }
 }

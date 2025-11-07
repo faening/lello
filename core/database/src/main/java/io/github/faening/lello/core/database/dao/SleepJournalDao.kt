@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -49,7 +48,4 @@ interface SleepJournalDao : SleepJournalDaoContract<SleepJournalEntityWithOption
 
     @Insert
     override suspend fun insert(items: List<SleepJournalEntity>): List<Long>
-
-    @Delete
-    override suspend fun delete(item: SleepJournalEntity)
 }

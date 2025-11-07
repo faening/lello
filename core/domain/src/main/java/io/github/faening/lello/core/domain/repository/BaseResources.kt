@@ -1,11 +1,11 @@
 package io.github.faening.lello.core.domain.repository
 
 /**
- * Contrato base para operações de escrita em repositórios.
+ * Contrato base para operações de escrita em diários.
  *
  * @param T Tipo do item a ser manipulado
  */
-interface BaseWrite<T> {
+interface BaseJournalWrite<T> {
     /**
      * Insere um novo registro.
      *
@@ -21,11 +21,4 @@ interface BaseWrite<T> {
      * @return Lista com os IDs gerados para cada registro
      */
     suspend fun insert(items: List<T>): List<Long>
-
-    /**
-     * Exclui um registro.
-     *
-     * @param item Registro a ser excluído
-     */
-    suspend fun delete(item: T)
 }
