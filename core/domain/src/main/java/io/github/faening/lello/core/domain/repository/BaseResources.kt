@@ -22,3 +22,39 @@ interface BaseJournalWrite<T> {
      */
     suspend fun insert(items: List<T>): List<Long>
 }
+
+/**
+ * Contrato base para operações de escrita genéricas.
+ *
+ * @param T Tipo do item a ser manipulado
+ */
+interface BaseWrite<T> {
+    /**
+     * Insere um novo item.
+     *
+     * @param item Item a ser inserido
+     * @return ID gerado para o novo item
+     */
+    suspend fun insert(item: T): Long
+
+    /**
+     * Atualiza um item existente.
+     *
+     * @param item Item a ser atualizado
+     */
+    suspend fun update(item: T)
+
+    /**
+     * Desabilita um item pelo seu ID.
+     *
+     * @param id ID do item a ser desabilitado
+     */
+    suspend fun disable(id: Long)
+
+    /**
+     * Deleta um item.
+     *
+     * @param item Item a ser deletado
+     */
+    suspend fun delete(item: T)
+}
