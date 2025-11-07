@@ -8,7 +8,7 @@ import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthe
 import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswordUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalsUseCase
-import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalUseCase
+import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardAmountByOriginUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
 import io.github.faening.lello.core.model.authentication.AuthenticationState
@@ -28,7 +28,7 @@ class DiaryViewModel @Inject constructor(
     private val biometricAuthUseCase: BiometricAuthenticationUseCase,
     private val getAllMealJournalsUseCase: GetAllMealJournalsUseCase,
     private val getAllMoodJournalsUseCase: GetAllMoodJournalsUseCase,
-    private val getAllSleepJournalUseCase: GetAllSleepJournalUseCase,
+    private val getAllSleepJournalsUseCase: GetAllSleepJournalsUseCase,
     private val getRewardAmountByOriginUseCase: GetRewardAmountByOriginUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase
 ) : ViewModel() {
@@ -81,7 +81,7 @@ class DiaryViewModel @Inject constructor(
 
     private fun loadSleepJournal() {
         viewModelScope.launch {
-            getAllSleepJournalUseCase.invoke().collect { _sleepJournals.value = it }
+            getAllSleepJournalsUseCase.invoke().collect { _sleepJournals.value = it }
         }
     }
 

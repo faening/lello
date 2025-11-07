@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.domain.usecase.journal.sleep
 
-import io.github.faening.lello.core.domain.repository.JournalRepository
+import io.github.faening.lello.core.domain.repository.SleepJournalRepository
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
@@ -13,7 +13,7 @@ import io.github.faening.lello.core.model.reward.RewardOrigin
 import javax.inject.Inject
 
 class SaveSleepJournalUseCase @Inject constructor(
-    private val repository: JournalRepository<SleepJournal>,
+    private val repository: SleepJournalRepository<SleepJournal>,
     private val rewardCalculatorService: RewardCalculatorService,
     private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
     private val getRewardBalanceUseCase: GetRewardBalanceUseCase,

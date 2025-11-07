@@ -17,7 +17,6 @@ import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
 import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemRepository
 import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
-import io.github.faening.lello.core.data.repository.DataJournalSleepRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMascotRepository
 import io.github.faening.lello.core.data.repository.DataMascotStatusRepository
@@ -36,6 +35,7 @@ import io.github.faening.lello.core.data.repository.DataPurchaseHistoryRepositor
 import io.github.faening.lello.core.data.repository.DataRewardBalanceRepository
 import io.github.faening.lello.core.data.repository.DataRewardHistoryRepository
 import io.github.faening.lello.core.data.repository.DataSleepActivityOptionRepository
+import io.github.faening.lello.core.data.repository.DataSleepJournalRepository
 import io.github.faening.lello.core.data.repository.DataSleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.DataSocialOptionRepository
@@ -73,7 +73,6 @@ import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
-import io.github.faening.lello.core.domain.repository.JournalRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MascotStatusRepository
 import io.github.faening.lello.core.domain.repository.MascotVitalityRepository
@@ -86,6 +85,7 @@ import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
+import io.github.faening.lello.core.domain.repository.SleepJournalRepository
 import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
@@ -207,7 +207,7 @@ object RepositoryModule {
     @Provides
     fun provideDataJournalSleepRepository(
         dao: SleepJournalDao
-    ): JournalRepository<SleepJournal> = DataJournalSleepRepository(dao)
+    ): SleepJournalRepository<SleepJournal> = DataSleepJournalRepository(dao)
 
     @Provides
     fun provideDataLocationOptionRepository(
