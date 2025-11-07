@@ -3,7 +3,7 @@ package io.github.faening.lello.feature.journal.medication
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationsUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.GetAllMedicationSkipReasonOptionUseCase
 import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.option.MedicationSkipReasonOption
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MedicationJournalViewModel @Inject constructor(
-    private val getAllMedicationUseCase: GetAllMedicationUseCase,
+    private val getAllMedicationsUseCase: GetAllMedicationsUseCase,
     private val getAllMedicationSkipReasonOptionUseCase: GetAllMedicationSkipReasonOptionUseCase,
 ) : ViewModel() {
 
@@ -38,7 +38,7 @@ class MedicationJournalViewModel @Inject constructor(
 
     private fun loadMedications() {
         viewModelScope.launch {
-            getAllMedicationUseCase.invoke().collect { _medications.value = it }
+            getAllMedicationsUseCase.invoke().collect { _medications.value = it }
         }
     }
 

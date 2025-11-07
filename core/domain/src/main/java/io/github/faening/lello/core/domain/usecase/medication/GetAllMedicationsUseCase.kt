@@ -5,10 +5,10 @@ import io.github.faening.lello.core.model.medication.Medication
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAllMedicationUseCase @Inject constructor(
+class GetAllMedicationsUseCase @Inject constructor(
     private val repository: MedicationRepository<Medication>
 ) {
     operator fun invoke(): Flow<List<Medication>> {
-        return repository.getAll()
+        return repository.getAllMedications()
     }
 }

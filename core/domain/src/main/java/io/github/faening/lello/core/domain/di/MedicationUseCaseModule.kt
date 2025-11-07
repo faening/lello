@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.usecase.medication.DisableMedicationUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationsUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetMedicationByIdUseCase
 import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.UpdateMedicationUseCase
@@ -24,7 +24,7 @@ object MedicationUseCaseModule {
     @Provides
     fun provideGetAllMedicationUseCase(
         repository: MedicationRepository<Medication>
-    ) = GetAllMedicationUseCase(repository)
+    ) = GetAllMedicationsUseCase(repository)
 
     @Provides
     fun provideGetMedicationByIdUseCase(

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.medication.DisableMedicationUseCase
-import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationUseCase
+import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationsUseCase
 import io.github.faening.lello.core.domain.usecase.medication.SaveMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.medication.UpdateMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.activeingredient.GetAllMedicationActiveIngredientOptionUseCase
@@ -31,7 +31,7 @@ class MedicationViewModel @Inject constructor(
     private val getAllActiveIngredientOptionUseCase: GetAllMedicationActiveIngredientOptionUseCase,
     private val getAllMedicationDosageUnitOptionUseCase: GetAllMedicationDosageUnitOptionUseCase,
     private val getAllDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
-    private val getAllMedicationUseCase: GetAllMedicationUseCase,
+    private val getAllMedicationsUseCase: GetAllMedicationsUseCase,
     private val saveMedicationUseCase: SaveMedicationUseCase,
     private val updateMedicationUseCase: UpdateMedicationUseCase,
     private val disableMedicationUseCase: DisableMedicationUseCase,
@@ -138,7 +138,7 @@ class MedicationViewModel @Inject constructor(
 
     private fun loadMedications() {
         viewModelScope.launch {
-            getAllMedicationUseCase.invoke().collect { _medications.value = it }
+            getAllMedicationsUseCase.invoke().collect { _medications.value = it }
         }
     }
 
