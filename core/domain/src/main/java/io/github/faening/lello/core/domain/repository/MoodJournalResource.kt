@@ -4,14 +4,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoodJournalResource<T> {
     /**
-     * Obtém todos os registros do diário de medicamentos.
+     * Obtém todos os registros do diário de humor.
      *
      * @return Flow contendo lista de todos os registros ordenados por data de criação
      */
     fun getAllJournals(): Flow<List<T>>
 
     /**
-     * Obtém um registro do diário de medicamentos pelo ID.
+     * Obtém um registro do diário de humor pelo ID.
      *
      * @param id ID do registro
      * @return Flow contendo o registro correspondente, ou null se não encontrado
@@ -28,7 +28,7 @@ interface MoodJournalResource<T> {
 }
 
 /**
- * Contrato para DAOs que gerenciam registros do diário de medicamentos.
+ * Contrato para DAOs que gerenciam registros do diário de humor.
  *
  * @param O Tipo do modelo de saída com opções relacionadas
  * @param E Tipo da entidade de banco de dados para escrita
@@ -38,9 +38,9 @@ interface MoodJournalDaoContract<O, E> :
     BaseWrite<E>
 
 /**
- * Repositório para gerenciar registros do diário de medicamentos.
+ * Repositório para gerenciar registros do diário de humor.
  *
- * @param M Tipo do modelo de domínio do diário de medicamentos
+ * @param M Tipo do modelo de domínio do diário de humor
  */
 interface MoodJournalRepository<M> :
     MoodJournalResource<M>,

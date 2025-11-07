@@ -41,11 +41,25 @@ class DataMoodJournalRepository @Inject constructor(
             )
         )
 
-        linkEmotionOptions(moodJournalId, item.emotionOptions.map { it.id })
-        linkClimateOptions(moodJournalId, item.climateOptions.map { it.id })
-        linkLocationOptions(moodJournalId, item.locationOptions.map { it.id })
-        linkSocialOptions(moodJournalId, item.socialOptions.map { it.id })
-        linkHealthOptions(moodJournalId, item.healthOptions.map { it.id })
+        if (item.emotionOptions.isNotEmpty()) {
+            linkEmotionOptions(moodJournalId, item.emotionOptions.map { it.id })
+        }
+
+        if (item.climateOptions.isNotEmpty()) {
+            linkClimateOptions(moodJournalId, item.climateOptions.map { it.id })
+        }
+
+        if (item.locationOptions.isNotEmpty()) {
+            linkLocationOptions(moodJournalId, item.locationOptions.map { it.id })
+        }
+
+        if (item.socialOptions.isNotEmpty()) {
+            linkSocialOptions(moodJournalId, item.socialOptions.map { it.id })
+        }
+
+        if (item.healthOptions.isNotEmpty()) {
+            linkHealthOptions(moodJournalId, item.healthOptions.map { it.id })
+        }
 
         return moodJournalId
     }
