@@ -17,20 +17,11 @@ internal fun Project.configureAndroidCompose(
 
         dependencies {
             add("implementation", platform(libs.findLibrary("androidx-compose-bom").get()))
-            add("androidTestImplementation", platform(libs.findLibrary("androidx-compose-bom").get()))
-
             add("implementation", libs.findLibrary("androidx-compose-runtime").get())
-
             add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
             add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+            add("androidTestImplementation", platform(libs.findLibrary("androidx-compose-bom").get()))
         }
-
-//        testOptions {
-//            unitTests {
-//                // Robolectric
-//                isIncludeAndroidResources = true
-//            }
-//        }
     }
 }
 
@@ -48,6 +39,7 @@ internal fun Project.configureAndroidComposeUI(
         }
 
         dependencies {
+            add("implementation", libs.findLibrary("accompanist-systemuicontroller").get())
             add("implementation", platform(libs.findLibrary("androidx-compose-bom").get()))
             add("implementation", libs.findLibrary("androidx-compose-runtime").get())
             add("implementation", libs.findLibrary("androidx-compose-foundation").get())
