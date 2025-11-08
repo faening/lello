@@ -97,7 +97,7 @@ private fun MoodJournalEmotionContent(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
+                    .padding(horizontal = Dimension.spacingRegular)
             ) {
                 // Header
                 Text(
@@ -108,7 +108,7 @@ private fun MoodJournalEmotionContent(
                 Text(
                     text = "Ganhe $coinsAcquired moeads ao concluir",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
 
                 )
 

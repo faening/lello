@@ -92,13 +92,13 @@ private fun MoodJournalContent(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
+                    .padding(horizontal = Dimension.spacingRegular)
             ) {
                 // Header
                 Text(
                     text = "Como você descreve seu humor neste momento?",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                 )
 
                 // Content

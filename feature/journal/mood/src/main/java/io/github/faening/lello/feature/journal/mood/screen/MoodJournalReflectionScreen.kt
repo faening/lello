@@ -80,7 +80,7 @@ private fun MoodJournalReflectionContent(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
+                    .padding(horizontal = Dimension.spacingRegular)
             ) {
                 // Header
                 Text(
@@ -91,7 +91,7 @@ private fun MoodJournalReflectionContent(
                 Text(
                     text = "Ganhe $coinsAcquired moeads ao concluir",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                 )
 
                 // Content
