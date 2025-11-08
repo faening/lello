@@ -1,8 +1,15 @@
 package io.github.faening.lello.feature.journal.mood
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.media.LelloMedia
+import io.github.faening.lello.core.designsystem.media.LelloVideo
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.mood.SaveMoodJournalUseCase
@@ -74,6 +81,9 @@ class MoodJournalViewModel @Inject constructor(
 
     private val _coinsAcquired = MutableStateFlow<Int>(50)
     val coinsAcquired: StateFlow<Int> = _coinsAcquired
+
+    private var _exoPlayer: ExoPlayer? = null
+    val exoPlayer: ExoPlayer? get() = _exoPlayer
 
     init {
         viewModelScope.launch {
@@ -209,5 +219,47 @@ class MoodJournalViewModel @Inject constructor(
         MoodJournalColorScheme.BALANCED -> MoodType.BALANCED
         MoodJournalColorScheme.TROUBLED -> MoodType.TROUBLED
         MoodJournalColorScheme.OVERWHELMED -> MoodType.OVERWHELMED
+    }
+
+    /**
+     * Prepara o ExoPlayer com o vídeo correspondente ao humor atual.
+     *
+     * @param context Contexto necessário para a criação do ExoPlayer.
+     */
+    fun prepareVideo(context: Context) {
+        viewModelScope.launch {
+            currentMood.collect { moodColor ->
+                val video = getVideoByMoodColor(moodColor)
+                _exoPlayer?.release()
+
+                Log.d("Test", "prepareVideo: $video")
+
+                _exoPlayer = ExoPlayer.Builder(context).build().apply {
+                    val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${video.resId}")
+                    setMediaItem(mediaItem)
+                    repeatMode = Player.REPEAT_MODE_ALL
+                    volume = 0f
+                    prepare()
+                }
+            }
+        }
+    }
+
+    private fun getVideoByMoodColor(moodColor: MoodColor): LelloVideo {
+        return when (moodColor) {
+            MoodColor.DEFAULT -> LelloMedia.Video.JournalSummaryBackgroundYellow
+            MoodColor.INVERSE -> LelloMedia.Video.JournalSummaryBackgroundYellow
+            MoodColor.AQUAMARINE -> LelloMedia.Video.JournalSummaryBackgroundAquamarine
+            MoodColor.BLUE -> LelloMedia.Video.JournalSummaryBackgroundBlue
+            MoodColor.ORANGE -> LelloMedia.Video.JournalSummaryBackgroundOrange
+            MoodColor.RED -> LelloMedia.Video.JournalSummaryBackgroundRed
+            MoodColor.SECONDARY -> LelloMedia.Video.JournalSummaryBackgroundYellow
+        }
+    }
+
+    override fun onCleared() {
+        _exoPlayer?.release()
+        _exoPlayer = null
+        super.onCleared()
     }
 }
