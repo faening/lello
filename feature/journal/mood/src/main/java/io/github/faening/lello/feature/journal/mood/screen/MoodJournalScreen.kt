@@ -55,7 +55,7 @@ internal fun MoodJournalScreen(
         viewModel.prepareVideo(context)
     }
 
-    MoodJournalContent(
+    MoodJournalScreenContent(
         moodColor = moodColor,
         entryTime = entryTime,
         onBack = onBack,
@@ -65,7 +65,7 @@ internal fun MoodJournalScreen(
 }
 
 @Composable
-private fun MoodJournalContent(
+private fun MoodJournalScreenContent(
     moodColor: MoodColor,
     entryTime: String,
     onBack: () -> Unit,
@@ -75,30 +75,30 @@ private fun MoodJournalContent(
     LelloTheme(moodColor = moodColor) {
         Scaffold(
             topBar = {
-                TopAppBarSection(
+                MoodJournalTopAppBar(
                     entryTime = entryTime,
                     moodColor = moodColor,
                     onBack = onBack
                 )
             },
             bottomBar = {
-                BottomBarSection(
+                MoodJournalBottomBar(
                     moodColor = moodColor,
                     onNext = onNext
                 )
-            }
+            },
         ) { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(paddingValues)
-                    .padding(horizontal = Dimension.spacingRegular)
+                    .padding(Dimension.spacingRegular)
             ) {
                 // Header
                 Text(
                     text = "Como você descreve seu humor neste momento?",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
                 )
 
                 // Content
@@ -122,10 +122,11 @@ private fun MoodJournalContent(
             }
         }
     }
+
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun MoodJournalTopAppBar(
     entryTime: String,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -139,7 +140,7 @@ private fun TopAppBarSection(
 
 
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalBottomBar(
     moodColor: MoodColor,
     onNext: () -> Unit
 ) {
@@ -147,7 +148,11 @@ private fun BottomBarSection(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.spacingRegular)
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
     ) {
         LelloFloatingActionButton(
             icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
@@ -170,7 +175,7 @@ private fun MoodLabelColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        orderedMoods.forEachIndexed { index, currentMood ->
+        orderedMoods.forEach { currentMood ->
             val moodInfo = MoodColorMapping.moodMap[currentMood]
             Text(
                 text = moodInfo?.label ?: "",
@@ -234,13 +239,15 @@ private fun MoodIconColumn(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun MoodJournalScreenPreview_LightMode() {
-    MoodJournalContent(
-        moodColor = MoodColor.DEFAULT,
-        entryTime = "09:41",
-        onBack = {},
-        onNext = {},
-        onMoodChange = {}
-    )
+    LelloTheme {
+        MoodJournalScreenContent(
+            moodColor = MoodColor.DEFAULT,
+            entryTime = "09:41",
+            onBack = {},
+            onNext = {},
+            onMoodChange = {}
+        )
+    }
 }
 
 // endregion Previews

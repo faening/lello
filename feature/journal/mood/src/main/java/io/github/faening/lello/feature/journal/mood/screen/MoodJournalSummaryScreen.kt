@@ -45,7 +45,7 @@ internal fun MoodJournalSummaryScreen(
         }
     }
 
-    MoodJournalSummaryContent(
+    MoodJournalSummaryScreenContent(
         exoPlayer = exoPlayer,
         isExiting = isExiting,
         moodColor = moodColor,
@@ -55,7 +55,7 @@ internal fun MoodJournalSummaryScreen(
 
 @OptIn(ExperimentalStdlibApi::class)
 @Composable
-private fun MoodJournalSummaryContent(
+private fun MoodJournalSummaryScreenContent(
     exoPlayer: ExoPlayer?,
     isExiting: Boolean,
     moodColor: MoodColor,
@@ -71,7 +71,7 @@ private fun MoodJournalSummaryContent(
         Scaffold(
             containerColor = Color.Transparent,
             bottomBar = {
-                BottomBarSection(
+                MoodJournalSummaryBottomBar(
                     moodColor = moodColor,
                     onExit = onExit
                 )
@@ -91,7 +91,7 @@ private fun MoodJournalSummaryContent(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalSummaryBottomBar(
     moodColor: MoodColor,
     onExit: () -> Unit
 ) {
@@ -100,7 +100,11 @@ private fun BottomBarSection(
             .fillMaxWidth()
             .padding(Dimension.spacingRegular)
     ) {
-        LelloFilledButton(label = "Sair", onClick = onExit, moodColor = moodColor)
+        LelloFilledButton(
+            label = "Sair",
+            onClick = onExit,
+            moodColor = moodColor
+        )
     }
 }
 
@@ -108,14 +112,14 @@ private fun BottomBarSection(
 
 @Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 private fun MoodJournalSummaryScreenPreview_LightMode() {
     LelloTheme {
-        MoodJournalSummaryContent(
+        MoodJournalSummaryScreenContent(
             exoPlayer = null,
             isExiting = false,
             moodColor = MoodColor.DEFAULT,

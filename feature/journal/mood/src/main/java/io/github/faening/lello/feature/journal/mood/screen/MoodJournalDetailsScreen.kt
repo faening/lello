@@ -57,7 +57,7 @@ internal fun MoodJournalDetailsScreen(
     val socialOptions by viewModel.socialOptions.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    MoodJournalDetailsContent(
+    MoodJournalDetailsScreenContent(
         entryTime = entryTime,
         healthOptions = healthOptions,
         onHealthOptionToggle = viewModel::toggleHealthSelection,
@@ -81,7 +81,7 @@ internal fun MoodJournalDetailsScreen(
 }
 
 @Composable
-private fun MoodJournalDetailsContent(
+private fun MoodJournalDetailsScreenContent(
     entryTime: String,
     healthOptions: List<HealthOption>,
     onHealthOptionToggle: (String) -> Unit,
@@ -102,98 +102,96 @@ private fun MoodJournalDetailsContent(
     coinsAcquired: Int,
     moodColor: MoodColor
 ) {
-    LelloTheme(moodColor = moodColor) {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    entryTime = entryTime,
-                    moodColor = moodColor,
-                    onBack = onBack
-                )
-            },
-            bottomBar = {
-                BottomBarSection(
-                    moodColor = moodColor,
-                    onSave = onSave,
-                    onNext = onNext,
-                    onFinish = onFinish
-                )
-            }
-        ) { paddingValues ->
+    Scaffold(
+        topBar = {
+            MoodJournalDetailsTopAppBar(
+                entryTime = entryTime,
+                moodColor = moodColor,
+                onBack = onBack
+            )
+        },
+        bottomBar = {
+            MoodJournalDetailsBottomBar(
+                moodColor = moodColor,
+                onSave = onSave,
+                onNext = onNext,
+                onFinish = onFinish
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+        ) {
+            // Header
+            Text(
+                text = "Gostaria de adicionar mais detalhes sobre o seu humor?",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+            )
+            Text(
+                text = "Ganhe $coinsAcquired moeads ao concluir",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
+
+            // Content
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = Dimension.spacingRegular)
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
             ) {
-                // Header
-                Text(
-                    text = "Gostaria de adicionar mais detalhes sobre o seu humor?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                LelloOptionPillSelector(
+                    title = "Como está a sua saúde?",
+                    options = healthOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onHealthOptionToggle(option.description) },
+                    onOpenSettings = onOpenHealthOptionSettings,
+                    getLabel = { it.description },
+                    moodColor = moodColor,
+                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
                 )
-                Text(
-                    text = "Ganhe $coinsAcquired moeads ao concluir",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+
+                LelloOptionPillSelector(
+                    title = "Como está o clima?",
+                    options = climateOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onClimateOptionToggle(option.description) },
+                    onOpenSettings = onOpenClimateOptionSettings,
+                    getLabel = { it.description },
+                    moodColor = moodColor,
+                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
                 )
 
-                // Content
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    LelloOptionPillSelector(
-                        title = "Como está a sua saúde?",
-                        options = healthOptions,
-                        isSelected = { it.selected },
-                        onToggle = { option -> onHealthOptionToggle(option.description) },
-                        onOpenSettings = onOpenHealthOptionSettings,
-                        getLabel = { it.description },
-                        moodColor = moodColor,
-                        modifier = Modifier.padding(bottom = Dimension.spacingLarge)
-                    )
+                LelloOptionPillSelector(
+                    title = "Onde você está?",
+                    options = locationOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option ->  onLocationOptionToggle(option.description) },
+                    onOpenSettings = onOpenLocationOptionSettings,
+                    getLabel = { it.description },
+                    moodColor = moodColor,
+                    modifier = Modifier.padding(bottom = Dimension.spacingLarge)
+                )
 
-                    LelloOptionPillSelector(
-                        title = "Como está o clima?",
-                        options = climateOptions,
-                        isSelected = { it.selected },
-                        onToggle = { option -> onClimateOptionToggle(option.description) },
-                        onOpenSettings = onOpenClimateOptionSettings,
-                        getLabel = { it.description },
-                        moodColor = moodColor,
-                        modifier = Modifier.padding(bottom = Dimension.spacingLarge)
-                    )
-
-                    LelloOptionPillSelector(
-                        title = "Onde você está?",
-                        options = locationOptions,
-                        isSelected = { it.selected },
-                        onToggle = { option ->  onLocationOptionToggle(option.description) },
-                        onOpenSettings = onOpenLocationOptionSettings,
-                        getLabel = { it.description },
-                        moodColor = moodColor,
-                        modifier = Modifier.padding(bottom = Dimension.spacingLarge)
-                    )
-
-                    LelloOptionPillSelector(
-                        title = "Com quem você está agora?",
-                        options = socialOptions,
-                        isSelected = { it.selected },
-                        onToggle = { option -> onSocialOptionToggle(option.description) },
-                        onOpenSettings = onOpenSocialOptionSettings,
-                        moodColor = moodColor,
-                        getLabel = { it.description }
-                    )
-                }
+                LelloOptionPillSelector(
+                    title = "Com quem você está agora?",
+                    options = socialOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onSocialOptionToggle(option.description) },
+                    onOpenSettings = onOpenSocialOptionSettings,
+                    moodColor = moodColor,
+                    getLabel = { it.description }
+                )
             }
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun MoodJournalDetailsTopAppBar(
     entryTime: String,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -206,7 +204,7 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalDetailsBottomBar(
     moodColor: MoodColor,
     onSave: () -> Unit,
     onNext: () -> Unit,
@@ -215,7 +213,11 @@ private fun BottomBarSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.spacingRegular),
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            ),
         horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -247,27 +249,29 @@ private fun BottomBarSection(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 private fun MoodJournalDetailsScreenPreview_LightMode() {
-    MoodJournalDetailsContent(
-        entryTime = "09:41",
-        healthOptions = HealthOptionMock.list,
-        onHealthOptionToggle = { _ -> },
-        onOpenHealthOptionSettings = {},
-        climateOptions = ClimateOptionMock.list,
-        onClimateOptionToggle = { _ -> },
-        onOpenClimateOptionSettings = {},
-        locationOptions = LocationOptionMock.list,
-        onLocationOptionToggle = { _ -> },
-        onOpenLocationOptionSettings = {},
-        socialOptions = SocialOptionMock.list,
-        onSocialOptionToggle = { _ -> },
-        onOpenSocialOptionSettings = {},
-        onSave = {},
-        onBack = {},
-        onNext = {},
-        onFinish = {},
-        coinsAcquired = 100,
-        moodColor = MoodColor.DEFAULT
-    )
+    LelloTheme {
+        MoodJournalDetailsScreenContent(
+            entryTime = "09:41",
+            healthOptions = HealthOptionMock.list,
+            onHealthOptionToggle = { _ -> },
+            onOpenHealthOptionSettings = {},
+            climateOptions = ClimateOptionMock.list,
+            onClimateOptionToggle = { _ -> },
+            onOpenClimateOptionSettings = {},
+            locationOptions = LocationOptionMock.list,
+            onLocationOptionToggle = { _ -> },
+            onOpenLocationOptionSettings = {},
+            socialOptions = SocialOptionMock.list,
+            onSocialOptionToggle = { _ -> },
+            onOpenSocialOptionSettings = {},
+            onSave = {},
+            onBack = {},
+            onNext = {},
+            onFinish = {},
+            coinsAcquired = 100,
+            moodColor = MoodColor.DEFAULT
+        )
+    }
 }
 
 // endregion Previews

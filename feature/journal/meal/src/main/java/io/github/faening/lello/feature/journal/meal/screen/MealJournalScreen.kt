@@ -66,12 +66,35 @@ private fun MealJournalContainer(
         topBar = { MealJournalTopBar(onBack) },
         bottomBar = { MealJournalBottomBar(anySelected, onNext) }
     ) { paddingValues ->
-        MealJournalContent(
-            mealOptions = mealOptions,
-            onMealOptionToggle = onMealOptionToggle,
-            onOpenMealOptionSettings = onOpenMealOptionSettings,
-            modifier = Modifier.padding(paddingValues)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = Dimension.spacingRegular)
+        ) {
+            // Header
+            Text(
+                text = "Qual refeição você fez?",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
+
+            // Content
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                LelloOptionPillSelector(
+                    title = null,
+                    options = mealOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onMealOptionToggle(option.description) },
+                    onOpenSettings = onOpenMealOptionSettings,
+                    getLabel = { it.description }
+                )
+            }
+        }
     }
 }
 
