@@ -1,6 +1,7 @@
 package io.github.faening.lello.feature.journal.mood.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,6 +111,7 @@ private fun MoodJournalScreenContent(
                 ) {
                     MoodLabelColumn(
                         moodColor = moodColor,
+                        onMoodChange = onMoodChange,
                         modifier = Modifier.weight(1f).padding(end = Dimension.spacingRegular)
                     )
                     MoodSliderColumn(
@@ -117,7 +119,10 @@ private fun MoodJournalScreenContent(
                         onMoodChange = onMoodChange,
                         modifier = Modifier.weight(1f).padding(end = Dimension.spacingRegular)
                     )
-                    MoodIconColumn(modifier = Modifier.weight(1f))
+                    MoodIconColumn(
+                        onMoodChange = onMoodChange,
+                        modifier = Modifier.weight(1f),
+                    )
                 }
             }
         }
@@ -137,7 +142,6 @@ private fun MoodJournalTopAppBar(
         moodColor = moodColor
     )
 }
-
 
 @Composable
 private fun MoodJournalBottomBar(
@@ -166,6 +170,7 @@ private fun MoodJournalBottomBar(
 @Composable
 private fun MoodLabelColumn(
     moodColor: MoodColor,
+    onMoodChange: (MoodColor) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val orderedMoods = MoodColorMapping.orderedMoods
@@ -180,7 +185,8 @@ private fun MoodLabelColumn(
             Text(
                 text = moodInfo?.label ?: "",
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = if (currentMood == moodColor) FontWeight.Bold else FontWeight.Normal
+                fontWeight = if (currentMood == moodColor) FontWeight.Bold else FontWeight.Normal,
+                modifier = Modifier.clickable { onMoodChange(currentMood) }
             )
         }
     }
@@ -211,6 +217,7 @@ private fun MoodSliderColumn(
 
 @Composable
 private fun MoodIconColumn(
+    onMoodChange: (MoodColor) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -223,7 +230,9 @@ private fun MoodIconColumn(
                 painter = painterResource(it.iconRes),
                 contentDescription = it.label,
                 tint = Color.Unspecified,
-                modifier = Modifier.size(68.dp)
+                modifier = Modifier
+                    .size(64.dp)
+                    .clickable { onMoodChange(it.colorScheme) }
             )
         }
     }
