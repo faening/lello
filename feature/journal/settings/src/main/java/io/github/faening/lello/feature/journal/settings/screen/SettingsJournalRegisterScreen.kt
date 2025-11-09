@@ -34,7 +34,7 @@ internal fun SettingsJournalRegisterScreen(
 ) {
     val textState = remember { mutableStateOf("") }
 
-    SettingsJournalRegisterContent(
+    SettingsJournalRegisterScreenContent(
         optionType = optionType,
         moodColor = moodColor,
         text = textState.value,
@@ -48,7 +48,7 @@ internal fun SettingsJournalRegisterScreen(
 }
 
 @Composable
-private fun SettingsJournalRegisterContent(
+private fun SettingsJournalRegisterScreenContent(
     optionType: JournalOptionType,
     moodColor: MoodColor,
     text: String,
@@ -56,47 +56,45 @@ private fun SettingsJournalRegisterContent(
     onBack: () -> Unit,
     onSave: () -> Unit
 ) {
-    LelloTheme(moodColor = moodColor) {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    optionType = optionType,
-                    moodColor = moodColor,
-                    onBack = onBack
-                )
-            },
-            bottomBar = {
-                BottomBarSection(
-                    moodColor = moodColor,
-                    enabled = text.trim().isNotEmpty(),
-                    onSave = onSave
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
-            ) {
-                Text(
-                    text = "Crie um novo item para usar em seus diários",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-                )
+    Scaffold(
+        topBar = {
+            SettingsJournalRegisterTopAppBar(
+                optionType = optionType,
+                moodColor = moodColor,
+                onBack = onBack
+            )
+        },
+        bottomBar = {
+            SettingsJournalRegisterBottomBar(
+                moodColor = moodColor,
+                enabled = text.trim().isNotEmpty(),
+                onSave = onSave
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+        ) {
+            Text(
+                text = "Crie um novo item para usar em seus diários",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
 
-                LelloTextField(
-                    value = text,
-                    onValueChange = onTextChange,
-                    placeholder = "Descrição do item",
-                )
-            }
+            LelloTextField(
+                value = text,
+                onValueChange = onTextChange,
+                placeholder = "Descrição do item",
+            )
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun SettingsJournalRegisterTopAppBar(
     optionType: JournalOptionType,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -109,15 +107,19 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun SettingsJournalRegisterBottomBar(
     moodColor: MoodColor,
     enabled: Boolean,
     onSave: () -> Unit
 ) {
     Row(
         modifier = Modifier
-            .padding(Dimension.spacingRegular)
             .fillMaxWidth()
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
     ) {
         LelloFilledButton(
             label = "Cadastrar",
@@ -129,7 +131,7 @@ private fun BottomBarSection(
     }
 }
 
-// region Previews
+// region: Previews
 
 @Preview(
     name = "Light Mode",
@@ -139,14 +141,16 @@ private fun BottomBarSection(
 )
 @Composable
 private fun SettingsJournalRegisterScreenPreview_LightMode() {
-    SettingsJournalRegisterContent(
-        optionType = JournalOptionType.EMOTION,
-        moodColor = MoodColor.DEFAULT,
-        text = "",
-        onTextChange = {},
-        onBack = {},
-        onSave = {}
-    )
+    LelloTheme {
+        SettingsJournalRegisterScreenContent(
+            optionType = JournalOptionType.EMOTION,
+            moodColor = MoodColor.DEFAULT,
+            text = "",
+            onTextChange = {},
+            onBack = {},
+            onSave = {}
+        )
+    }
 }
 
-// endregion Previews
+// endregion: Previews
