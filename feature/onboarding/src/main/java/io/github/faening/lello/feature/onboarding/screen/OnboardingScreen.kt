@@ -84,30 +84,12 @@ private fun OnboardingScreenContent(
     LelloTheme {
         Scaffold(
             bottomBar = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.End)
-                        .padding(Dimension.spacingRegular)
-                ) {
-                    val next = pagerState.currentPage + 1
-                    if (next < pages.size) {
-                        LelloFloatingActionButton(
-                            icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
-                            contentDescription = "Próximo",
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(next)
-                                }
-                            }
-                        )
-                    } else {
-                        LelloFilledButton(
-                            label = "Concluir",
-                            onClick = onFinish
-                        )
-                    }
-                }
+                OnboardingScreenBottomBar(
+                    pagerState = pagerState,
+                    pages = pages,
+                    coroutineScope = coroutineScope,
+                    onFinish = onFinish
+                )
             }
         ) { paddingValues ->
             Column(
@@ -132,6 +114,43 @@ private fun OnboardingScreenContent(
                     pages = pages
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun OnboardingScreenBottomBar(
+    pagerState: PagerState,
+    pages: List<OnboardingPage>,
+    coroutineScope: CoroutineScope,
+    onFinish: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentWidth(Alignment.End)
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
+    ) {
+        val next = pagerState.currentPage + 1
+        if (next < pages.size) {
+            LelloFloatingActionButton(
+                icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
+                contentDescription = "Próximo",
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(next)
+                    }
+                }
+            )
+        } else {
+            LelloFilledButton(
+                label = "Começar...",
+                onClick = onFinish
+            )
         }
     }
 }
@@ -181,8 +200,8 @@ private fun OnboardingPageView(
                     onCheckedChange = onCheckedChange
                 )
                 Text(
-                    text = "Não mostrar mais a tela de boas-vindas",
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = "Não mostrar mais as boas-vindas",
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
         }
@@ -219,6 +238,8 @@ private fun OnboardingHorizontalPagerIndicator(
     }
 }
 
+// region: Previews
+
 @Preview(
     name = "First Page",
     group = "Light Mode",
@@ -240,3 +261,5 @@ private fun OnboardingScreenPreview_LightMode_FirstPage() {
         )
     }
 }
+
+// endregion: Previews

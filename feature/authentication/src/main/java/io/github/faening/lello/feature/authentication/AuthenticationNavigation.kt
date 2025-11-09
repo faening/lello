@@ -7,8 +7,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.authentication.screen.AuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.BiometricAuthenticationScreen
 import io.github.faening.lello.feature.authentication.screen.EmailSignInScreen
@@ -45,7 +45,9 @@ fun NavGraphBuilder.authenticationGraph(
         startDestination = startDestination,
         route = AuthenticationDestinations.GRAPH
     ) {
-        composable(AuthenticationDestinations.HOME) { backStackEntry ->
+        customComposable(
+            route = AuthenticationDestinations.HOME
+        ) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
 
             AuthenticationScreen(
@@ -57,7 +59,9 @@ fun NavGraphBuilder.authenticationGraph(
             )
         }
 
-        composable(AuthenticationDestinations.BIOMETRIC_AUTHENTICATION) { backStackEntry ->
+        customComposable(
+            route = AuthenticationDestinations.BIOMETRIC_AUTHENTICATION
+        ) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             val coroutineScope = rememberCoroutineScope()
 
@@ -80,7 +84,9 @@ fun NavGraphBuilder.authenticationGraph(
             )
         }
 
-        composable(AuthenticationDestinations.SIGN_IN_WITH_EMAIL) { backStackEntry ->
+        customComposable(
+            route = AuthenticationDestinations.SIGN_IN_WITH_EMAIL
+        ) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             val coroutineScope = rememberCoroutineScope()
 
@@ -105,7 +111,9 @@ fun NavGraphBuilder.authenticationGraph(
             )
         }
 
-        composable(AuthenticationDestinations.SIGN_UP_WITH_EMAIL) { backStackEntry ->
+        customComposable(
+            route = AuthenticationDestinations.SIGN_UP_WITH_EMAIL
+        ) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
             val coroutineScope = rememberCoroutineScope()
 
@@ -124,7 +132,9 @@ fun NavGraphBuilder.authenticationGraph(
             )
         }
 
-        composable(AuthenticationDestinations.FORGOT_PASSWORD) { backStackEntry ->
+        customComposable(
+            route = AuthenticationDestinations.FORGOT_PASSWORD
+        ) { backStackEntry ->
             val viewModel = sharedAuthenticationViewModel(navController, backStackEntry)
 
             ForgotPasswordScreen(

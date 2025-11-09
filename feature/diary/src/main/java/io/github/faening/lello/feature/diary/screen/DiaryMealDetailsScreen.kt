@@ -83,8 +83,7 @@ private fun TopAppBarSection(
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Diário de Alimentação"),
-        navigateUp = TopAppBarAction(onClick = onBackClick),
-        moodColor = MoodColor.INVERSE
+        navigateUp = TopAppBarAction(onClick = onBackClick)
     )
 }
 

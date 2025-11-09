@@ -22,9 +22,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import io.github.faening.lello.core.designsystem.R
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Aquamarine600
+import io.github.faening.lello.core.designsystem.theme.Blue600
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.designsystem.theme.Orange600
+import io.github.faening.lello.core.designsystem.theme.Red600
+import io.github.faening.lello.core.designsystem.theme.Yellow600
+import io.github.faening.lello.core.designsystem.theme.Yellow700
 
 @Composable
 internal fun TopAppBarTitle(
@@ -122,30 +129,36 @@ private fun TopAppBarActionButton(
 internal object TopAppBarProperties {
     @Composable
     fun titleTextColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
-        return colorScheme.onBackground
-//        return if (moodColor == MoodColor.INVERSE || !isSystemInDarkTheme()) {
-//            colorScheme.onBackground
-//        } else {
-//            colorScheme.background
-//        }
+        return when (moodColor) {
+            MoodColor.DEFAULT -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.INVERSE -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.AQUAMARINE -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.BLUE -> MaterialTheme.colorScheme.onSecondary
+            MoodColor.ORANGE -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.RED -> MaterialTheme.colorScheme.onSecondary
+            MoodColor.SECONDARY -> MaterialTheme.colorScheme.onSecondary
+        }
     }
 
     @Composable
     fun imageColor(colorScheme: ColorScheme, moodColor: MoodColor): ColorFilter {
-        return ColorFilter.tint(colorScheme.onBackground)
-//        return if (moodColor == MoodColor.INVERSE || !isSystemInDarkTheme()) {
-//            ColorFilter.tint(colorScheme.onBackground)
-//        } else {
-//            ColorFilter.tint(colorScheme.background)
-//        }
+        return when (moodColor) {
+            MoodColor.DEFAULT -> ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            MoodColor.INVERSE -> ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            MoodColor.AQUAMARINE -> ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            MoodColor.BLUE -> ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
+            MoodColor.ORANGE -> ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            MoodColor.RED -> ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
+            MoodColor.SECONDARY -> ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
+        }
     }
 
     @Composable
     fun backgroundColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
-        return when (moodColor) {
-            MoodColor.INVERSE -> colorScheme.inversePrimary
-            else -> colorScheme.background
+        val effectiveColorScheme = moodColor.let { mood ->
+            colorScheme.copy(primary = mood.getColor(false))
         }
+        return effectiveColorScheme.primary
     }
 
     @Composable
@@ -160,13 +173,14 @@ internal object TopAppBarProperties {
 
     @Composable
     fun actionButtonBackgroundColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
-        val effectiveColorScheme = moodColor.let { mood ->
-            colorScheme.copy(primary = mood.getColor(false))
-        }
-
         return when (moodColor) {
-            MoodColor.INVERSE -> effectiveColorScheme.tertiary
-            else -> effectiveColorScheme.primary
+            MoodColor.DEFAULT -> Yellow600
+            MoodColor.INVERSE -> Yellow700
+            MoodColor.AQUAMARINE -> Aquamarine600
+            MoodColor.BLUE -> Blue600
+            MoodColor.ORANGE -> Orange600
+            MoodColor.RED -> Red600
+            MoodColor.SECONDARY -> Grey700
         }
     }
 }

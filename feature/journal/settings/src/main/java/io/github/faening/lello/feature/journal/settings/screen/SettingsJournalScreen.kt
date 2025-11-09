@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,6 +25,8 @@ import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.EmotionOptionMock
 import io.github.faening.lello.core.model.option.JournalOption
+import io.github.faening.lello.core.testing.data.EmotionOptionTestData
+import io.github.faening.lello.core.testing.data.MedicationDosageFormOptionTestData
 import io.github.faening.lello.feature.journal.settings.SettingsJournalViewModel
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 
@@ -37,7 +40,7 @@ internal fun SettingsJournalScreen(
 ) {
     val options by viewModel.optionsFlow(optionType).collectAsState()
 
-    SettingsJournalContent(
+    SettingsJournalScreenContent(
         optionType = optionType,
         moodColor = moodColor,
         options = options,
@@ -48,7 +51,7 @@ internal fun SettingsJournalScreen(
 }
 
 @Composable
-private fun SettingsJournalContent(
+private fun SettingsJournalScreenContent(
     optionType: JournalOptionType,
     moodColor: MoodColor,
     options: List<JournalOption>,
@@ -56,47 +59,46 @@ private fun SettingsJournalContent(
     onRegister: () -> Unit,
     onToggle: (JournalOption, Boolean) -> Unit
 ) {
-    LelloTheme(moodColor = moodColor) {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    optionType = optionType,
-                    moodColor = moodColor,
-                    onBack = onBack
-                )
-            },
-            bottomBar = {
-                BottomBarSection(
-                    optionType = optionType,
-                    moodColor = moodColor,
-                    onRegister = onRegister
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
-            ) {
-                Text(
-                    text = "Gerencie os itens disponíveis para preenchimento em seus diários",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-                )
+    Scaffold(
+        topBar = {
+            SettingsJournalTopAppBar(
+                optionType = optionType,
+                moodColor = moodColor,
+                onBack = onBack
+            )
+        },
+        bottomBar = {
+            SettingsJournalBottomBar(
+                optionType = optionType,
+                moodColor = moodColor,
+                onRegister = onRegister
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+        ) {
+            Text(
+                text = "Gerencie os itens disponíveis para preenchimento em seus diários",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
 
-                LelloOptionList(
-                    options = options,
-                    onToggle = onToggle,
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            LelloOptionList(
+                options = options,
+                onToggle = onToggle,
+                moodColor = moodColor,
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun SettingsJournalTopAppBar(
     optionType: JournalOptionType,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -109,14 +111,20 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun SettingsJournalBottomBar(
     optionType: JournalOptionType,
     moodColor: MoodColor,
     onRegister: () -> Unit
 ) {
     val label = stringResource(optionType.registerLabelRes)
     Row(
-        modifier = Modifier.padding(Dimension.spacingRegular)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
     ) {
         LelloFilledButton(
             label = label,
@@ -126,7 +134,7 @@ private fun BottomBarSection(
     }
 }
 
-// region Previews
+// region: Previews
 
 @Preview(
     name = "Light Mode",
@@ -136,14 +144,18 @@ private fun BottomBarSection(
 )
 @Composable
 private fun SettingsJournalScreenPreview_LightMode() {
-    SettingsJournalContent(
-        optionType = JournalOptionType.EMOTION,
-        moodColor = MoodColor.DEFAULT,
-        options = EmotionOptionMock.list,
-        onBack = {},
-        onRegister = {},
-        onToggle = { _, _ -> }
-    )
+    val items = EmotionOptionTestData.list
+
+    LelloTheme {
+        SettingsJournalScreenContent(
+            optionType = JournalOptionType.EMOTION,
+            moodColor = MoodColor.DEFAULT,
+            options = items,
+            onBack = {},
+            onRegister = {},
+            onToggle = { _, _ -> }
+        )
+    }
 }
 
-// endregion Previews
+// endregion: Previews

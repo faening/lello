@@ -12,9 +12,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,8 +28,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -75,7 +83,7 @@ private fun TextFieldLabel(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = Dimension.paddingComponentSmall),
-        color = TextFieldProperties.textLabelColor(enabled, isFocused),
+        color = LelloTextFieldDefaults.textLabelColor(enabled, isFocused),
         style = MaterialTheme.typography.titleMedium,
         maxLines = 1
     )
@@ -102,7 +110,7 @@ private fun ShadowedOutlinedTextField(
                 .matchParentSize()
                 .offset(x = Dimension.shadowOffsetX, y = Dimension.shadowOffsetY)
                 .background(
-                    color = TextFieldProperties.shadowColor(enabled, isFocused),
+                    color = LelloTextFieldDefaults.shadowColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
         )
@@ -115,7 +123,7 @@ private fun ShadowedOutlinedTextField(
                 .height(Dimension.heightTextFieldDefault)
                 .border(
                     width = Dimension.borderWidthThick,
-                    color = TextFieldProperties.borderColor(enabled, isFocused),
+                    color = LelloTextFieldDefaults.borderColor(enabled, isFocused),
                     shape = LelloShape.textFieldShape
                 )
                 .onFocusChanged { focusState ->
@@ -124,24 +132,81 @@ private fun ShadowedOutlinedTextField(
             enabled = enabled,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = TextFieldProperties.textColor(enabled)
+                color = LelloTextFieldDefaults.textColor(enabled)
             ),
             placeholder = {
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = TextFieldProperties.placeholderColor(enabled),
+                        color = LelloTextFieldDefaults.placeholderColor(enabled),
                         fontWeight = FontWeight.Bold
                     )
                 )
+            },
+            trailingIcon = {
+                if (value.isNotEmpty() && enabled) {
+                    IconButton(onClick = { onValueChange("") }) {
+                        Icon(
+                            imageVector = LelloIcons.Outlined.Close.imageVector,
+                            contentDescription = "Limpar",
+                            tint = LelloTextFieldDefaults.textColor(enabled)
+                        )
+                    }
+                }
             },
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             maxLines = 1,
             shape = LelloShape.textFieldShape,
-            colors = TextFieldProperties.textFieldColorScheme()
+            colors = LelloTextFieldDefaults.textFieldColorScheme()
         )
     }
+}
+
+private object LelloTextFieldDefaults {
+    @Composable
+    fun textLabelColor(enabled: Boolean, focused: Boolean): Color = when {
+        !enabled -> MaterialTheme.colorScheme.outlineVariant
+        focused -> MaterialTheme.colorScheme.onSecondaryContainer
+        else -> MaterialTheme.colorScheme.onPrimary
+    }
+
+    @Composable
+    fun textColor(enabled: Boolean): Color = when (enabled) {
+        true -> MaterialTheme.colorScheme.onSurface
+        false -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    @Composable
+    fun placeholderColor(enabled: Boolean): Color = when (enabled) {
+        true -> MaterialTheme.colorScheme.surfaceVariant
+        false -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    @Composable
+    fun borderColor(enabled: Boolean, focused: Boolean): Color = when {
+        !enabled -> MaterialTheme.colorScheme.outlineVariant
+        focused -> MaterialTheme.colorScheme.outline
+        else -> MaterialTheme.colorScheme.outline
+    }
+
+    @Composable
+    fun shadowColor(enabled: Boolean, focused: Boolean): Color = when {
+        !enabled -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateDisabled)
+        focused -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStatePressed)
+        else -> MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal)
+    }
+
+    @Composable
+    fun textFieldColorScheme(): TextFieldColors = TextFieldDefaults.colors(
+        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+        disabledTextColor = MaterialTheme.colorScheme.surfaceVariant,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+    )
 }
 
 // region: Preview Light Theme

@@ -45,7 +45,7 @@ internal fun MoodJournalEmotionScreen(
     val emotionOptions by viewModel.emotionOptions.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    MoodJournalEmotionContent(
+    MoodJournalEmotionScreenContent(
         entryTime = entryTime,
         coinsAcquired = coinsAcquired,
         emotionOptions = emotionOptions,
@@ -60,7 +60,7 @@ internal fun MoodJournalEmotionScreen(
 }
 
 @Composable
-private fun MoodJournalEmotionContent(
+private fun MoodJournalEmotionScreenContent(
     entryTime: String,
     coinsAcquired: Int,
     emotionOptions: List<EmotionOption>,
@@ -74,67 +74,65 @@ private fun MoodJournalEmotionContent(
 ) {
     val anySelected = emotionOptions.any { it.selected }
 
-    LelloTheme(moodColor = moodColor) {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    entryTime = entryTime,
-                    moodColor = moodColor,
-                    onBack = onBack
-                )
-            },
-            bottomBar = {
-                BottomBarSection(
-                    anySelected = anySelected,
-                    moodColor = moodColor,
-                    onSave = onSave,
-                    onFinish = onFinish,
-                    onNext = onNext
-                )
-            }
-        ) { paddingValues ->
+    Scaffold(
+        topBar = {
+            MoodJournalEmotionTopAppBar(
+                entryTime = entryTime,
+                moodColor = moodColor,
+                onBack = onBack
+            )
+        },
+        bottomBar = {
+            MoodJournalEmotionBottomBar(
+                anySelected = anySelected,
+                moodColor = moodColor,
+                onSave = onSave,
+                onFinish = onFinish,
+                onNext = onNext
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+        ) {
+            // Header
+            Text(
+                text = "Quais emoções fazem mais sentido neste momento?",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+            )
+            Text(
+                text = "Ganhe $coinsAcquired moeads ao concluir",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+
+            )
+
+            // Content
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
             ) {
-                // Header
-                Text(
-                    text = "Quais emoções fazem mais sentido neste momento?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+                LelloOptionPillSelector(
+                    title = null,
+                    options = emotionOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onEmotionOptionToggle(option.description) },
+                    onOpenSettings = onOpenEmotionOptionSettings,
+                    getLabel = { it.description },
+                    moodColor = moodColor
                 )
-                Text(
-                    text = "Ganhe $coinsAcquired moeads ao concluir",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-
-                )
-
-                // Content
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    LelloOptionPillSelector(
-                        title = null,
-                        options = emotionOptions,
-                        isSelected = { it.selected },
-                        onToggle = { option -> onEmotionOptionToggle(option.description) },
-                        onOpenSettings = onOpenEmotionOptionSettings,
-                        getLabel = { it.description },
-                        moodColor = moodColor
-                    )
-                }
             }
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun MoodJournalEmotionTopAppBar(
     entryTime: String,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -147,7 +145,7 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalEmotionBottomBar(
     anySelected: Boolean,
     moodColor: MoodColor,
     onSave: () -> Unit,
@@ -157,7 +155,11 @@ private fun BottomBarSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.spacingRegular),
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            ),
         horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -188,18 +190,20 @@ private fun BottomBarSection(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 private fun MoodJournalEmotionScreenPreview_LightMode() {
-    MoodJournalEmotionContent(
-        entryTime = "09:41",
-        coinsAcquired = 100,
-        emotionOptions = EmotionOptionMock.list,
-        onEmotionOptionToggle = { _ -> },
-        onOpenEmotionOptionSettings = {},
-        onSave = {},
-        onBack = {},
-        onNext = {},
-        onFinish = {},
-        moodColor = MoodColor.DEFAULT
-    )
+    LelloTheme {
+        MoodJournalEmotionScreenContent(
+            entryTime = "09:41",
+            coinsAcquired = 100,
+            emotionOptions = EmotionOptionMock.list,
+            onEmotionOptionToggle = { _ -> },
+            onOpenEmotionOptionSettings = {},
+            onSave = {},
+            onBack = {},
+            onNext = {},
+            onFinish = {},
+            moodColor = MoodColor.DEFAULT
+        )
+    }
 }
 
 // endregion Previews

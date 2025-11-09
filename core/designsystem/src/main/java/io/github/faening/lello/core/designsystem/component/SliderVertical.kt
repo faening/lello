@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import kotlin.math.roundToInt
 
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun LelloSliderVertical(
@@ -42,10 +42,10 @@ fun LelloSliderVertical(
     val density = LocalDensity.current
     val thumbSize: Dp = 48.dp
     val trackWidth: Dp = 12.dp
+    val trackPadding: Dp = 32.dp
     val baseModifier = Modifier
         .fillMaxHeight()
         .fillMaxWidth()
-        .padding(vertical = 32.dp)
         .then(
             if (enableStepDrag) Modifier.pointerInput(steps, currentStep) {
                 detectVerticalDragGestures { _, dragAmount ->
@@ -66,33 +66,42 @@ fun LelloSliderVertical(
         modifier = baseModifier
     ) {
         val trackHeightPx = constraints.maxHeight.toFloat()
-        val stepSpacing = with(density) { maxHeight.toPx() / (steps - 1) }
+        val thumbSizePx = with(density) { thumbSize.toPx() }
+        val trackPaddingPx = with(density) { trackPadding.toPx() }
+        val blockHeight = trackHeightPx / steps
         val trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
         val activeTrackColor = MaterialTheme.colorScheme.primary
         val trackWidthPx = with(density) { trackWidth.toPx() }
 
         Box {
-            // Trilha do slider
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val trackX = size.width / 2 - trackWidthPx / 2
+                val trackStartY = trackPaddingPx
+                val trackEndY = size.height - trackPaddingPx
+                val trackHeight = trackEndY - trackStartY
 
                 drawRoundRect(
                     color = trackColor,
-                    topLeft = Offset(trackX, 0f),
-                    size = Size(trackWidthPx, size.height),
+                    topLeft = Offset(trackX, trackStartY),
+                    size = Size(trackWidthPx, trackHeight),
                     cornerRadius = CornerRadius(trackWidthPx / 2)
                 )
 
-                drawRoundRect(
-                    color = activeTrackColor,
-                    topLeft = Offset(trackX, stepSpacing * currentStep),
-                    size = Size(trackWidthPx, size.height - stepSpacing * currentStep),
-                    cornerRadius = CornerRadius(trackWidthPx / 2)
-                )
+                val activeStartY = (blockHeight * currentStep) + (blockHeight / 2)
+                val activeHeight = (trackEndY - activeStartY).coerceAtLeast(0f)
+
+                if (activeHeight > 0) {
+                    drawRoundRect(
+                        color = activeTrackColor,
+                        topLeft = Offset(trackX, activeStartY),
+                        size = Size(trackWidthPx, activeHeight),
+                        cornerRadius = CornerRadius(trackWidthPx / 2)
+                    )
+                }
             }
 
-            // Thumb com ícone sobreposto
-            val yOffset = (stepSpacing * currentStep).coerceIn(0f, trackHeightPx - with(density) { thumbSize.toPx() })
+            val yOffset = (blockHeight * currentStep + (blockHeight / 2) - (thumbSizePx / 2))
+                .coerceIn(0f, trackHeightPx - thumbSizePx)
 
             Box(
                 modifier = Modifier

@@ -10,6 +10,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import io.github.faening.lello.core.navigation.NavigationTransitions
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.medication.screen.MedicationRegisterActiveIngredientScreen
 import io.github.faening.lello.feature.medication.screen.MedicationRegisterDosageScreen
 import io.github.faening.lello.feature.medication.screen.MedicationRegisterFormScreen
@@ -39,7 +41,9 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         route = MedicationDestinations.GRAPH
     ) {
         // Home Screen
-        composable(MedicationDestinations.HOME) { backStackEntry ->
+        composable(
+            route = MedicationDestinations.HOME
+        ) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
             MedicationScreen(
@@ -58,7 +62,9 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         }
 
         // Step 1: Select medication (active ingredient)
-        composable(MedicationDestinations.MEDICATION_REGISTER_ACTIVE_INGREDIENT) { backStackEntry ->
+        customComposable(
+            route = MedicationDestinations.MEDICATION_REGISTER_ACTIVE_INGREDIENT
+        ) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
             MedicationRegisterActiveIngredientScreen(
@@ -69,7 +75,9 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         }
 
         // Step 2: Select medication presentation (dosage form)
-        composable(MedicationDestinations.MEDICATION_REGISTER_FORM) { backStackEntry ->
+        customComposable(
+            route = MedicationDestinations.MEDICATION_REGISTER_FORM
+        ) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
             MedicationRegisterFormScreen(
@@ -80,7 +88,9 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         }
 
         // Step 3: Select dosage list (dosage quantity and frequency)
-        composable(MedicationDestinations.MEDICATION_REGISTER_FREQUENCY) { backStackEntry ->
+        customComposable(
+            route = MedicationDestinations.MEDICATION_REGISTER_FREQUENCY
+        ) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
 
             MedicationRegisterFrequencyScreen(
@@ -96,8 +106,6 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
         }
 
         // Step 4: Select dosage unit (dosage unit option)
-        // MedicationNavigation.kt
-
         composable(
             route = "${MedicationDestinations.MEDICATION_REGISTER_DOSAGE}?medicationId={medicationId}&dosageIndex={dosageIndex}",
             arguments = listOf(
@@ -109,7 +117,11 @@ fun NavGraphBuilder.medicationGraph(navController: NavHostController) {
                     type = NavType.IntType
                     defaultValue = -1
                 }
-            )
+            ),
+            enterTransition = NavigationTransitions.slideInFromEnd(),
+            exitTransition = NavigationTransitions.slideOutToEnd(),
+            popEnterTransition = NavigationTransitions.slideInFromStart(),
+            popExitTransition = NavigationTransitions.slideOutToStart()
         ) { backStackEntry ->
             val viewModel = sharedMedicationViewModel(navController, backStackEntry)
             val medicationId = backStackEntry.arguments?.getLong("medicationId") ?: -1L
