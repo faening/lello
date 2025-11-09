@@ -4,10 +4,8 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -29,7 +27,6 @@ import io.github.faening.lello.core.designsystem.component.pill.LelloOptionPillS
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.SleepSensationOptionMock
 import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
@@ -45,22 +42,20 @@ internal fun SleepJournalMoodScreen(
     val sleepSensationOptions by viewModel.sleepSensationOptions.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    LelloTheme(moodColor = MoodColor.DEFAULT) {
-        SleepJournalMoodContainer(
-            coinsAcquired = coinsAcquired,
-            sleepSensationOptions = sleepSensationOptions,
-            onSleepSensationOptionToggle = viewModel::toggleSleepSensationSelection,
-            onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
-            onSave = viewModel::saveSleepJournal,
-            onBack = onBack,
-            onNext = onNext,
-            onFinish = onFinish
-        )
-    }
+    SleepJournalMoodScreenContent(
+        coinsAcquired = coinsAcquired,
+        sleepSensationOptions = sleepSensationOptions,
+        onSleepSensationOptionToggle = viewModel::toggleSleepSensationSelection,
+        onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
+        onSave = viewModel::saveSleepJournal,
+        onBack = onBack,
+        onNext = onNext,
+        onFinish = onFinish
+    )
 }
 
 @Composable
-private fun SleepJournalMoodContainer(
+private fun SleepJournalMoodScreenContent(
     coinsAcquired: Int,
     sleepSensationOptions: List<SleepSensationOption>,
     onSleepSensationOptionToggle: (String) -> Unit,
@@ -73,28 +68,57 @@ private fun SleepJournalMoodContainer(
     val anySelected = sleepSensationOptions.any { it.selected }
 
     Scaffold(
-        topBar = { SleepJournalMoodTopBar(onBack) },
+        topBar = {
+            SleepJournalMoodTopAppBar(onBack)
+        },
         bottomBar = {
             SleepJournaBottomBar(
-            enabled = anySelected,
-            onSave = onSave,
-            onNext = onNext,
-            onFinish = onFinish
+                enabled = anySelected,
+                onSave = onSave,
+                onNext = onNext,
+                onFinish = onFinish
             )
         }
     ) { paddingValues ->
-        SleepJournalMoodContent(
-            coinsAcquired = coinsAcquired,
-            sleepSensationOptions = sleepSensationOptions,
-            onSleepSensationOptionToggle = onSleepSensationOptionToggle,
-            onOpenSleepSensationOptionSettings = onOpenSleepSensationOptionSettings,
-            modifier = Modifier.padding(paddingValues)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+        ) {
+            // Header
+            Text(
+                text = "Como você se sentiu ao acordar?",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+            )
+            Text(
+                text = "Ganhe $coinsAcquired moeads ao concluir",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
+
+            // Content
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                LelloOptionPillSelector(
+                    title = null,
+                    options = sleepSensationOptions,
+                    isSelected = { it.selected },
+                    onToggle = { option -> onSleepSensationOptionToggle(option.description) },
+                    onOpenSettings = onOpenSleepSensationOptionSettings,
+                    getLabel = { it.description }
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun SleepJournalMoodTopBar(
+private fun SleepJournalMoodTopAppBar(
     onBack: () -> Unit
 ) {
     LelloTopAppBar(
@@ -113,7 +137,11 @@ private fun SleepJournaBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.spacingRegular),
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            ),
         horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -136,60 +164,18 @@ private fun SleepJournaBottomBar(
     }
 }
 
-@Composable
-private fun SleepJournalMoodContent(
-    coinsAcquired: Int,
-    sleepSensationOptions: List<SleepSensationOption>,
-    onSleepSensationOptionToggle: (String) -> Unit,
-    onOpenSleepSensationOptionSettings: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimension.spacingRegular)
-    ) {
-        // Header
-        Text(
-            text = "Como você se sentiu ao acordar?",
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Spacer(modifier = Modifier.height(Dimension.spacingRegular))
-
-        Text(
-            text = "Ganhe $coinsAcquired moeads ao concluir",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Spacer(modifier = Modifier.height(Dimension.spacingExtraLarge))
-
-        // Scrollable area
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-        ) {
-            LelloOptionPillSelector(
-                title = null,
-                options = sleepSensationOptions,
-                isSelected = { it.selected },
-                onToggle = { option -> onSleepSensationOptionToggle(option.description) },
-                onOpenSettings = onOpenSleepSensationOptionSettings,
-                getLabel = { it.description }
-            )
-        }
-    }
-}
+// region: Previews
 
 @Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun SleepJournalMoodScreenPreview() {
+private fun SleepJournalMoodScreenPreview_LightMode() {
     LelloTheme {
-        SleepJournalMoodContainer(
+        SleepJournalMoodScreenContent(
             coinsAcquired = 100,
             sleepSensationOptions = SleepSensationOptionMock.list,
             onSleepSensationOptionToggle = { _ -> },
@@ -201,3 +187,5 @@ private fun SleepJournalMoodScreenPreview() {
         )
     }
 }
+
+// endregion: Previews
