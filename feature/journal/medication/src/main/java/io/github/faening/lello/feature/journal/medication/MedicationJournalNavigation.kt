@@ -6,9 +6,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.navigation.NavigationTransitions
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.journal.medication.screen.MedicationJournalScreen
 import io.github.faening.lello.feature.journal.medication.screen.MedicationJournalSkipReasonScreen
 import io.github.faening.lello.feature.journal.medication.screen.MedicationJournalSummaryScreen
@@ -28,7 +29,10 @@ fun NavGraphBuilder.medicationJournalGraph(navController: NavHostController) {
         route = JournalMedicationDestinations.GRAPH
     ) {
 
-        composable(JournalMedicationDestinations.HOME) { backStackEntry ->
+        customComposable(
+            route = JournalMedicationDestinations.HOME,
+            enterTransition = NavigationTransitions.fadeIn()
+        ) { backStackEntry ->
             val viewModel = sharedMedicationJournalViewModel(navController, backStackEntry)
 
             MedicationJournalScreen(
@@ -44,7 +48,9 @@ fun NavGraphBuilder.medicationJournalGraph(navController: NavHostController) {
             )
         }
 
-        composable(JournalMedicationDestinations.SKIP_REASON) { backStackEntry ->
+        customComposable(
+            route = JournalMedicationDestinations.SKIP_REASON
+        ) { backStackEntry ->
             val viewModel = sharedMedicationJournalViewModel(navController, backStackEntry)
 
             MedicationJournalSkipReasonScreen(
@@ -62,7 +68,11 @@ fun NavGraphBuilder.medicationJournalGraph(navController: NavHostController) {
             )
         }
 
-        composable(JournalMedicationDestinations.SUMMARY) { backStackEntry ->
+        customComposable(
+            route = JournalMedicationDestinations.SUMMARY,
+            exitTransition = NavigationTransitions.fadeOut(),
+            popExitTransition = NavigationTransitions.fadeOut()
+        ) { backStackEntry ->
             val viewModel = sharedMedicationJournalViewModel(navController, backStackEntry)
 
             MedicationJournalSummaryScreen(

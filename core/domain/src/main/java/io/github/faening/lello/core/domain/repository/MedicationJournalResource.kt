@@ -34,6 +34,15 @@ interface MedicationJournalResource<T> {
      * @return Flow contendo lista de registros do medicamento ordenados por data
      */
     fun getJournalsByMedication(medicationId: Long): Flow<List<T>>
+
+    /**
+     * Obtém os IDs das dosagens registradas para um medicamento em um dia específico.
+     *
+     * @param medicationId ID do medicamento
+     * @param currentDay Timestamp representando o dia atual (00:00)
+     * @return Lista de IDs das dosagens registradas
+     */
+    suspend fun getRegisteredDosageIdsForToday(medicationId: Long, currentDay: Long): List<Long>
 }
 
 /**

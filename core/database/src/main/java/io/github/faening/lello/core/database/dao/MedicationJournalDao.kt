@@ -48,6 +48,17 @@ interface MedicationJournalDao :
     )
     override fun getJournalsByMedication(medicationId: Long): Flow<List<MedicationJournalEntityWithOptions>>
 
+    @Query(
+        value = """
+            SELECT medication_dosage_id 
+            FROM medication_journals
+            WHERE medication_id = :medicationId
+            AND DATE(scheduled_time / 1000, 'unixepoch', 'localtime') = DATE(:currentDay / 1000, 'unixepoch', 'localtime')
+        """
+    )
+    override suspend fun getRegisteredDosageIdsForToday(medicationId: Long, currentDay: Long): List<Long>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insert(item: MedicationJournalEntity): Long
 

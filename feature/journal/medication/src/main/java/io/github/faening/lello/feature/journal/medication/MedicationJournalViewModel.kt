@@ -1,15 +1,20 @@
 package io.github.faening.lello.feature.journal.medication
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.media.LelloMedia
+import io.github.faening.lello.core.domain.usecase.journal.medication.GetRegisteredDosagesForTodayUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.SaveMedicationJournalUseCase
 import io.github.faening.lello.core.domain.usecase.medication.GetAllMedicationsUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.GetAllMedicationSkipReasonOptionUseCase
 import io.github.faening.lello.core.domain.util.toEpochMillisOnDate
 import io.github.faening.lello.core.model.journal.MedicationJournal
 import io.github.faening.lello.core.model.medication.Medication
-import io.github.faening.lello.core.model.medication.MedicationDosage
 import io.github.faening.lello.core.model.option.MedicationSkipReasonOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,11 +28,15 @@ import javax.inject.Inject
 class MedicationJournalViewModel @Inject constructor(
     private val getAllMedicationsUseCase: GetAllMedicationsUseCase,
     private val getAllMedicationSkipReasonOptionUseCase: GetAllMedicationSkipReasonOptionUseCase,
+    private val getRegisteredDosagesForTodayUseCase: GetRegisteredDosagesForTodayUseCase,
     private val saveMedicationJournalUseCase: SaveMedicationJournalUseCase
 ) : ViewModel() {
 
     private val _medications = MutableStateFlow<List<Medication>>(emptyList())
     val medications: StateFlow<List<Medication>> = _medications.asStateFlow()
+
+    private val _registeredDosageIds = MutableStateFlow<Set<Long>>(emptySet())
+    val registeredDosageIds: StateFlow<Set<Long>> = _registeredDosageIds.asStateFlow()
 
     private val _skipReasonOptions = MutableStateFlow<List<MedicationSkipReasonOption>>(emptyList())
     val skipReasonOptions: StateFlow<List<MedicationSkipReasonOption>> = _skipReasonOptions
@@ -38,6 +47,9 @@ class MedicationJournalViewModel @Inject constructor(
     private val _selectedDosageIndex = MutableStateFlow<Int?>(null)
     val selectedDosageIndex: StateFlow<Int?> = _selectedDosageIndex.asStateFlow()
 
+    private var _exoPlayer: ExoPlayer? = null
+    val exoPlayer: ExoPlayer? get() = _exoPlayer
+
     init {
         loadMedications()
         loadSkipReasonOptions()
@@ -45,7 +57,25 @@ class MedicationJournalViewModel @Inject constructor(
 
     private fun loadMedications() {
         viewModelScope.launch {
-            getAllMedicationsUseCase.invoke().collect { _medications.value = it }
+            getAllMedicationsUseCase.invoke().collect { medicationList ->
+                _medications.value = medicationList
+                loadRegisteredDosages(medicationList)
+            }
+        }
+    }
+
+    private fun loadRegisteredDosages(medications: List<Medication>) {
+        viewModelScope.launch {
+            val registeredIds = mutableSetOf<Long>()
+
+            medications.forEach { medication ->
+                medication.id?.let { medicationId ->
+                    val dosageIds = getRegisteredDosagesForTodayUseCase.invoke(medicationId)
+                    registeredIds.addAll(dosageIds)
+                }
+            }
+
+            _registeredDosageIds.value = registeredIds
         }
     }
 
@@ -58,11 +88,6 @@ class MedicationJournalViewModel @Inject constructor(
     fun setSelectedDosage(medication: Medication, dosageIndex: Int) {
         _selectedMedication.value = medication
         _selectedDosageIndex.value = dosageIndex
-    }
-
-    fun clearSelectedDosage() {
-        _selectedMedication.value = null
-        _selectedDosageIndex.value = null
     }
 
     fun saveMedicationJournal(taken: Boolean, skipReasonOption: MedicationSkipReasonOption?) {
@@ -89,6 +114,27 @@ class MedicationJournalViewModel @Inject constructor(
             )
 
             saveMedicationJournalUseCase.invoke(medicationJournal)
+
+            dosage.id?.let { dosageId ->
+                _registeredDosageIds.value += dosageId
+            }
+        }
+    }
+
+    /**
+     * Prepara o ExoPlayer com o vídeo correspondente ao humor atual.
+     *
+     * @param context Contexto necessário para a criação do ExoPlayer.
+     */
+    fun prepareVideo(context: Context) {
+        val video = LelloMedia.Video.JournalSummaryBackgroundYellow
+        _exoPlayer?.release()
+        _exoPlayer = ExoPlayer.Builder(context).build().apply {
+            val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${video.resId}")
+            setMediaItem(mediaItem)
+            repeatMode = Player.REPEAT_MODE_ALL
+            volume = 0f
+            prepare()
         }
     }
 }

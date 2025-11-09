@@ -29,6 +29,11 @@ class DataMedicationJournalRepository @Inject constructor(
         return dao.getJournalsByMedication(medicationId).map { list -> list.map { it.toModel() } }
     }
 
+    override suspend fun getRegisteredDosageIdsForToday(medicationId: Long, currentDay: Long): List<Long> {
+        val currentDay = System.currentTimeMillis()
+        return dao.getRegisteredDosageIdsForToday(medicationId, currentDay)
+    }
+
     override suspend fun insert(item: MedicationJournal): Long {
         return dao.insert(item.toEntity())
     }

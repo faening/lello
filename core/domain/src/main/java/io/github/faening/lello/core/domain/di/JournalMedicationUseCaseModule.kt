@@ -9,6 +9,7 @@ import io.github.faening.lello.core.domain.usecase.journal.medication.GetAllMedi
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByDayUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByMedicationUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByTakenStatusUseCase
+import io.github.faening.lello.core.domain.usecase.journal.medication.GetRegisteredDosagesForTodayUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.SaveMedicationJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.SaveMedicationJournalsUseCase
 import io.github.faening.lello.core.model.journal.MedicationJournal
@@ -46,4 +47,9 @@ object JournalMedicationUseCaseModule {
     fun provideSaveMedicationJournalsUseCase(
         repository: MedicationJournalRepository<MedicationJournal>
     ) = SaveMedicationJournalsUseCase(repository)
+
+    @Provides
+    fun provideGetRegisteredDosagesForTodayUseCase(
+        repository: MedicationJournalRepository<MedicationJournal>
+    ) = GetRegisteredDosagesForTodayUseCase(repository)
 }

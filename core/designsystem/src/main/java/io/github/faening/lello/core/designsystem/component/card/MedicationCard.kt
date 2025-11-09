@@ -38,6 +38,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Aquamarine500
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
@@ -50,6 +51,7 @@ import io.github.faening.lello.core.testing.data.MedicationTestData
 fun LelloMedicationCard(
     medication: Medication,
     onDosageClick: (Int) -> Unit = {},
+    registeredDosageIds: Set<Long> = emptySet(),
     isDisableEnabled: Boolean = true,
     onDisable: () -> Unit = {},
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
@@ -123,14 +125,16 @@ fun LelloMedicationCard(
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = Dimension.spacingRegular),
-                    thickness = Dimension.borderWidthDefault,
+                    thickness = Dimension.borderWidthThick,
                     color = MedicationCardDefaults.dividerColor()
                 )
 
                 medication.dosages.forEachIndexed { index, dosage ->
+                    val isTaken = dosage.dosageNumber.let { registeredDosageIds.contains(it.toLong()) }
                     DosageItem(
                         dosageNumber = index + 1,
                         dosage = dosage,
+                        isTaken = isTaken,
                         onClick = { onDosageClick(index) }
                     )
 
@@ -161,6 +165,7 @@ private fun getMedicationTypeIcon(
 private fun DosageItem(
     dosageNumber: Int,
     dosage: MedicationDosage,
+    isTaken: Boolean = false,
     onClick: () -> Unit
 ) {
     @SuppressLint("DefaultLocale")
@@ -194,7 +199,7 @@ private fun DosageItem(
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = MedicationCardDefaults.secondaryTextColor(),
+                    color = MedicationCardDefaults.dosageLabelTextColor(isTaken),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = Dimension.spacingSmall)
@@ -230,12 +235,21 @@ private fun DosageItem(
 
             // Arrow Icon
             Spacer(modifier = Modifier.width(Dimension.spacingMedium))
-            Icon(
-                imageVector = LelloIcons.Outlined.ChevronRight.imageVector,
-                contentDescription = "Editar dose",
-                tint = MedicationCardDefaults.dividerColor(),
-                modifier = Modifier.size(Dimension.iconSizeDefault)
-            )
+            if (isTaken) {
+                Icon(
+                    imageVector = LelloIcons.Filled.Verified.imageVector,
+                    contentDescription = "Editar dose",
+                    tint = MedicationCardDefaults.arrowIconColor(isTaken),
+                    modifier = Modifier.size(Dimension.iconSizeDefault)
+                )
+            } else {
+                Icon(
+                    imageVector = LelloIcons.Outlined.ChevronRight.imageVector,
+                    contentDescription = "Editar dose",
+                    tint = MedicationCardDefaults.arrowIconColor(isTaken),
+                    modifier = Modifier.size(Dimension.iconSizeDefault)
+                )
+            }
         }
     }
 }
@@ -298,7 +312,13 @@ private object MedicationCardDefaults {
 
     @Composable
     fun dividerColor(): Color {
-        return MaterialTheme.colorScheme.outlineVariant
+        return MaterialTheme.colorScheme.outline.copy(alpha = Dimension.alphaStateDisabled)
+    }
+
+    @Composable
+    fun arrowIconColor(isTaken: Boolean = false): Color = when (isTaken) {
+        false -> MaterialTheme.colorScheme.onSurfaceVariant
+        true -> Aquamarine500
     }
 
     @Composable
@@ -312,8 +332,9 @@ private object MedicationCardDefaults {
     }
 
     @Composable
-    fun secondaryTextColor(): Color {
-        return MaterialTheme.colorScheme.tertiary
+    fun dosageLabelTextColor(isTaken: Boolean = false): Color = when (isTaken) {
+        false -> MaterialTheme.colorScheme.tertiary
+        true -> Aquamarine500
     }
 
     @Composable
@@ -336,12 +357,33 @@ private object MedicationCardDefaults {
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     showBackground = true
 )
-private fun LelloMedicationCardPreview_LightMode() {
+private fun LelloMedicationCardPreview_LightMode_Default() {
     val medication = MedicationTestData.list[1]
 
     LelloTheme {
         LelloMedicationCard(
             medication = medication,
+            modifier = Modifier.padding(Dimension.spacingSmall)
+        )
+    }
+}
+
+@Composable
+@Preview(
+    name = "Dosage Taken",
+    group = "Light Mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true
+)
+private fun LelloMedicationCardPreview_LightMode_DosageTaken() {
+    val medication = MedicationTestData.list[1]
+
+    LelloTheme {
+        LelloMedicationCard(
+            medication = medication,
+            registeredDosageIds = setOf(
+                medication.dosages[0].dosageNumber.toLong(),
+            ),
             modifier = Modifier.padding(Dimension.spacingSmall)
         )
     }

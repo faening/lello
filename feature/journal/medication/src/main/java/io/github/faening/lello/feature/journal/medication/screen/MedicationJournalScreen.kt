@@ -12,10 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
@@ -25,7 +27,6 @@ import io.github.faening.lello.core.designsystem.component.button.LelloFilledBut
 import io.github.faening.lello.core.designsystem.component.card.LelloMedicationCard
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.testing.data.MedicationTestData
 import io.github.faening.lello.feature.journal.medication.MedicationJournalViewModel
@@ -37,10 +38,17 @@ fun MedicationJournalScreen(
     onRegister: () -> Unit,
     onNext: (Medication, Int) -> Unit,
 ) {
+    val context = LocalContext.current
     val medications by viewModel.medications.collectAsState()
+    val registeredDosageIds by viewModel.registeredDosageIds.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.prepareVideo(context)
+    }
 
     MedicationJournalScreenContent(
         medications = medications,
+        registeredDosageIds = registeredDosageIds,
         onBack = onBack,
         onRegister = onRegister,
         onNext = onNext
@@ -51,9 +59,10 @@ fun MedicationJournalScreen(
 @Composable
 private fun MedicationJournalScreenContent(
     medications: List<Medication>,
+    registeredDosageIds: Set<Long>,
     onBack: () -> Unit,
     onRegister: () -> Unit,
-    onNext: (Medication, Int) -> Unit,
+    onNext: (Medication, Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -73,6 +82,7 @@ private fun MedicationJournalScreenContent(
             } else {
                 MedicationJournalContentListSection(
                     medications = medications,
+                    registeredDosageIds = registeredDosageIds,
                     onNext = onNext
                 )
             }
@@ -115,6 +125,7 @@ private fun MedicationJournalEmptyContentSection(
 @Composable
 private fun MedicationJournalContentListSection(
     medications: List<Medication>,
+    registeredDosageIds: Set<Long>,
     onNext: (Medication, Int) -> Unit
 ) {
     val activeMedications = medications.filter { it.active == true }
@@ -127,11 +138,17 @@ private fun MedicationJournalContentListSection(
             count = activeMedications.size,
             key = { index -> activeMedications[index].id ?: index }
         ) { index ->
+            val medication = activeMedications[index]
+
             LelloMedicationCard(
-                medication = activeMedications[index],
+                medication = medication,
                 onDosageClick = { dosageIndex ->
-                    onNext(activeMedications[index], dosageIndex)
+                    val dosage = medication.dosages.getOrNull(dosageIndex)
+                    if (!registeredDosageIds.contains(dosage?.dosageNumber?.toLong())) {
+                        onNext(medication, dosageIndex)
+                    }
                 },
+                registeredDosageIds = registeredDosageIds,
                 isDisableEnabled = false,
                 onDisable = { }
             )
@@ -152,6 +169,7 @@ private fun MedicationJournalScreenPreview_EmptyState_LightMode() {
     LelloTheme {
         MedicationJournalScreenContent(
             medications = emptyList(),
+            registeredDosageIds = emptySet(),
             onBack = {},
             onRegister = {},
             onNext = { _, _ -> }
@@ -172,6 +190,7 @@ private fun MedicationJournalScreenPreview_MedicationList_LightMode() {
     LelloTheme {
         MedicationJournalScreenContent(
             medications = medications,
+            registeredDosageIds = emptySet(),
             onBack = {},
             onRegister = {},
             onNext = { _, _ -> }
