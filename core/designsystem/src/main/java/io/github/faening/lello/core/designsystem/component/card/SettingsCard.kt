@@ -49,7 +49,7 @@ fun LelloSettingsCard(
         Text(
             text = sectionTitle,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            modifier = Modifier.padding(bottom = Dimension.spacingRegular)
         )
 
         Box(

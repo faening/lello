@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalRegisterScreen
 import io.github.faening.lello.feature.journal.settings.screen.SettingsJournalScreen
@@ -30,7 +31,9 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
         startDestination = SettingsJournalDestinations.SETTINGS,
         route = SettingsJournalDestinations.GRAPH
     ) {
-        composable(SettingsJournalDestinations.SETTINGS) { backStackEntry ->
+        customComposable(
+            route = SettingsJournalDestinations.SETTINGS
+        ) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
             val moodColorName = backStackEntry.arguments?.getString("colorScheme")
 
@@ -55,7 +58,9 @@ fun NavGraphBuilder.settingsJournalGraph(navController: NavHostController) {
             )
         }
 
-        composable(SettingsJournalDestinations.REGISTER) { backStackEntry ->
+        customComposable(
+            route = SettingsJournalDestinations.REGISTER
+        ) { backStackEntry ->
             val optionName = backStackEntry.arguments?.getString("option")
             val moodColorName = backStackEntry.arguments?.getString("colorScheme")
 

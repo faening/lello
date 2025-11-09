@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.card.LelloSettingsCard
 import io.github.faening.lello.core.designsystem.component.card.SettingsItem
@@ -55,65 +54,63 @@ private fun SettingsScreenContent(
     onDeleteAccount: () -> Unit = {},
     onNavigateToTerms: () -> Unit = {}
 ) {
-    val scrollState = rememberScrollState()
-
-    LelloTheme {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    onSearchClick = {} // TODO: Implementar
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular),
-                verticalArrangement = Arrangement.spacedBy(Dimension.spacingExtraLarge),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                UISection(
-                    onNavigateToNotifications = onNavigateToNotifications
-                )
-                SecuritySection(
-                    isBiometricEnabled = isBiometricEnabled,
-                    isBiometricAvailable = isBiometricAvailable,
-                    onBiometricToggle = onBiometricToggle
-                )
-                AccountSection(
-                    onLogout = onLogout,
-                    onDeleteAccount = onDeleteAccount
-                )
-                AboutSection(
-                    onNavigateToTerms = onNavigateToTerms
-                )
-            }
+    Scaffold(
+        topBar = {
+            SettingsScreenTopAppBar(
+                onSearchClick = {}
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+                .padding(
+                    top = Dimension.spacingRegular,
+                    start = Dimension.spacingRegular,
+                    end = Dimension.spacingRegular
+                ),
+            verticalArrangement = Arrangement.spacedBy(Dimension.spacingExtraLarge),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SettingsScreenUISection(
+                onNavigateToNotifications = onNavigateToNotifications
+            )
+            SettingsScreenSecuritySection(
+                isBiometricEnabled = isBiometricEnabled,
+                isBiometricAvailable = isBiometricAvailable,
+                onBiometricToggle = onBiometricToggle
+            )
+            SettingsScreenAccountSection(
+                onLogout = onLogout,
+                onDeleteAccount = onDeleteAccount
+            )
+            SettingsScreenAboutSection(
+                onNavigateToTerms = onNavigateToTerms
+            )
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
-    moddColor: MoodColor = MoodColor.INVERSE,
+private fun SettingsScreenTopAppBar(
     onSearchClick: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text= "Mais recursos"),
-        actions = listOf(
-            TopAppBarAction(
-                icon = LelloIcons.Outlined.Search.imageVector,
-                contentDescription = "Fechar configurações",
-                onClick = { onSearchClick }
-            )
-        ),
-        moodColor = moddColor
+//        actions = listOf(
+//            TopAppBarAction(
+//                icon = LelloIcons.Outlined.Search.imageVector,
+//                contentDescription = "Fechar configurações",
+//                onClick = { onSearchClick }
+//            )
+//        ),
     )
 }
 
 @Composable
-private fun UISection(
+private fun SettingsScreenUISection(
     isDarkThemeEnabled: Boolean = false, // isSystemInDarkTheme(),
     onToggleTheme: () -> Unit = {  }, // TODO: Implementar
     onNavigateToNotifications: () -> Unit
@@ -145,7 +142,7 @@ private fun UISection(
 }
 
 @Composable
-private fun SecuritySection(
+private fun SettingsScreenSecuritySection(
     isBiometricEnabled: Boolean = false,
     isBiometricAvailable: Boolean = false,
     onBiometricToggle: (Boolean) -> Unit
@@ -174,7 +171,7 @@ private fun SecuritySection(
 }
 
 @Composable
-private fun AccountSection(
+private fun SettingsScreenAccountSection(
     onLogout: () -> Unit,
     onDeleteAccount: () -> Unit
 ) {
@@ -205,7 +202,7 @@ private fun AccountSection(
 }
 
 @Composable
-private fun AboutSection(
+private fun SettingsScreenAboutSection(
     onNavigateToTerms: () -> Unit,
 ) {
     Column(

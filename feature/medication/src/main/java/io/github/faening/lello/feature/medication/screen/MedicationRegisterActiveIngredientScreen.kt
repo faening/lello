@@ -67,8 +67,7 @@ private fun MedicationRegisterActiveIngredientScreenContent(
         topBar = {
             LelloTopAppBar(
                 title = TopAppBarTitle(text = "Cadastrar remédio"),
-                navigateUp = TopAppBarAction(onClick = onBack),
-                moodColor = MoodColor.INVERSE
+                navigateUp = TopAppBarAction(onClick = onBack)
             )
         },
         bottomBar = {

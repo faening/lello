@@ -33,7 +33,6 @@ import io.github.faening.lello.core.designsystem.component.card.LelloDiaryCard
 import io.github.faening.lello.core.designsystem.component.dialog.LelloAuthenticationDialog
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.domain.mock.MealJournalMock
 import io.github.faening.lello.core.domain.mock.MoodJournalMock
 import io.github.faening.lello.core.domain.mock.SleepJournalMock
@@ -199,57 +198,57 @@ private fun DiaryScreenContent(
     onSelectDate: (LocalDate) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
-    LelloTheme {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(selectedDate, onSelectDate)
-            }
-        ) { paddingValues ->
-            if (moodJournals.isEmpty() && mealJournals.isEmpty() && sleepJournals.isEmpty()) {
-                EmptyContentSection(paddingValues)
-            } else {
-                val scrollState = rememberScrollState()
+    Scaffold(
+        topBar = {
+            DiaryScreenTopAppBar(selectedDate, onSelectDate)
+        }
+    ) { paddingValues ->
+        if (moodJournals.isEmpty() && mealJournals.isEmpty() && sleepJournals.isEmpty()) {
+            EmptyContentSection(paddingValues)
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
+                    .padding(
+                        top = Dimension.spacingRegular,
+                        start = Dimension.spacingRegular,
+                        end = Dimension.spacingRegular
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                SleepJournalsSection(
+                    daySleepJournals = sleepJournals,
+                    onSleepJournalClick = onSleepJournalClick,
+                    getRewardAmount = getRewardAmount
+                )
 
-                Column(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(Dimension.spacingRegular)
-                        .verticalScroll(scrollState),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    SleepJournalsSection(
-                        daySleepJournals = sleepJournals,
-                        onSleepJournalClick = onSleepJournalClick,
-                        getRewardAmount = getRewardAmount
-                    )
+                MealJournalsSection(
+                    dayMealJournals = mealJournals,
+                    onMealJournalClick = onMealJournalClick,
+                    getRewardAmount = getRewardAmount
+                )
 
-                    MealJournalsSection(
-                        dayMealJournals = mealJournals,
-                        onMealJournalClick = onMealJournalClick,
-                        getRewardAmount = getRewardAmount
-                    )
-
-                    MoodJournalsSection(
-                        dayMoodJournals = moodJournals,
-                        onMoodJournalClick = onMoodJournalClick,
-                        getRewardAmount = getRewardAmount
-                    )
-                }
+                MoodJournalsSection(
+                    dayMoodJournals = moodJournals,
+                    onMoodJournalClick = onMoodJournalClick,
+                    getRewardAmount = getRewardAmount
+                )
             }
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun DiaryScreenTopAppBar(
     selectedDate: LocalDate,
     onSelectDate: (LocalDate) -> Unit
 ) {
     LelloCalendarTopAppBar(
         selectedDate = selectedDate,
-        onDateSelected = onSelectDate,
-        moodColor = MoodColor.INVERSE
+        onDateSelected = onSelectDate
     )
 }
 
@@ -358,12 +357,14 @@ private fun MoodJournalsSection(
 )
 @Composable
 private fun DiaryScreenPreview_LightMode_Default() {
-    DiaryScreenContent(
-        selectedDate = LocalDate.now(),
-        moodJournals = MoodJournalMock.list.take(2),
-        mealJournals = MealJournalMock.list.take(2),
-        sleepJournals = SleepJournalMock.list.take(2)
-    )
+    LelloTheme {
+        DiaryScreenContent(
+            selectedDate = LocalDate.now(),
+            moodJournals = MoodJournalMock.list.take(2),
+            mealJournals = MealJournalMock.list.take(2),
+            sleepJournals = SleepJournalMock.list.take(2)
+        )
+    }
 }
 
 @Preview(
@@ -374,12 +375,14 @@ private fun DiaryScreenPreview_LightMode_Default() {
 )
 @Composable
 private fun DiaryScreenPreview_LightMode_Empty() {
-    DiaryScreenContent(
-        selectedDate = LocalDate.now(),
-        moodJournals = emptyList(),
-        mealJournals = emptyList(),
-        sleepJournals = emptyList()
-    )
+    LelloTheme {
+        DiaryScreenContent(
+            selectedDate = LocalDate.now(),
+            moodJournals = emptyList(),
+            mealJournals = emptyList(),
+            sleepJournals = emptyList()
+        )
+    }
 }
 
 @Preview(
@@ -390,12 +393,14 @@ private fun DiaryScreenPreview_LightMode_Empty() {
 )
 @Composable
 private fun DiaryScreenPreview_DarkMode_Default() {
-    DiaryScreenContent(
-        selectedDate = LocalDate.now(),
-        moodJournals = MoodJournalMock.list.take(2),
-        mealJournals = MealJournalMock.list.take(2),
-        sleepJournals = SleepJournalMock.list.take(2)
-    )
+    LelloTheme {
+        DiaryScreenContent(
+            selectedDate = LocalDate.now(),
+            moodJournals = MoodJournalMock.list.take(2),
+            mealJournals = MealJournalMock.list.take(2),
+            sleepJournals = SleepJournalMock.list.take(2)
+        )
+    }
 }
 
 @Preview(
@@ -406,12 +411,14 @@ private fun DiaryScreenPreview_DarkMode_Default() {
 )
 @Composable
 private fun DiaryScreenPreview_DarkMode_Empty() {
-    DiaryScreenContent(
-        selectedDate = LocalDate.now(),
-        moodJournals = emptyList(),
-        mealJournals = emptyList(),
-        sleepJournals = emptyList()
-    )
+    LelloTheme {
+        DiaryScreenContent(
+            selectedDate = LocalDate.now(),
+            moodJournals = emptyList(),
+            mealJournals = emptyList(),
+            sleepJournals = emptyList()
+        )
+    }
 }
 
 // endregion Previews

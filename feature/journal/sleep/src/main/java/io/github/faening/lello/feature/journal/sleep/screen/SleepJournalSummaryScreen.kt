@@ -1,7 +1,6 @@
 package io.github.faening.lello.feature.journal.sleep.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,57 +10,79 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.media3.exoplayer.ExoPlayer
 import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.media.LelloSummaryBackground
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.sleep.SleepJournalViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun SleepJournalSummaryScreen(
     viewModel: SleepJournalViewModel,
     onExit: () -> Unit
 ) {
+    val exoPlayer = viewModel.exoPlayer
+    var isExiting by remember { mutableStateOf(false) }
 
-    LelloTheme(moodColor = MoodColor.DEFAULT) {
-        SleepJournalSummaryContainer(
-            onExit = onExit
-        )
+    LaunchedEffect(isExiting) {
+        if (isExiting) {
+            delay(500)
+            onExit()
+        }
     }
+
+    SleepJournalSummaryScreenContent(
+        exoPlayer = exoPlayer,
+        isExiting = isExiting,
+        onExit = onExit
+    )
 }
 
 @Composable
-private fun SleepJournalSummaryContainer(
+private fun SleepJournalSummaryScreenContent(
+    exoPlayer: ExoPlayer?,
+    isExiting: Boolean,
     onExit: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = designsystemR.drawable.img_journal_summary),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+        LelloSummaryBackground(
+            exoPlayer = exoPlayer,
+            isExiting = isExiting,
             modifier = Modifier.fillMaxSize()
         )
 
         Scaffold(
             containerColor = Color.Transparent,
-            bottomBar = { SleepJournalSummaryBottomBar(onExit) }
+            bottomBar = {
+                SleepJournalSummaryBottomAppBar(onExit)
+            }
         ) { paddingValues ->
-            SleepJournalSummaryContent(
-                modifier = Modifier.padding(paddingValues)
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(Dimension.spacingRegular),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) { }
+
+            Box(modifier = Modifier.padding(paddingValues))
         }
     }
 }
 
 @Composable
-private fun SleepJournalSummaryBottomBar(
+private fun SleepJournalSummaryBottomAppBar(
     onExit: () -> Unit
 ) {
     Row(
@@ -76,18 +97,7 @@ private fun SleepJournalSummaryBottomBar(
     }
 }
 
-@Composable
-private fun SleepJournalSummaryContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimension.spacingRegular),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) { }
-}
+// region: Previews
 
 @Composable
 @Preview(
@@ -98,8 +108,12 @@ private fun SleepJournalSummaryContent(
 )
 private fun SleepJournalSummaryScreenPreview() {
     LelloTheme {
-        SleepJournalSummaryContainer(
+        SleepJournalSummaryScreenContent(
+            exoPlayer = null,
+            isExiting = false,
             onExit = {},
         )
     }
 }
+
+// endregion: Previews

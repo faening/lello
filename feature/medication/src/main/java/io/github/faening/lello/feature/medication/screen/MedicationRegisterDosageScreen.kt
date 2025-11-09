@@ -46,7 +46,6 @@ import io.github.faening.lello.core.designsystem.component.textfield.SimpleSearc
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
 import io.github.faening.lello.core.model.option.MedicationDosageUnitOption
 import io.github.faening.lello.core.testing.data.MedicationActiveIngredientOptionTestData
@@ -156,8 +155,7 @@ private fun MedicationRegisterDosageTopAppBar(
         title = TopAppBarTitle(
             text = if (isEditMode) "Editar dose" else "Cadastrar dose"
         ),
-        navigateUp = TopAppBarAction(onClick = onBack),
-        moodColor = MoodColor.INVERSE
+        navigateUp = TopAppBarAction(onClick = onBack)
     )
 }
 

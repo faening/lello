@@ -66,23 +66,29 @@ private fun HomeScreenContent(
 
     LelloTheme {
         Column(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            LelloImageTopAppBar(moodColor = MoodColor.INVERSE)
+            LelloImageTopAppBar()
 
             Column(
-                modifier = Modifier.fillMaxSize().padding(horizontal = Dimension.paddingComponentMedium),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = Dimension.spacingRegular),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     LelloCheckInDailyCard(
                         currentStep = checkInState.currentStep,
                         done = checkInState.bonusReceived,
                         modifier = Modifier.padding(
-                            top = Dimension.paddingComponentMedium,
+                            top = Dimension.spacingRegular,
                             bottom = Dimension.spacingExtraLarge
                         )
                     )

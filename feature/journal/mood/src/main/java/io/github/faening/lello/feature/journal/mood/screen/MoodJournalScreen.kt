@@ -1,6 +1,7 @@
 package io.github.faening.lello.feature.journal.mood.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,14 +47,16 @@ internal fun MoodJournalScreen(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
+    val context = LocalContext.current
     val moodColor by viewModel.currentMood.collectAsState()
     val entryTime by viewModel.entryDateTime.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.captureEntryDateTime()
+        viewModel.prepareVideo(context)
     }
 
-    MoodJournalContent(
+    MoodJournalScreenContent(
         moodColor = moodColor,
         entryTime = entryTime,
         onBack = onBack,
@@ -62,7 +66,7 @@ internal fun MoodJournalScreen(
 }
 
 @Composable
-private fun MoodJournalContent(
+private fun MoodJournalScreenContent(
     moodColor: MoodColor,
     entryTime: String,
     onBack: () -> Unit,
@@ -72,18 +76,18 @@ private fun MoodJournalContent(
     LelloTheme(moodColor = moodColor) {
         Scaffold(
             topBar = {
-                TopAppBarSection(
+                MoodJournalTopAppBar(
                     entryTime = entryTime,
                     moodColor = moodColor,
                     onBack = onBack
                 )
             },
             bottomBar = {
-                BottomBarSection(
+                MoodJournalBottomBar(
                     moodColor = moodColor,
                     onNext = onNext
                 )
-            }
+            },
         ) { paddingValues ->
             Column(
                 modifier = Modifier
@@ -107,6 +111,7 @@ private fun MoodJournalContent(
                 ) {
                     MoodLabelColumn(
                         moodColor = moodColor,
+                        onMoodChange = onMoodChange,
                         modifier = Modifier.weight(1f).padding(end = Dimension.spacingRegular)
                     )
                     MoodSliderColumn(
@@ -114,15 +119,19 @@ private fun MoodJournalContent(
                         onMoodChange = onMoodChange,
                         modifier = Modifier.weight(1f).padding(end = Dimension.spacingRegular)
                     )
-                    MoodIconColumn(modifier = Modifier.weight(1f))
+                    MoodIconColumn(
+                        onMoodChange = onMoodChange,
+                        modifier = Modifier.weight(1f),
+                    )
                 }
             }
         }
     }
+
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun MoodJournalTopAppBar(
     entryTime: String,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -134,9 +143,8 @@ private fun TopAppBarSection(
     )
 }
 
-
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalBottomBar(
     moodColor: MoodColor,
     onNext: () -> Unit
 ) {
@@ -144,7 +152,11 @@ private fun BottomBarSection(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.End)
-            .padding(Dimension.spacingRegular)
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
     ) {
         LelloFloatingActionButton(
             icon = LelloIcons.Outlined.ArrowRightLarge.imageVector,
@@ -158,6 +170,7 @@ private fun BottomBarSection(
 @Composable
 private fun MoodLabelColumn(
     moodColor: MoodColor,
+    onMoodChange: (MoodColor) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val orderedMoods = MoodColorMapping.orderedMoods
@@ -167,12 +180,13 @@ private fun MoodLabelColumn(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        orderedMoods.forEachIndexed { index, currentMood ->
+        orderedMoods.forEach { currentMood ->
             val moodInfo = MoodColorMapping.moodMap[currentMood]
             Text(
                 text = moodInfo?.label ?: "",
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = if (currentMood == moodColor) FontWeight.Bold else FontWeight.Normal
+                fontWeight = if (currentMood == moodColor) FontWeight.Bold else FontWeight.Normal,
+                modifier = Modifier.clickable { onMoodChange(currentMood) }
             )
         }
     }
@@ -203,6 +217,7 @@ private fun MoodSliderColumn(
 
 @Composable
 private fun MoodIconColumn(
+    onMoodChange: (MoodColor) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -215,7 +230,9 @@ private fun MoodIconColumn(
                 painter = painterResource(it.iconRes),
                 contentDescription = it.label,
                 tint = Color.Unspecified,
-                modifier = Modifier.size(68.dp)
+                modifier = Modifier
+                    .size(64.dp)
+                    .clickable { onMoodChange(it.colorScheme) }
             )
         }
     }
@@ -231,13 +248,15 @@ private fun MoodIconColumn(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 fun MoodJournalScreenPreview_LightMode() {
-    MoodJournalContent(
-        moodColor = MoodColor.DEFAULT,
-        entryTime = "09:41",
-        onBack = {},
-        onNext = {},
-        onMoodChange = {}
-    )
+    LelloTheme {
+        MoodJournalScreenContent(
+            moodColor = MoodColor.DEFAULT,
+            entryTime = "09:41",
+            onBack = {},
+            onNext = {},
+            onMoodChange = {}
+        )
+    }
 }
 
 // endregion Previews

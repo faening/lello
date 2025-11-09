@@ -1,8 +1,13 @@
 package io.github.faening.lello.feature.journal.sleep
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.media.LelloMedia
 import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.sleep.SaveSleepJournalUseCase
 import io.github.faening.lello.core.domain.usecase.options.location.GetAllLocationOptionUseCase
@@ -29,7 +34,6 @@ import javax.inject.Inject
 class SleepJournalViewModel @Inject constructor(
     private val saveSleepJournalUseCase: SaveSleepJournalUseCase,
     private val rewardCalculatorService: RewardCalculatorService,
-    // Options
     private val getAllLocationOptionUseCase: GetAllLocationOptionUseCase,
     private val getAllSleepActivityOptionUseCase: GetAllSleepActivityOptionUseCase,
     private val getAllSleepQualityOptionUseCase: GetAllSleepQualityOptionUseCase,
@@ -61,14 +65,15 @@ class SleepJournalViewModel @Inject constructor(
     private val _coinsAcquired = MutableStateFlow(50)
     val coinsAcquired: StateFlow<Int> = _coinsAcquired
 
+    private var _exoPlayer: ExoPlayer? = null
+    val exoPlayer: ExoPlayer? get() = _exoPlayer
+
     init {
         loadLocationOptions()
         loadSleepActivityOptions()
         loadSleepQualityOptions()
         loadSleepSensationOptions()
     }
-
-    // region: Load options
 
     private fun loadLocationOptions() {
         viewModelScope.launch {
@@ -101,8 +106,6 @@ class SleepJournalViewModel @Inject constructor(
                 .collect { _sleepSensationOptions.value = it }
         }
     }
-
-    // endregion
 
     fun toggleSleepDurationSelection(option: SleepDurationOption) {
         _currentSleepDuration.value = option
@@ -175,6 +178,23 @@ class SleepJournalViewModel @Inject constructor(
             createdAt = millis,
         ).also {
             _sleepJournal.value = it
+        }
+    }
+
+    /**
+     * Prepara o ExoPlayer com o vídeo correspondente ao humor atual.
+     *
+     * @param context Contexto necessário para a criação do ExoPlayer.
+     */
+    fun prepareVideo(context: Context) {
+        val video = LelloMedia.Video.JournalSummaryBackgroundYellow
+        _exoPlayer?.release()
+        _exoPlayer = ExoPlayer.Builder(context).build().apply {
+            val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${video.resId}")
+            setMediaItem(mediaItem)
+            repeatMode = Player.REPEAT_MODE_ALL
+            volume = 0f
+            prepare()
         }
     }
 }

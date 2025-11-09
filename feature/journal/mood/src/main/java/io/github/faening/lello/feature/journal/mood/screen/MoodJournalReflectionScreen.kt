@@ -36,7 +36,7 @@ internal fun MoodJournalReflectionScreen(
     val reflection by viewModel.reflection.collectAsState()
     val coinsAcquired by viewModel.coinsAcquired.collectAsState()
 
-    MoodJournalReflectionContent(
+    MoodJournalReflectionScreenContent(
         entryTime = entryTime,
         reflection = reflection,
         onValueChange = viewModel::updateReflection,
@@ -49,7 +49,7 @@ internal fun MoodJournalReflectionScreen(
 }
 
 @Composable
-private fun MoodJournalReflectionContent(
+private fun MoodJournalReflectionScreenContent(
     entryTime: String,
     reflection: String,
     onValueChange: (String) -> Unit,
@@ -59,57 +59,55 @@ private fun MoodJournalReflectionContent(
     coinsAcquired: Int,
     moodColor: MoodColor
 ) {
-    LelloTheme(moodColor = moodColor) {
-        Scaffold(
-            topBar = {
-                TopAppBarSection(
-                    entryTime = entryTime,
-                    moodColor = moodColor,
-                    onBack = onBack
-                )
-            },
-            bottomBar = {
-                BottomBarSection(
-                    moodColor = moodColor,
-                    onSave = onSave,
-                    onFinish = onFinish
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular)
-            ) {
-                // Header
-                Text(
-                    text = "Quer anotar algum detalhe importante ou uma reflexão neste diário?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = Dimension.spacingRegular)
-                )
-                Text(
-                    text = "Ganhe $coinsAcquired moeads ao concluir",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
-                )
+    Scaffold(
+        topBar = {
+            MoodJournalReflectionTopAppBar(
+                entryTime = entryTime,
+                moodColor = moodColor,
+                onBack = onBack
+            )
+        },
+        bottomBar = {
+            MoodJournalReflectionBottomBar(
+                moodColor = moodColor,
+                onSave = onSave,
+                onFinish = onFinish
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+                .padding(horizontal = Dimension.spacingRegular)
+        ) {
+            // Header
+            Text(
+                text = "Quer anotar algum detalhe importante ou uma reflexão neste diário?",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = Dimension.spacingRegular)
+            )
+            Text(
+                text = "Ganhe $coinsAcquired moeads ao concluir",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(bottom = Dimension.spacingExtraLarge)
+            )
 
-                // Content
-                LelloMultilineTextField(
-                    value = reflection,
-                    onValueChange = onValueChange,
-                    placeholder = "Digite sua reflexão livre aqui...",
-                    maxLength = 500,
-                    showCounter = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            // Content
+            LelloMultilineTextField(
+                value = reflection,
+                onValueChange = onValueChange,
+                placeholder = "Digite sua reflexão livre aqui...",
+                maxLength = 500,
+                showCounter = true,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun MoodJournalReflectionTopAppBar(
     entryTime: String,
     moodColor: MoodColor,
     onBack: () -> Unit
@@ -122,7 +120,7 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun BottomBarSection(
+private fun MoodJournalReflectionBottomBar(
     moodColor: MoodColor,
     onSave: () -> Unit,
     onFinish: () -> Unit,
@@ -130,7 +128,11 @@ private fun BottomBarSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimension.spacingRegular)
+            .padding(
+                start = Dimension.spacingRegular,
+                end = Dimension.spacingRegular,
+                bottom = Dimension.spacingRegular
+            )
     ) {
         LelloFilledButton(
             label = "Concluir",
@@ -147,22 +149,24 @@ private fun BottomBarSection(
 
 @Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun MoodJournalReflectionScreenPreview() {
-    MoodJournalReflectionContent(
-        entryTime = "09:41",
-        reflection = "",
-        onValueChange = {},
-        onSave = {},
-        onBack = {},
-        onFinish = {},
-        coinsAcquired = 100,
-        moodColor = MoodColor.DEFAULT
-    )
+private fun MoodJournalReflectionScreenPreview_LightMode() {
+    LelloTheme {
+        MoodJournalReflectionScreenContent(
+            entryTime = "09:41",
+            reflection = "",
+            onValueChange = {},
+            onSave = {},
+            onBack = {},
+            onFinish = {},
+            coinsAcquired = 100,
+            moodColor = MoodColor.DEFAULT
+        )
+    }
 }
 
 // endregion Previews
