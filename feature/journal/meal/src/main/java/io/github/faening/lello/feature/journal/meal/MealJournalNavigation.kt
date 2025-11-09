@@ -6,9 +6,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.navigation.slideComposable
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalAppetiteScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalDetailsScreen
 import io.github.faening.lello.feature.journal.meal.screen.MealJournalScreen
@@ -30,7 +30,9 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
         route = JournalMealDestinations.GRAPH
     ) {
         // Step 1: Home screen to start the meal journal.
-        composable(JournalMealDestinations.HOME) { backStackEntry ->
+        slideComposable(
+            route = JournalMealDestinations.HOME
+        ) { backStackEntry ->
             val viewModel = sharedMealJournalViewModel(navController, backStackEntry)
             MealJournalScreen(
                 viewModel = viewModel,
@@ -48,7 +50,9 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
         }
 
         // Step 2: Select appetite level for the meal.
-        composable(JournalMealDestinations.APPETITE) { backStackEntry ->
+        slideComposable(
+            route = JournalMealDestinations.APPETITE
+        ) { backStackEntry ->
             val viewModel = sharedMealJournalViewModel(navController, backStackEntry)
             MealJournalAppetiteScreen(
                 viewModel = viewModel,
@@ -67,7 +71,9 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
         }
 
         // Step 3: Enter meal details.
-        composable(JournalMealDestinations.DETAILS) { backStackEntry ->
+        slideComposable(
+            route = JournalMealDestinations.DETAILS
+        ) { backStackEntry ->
             val viewModel = sharedMealJournalViewModel(navController, backStackEntry)
             MealJournalDetailsScreen(
                 viewModel = viewModel,
@@ -109,7 +115,9 @@ fun NavGraphBuilder.mealJournalGraph(navController: NavHostController) {
         }
 
         // Step 4: Summary of the meal journal entry.
-        composable(JournalMealDestinations.SUMMARY) { backStackEntry ->
+        slideComposable(
+            route = JournalMealDestinations.SUMMARY
+        ) { backStackEntry ->
             val viewModel = sharedMealJournalViewModel(navController, backStackEntry)
             MealJournalSummaryScreen(
                 viewModel = viewModel,

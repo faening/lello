@@ -1,7 +1,6 @@
 package io.github.faening.lello.feature.journal.meal.screen
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,51 +10,73 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.media3.exoplayer.ExoPlayer
 import io.github.faening.lello.core.designsystem.component.button.LelloFilledButton
+import io.github.faening.lello.core.designsystem.component.media.LelloSummaryBackground
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.journal.meal.MealJournalViewModel
-import io.github.faening.lello.core.designsystem.R as designsystemR
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun MealJournalSummaryScreen(
     viewModel: MealJournalViewModel,
     onExit: () -> Unit
 ) {
+    val exoPlayer = viewModel.exoPlayer
+    var isExiting by remember { mutableStateOf(false) }
 
-    LelloTheme(moodColor = MoodColor.DEFAULT) {
-        MealJournalSummaryContainer(
-            onExit = onExit
-        )
+    LaunchedEffect(isExiting) {
+        if (isExiting) {
+            delay(500)
+            onExit()
+        }
     }
+
+    MealJournalSummaryScreenContent(
+        exoPlayer = exoPlayer,
+        isExiting = isExiting,
+        onExit = onExit
+    )
 }
 
 @Composable
-private fun MealJournalSummaryContainer(
+private fun MealJournalSummaryScreenContent(
+    exoPlayer: ExoPlayer?,
+    isExiting: Boolean,
     onExit: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = designsystemR.drawable.img_journal_summary),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+        LelloSummaryBackground(
+            exoPlayer = exoPlayer,
+            isExiting = isExiting,
             modifier = Modifier.fillMaxSize()
         )
 
         Scaffold(
             containerColor = Color.Transparent,
-            bottomBar = { MealJournalSummaryBottomBar(onExit) }
+            bottomBar = {
+                MealJournalSummaryBottomBar(onExit)
+            }
         ) { paddingValues ->
-            MealJournalSummaryContent(
-                modifier = Modifier.padding(paddingValues)
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(Dimension.spacingRegular),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) { }
+
+            Box(modifier = Modifier.padding(paddingValues))
         }
     }
 }
@@ -76,30 +97,23 @@ private fun MealJournalSummaryBottomBar(
     }
 }
 
-@Composable
-private fun MealJournalSummaryContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Dimension.spacingRegular),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) { }
-}
+// region: Previews
 
 @Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-private fun MealJournalSummaryScreenPreview() {
+private fun MealJournalSummaryScreenPreview_LightMode() {
     LelloTheme {
-        MealJournalSummaryContainer(
+        MealJournalSummaryScreenContent(
+            exoPlayer = null,
+            isExiting = false,
             onExit = {},
         )
     }
 }
+
+// endregion: Previews
