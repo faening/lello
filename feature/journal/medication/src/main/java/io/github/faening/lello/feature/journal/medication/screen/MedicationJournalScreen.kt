@@ -86,8 +86,7 @@ private fun MedicationJournalTopAppBar(
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Remédios"),
-        navigateUp = TopAppBarAction(onClick = onBack),
-        moodColor = MoodColor.INVERSE
+        navigateUp = TopAppBarAction(onClick = onBack)
     )
 }
 

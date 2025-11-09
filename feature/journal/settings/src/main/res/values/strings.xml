@@ -37,8 +37,8 @@
     <string name="journal_settings_food_register_button_label">Cadastrar alimento</string>
 
     <!-- Medication -->
-    <string name="journal_settings_medication_appbar_title">Remédios</string>
-    <string name="journal_settings_medication_register_button_label">Cadastrar remédio</string>
+    <string name="journal_settings_medication_appbar_title">Justificativa</string>
+    <string name="journal_settings_medication_register_button_label">Cadastrar justificativa</string>
 
     <!-- Meal -->
     <string name="journal_settings_meal_appbar_title">Refeições</string>
