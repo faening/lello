@@ -101,13 +101,13 @@ private fun TopAppBarSection(
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text= "Mais recursos"),
-        actions = listOf(
-            TopAppBarAction(
-                icon = LelloIcons.Outlined.Search.imageVector,
-                contentDescription = "Fechar configurações",
-                onClick = { onSearchClick }
-            )
-        ),
+//        actions = listOf(
+//            TopAppBarAction(
+//                icon = LelloIcons.Outlined.Search.imageVector,
+//                contentDescription = "Fechar configurações",
+//                onClick = { onSearchClick }
+//            )
+//        ),
         moodColor = moddColor
     )
 }
