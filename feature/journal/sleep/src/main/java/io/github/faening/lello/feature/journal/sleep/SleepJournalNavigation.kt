@@ -6,9 +6,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.navigation.NavigationTransitions
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
 import io.github.faening.lello.feature.journal.sleep.screen.SleepJournalDetailsScreen
@@ -30,7 +31,10 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
         route = SleepJournalDestinations.GRAPH
     ) {
         // Step 1: Home screen to start the sleep journal.
-        composable(SleepJournalDestinations.HOME) { backStackEntry ->
+        customComposable(
+            route = SleepJournalDestinations.HOME,
+            enterTransition = NavigationTransitions.fadeIn()
+        ) { backStackEntry ->
             val viewModel = sharedSleepJournalViewModel(navController, backStackEntry)
             SleepJournalScreen(
                 viewModel = viewModel,
@@ -40,7 +44,9 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
         }
 
         // Step 2: Mood screen to record the mood during sleep.
-        composable(SleepJournalDestinations.MOOD) { backStackEntry ->
+        customComposable(
+            route = SleepJournalDestinations.MOOD
+        ) { backStackEntry ->
             val viewModel = sharedSleepJournalViewModel(navController, backStackEntry)
             SleepJournalMoodScreen(
                 viewModel = viewModel,
@@ -59,7 +65,9 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
         }
 
         // Step 3: Details screen to provide more information about the sleep journal entry.
-        composable(SleepJournalDestinations.DETAILS) { backStackEntry ->
+        customComposable(
+            route = SleepJournalDestinations.DETAILS
+        ) { backStackEntry ->
             val viewModel = sharedSleepJournalViewModel(navController, backStackEntry)
             SleepJournalDetailsScreen(
                 viewModel = viewModel,
@@ -93,7 +101,11 @@ fun NavGraphBuilder.sleepJournalGraph(navController: NavHostController) {
         }
 
         // Step 4: Summary screen to review the sleep journal entry.
-        composable(SleepJournalDestinations.SUMMARY) { backStackEntry ->
+        customComposable(
+            route = SleepJournalDestinations.SUMMARY,
+            exitTransition = NavigationTransitions.fadeOut(),
+            popExitTransition = NavigationTransitions.fadeOut()
+        ) { backStackEntry ->
             val viewModel = sharedSleepJournalViewModel(navController, backStackEntry)
             SleepJournalSummaryScreen(
                 viewModel = viewModel,
