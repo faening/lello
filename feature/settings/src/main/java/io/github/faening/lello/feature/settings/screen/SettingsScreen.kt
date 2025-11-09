@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
-import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.component.card.LelloSettingsCard
 import io.github.faening.lello.core.designsystem.component.card.SettingsItem
@@ -60,7 +59,7 @@ private fun SettingsScreenContent(
     LelloTheme {
         Scaffold(
             topBar = {
-                TopAppBarSection(
+                SettingsScreenTopAppBar(
                     onSearchClick = {} // TODO: Implementar
                 )
             }
@@ -74,19 +73,19 @@ private fun SettingsScreenContent(
                 verticalArrangement = Arrangement.spacedBy(Dimension.spacingExtraLarge),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                UISection(
+                SettingsScreenUISection(
                     onNavigateToNotifications = onNavigateToNotifications
                 )
-                SecuritySection(
+                SettingsScreenSecuritySection(
                     isBiometricEnabled = isBiometricEnabled,
                     isBiometricAvailable = isBiometricAvailable,
                     onBiometricToggle = onBiometricToggle
                 )
-                AccountSection(
+                SettingsScreenAccountSection(
                     onLogout = onLogout,
                     onDeleteAccount = onDeleteAccount
                 )
-                AboutSection(
+                SettingsScreenAboutSection(
                     onNavigateToTerms = onNavigateToTerms
                 )
             }
@@ -95,7 +94,7 @@ private fun SettingsScreenContent(
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun SettingsScreenTopAppBar(
     moddColor: MoodColor = MoodColor.INVERSE,
     onSearchClick: () -> Unit
 ) {
@@ -113,7 +112,7 @@ private fun TopAppBarSection(
 }
 
 @Composable
-private fun UISection(
+private fun SettingsScreenUISection(
     isDarkThemeEnabled: Boolean = false, // isSystemInDarkTheme(),
     onToggleTheme: () -> Unit = {  }, // TODO: Implementar
     onNavigateToNotifications: () -> Unit
@@ -145,7 +144,7 @@ private fun UISection(
 }
 
 @Composable
-private fun SecuritySection(
+private fun SettingsScreenSecuritySection(
     isBiometricEnabled: Boolean = false,
     isBiometricAvailable: Boolean = false,
     onBiometricToggle: (Boolean) -> Unit
@@ -174,7 +173,7 @@ private fun SecuritySection(
 }
 
 @Composable
-private fun AccountSection(
+private fun SettingsScreenAccountSection(
     onLogout: () -> Unit,
     onDeleteAccount: () -> Unit
 ) {
@@ -205,7 +204,7 @@ private fun AccountSection(
 }
 
 @Composable
-private fun AboutSection(
+private fun SettingsScreenAboutSection(
     onNavigateToTerms: () -> Unit,
 ) {
     Column(
