@@ -9,7 +9,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigation
-import io.github.faening.lello.core.navigation.slideComposable
+import io.github.faening.lello.core.navigation.NavigationTransitions
+import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalDetailsScreen
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalEmotionScreen
 import io.github.faening.lello.feature.journal.mood.screen.MoodJournalReflectionScreen
@@ -33,8 +34,9 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         route = MoodJournalDestinations.GRAPH
     ) {
         // Step 1: Home screen to start the mood journal.
-        slideComposable(
-            route = MoodJournalDestinations.HOME
+        customComposable(
+            route = MoodJournalDestinations.HOME,
+            enterTransition = NavigationTransitions.fadeIn()
         ) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
 
@@ -46,7 +48,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         }
 
         // Step 2: Select an emotion to describe the user's mood.
-        slideComposable(
+        customComposable(
             route = MoodJournalDestinations.EMOTION
         ) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
@@ -69,7 +71,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         }
 
         // Step 3: Additional details about the user's mood.
-        slideComposable(
+        customComposable(
             route = MoodJournalDestinations.DETAILS
         ) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
@@ -116,7 +118,7 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         }
 
         // Step 4: Reflection screen for the user to write about their day.
-        slideComposable(
+        customComposable(
             route = MoodJournalDestinations.REFLECTION
         ) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
@@ -128,8 +130,10 @@ fun NavGraphBuilder.moodJournalGraph(navController: NavHostController) {
         }
 
         // Step 5: Summary screen after completing the mood journal.
-        slideComposable(
-            route = MoodJournalDestinations.SUMMARY
+        customComposable(
+            route = MoodJournalDestinations.SUMMARY,
+            exitTransition = NavigationTransitions.fadeOut(),
+            popExitTransition = NavigationTransitions.fadeOut()
         ) { backStackEntry ->
             val viewModel = sharedMoodJournalViewModel(navController, backStackEntry)
             MoodJournalSummaryScreen(
