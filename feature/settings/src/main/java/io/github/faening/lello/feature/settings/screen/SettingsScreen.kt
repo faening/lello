@@ -54,48 +54,47 @@ private fun SettingsScreenContent(
     onDeleteAccount: () -> Unit = {},
     onNavigateToTerms: () -> Unit = {}
 ) {
-    val scrollState = rememberScrollState()
-
-    LelloTheme {
-        Scaffold(
-            topBar = {
-                SettingsScreenTopAppBar(
-                    onSearchClick = {} // TODO: Implementar
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingRegular),
-                verticalArrangement = Arrangement.spacedBy(Dimension.spacingExtraLarge),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                SettingsScreenUISection(
-                    onNavigateToNotifications = onNavigateToNotifications
-                )
-                SettingsScreenSecuritySection(
-                    isBiometricEnabled = isBiometricEnabled,
-                    isBiometricAvailable = isBiometricAvailable,
-                    onBiometricToggle = onBiometricToggle
-                )
-                SettingsScreenAccountSection(
-                    onLogout = onLogout,
-                    onDeleteAccount = onDeleteAccount
-                )
-                SettingsScreenAboutSection(
-                    onNavigateToTerms = onNavigateToTerms
-                )
-            }
+    Scaffold(
+        topBar = {
+            SettingsScreenTopAppBar(
+                onSearchClick = {}
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+                .padding(
+                    top = Dimension.spacingRegular,
+                    start = Dimension.spacingRegular,
+                    end = Dimension.spacingRegular
+                ),
+            verticalArrangement = Arrangement.spacedBy(Dimension.spacingExtraLarge),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SettingsScreenUISection(
+                onNavigateToNotifications = onNavigateToNotifications
+            )
+            SettingsScreenSecuritySection(
+                isBiometricEnabled = isBiometricEnabled,
+                isBiometricAvailable = isBiometricAvailable,
+                onBiometricToggle = onBiometricToggle
+            )
+            SettingsScreenAccountSection(
+                onLogout = onLogout,
+                onDeleteAccount = onDeleteAccount
+            )
+            SettingsScreenAboutSection(
+                onNavigateToTerms = onNavigateToTerms
+            )
         }
     }
 }
 
 @Composable
 private fun SettingsScreenTopAppBar(
-    moddColor: MoodColor = MoodColor.INVERSE,
     onSearchClick: () -> Unit
 ) {
     LelloTopAppBar(
@@ -107,7 +106,6 @@ private fun SettingsScreenTopAppBar(
 //                onClick = { onSearchClick }
 //            )
 //        ),
-        moodColor = moddColor
     )
 }
 

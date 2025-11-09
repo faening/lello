@@ -70,7 +70,7 @@ fun LelloMedicationActiveIngredientOptionList(
                         selectedItem.value = item
                         onSelect(item)
                     }
-                    .padding(horizontal = Dimension.spacingRegular, vertical = Dimension.spacingMedium),
+                    .padding(horizontal = Dimension.spacingRegular, vertical = Dimension.spacingRegular),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {

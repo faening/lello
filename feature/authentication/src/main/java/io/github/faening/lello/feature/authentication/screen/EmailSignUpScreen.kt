@@ -97,8 +97,7 @@ private fun EmailSignUpScreenContent(
                         icon = LelloIcons.Outlined.ArrowLeftLarge.imageVector,
                         contentDescription = "Voltar",
                         onClick = onBackClick
-                    ),
-                    moodColor = moodColor
+                    )
                 )
             },
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },

@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,6 @@ import io.github.faening.lello.core.designsystem.component.button.LelloFilledBut
 import io.github.faening.lello.core.designsystem.component.card.LelloMedicationCard
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.testing.data.MedicationTestData
 import io.github.faening.lello.feature.medication.MedicationViewModel
@@ -84,7 +82,7 @@ private fun MedicationScreenContent(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(paddingValues)
                 .padding(Dimension.spacingRegular)
         ) {
@@ -107,7 +105,6 @@ private fun MedicationScreenContent(
 private fun MedicationTopAppBar() {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Remédios"),
-        moodColor = MoodColor.INVERSE
     )
 }
 
