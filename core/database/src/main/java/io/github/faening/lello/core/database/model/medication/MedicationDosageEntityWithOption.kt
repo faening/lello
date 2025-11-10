@@ -17,6 +17,7 @@ data class MedicationDosageEntityWithOption(
 )
 
 fun MedicationDosageEntityWithOption.toModel() = MedicationDosage(
+    id = dosage.medicationDosageId,
     dosageNumber = dosage.dosageNumber,
     quantity = dosage.quantity,
     unitOption = unitOption?.toModel(),

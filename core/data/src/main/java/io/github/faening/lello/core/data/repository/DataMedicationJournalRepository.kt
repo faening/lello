@@ -1,5 +1,6 @@
 package io.github.faening.lello.core.data.repository
 
+import android.util.Log
 import io.github.faening.lello.core.database.dao.MedicationJournalDao
 import io.github.faening.lello.core.database.model.journal.medication.toEntity
 import io.github.faening.lello.core.database.model.journal.medication.toModel
@@ -35,6 +36,7 @@ class DataMedicationJournalRepository @Inject constructor(
     }
 
     override suspend fun insert(item: MedicationJournal): Long {
+        Log.d("Test", "insert: $item")
         return dao.insert(item.toEntity())
     }
 

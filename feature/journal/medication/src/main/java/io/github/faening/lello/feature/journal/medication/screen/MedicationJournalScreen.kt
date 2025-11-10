@@ -144,7 +144,7 @@ private fun MedicationJournalContentListSection(
                 medication = medication,
                 onDosageClick = { dosageIndex ->
                     val dosage = medication.dosages.getOrNull(dosageIndex)
-                    if (!registeredDosageIds.contains(dosage?.dosageNumber?.toLong())) {
+                    if (!registeredDosageIds.contains(dosage?.id)) {
                         onNext(medication, dosageIndex)
                     }
                 },

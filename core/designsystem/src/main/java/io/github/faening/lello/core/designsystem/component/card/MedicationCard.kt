@@ -130,7 +130,7 @@ fun LelloMedicationCard(
                 )
 
                 medication.dosages.forEachIndexed { index, dosage ->
-                    val isTaken = dosage.dosageNumber.let { registeredDosageIds.contains(it.toLong()) }
+                    val isTaken = dosage.id.let { registeredDosageIds.contains(it) }
                     DosageItem(
                         dosageNumber = index + 1,
                         dosage = dosage,

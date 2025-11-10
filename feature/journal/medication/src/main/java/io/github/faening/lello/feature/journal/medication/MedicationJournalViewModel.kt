@@ -1,6 +1,7 @@
 package io.github.faening.lello.feature.journal.medication
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
@@ -94,7 +95,16 @@ class MedicationJournalViewModel @Inject constructor(
         viewModelScope.launch {
             val medication = _selectedMedication.value ?: return@launch
             val dosageIndex = _selectedDosageIndex.value ?: return@launch
-            val dosage = medication.dosages.getOrNull(dosageIndex) ?: return@launch
+
+            // Recarregar o medicamento do banco de dados para obter os IDs corretos
+            val updatedMedication = _medications.value.find { it.id == medication.id } ?: return@launch
+            val dosage = updatedMedication.dosages.getOrNull(dosageIndex) ?: return@launch
+
+            // Verificar se a dosagem tem um ID válido
+            if (dosage.id == null || dosage.id == 0L) {
+                Log.d("Test", "Dosage ID is invalid: ${dosage.id}")
+                return@launch
+            }
 
             val currentTime = System.currentTimeMillis()
             val schedulingTime = dosage.time.toEpochMillisOnDate(
@@ -104,7 +114,7 @@ class MedicationJournalViewModel @Inject constructor(
 
             val medicationJournal = MedicationJournal(
                 id = null,
-                medication = medication,
+                medication = updatedMedication,
                 medicationDosage = dosage,
                 scheduledTime = schedulingTime,
                 taken = taken,
