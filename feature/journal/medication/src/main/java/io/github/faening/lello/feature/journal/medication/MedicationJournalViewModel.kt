@@ -48,6 +48,9 @@ class MedicationJournalViewModel @Inject constructor(
     private val _selectedDosageIndex = MutableStateFlow<Int?>(null)
     val selectedDosageIndex: StateFlow<Int?> = _selectedDosageIndex.asStateFlow()
 
+    private val _coinsAcquired = MutableStateFlow(50)
+    val coinsAcquired: StateFlow<Int> = _coinsAcquired
+
     private var _exoPlayer: ExoPlayer? = null
     val exoPlayer: ExoPlayer? get() = _exoPlayer
 

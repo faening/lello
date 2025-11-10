@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
+import io.github.faening.lello.core.domain.service.RewardCalculatorService
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetAllMedicationJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByDayUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicationJournalsByMedicationUseCase
@@ -12,6 +13,9 @@ import io.github.faening.lello.core.domain.usecase.journal.medication.GetMedicat
 import io.github.faening.lello.core.domain.usecase.journal.medication.GetRegisteredDosagesForTodayUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.SaveMedicationJournalUseCase
 import io.github.faening.lello.core.domain.usecase.journal.medication.SaveMedicationJournalsUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
+import io.github.faening.lello.core.domain.usecase.reward.history.SaveRewardHistoryUseCase
 import io.github.faening.lello.core.model.journal.MedicationJournal
 
 @Module
@@ -40,8 +44,18 @@ object JournalMedicationUseCaseModule {
 
     @Provides
     fun provideSaveMedicationJournalUseCase(
-        repository: MedicationJournalRepository<MedicationJournal>
-    ) = SaveMedicationJournalUseCase(repository)
+        repository: MedicationJournalRepository<MedicationJournal>,
+        rewardCalculatorService: RewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase: GetRewardBalanceUseCase,
+        saveRewardHistoryUseCase: SaveRewardHistoryUseCase
+    ) = SaveMedicationJournalUseCase(
+        repository,
+        rewardCalculatorService,
+        saveOrUpdateRewardBalanceUseCase,
+        getRewardBalanceUseCase,
+        saveRewardHistoryUseCase
+    )
 
     @Provides
     fun provideSaveMedicationJournalsUseCase(
