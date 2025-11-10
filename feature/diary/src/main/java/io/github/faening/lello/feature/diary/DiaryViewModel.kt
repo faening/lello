@@ -7,14 +7,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.ValidatePasswordUseCase
 import io.github.faening.lello.core.domain.usecase.journal.meal.GetAllMealJournalsUseCase
+import io.github.faening.lello.core.domain.usecase.journal.medication.GetAllMedicationJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.mood.GetAllMoodJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.journal.sleep.GetAllSleepJournalsUseCase
 import io.github.faening.lello.core.domain.usecase.reward.history.GetRewardAmountByOriginUseCase
 import io.github.faening.lello.core.model.authentication.AuthResult
 import io.github.faening.lello.core.model.authentication.AuthenticationState
 import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MedicationJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.model.medication.Medication
 import io.github.faening.lello.core.model.reward.RewardOrigin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +30,7 @@ import javax.inject.Inject
 class DiaryViewModel @Inject constructor(
     private val biometricAuthUseCase: BiometricAuthenticationUseCase,
     private val getAllMealJournalsUseCase: GetAllMealJournalsUseCase,
+    private val getAllMedicationJournalsUseCase: GetAllMedicationJournalsUseCase,
     private val getAllMoodJournalsUseCase: GetAllMoodJournalsUseCase,
     private val getAllSleepJournalsUseCase: GetAllSleepJournalsUseCase,
     private val getRewardAmountByOriginUseCase: GetRewardAmountByOriginUseCase,
@@ -42,6 +46,9 @@ class DiaryViewModel @Inject constructor(
     private val _mealJournals = MutableStateFlow<List<MealJournal>>(emptyList())
     val mealJournals: StateFlow<List<MealJournal>> = _mealJournals
 
+    private val _medicationJournals = MutableStateFlow<List<MedicationJournal>>(emptyList())
+    val medicationJournals: StateFlow<List<MedicationJournal>> = _medicationJournals
+
     private val _moodJournals = MutableStateFlow<List<MoodJournal>>(emptyList())
     val moodJournals: StateFlow<List<MoodJournal>> = _moodJournals
 
@@ -51,31 +58,41 @@ class DiaryViewModel @Inject constructor(
     private val _selectedDate = MutableStateFlow(LocalDate.now())
     val selectedDate: StateFlow<LocalDate> = _selectedDate.asStateFlow()
 
-    private val _selectedMoodJournal = MutableStateFlow<MoodJournal?>(null)
-    val selectedMoodJournal: StateFlow<MoodJournal?> = _selectedMoodJournal.asStateFlow()
-
     private val _selectedMealJournal = MutableStateFlow<MealJournal?>(null)
     val selectedMealJournal: StateFlow<MealJournal?> = _selectedMealJournal.asStateFlow()
+
+    private val _selectedMedicationJournal = MutableStateFlow<MedicationJournal?>(null)
+    val selectedMedicationJournal: StateFlow<MedicationJournal?> = _selectedMedicationJournal.asStateFlow()
+
+    private val _selectedMoodJournal = MutableStateFlow<MoodJournal?>(null)
+    val selectedMoodJournal: StateFlow<MoodJournal?> = _selectedMoodJournal.asStateFlow()
 
     private val _selectedSleepJournal = MutableStateFlow<SleepJournal?>(null)
     val selectedSleepJournal: StateFlow<SleepJournal?> = _selectedSleepJournal.asStateFlow()
 
     init {
         loadMoodJournals()
+        loadMedicationJournals()
         loadMealJournal()
         loadSleepJournal()
         checkBiometricAvailability()
     }
 
-    private fun loadMoodJournals() {
-        viewModelScope.launch {
-            getAllMoodJournalsUseCase.invoke().collect { _moodJournals.value = it }
-        }
-    }
-
     private fun loadMealJournal() {
         viewModelScope.launch {
             getAllMealJournalsUseCase.invoke().collect { _mealJournals.value = it }
+        }
+    }
+
+    private fun loadMedicationJournals() {
+        viewModelScope.launch {
+            getAllMedicationJournalsUseCase.invoke().collect { _medicationJournals.value = it }
+        }
+    }
+
+    private fun loadMoodJournals() {
+        viewModelScope.launch {
+            getAllMoodJournalsUseCase.invoke().collect { _moodJournals.value = it }
         }
     }
 
@@ -99,15 +116,21 @@ class DiaryViewModel @Inject constructor(
         _selectedDate.value = date
     }
 
-    fun setSelectedMoodJournal(journalId: Long) {
-        viewModelScope.launch {
-            _selectedMoodJournal.value = _moodJournals.value.find { it.id == journalId }
-        }
-    }
-
     fun setSelectedMealJournal(journalId: Long) {
         viewModelScope.launch {
             _selectedMealJournal.value = _mealJournals.value.find { it.id == journalId }
+        }
+    }
+
+    fun setSelectedMedicationJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedMedicationJournal.value = _medicationJournals.value.find { it.id == journalId }
+        }
+    }
+
+    fun setSelectedMoodJournal(journalId: Long) {
+        viewModelScope.launch {
+            _selectedMoodJournal.value = _moodJournals.value.find { it.id == journalId }
         }
     }
 

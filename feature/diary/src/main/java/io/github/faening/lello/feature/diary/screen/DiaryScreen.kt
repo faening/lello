@@ -40,6 +40,7 @@ import io.github.faening.lello.core.domain.util.isSameDay
 import io.github.faening.lello.core.model.authentication.AuthenticationState
 import io.github.faening.lello.core.model.journal.JournalType
 import io.github.faening.lello.core.model.journal.MealJournal
+import io.github.faening.lello.core.model.journal.MedicationJournal
 import io.github.faening.lello.core.model.journal.MoodJournal
 import io.github.faening.lello.core.model.journal.SleepJournal
 import io.github.faening.lello.core.model.reward.RewardOrigin
@@ -51,14 +52,13 @@ import java.util.Date
 @Composable
 fun DiaryScreen(
     viewModel: DiaryViewModel,
-    onMoodJournalClick: (Long) -> Unit = {},
     onMealJournalClick: (Long) -> Unit = {},
+    onMedicationJournalClick: (Long) -> Unit = {},
+    onMoodJournalClick: (Long) -> Unit = {},
     onSleepJournalClick: (Long) -> Unit = {}
 ) {
-    val selectedDate by viewModel.selectedDate.collectAsState()
-    val moodJournals by viewModel.moodJournals.collectAsState()
-    val mealJournals by viewModel.mealJournals.collectAsState()
-    val sleepJournals by viewModel.sleepJournals.collectAsState()
+    val activity = LocalContext.current as? FragmentActivity
+
     val authState by viewModel.authenticationState.collectAsState()
     val canUseBiometric by viewModel.canUseBiometricAuth.collectAsState()
 
@@ -66,13 +66,21 @@ fun DiaryScreen(
     var pendingJournalType by remember { mutableStateOf<JournalType?>(null) }
     var pendingJournalId by remember { mutableStateOf<Long?>(null) }
 
-    val activity = LocalContext.current as? FragmentActivity
+    val selectedDate by viewModel.selectedDate.collectAsState()
+    val mealJournals by viewModel.mealJournals.collectAsState()
+    val medicationJournal by viewModel.medicationJournals.collectAsState()
+    val moodJournals by viewModel.moodJournals.collectAsState()
+    val sleepJournals by viewModel.sleepJournals.collectAsState()
 
-    val dayMoodJournals = moodJournals
+    val dayMealJournals = mealJournals
         .filter { it.createdAt.isSameDay(selectedDate) }
         .sortedByDescending { it.createdAt }
 
-    val dayMealJournals = mealJournals
+    val dayMedicationJournals = medicationJournal
+        .filter { it.createdAt.isSameDay(selectedDate) }
+        .sortedByDescending { it.createdAt }
+
+    val dayMoodJournals = moodJournals
         .filter { it.createdAt.isSameDay(selectedDate) }
         .sortedByDescending { it.createdAt }
 
@@ -89,10 +97,10 @@ fun DiaryScreen(
             is AuthenticationState.Success -> {
                 pendingJournalId.let { id ->
                     when (pendingJournalType) {
-                        JournalType.MOOD -> onMoodJournalClick(id ?: 0L)
                         JournalType.MEAL -> onMealJournalClick(id ?: 0L)
+                        JournalType.MEDICATION -> onMedicationJournalClick(id ?: 0L)
+                        JournalType.MOOD -> onMoodJournalClick(id ?: 0L)
                         JournalType.SLEEP -> onSleepJournalClick(id ?: 0L)
-                        JournalType.MEDICATION -> {}
                         else -> {}
                     }
                     pendingJournalId = null
@@ -130,10 +138,11 @@ fun DiaryScreen(
 
     DiaryScreenContent(
         selectedDate = selectedDate,
-        moodJournals = dayMoodJournals,
-        onMoodJournalClick = { journalId ->
+        onSelectDate = viewModel::setSelectedDate,
+        mealJournals = dayMealJournals,
+        onMealJournalClick = { journalId ->
             pendingJournalId = journalId
-            pendingJournalType = JournalType.MOOD
+            pendingJournalType = JournalType.MEAL
 
             if (canUseBiometric) {
                 activity?.let {
@@ -147,10 +156,27 @@ fun DiaryScreen(
                 showAuthDialog = true
             }
         },
-        mealJournals = dayMealJournals,
-        onMealJournalClick = { journalId ->
+        medicationJournals = dayMedicationJournals,
+        onMedicationJournalClick = { journalId ->
             pendingJournalId = journalId
-            pendingJournalType = JournalType.MEAL
+            pendingJournalType = JournalType.MEDICATION
+
+            if (canUseBiometric) {
+                activity?.let {
+                    viewModel.viewModelScope.launch {
+                        viewModel.authenticateWithBiometric(it)
+                    }
+                } ?: run {
+                    showAuthDialog = true
+                }
+            } else {
+                showAuthDialog = true
+            }
+        },
+        moodJournals = dayMoodJournals,
+        onMoodJournalClick = { journalId ->
+            pendingJournalId = journalId
+            pendingJournalType = JournalType.MOOD
 
             if (canUseBiometric) {
                 activity?.let {
@@ -181,7 +207,6 @@ fun DiaryScreen(
                 showAuthDialog = true
             }
         },
-        onSelectDate = viewModel::setSelectedDate,
         getRewardAmount = viewModel::getRewardAmount
     )
 }
@@ -189,13 +214,15 @@ fun DiaryScreen(
 @Composable
 private fun DiaryScreenContent(
     selectedDate: LocalDate,
+    onSelectDate: (LocalDate) -> Unit = {},
+    mealJournals: List<MealJournal>,
+    medicationJournals: List<MedicationJournal>,
+    onMedicationJournalClick: (Long) -> Unit = {},
+    onMealJournalClick: (Long) -> Unit = {},
     moodJournals: List<MoodJournal>,
     onMoodJournalClick: (Long) -> Unit = {},
-    mealJournals: List<MealJournal>,
-    onMealJournalClick: (Long) -> Unit = {},
     sleepJournals: List<SleepJournal>,
     onSleepJournalClick: (Long) -> Unit = {},
-    onSelectDate: (LocalDate) -> Unit = {},
     getRewardAmount: suspend (RewardOrigin, Long) -> Int = { _, _ -> 0 }
 ) {
     Scaffold(
@@ -219,21 +246,27 @@ private fun DiaryScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                SleepJournalsSection(
-                    daySleepJournals = sleepJournals,
-                    onSleepJournalClick = onSleepJournalClick,
-                    getRewardAmount = getRewardAmount
-                )
-
                 MealJournalsSection(
                     dayMealJournals = mealJournals,
                     onMealJournalClick = onMealJournalClick,
                     getRewardAmount = getRewardAmount
                 )
 
+                MedicationJournalsSection(
+                    dayMedicationJournals = medicationJournals,
+                    onMedicationJournalClick = onMedicationJournalClick,
+                    getRewardAmount = getRewardAmount
+                )
+
                 MoodJournalsSection(
                     dayMoodJournals = moodJournals,
                     onMoodJournalClick = onMoodJournalClick,
+                    getRewardAmount = getRewardAmount
+                )
+
+                SleepJournalsSection(
+                    daySleepJournals = sleepJournals,
+                    onSleepJournalClick = onSleepJournalClick,
                     getRewardAmount = getRewardAmount
                 )
             }
@@ -272,29 +305,6 @@ private fun EmptyContentSection(
 }
 
 @Composable
-private fun SleepJournalsSection(
-    daySleepJournals: List<SleepJournal>,
-    onSleepJournalClick: (Long) -> Unit = {},
-    getRewardAmount: suspend (RewardOrigin, Long) -> Int
-) {
-    if (daySleepJournals.isNotEmpty()) {
-        daySleepJournals.forEach { journal ->
-            val journalId = journal.id ?: 0L
-            val reward by produceState(initialValue = 0, key1 = journalId) {
-                value = getRewardAmount(RewardOrigin.SLEEP_JOURNAL, journalId)
-            }
-            LelloDiaryCard(
-                properties = DiaryCardOptions.SleepJournal,
-                dateTime = Date(journal.createdAt),
-                reward = reward,
-                onClick = { onSleepJournalClick(journalId) },
-                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
-            )
-        }
-    }
-}
-
-@Composable
 private fun MealJournalsSection(
     dayMealJournals: List<MealJournal>,
     onMealJournalClick: (Long) -> Unit = {},
@@ -311,6 +321,29 @@ private fun MealJournalsSection(
                 dateTime = Date(journal.createdAt),
                 reward = reward,
                 onClick = { onMealJournalClick(journalId) },
+                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            )
+        }
+    }
+}
+
+@Composable
+private fun MedicationJournalsSection(
+    dayMedicationJournals: List<MedicationJournal>,
+    onMedicationJournalClick: (Long) -> Unit = {},
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int
+) {
+    if (dayMedicationJournals.isNotEmpty()) {
+        dayMedicationJournals.forEach { journal ->
+            val journalId = journal.id ?: 0L
+            val reward by produceState(initialValue = 0, key1 = journalId) {
+                value = getRewardAmount(RewardOrigin.MEDICATION_JOURNAL, journalId)
+            }
+            LelloDiaryCard(
+                properties = DiaryCardOptions.MedicationJournal,
+                dateTime = Date(journal.createdAt),
+                reward = reward,
+                onClick = { onMedicationJournalClick(journalId) },
                 modifier = Modifier.padding(bottom = Dimension.spacingMedium)
             )
         }
@@ -347,6 +380,29 @@ private fun MoodJournalsSection(
     }
 }
 
+@Composable
+private fun SleepJournalsSection(
+    daySleepJournals: List<SleepJournal>,
+    onSleepJournalClick: (Long) -> Unit = {},
+    getRewardAmount: suspend (RewardOrigin, Long) -> Int
+) {
+    if (daySleepJournals.isNotEmpty()) {
+        daySleepJournals.forEach { journal ->
+            val journalId = journal.id ?: 0L
+            val reward by produceState(initialValue = 0, key1 = journalId) {
+                value = getRewardAmount(RewardOrigin.SLEEP_JOURNAL, journalId)
+            }
+            LelloDiaryCard(
+                properties = DiaryCardOptions.SleepJournal,
+                dateTime = Date(journal.createdAt),
+                reward = reward,
+                onClick = { onSleepJournalClick(journalId) },
+                modifier = Modifier.padding(bottom = Dimension.spacingMedium)
+            )
+        }
+    }
+}
+
 // region Previews
 
 @Preview(
@@ -360,8 +416,9 @@ private fun DiaryScreenPreview_LightMode_Default() {
     LelloTheme {
         DiaryScreenContent(
             selectedDate = LocalDate.now(),
-            moodJournals = MoodJournalMock.list.take(2),
             mealJournals = MealJournalMock.list.take(2),
+            medicationJournals = emptyList(),
+            moodJournals = MoodJournalMock.list.take(2),
             sleepJournals = SleepJournalMock.list.take(2)
         )
     }
@@ -378,8 +435,9 @@ private fun DiaryScreenPreview_LightMode_Empty() {
     LelloTheme {
         DiaryScreenContent(
             selectedDate = LocalDate.now(),
-            moodJournals = emptyList(),
             mealJournals = emptyList(),
+            medicationJournals = emptyList(),
+            moodJournals = emptyList(),
             sleepJournals = emptyList()
         )
     }
@@ -396,8 +454,9 @@ private fun DiaryScreenPreview_DarkMode_Default() {
     LelloTheme {
         DiaryScreenContent(
             selectedDate = LocalDate.now(),
-            moodJournals = MoodJournalMock.list.take(2),
             mealJournals = MealJournalMock.list.take(2),
+            medicationJournals = emptyList(),
+            moodJournals = MoodJournalMock.list.take(2),
             sleepJournals = SleepJournalMock.list.take(2)
         )
     }
@@ -414,8 +473,9 @@ private fun DiaryScreenPreview_DarkMode_Empty() {
     LelloTheme {
         DiaryScreenContent(
             selectedDate = LocalDate.now(),
-            moodJournals = emptyList(),
             mealJournals = emptyList(),
+            medicationJournals = emptyList(),
+            moodJournals = emptyList(),
             sleepJournals = emptyList()
         )
     }
