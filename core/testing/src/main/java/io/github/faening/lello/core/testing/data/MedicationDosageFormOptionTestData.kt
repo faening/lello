@@ -1,9 +1,10 @@
 package io.github.faening.lello.core.testing.data
 
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
+import io.github.faening.lello.core.testing.repository.TestDataResources
 
-object MedicationDosageFormOptionTestData {
-    val list = listOf(
+object MedicationDosageFormOptionTestData : TestDataResources<MedicationDosageFormOption> {
+    override val list = listOf(
         MedicationDosageFormOption(
             id = 1L,
             description = "AMPOLA",
