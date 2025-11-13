@@ -23,10 +23,10 @@ object LelloIcons {
         val Coin = LelloIcon(designsystemR.drawable.ic_coin_custom)
 
         // Diaries
-        val DiaryMeal = LelloIcon(designsystemR.drawable.img_diary_meal_cover)
-        val DiaryMedication = LelloIcon(designsystemR.drawable.img_diary_medication_cover)
-        val DiaryMood = LelloIcon(designsystemR.drawable.img_diary_mood_cover)
-        val DiarySleep = LelloIcon(designsystemR.drawable.img_diary_sleep_cover)
+        val DiaryMeal = LelloIcon(designsystemR.drawable.img_diary_meal_screen)
+        val DiaryMedication = LelloIcon(designsystemR.drawable.img_diary_medication_screen)
+        val DiaryMood = LelloIcon(designsystemR.drawable.img_diary_mood_screen)
+        val DiarySleep = LelloIcon(designsystemR.drawable.img_diary_sleep_screen)
 
         // Journals
         val JournalMeal = LelloIcon(designsystemR.drawable.ic_journal_meal_custom)
