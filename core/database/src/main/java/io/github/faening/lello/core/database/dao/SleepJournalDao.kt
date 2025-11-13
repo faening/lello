@@ -1,7 +1,6 @@
 package io.github.faening.lello.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -12,19 +11,15 @@ import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEnt
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepQualityOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntitySleepSensationOptionEntityCrossRef
 import io.github.faening.lello.core.database.model.journal.sleep.SleepJournalEntityWithOptions
-import io.github.faening.lello.core.domain.repository.JournalRepository
+import io.github.faening.lello.core.domain.repository.SleepJournalDaoContract
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface SleepJournalDao : JournalRepository<SleepJournalEntity> {
+interface SleepJournalDao : SleepJournalDaoContract<SleepJournalEntityWithOptions, SleepJournalEntity> {
 
     @Transaction
     @Query("SELECT * FROM sleep_journals ORDER BY created_at DESC")
-    fun getAllWithOptions(): Flow<List<SleepJournalEntityWithOptions>>
-
-    @Transaction
-    @Query("SELECT * FROM sleep_journals ORDER BY created_at DESC")
-    override fun getAll(): Flow<List<SleepJournalEntity>>
+    override fun getAllJournals(): Flow<List<SleepJournalEntityWithOptions>>
 
     @Transaction
     @Query(
@@ -34,20 +29,10 @@ interface SleepJournalDao : JournalRepository<SleepJournalEntity> {
             LIMIT 1
         """
     )
-    override fun getById(id: Long): Flow<SleepJournalEntity>?
-
-    @Transaction
-    @Query(
-        value = """
-            SELECT * FROM sleep_journals
-            WHERE sleepJournalId = :id
-            LIMIT 1
-        """
-    )
-    fun getByIdWithOptions(id: Long): Flow<SleepJournalEntityWithOptions>?
+    override fun getJournalById(id: Long): Flow<SleepJournalEntityWithOptions>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insert(entry: SleepJournalEntity): Long
+    override suspend fun insert(item: SleepJournalEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSleepSensationRefs(refs: List<SleepJournalEntitySleepSensationOptionEntityCrossRef>)
@@ -61,6 +46,6 @@ interface SleepJournalDao : JournalRepository<SleepJournalEntity> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocationRefs(refs: List<SleepJournalEntityLocationOptionEntityCrossRef>)
 
-    @Delete
-    override suspend fun delete(id: SleepJournalEntity)
+    @Insert
+    override suspend fun insert(items: List<SleepJournalEntity>): List<Long>
 }

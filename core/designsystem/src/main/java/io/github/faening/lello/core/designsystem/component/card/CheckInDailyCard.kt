@@ -66,7 +66,7 @@ fun LelloCheckInDailyCard(
         )
 
         Card(
-            modifier = Modifier.fillMaxWidth().height(116.dp),
+            modifier = Modifier.fillMaxWidth(),
             shape = LelloShape.cardShape,
             colors = CheckInDailyCardDefaults.containerColor(),
             elevation = CheckInDailyCardDefaults.elevation(),
@@ -99,7 +99,7 @@ fun LelloCheckInDailyCard(
                         } else {
                             "Preencha todos os diários uma vez ao dia para ganhar 10 moedas extra."
                         },
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = CheckInDailyCardDefaults.secondaryTextColor(),
                         modifier = Modifier.padding(bottom = Dimension.spacingRegular)
                     )

@@ -13,6 +13,7 @@ import io.github.faening.lello.core.database.seed.MealOptionSeed
 import io.github.faening.lello.core.database.seed.MedicationActiveIngredientSeed
 import io.github.faening.lello.core.database.seed.MedicationDosageFormOptionSeed
 import io.github.faening.lello.core.database.seed.MedicationDosageUnitOptionSeed
+import io.github.faening.lello.core.database.seed.MedicationSkipReasonOptionSeed
 import io.github.faening.lello.core.database.seed.PortionOptionSeed
 import io.github.faening.lello.core.database.seed.SleepActivityOptionSeed
 import io.github.faening.lello.core.database.seed.SleepQualityOptionSeed
@@ -46,6 +47,7 @@ internal object DatabaseSeeder {
         seedMedicationActiveIngredientOption(db)
         seedMedicationDosageFormOptions(db)
         seedMedicationDosageUnitOptions(db)
+        seedMedicationSkipReasonOption(db)
         seedPortionOptions(db)
         seedRewardBalance(db)
         seedSleepActivityOptions(db)
@@ -241,6 +243,22 @@ internal object DatabaseSeeder {
             db.execSQL(
                 sql = """
                         INSERT INTO medication_dosage_unit_options (description, blocked, active)
+                        VALUES (?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.description,
+                    if (item.blocked) 1 else 0,
+                    if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    private fun seedMedicationSkipReasonOption(db: SupportSQLiteDatabase) {
+        for (item in MedicationSkipReasonOptionSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT INTO medication_skip_reason_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

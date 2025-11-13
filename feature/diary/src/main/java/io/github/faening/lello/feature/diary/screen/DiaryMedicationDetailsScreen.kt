@@ -1,0 +1,266 @@
+package io.github.faening.lello.feature.diary.screen
+
+import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
+import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.designsystem.theme.Yellow700
+import io.github.faening.lello.core.domain.util.formatTimestamp
+import io.github.faening.lello.core.model.journal.MedicationJournal
+import io.github.faening.lello.core.testing.data.MedicationJournalTestData
+import io.github.faening.lello.feature.diary.DiaryViewModel
+
+@Composable
+fun DiaryMedicationDetailsScreen(
+    viewModel: DiaryViewModel = hiltViewModel(),
+    onBackClick: () -> Unit
+) {
+    val selectedMedicationJournal by viewModel.selectedMedicationJournal.collectAsState()
+
+    DiaryMedicationDetailsScreenContent(
+        medicationJournal = selectedMedicationJournal ?: return,
+        onBackClick = onBackClick
+    )
+}
+
+@Composable
+private fun DiaryMedicationDetailsScreenContent(
+    medicationJournal: MedicationJournal,
+    onBackClick: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            DiaryMedicationDetailsTopAppBar(onBackClick)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingRegular)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(320.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(LelloIcons.Graphic.DiaryMedication.resId),
+                    contentDescription = "Diary Medication Cover Image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                )
+            }
+
+            DiaryMedicationDetailsCard(medicationJournal = medicationJournal)
+        }
+    }
+}
+
+@Composable
+private fun DiaryMedicationDetailsTopAppBar(
+    onBackClick: () -> Unit
+) {
+    LelloTopAppBar(
+        title = TopAppBarTitle(text = "Diário de Remédio"),
+        navigateUp = TopAppBarAction(onClick = onBackClick)
+    )
+}
+
+@Composable
+private fun DiaryMedicationDetailsCard(
+    medicationJournal: MedicationJournal
+) {
+    val shape = RoundedCornerShape(
+        topStart = Dimension.borderRadiusLarge,
+        topEnd = Dimension.borderRadiusLarge,
+        bottomStart = Dimension.borderRadiusLarge,
+        bottomEnd = Dimension.borderRadiusLarge
+    )
+    val containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    val shadowOffset = Dimension.spacingSmall
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = shadowOffset, bottom = shadowOffset)
+    ) {
+        // Fake Shadow
+        Box(
+            Modifier
+                .matchParentSize()
+                .offset(shadowOffset, shadowOffset)
+                .background(
+                    color = MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal),
+                    shape = shape
+                )
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = shape,
+            border = BorderStroke(
+                width = Dimension.borderWidthThick,
+                color = MaterialTheme.colorScheme.outline
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            colors = CardDefaults.cardColors(containerColor = containerColor)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Dimension.spacingRegular),
+                verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
+            ) {
+                DetailSection(
+                    title = "Medicamento (Princípio Ativo)",
+                    content = {
+                        Text(
+                            text = medicationJournal.medication?.activeIngredientOption?.description ?: "_",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Dosagem",
+                    content = {
+                        Text(
+                            text = "${medicationJournal.medicationDosage?.dosageNumber}ª DOSE".ifEmpty { "-" },
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
+                ) {
+                    DetailSection(
+                        title = "Hora agendamento",
+                        modifier = Modifier.weight(1f),
+                        content = {
+                            Text(
+                                text = medicationJournal.medicationDosage?.time.toString().ifEmpty { "-" },
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                            )
+                        }
+                    )
+
+                    DetailSection(
+                        title = "Hora ingestão",
+                        modifier = Modifier.weight(1f),
+                        content = {
+                            Text(
+                                text = medicationJournal.registeredAt.formatTimestamp().ifEmpty { "-" },
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                            )
+                        }
+                    )
+                }
+
+                DetailSection(
+                    title = "Tomou o medicamento?",
+                    content = {
+                        Text(
+                            text = if (medicationJournal.taken) "SIM" else "NÃO",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Justificativa",
+                    content = {
+                        Text(
+                            text = medicationJournal.skipReasonOption?.description ?: "-",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailSection(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                color = Yellow700
+            )
+        )
+        content()
+    }
+}
+
+// region: Previews
+
+@Preview(
+    name = "Default",
+    group = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Composable
+private fun DiaryMedicationDetailsScreenPreview_LightMode() {
+    val journal = MedicationJournalTestData.list[0]
+    LelloTheme {
+        DiaryMedicationDetailsScreenContent(
+            medicationJournal = journal,
+            onBackClick = {},
+        )
+    }
+}
+
+// endregion: Previews

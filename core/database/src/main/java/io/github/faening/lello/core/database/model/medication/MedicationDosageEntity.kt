@@ -31,6 +31,7 @@ data class MedicationDosageEntity(
 )
 
 fun MedicationDosageEntity.toModel() = MedicationDosage(
+    id = medicationDosageId,
     dosageNumber = dosageNumber,
     quantity = quantity,
     unitOption = null,
@@ -39,6 +40,7 @@ fun MedicationDosageEntity.toModel() = MedicationDosage(
 )
 
 fun MedicationDosage.toEntity(medicationId: Long) = MedicationDosageEntity(
+    medicationDosageId = id ?: 0L,
     medicationId = medicationId,
     dosageNumber = dosageNumber,
     quantity = quantity,

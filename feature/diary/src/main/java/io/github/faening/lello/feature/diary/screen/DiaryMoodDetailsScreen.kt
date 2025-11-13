@@ -1,30 +1,45 @@
 package io.github.faening.lello.feature.diary.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
-import io.github.faening.lello.core.designsystem.component.pill.LelloFilledPill
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.designsystem.theme.Yellow700
 import io.github.faening.lello.core.domain.mock.MoodJournalMock
 import io.github.faening.lello.core.domain.util.toLocalDateTime
 import io.github.faening.lello.core.model.journal.MoodJournal
@@ -49,219 +64,226 @@ private fun DiaryMoodDetailsScreenContent(
     moodJournal: MoodJournal,
     onBackClick: () -> Unit,
 ) {
-    LelloTheme {
-        Scaffold(
-            topBar = { TopAppBarSection(onBackClick) }
-        ) { paddingValues ->
-            Column(
+    Scaffold(
+        topBar = {
+            DiaryMoodDetailsTopAppBar(onBackClick)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingMedium)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingMedium)
-                    .verticalScroll(rememberScrollState())
+                    .height(320.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
             ) {
-                moodJournal.let { mood ->
-                    Column {
-                        MoodTimestampSection(mood)
-                        MoodDetailsSection(mood)
-                        EmotionDetailsSection(mood)
-                        HealthDetailsSection(mood)
-                        ClimateDetailsSection(mood)
-                        LocationDetailsSection(mood)
-                        SocialDetailsSection(mood)
-                        NotesSection(mood)
-                    }
-                }
+                Image(
+                    painter = painterResource(LelloIcons.Graphic.DiaryMood.resId),
+                    contentDescription = "Diary Medication Cover Image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                )
             }
+
+            DiaryMoodDetailsCard(moodJournal = moodJournal)
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun DiaryMoodDetailsTopAppBar(
     onBackClick: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Diário de Humor"),
-        navigateUp = TopAppBarAction(onClick = onBackClick),
-        moodColor = MoodColor.INVERSE
+        navigateUp = TopAppBarAction(onClick = onBackClick)
     )
 }
 
-@Composable
-private fun MoodTimestampSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Data e hora",
-        content = {
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH'h' mm'm'")
-            Text(
-                text = formatter.format(mood.createdAt.toLocalDateTime()),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-    )
-}
 
 @Composable
-private fun MoodDetailsSection(
-    mood: MoodJournal
+private fun DiaryMoodDetailsCard(
+    moodJournal: MoodJournal
 ) {
-    DetailSection(
-        title = "Como você descreveu seu humor?",
-        content = {
-            LelloFilledPill(mood.mood.label)
-        }
+    val shape = RoundedCornerShape(
+        topStart = Dimension.borderRadiusLarge,
+        topEnd = Dimension.borderRadiusLarge,
+        bottomStart = Dimension.borderRadiusLarge,
+        bottomEnd = Dimension.borderRadiusLarge
     )
-}
+    val containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    val shadowOffset = Dimension.spacingSmall
 
-@Composable
-private fun EmotionDetailsSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Quais emoções faziam mais sentido naquele momento?",
-        content = {
-            if (mood.emotionOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    mood.emotionOptions.forEach { it ->
-                        LelloFilledPill(it.description)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = shadowOffset, bottom = shadowOffset)
+    ) {
+        // Fake Shadow
+        Box(
+            Modifier
+                .matchParentSize()
+                .offset(shadowOffset, shadowOffset)
+                .background(
+                    color = MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal),
+                    shape = shape
+                )
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = shape,
+            border = BorderStroke(
+                width = Dimension.borderWidthThick,
+                color = MaterialTheme.colorScheme.outline
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            colors = CardDefaults.cardColors(containerColor = containerColor)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Dimension.spacingRegular),
+                verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
+            ) {
+                DetailSection(
+                    title = "Como você descreveu seu humor?",
+                    content = {
+                        Text(
+                            text = moodJournal.mood.label.uppercase().ifEmpty { "-" },
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                }
-            }
-        }
-    )
-}
+                )
 
-@Composable
-private fun HealthDetailsSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Sentiu alguma mudança física?",
-        content = {
-            if (mood.healthOptions.isEmpty()) {
-                LelloFilledPill("Não")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    mood.healthOptions.forEach { it ->
-                        LelloFilledPill(it.description)
+                DetailSection(
+                    title = "Quais emoções faziam mais sentido naquele momento?",
+                    content = {
+                        val text = moodJournal.emotionOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                }
-            }
-        }
-    )
-}
+                )
 
-@Composable
-private fun ClimateDetailsSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Como estava o clima?",
-        content = {
-            if (mood.climateOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    mood.climateOptions.forEach { it ->
-                        LelloFilledPill(it.description)
+                DetailSection(
+                    title = "Hora registro",
+                    content = {
+                        val formatter = DateTimeFormatter.ofPattern("HH'h' mm'm'")
+                        Text(
+                            text = formatter.format(moodJournal.createdAt.toLocalDateTime()) ?: "_",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                }
-            }
-        }
-    )
-}
+                )
 
-@Composable
-private fun LocationDetailsSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Onde você estava?",
-        content = {
-            if (mood.locationOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    mood.locationOptions.forEach { it ->
-                        LelloFilledPill(it.description)
+                DetailSection(
+                    title = "Sentiu alguma mudança física?",
+                    content = {
+                        val text = moodJournal.healthOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                }
-            }
-        }
-    )
-}
+                )
 
-@Composable
-private fun SocialDetailsSection(
-    mood: MoodJournal
-) {
-    DetailSection(
-        title = "Com quem você estava?",
-        content = {
-            if (mood.socialOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    mood.socialOptions.forEach { it ->
-                        LelloFilledPill(it.description)
+                DetailSection(
+                    title = "Como estava o clima?",
+                    content = {
+                        val text = moodJournal.climateOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                }
-            }
-        }
-    )
-}
+                )
 
-@Composable
-private fun NotesSection(
-    mood: MoodJournal
-) {
-    mood.reflection?.takeIf { it.isNotBlank() }?.let { notes ->
-        DetailSection(
-            title = "Notas",
-            content = {
-                Text(
-                    text = notes,
-                    style = MaterialTheme.typography.bodyLarge
+                DetailSection(
+                    title = "Onde você estava?",
+                    content = {
+                        val text = moodJournal.locationOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Com quem você estava?",
+                    content = {
+                        val text = moodJournal.socialOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Reflexão adicionada",
+                    content = {
+                        Text(
+                            text = moodJournal.reflection?.uppercase() ?: "-",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
                 )
             }
-        )
+        }
     }
 }
 
 @Composable
 private fun DetailSection(
     title: String,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = Dimension.spacingLarge),
-        verticalArrangement = Arrangement.spacedBy(Dimension.spacingMedium)
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                color = Yellow700
+            )
         )
         content()
     }
@@ -277,10 +299,12 @@ private fun DetailSection(
 )
 @Composable
 private fun DiaryMoodDetailsScreenPreview_LightMode() {
-    DiaryMoodDetailsScreenContent(
-        moodJournal = MoodJournalMock.list.first(),
-        onBackClick = {},
-    )
+    LelloTheme {
+        DiaryMoodDetailsScreenContent(
+            moodJournal = MoodJournalMock.list.first(),
+            onBackClick = {},
+        )
+    }
 }
 
 @Preview(
@@ -291,10 +315,12 @@ private fun DiaryMoodDetailsScreenPreview_LightMode() {
 )
 @Composable
 private fun DiaryMoodDetailsScreenPreview_DarkMode() {
-    DiaryMoodDetailsScreenContent(
-        moodJournal = MoodJournalMock.list.first(),
-        onBackClick = {},
-    )
+    LelloTheme {
+        DiaryMoodDetailsScreenContent(
+            moodJournal = MoodJournalMock.list.first(),
+            onBackClick = {},
+        )
+    }
 }
 
 // endregion Previews

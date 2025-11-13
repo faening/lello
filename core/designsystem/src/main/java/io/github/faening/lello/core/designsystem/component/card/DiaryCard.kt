@@ -149,7 +149,7 @@ sealed class DiaryCardOptions(
 
     object MedicationJournal : DiaryCardOptions(
         iconRes = LelloIcons.Graphic.JournalMedication.resId,
-        title = "Diário de Medicamentos"
+        title = "Diário de Remédio"
     )
 
     object MoodJournalSerene : DiaryCardOptions(

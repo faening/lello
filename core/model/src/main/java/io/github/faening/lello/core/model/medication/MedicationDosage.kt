@@ -6,6 +6,7 @@ import java.time.LocalTime
 
 @Serializable
 data class MedicationDosage(
+    val id: Long? = 0L,
     val dosageNumber: Int,
     val quantity: Double,
     val unitOption: MedicationDosageUnitOption?,
@@ -20,7 +21,8 @@ data class MedicationDosage(
         ): MedicationDosage {
             val time = LocalTime.parse(timeString)
             return MedicationDosage(
-                dosageNumber = 0,
+                id = 0L,
+                dosageNumber = 1,
                 quantity = quantity,
                 unitOption = unit,
                 time = time,

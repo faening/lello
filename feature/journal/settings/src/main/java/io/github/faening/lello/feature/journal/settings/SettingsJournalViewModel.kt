@@ -27,6 +27,9 @@ import io.github.faening.lello.core.domain.usecase.options.meal.UpdateMealOption
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.GetAllMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.SaveMedicationDosageFormOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.medication.dosageform.UpdateMedicationDosageFormOptionActiveStatusUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.GetAllMedicationSkipReasonOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.SaveMedicationSkipReasonOptionUseCase
+import io.github.faening.lello.core.domain.usecase.options.medication.skipreason.UpdateMedicationSkipReasonOptionActiveStatusUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.GetAllPortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.SavePortionOptionUseCase
 import io.github.faening.lello.core.domain.usecase.options.portion.UpdatePortionOptionActiveStatusUseCase
@@ -51,6 +54,7 @@ import io.github.faening.lello.core.model.option.JournalOption
 import io.github.faening.lello.core.model.option.LocationOption
 import io.github.faening.lello.core.model.option.MealOption
 import io.github.faening.lello.core.model.option.MedicationDosageFormOption
+import io.github.faening.lello.core.model.option.MedicationSkipReasonOption
 import io.github.faening.lello.core.model.option.PortionOption
 import io.github.faening.lello.core.model.option.SleepActivityOption
 import io.github.faening.lello.core.model.option.SleepQualityOption
@@ -96,6 +100,10 @@ class SettingsJournalViewModel @Inject constructor(
     private val getAllMedicationDosageFormOptionUseCase: GetAllMedicationDosageFormOptionUseCase,
     private val saveMedicationDosageFormOptionUseCase: SaveMedicationDosageFormOptionUseCase,
     private val updateMedicationDosageFormOptionActiveStatusUseCase: UpdateMedicationDosageFormOptionActiveStatusUseCase,
+    // Medication Skip Reason Options
+    private val getAllMedicationSkipReasonOptionUseCase: GetAllMedicationSkipReasonOptionUseCase,
+    private val saveMedicationSkipReasonOptionUseCase: SaveMedicationSkipReasonOptionUseCase,
+    private val updateMedicationSkipReasonOptionActiveStatusUseCase: UpdateMedicationSkipReasonOptionActiveStatusUseCase,
     // Portion Options
     private val getAllPortionOptionUseCase: GetAllPortionOptionUseCase,
     private val savePortionOptionUseCase: SavePortionOptionUseCase,
@@ -139,6 +147,9 @@ class SettingsJournalViewModel @Inject constructor(
     private val _medicationDosageFormOptions = MutableStateFlow<List<MedicationDosageFormOption>>(emptyList())
     val medicationDosageFormOptions: StateFlow<List<MedicationDosageFormOption>> = _medicationDosageFormOptions
 
+    private val _medicationSkipReasonOptions = MutableStateFlow<List<MedicationSkipReasonOption>>(emptyList())
+    val medicationSkipReasonOptions: StateFlow<List<MedicationSkipReasonOption>> = _medicationSkipReasonOptions
+
     private val _foodOptions = MutableStateFlow<List<FoodOption>>(emptyList())
     val foodOptions: StateFlow<List<FoodOption>> = _foodOptions
 
@@ -178,6 +189,9 @@ class SettingsJournalViewModel @Inject constructor(
         }
         viewModelScope.launch {
             getAllMedicationDosageFormOptionUseCase.invoke().collect { _medicationDosageFormOptions.value = it }
+        }
+        viewModelScope.launch {
+            getAllMedicationSkipReasonOptionUseCase.invoke().collect { _medicationSkipReasonOptions.value = it }
         }
         viewModelScope.launch {
             getAllFoodOptionUseCase.invoke().collect { _foodOptions.value = it }
@@ -235,8 +249,14 @@ class SettingsJournalViewModel @Inject constructor(
         }
     }
 
-    fun toggleDosageFormOption(option: MedicationDosageFormOption, active: Boolean) {
+    fun toggleMedicationDosageFormOption(option: MedicationDosageFormOption, active: Boolean) {
         _medicationDosageFormOptions.value = _medicationDosageFormOptions.value.map {
+            if (it.id == option.id) it.copy(active = active) else it
+        }
+    }
+
+    fun toggleMedicationSkipReasonOption(option: MedicationSkipReasonOption, active: Boolean) {
+        _medicationSkipReasonOptions.value = _medicationSkipReasonOptions.value.map {
             if (it.id == option.id) it.copy(active = active) else it
         }
     }
@@ -285,6 +305,7 @@ class SettingsJournalViewModel @Inject constructor(
         JournalOptionType.HEALTH -> healthOptions
         JournalOptionType.APPETITE -> appetiteOptions
         JournalOptionType.MEDICATION_DOSAGE_FORM -> medicationDosageFormOptions
+        JournalOptionType.MEDICATION_SKIP_REASON -> medicationSkipReasonOptions
         JournalOptionType.FOOD -> foodOptions
         JournalOptionType.MEAL -> mealOptions
         JournalOptionType.PORTION -> portionOptions
@@ -312,7 +333,13 @@ class SettingsJournalViewModel @Inject constructor(
                     updateMedicationDosageFormOptionActiveStatusUseCase.invoke(
                         (option as MedicationDosageFormOption).copy(active = active)
                     )
-                    toggleDosageFormOption(option, active)
+                    toggleMedicationDosageFormOption(option, active)
+                }
+                JournalOptionType.MEDICATION_SKIP_REASON -> {
+                    updateMedicationSkipReasonOptionActiveStatusUseCase.invoke(
+                        (option as MedicationSkipReasonOption).copy(active = active)
+                    )
+                    toggleMedicationSkipReasonOption(option, active)
                 }
                 JournalOptionType.EMOTION -> {
                     updateEmotionOptionActiveStatusUseCase.invoke(
@@ -404,6 +431,9 @@ class SettingsJournalViewModel @Inject constructor(
                 )
                 JournalOptionType.MEDICATION_DOSAGE_FORM -> saveMedicationDosageFormOptionUseCase.invoke(
                     MedicationDosageFormOption(description = description)
+                )
+                JournalOptionType.MEDICATION_SKIP_REASON -> saveMedicationSkipReasonOptionUseCase.invoke(
+                    MedicationSkipReasonOption(description = description)
                 )
                 JournalOptionType.PORTION -> savePortionOptionUseCase.invoke(
                     PortionOption(description = description)

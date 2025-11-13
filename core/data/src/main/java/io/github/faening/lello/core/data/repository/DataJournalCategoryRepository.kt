@@ -12,23 +12,21 @@ class DataJournalCategoryRepository @Inject constructor(
     private val dao: JournalCategoryDao
 ) : JournalCategoryRepository<JournalCategory> {
 
-    override fun getAll(
+    override fun getAllJournalCategories(
         useBlockedFilter: Boolean,
         isBlocked: Boolean,
         useActiveFilter: Boolean,
         isActive: Boolean
     ): Flow<List<JournalCategory>> {
-        return dao
-            .getAll(
-                useBlockedFilter = useBlockedFilter,
-                isBlocked = isBlocked,
-                useActiveFilter = useActiveFilter,
-                isActive = isActive
-            )
-            .map { list -> list.map { it.toModel() } }
+        return dao.getAllJournalCategories(
+            useBlockedFilter = useBlockedFilter,
+            isBlocked = isBlocked,
+            useActiveFilter = useActiveFilter,
+            isActive = isActive
+        ).map { list -> list.map { it.toModel() } }
     }
 
-    override fun getById(id: Long): Flow<JournalCategory>? {
-        return dao.getById(id)?.map { it.toModel() }
+    override fun getJournalCategoryById(id: Long): Flow<JournalCategory>? {
+        return dao.getJournalCategoryById(id)?.map { it.toModel() }
     }
 }

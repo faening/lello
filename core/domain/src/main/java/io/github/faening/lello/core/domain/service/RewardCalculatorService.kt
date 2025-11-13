@@ -21,6 +21,11 @@ class RewardCalculatorService @Inject constructor() {
         return reward
     }
 
+    fun calculateForMedicationJournal(): Int {
+        val rewardPoints = RewardPoints.MEDICATION_JOURNAL
+        return rewardPoints.basePoints
+    }
+
     fun calculateForMoodJournal(moodJournal: MoodJournal): Int {
         val rewardPoints = RewardPoints.MOOD_JOURNAL
         var reward = rewardPoints.basePoints

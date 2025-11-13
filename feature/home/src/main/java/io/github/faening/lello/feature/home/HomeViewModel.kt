@@ -3,7 +3,7 @@ package io.github.faening.lello.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.faening.lello.core.domain.usecase.journal.category.GetJournalCategoriesUseCase
+import io.github.faening.lello.core.domain.usecase.journal.category.GetAllJournalCategoriesUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.ObserveRewardBalanceUseCase
 import io.github.faening.lello.core.model.journal.JournalBonusState
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getJournalCategoriesUseCase: GetJournalCategoriesUseCase,
+    private val getAllJournalCategoriesUseCase: GetAllJournalCategoriesUseCase,
     private val observeRewardBalanceUseCase: ObserveRewardBalanceUseCase,
     private val getDailyCheckInUseCase: GetDailyCheckInUseCase
 ) : ViewModel() {
@@ -40,7 +40,7 @@ class HomeViewModel @Inject constructor(
     init {
         // Observa os diários normalmente
         viewModelScope.launch {
-            getJournalCategoriesUseCase.invoke().collect { categories ->
+            getAllJournalCategoriesUseCase.invoke().collect { categories ->
                 _journalCategories.value = categories.sortedBy { it.id }
             }
         }

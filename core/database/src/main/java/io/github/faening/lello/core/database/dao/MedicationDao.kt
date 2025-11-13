@@ -9,12 +9,13 @@ import androidx.room.Update
 import io.github.faening.lello.core.database.model.medication.MedicationDosageEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntity
 import io.github.faening.lello.core.database.model.medication.MedicationEntityWithOptions
-import io.github.faening.lello.core.domain.repository.MedicationRepository
+import io.github.faening.lello.core.domain.repository.MedicationDaoContract
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface MedicationDao : MedicationRepository<MedicationEntity> {
+interface MedicationDao :
+    MedicationDaoContract<MedicationEntityWithOptions, MedicationEntity, MedicationDosageEntity> {
 
     @Transaction
     @Query(
@@ -22,15 +23,7 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
             SELECT * FROM medications
         """,
     )
-    override fun getAll(): Flow<List<MedicationEntity>>
-
-    @Transaction
-    @Query(
-        value = """
-        SELECT * FROM medications
-    """,
-    )
-    fun getAllWithOptions(): Flow<List<MedicationEntityWithOptions>>
+    override fun getAllMedications(): Flow<List<MedicationEntityWithOptions>>
 
     @Transaction
     @Query(
@@ -40,40 +33,21 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
             LIMIT 1
         """,
     )
-    override suspend fun getById(id: Long): MedicationEntity?
-
-    @Transaction
-    @Query(
-        value = """
-        SELECT * FROM medications
-        WHERE medicationId = :id
-        LIMIT 1
-    """,
-    )
-    suspend fun getByIdWithOptions(id: Long): MedicationEntityWithOptions?
+    override fun getMedicationById(id: Long): MedicationEntityWithOptions?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insert(entry: MedicationEntity): Long
+    override suspend fun insert(item: MedicationEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDosages(dosages: List<MedicationDosageEntity>)
+    override suspend fun insertDosages(dosages: List<MedicationDosageEntity>)
 
     @Update
-    override suspend fun update(entry: MedicationEntity)
-
-    @Query(
-        value = """
-        UPDATE medication_dosages
-        SET active = 0
-        WHERE medication_id = :medicationId
-    """
-    )
-    suspend fun disableDosagesForMedication(medicationId: Long)
+    override suspend fun update(item: MedicationEntity)
 
     @Transaction
-    suspend fun disableMedicationWithDosages(medicationId: Long) {
-        disable(medicationId)
-        disableDosagesForMedication(medicationId)
+    override suspend fun disable(medicationId: Long) {
+        disableMedicationById(medicationId)
+        disableDosagesForMedicationId(medicationId)
     }
 
     @Transaction
@@ -84,13 +58,22 @@ interface MedicationDao : MedicationRepository<MedicationEntity> {
             WHERE medicationId = :id
         """,
     )
-    override suspend fun disable(id: Long)
+    suspend fun disableMedicationById(id: Long)
 
     @Query(
         value = """
-        DELETE FROM medication_dosages
-        WHERE medication_id = :medicationId
-    """
+            UPDATE medication_dosages
+            SET active = 0
+            WHERE medication_id = :medicationId
+        """
     )
-    suspend fun deleteDosagesForMedication(medicationId: Long)
+    suspend fun disableDosagesForMedicationId(medicationId: Long)
+
+    @Query(
+        value = """
+            DELETE FROM medication_dosages
+            WHERE medication_id = :medicationId
+        """
+    )
+    override suspend fun deleteDosagesForMedicationId(medicationId: Long)
 }

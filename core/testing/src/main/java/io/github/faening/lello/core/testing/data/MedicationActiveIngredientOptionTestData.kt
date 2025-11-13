@@ -1,9 +1,10 @@
 package io.github.faening.lello.core.testing.data
 
 import io.github.faening.lello.core.model.option.MedicationActiveIngredientOption
+import io.github.faening.lello.core.testing.repository.TestDataResources
 
-object MedicationActiveIngredientOptionTestData {
-    val list = listOf(
+object MedicationActiveIngredientOptionTestData : TestDataResources<MedicationActiveIngredientOption> {
+    override val list: List<MedicationActiveIngredientOption> = listOf(
         MedicationActiveIngredientOption(
             id = 1L,
             description = "ACIDO ACETILSALICILICO",
@@ -18,7 +19,8 @@ object MedicationActiveIngredientOptionTestData {
         ),
         MedicationActiveIngredientOption(
             id = 3L,
-            description = "ACETATO DE RACEALFATOCOFEROL +  BETACAROTENO +  OXIDO CUPRICO +  RIBOFLAVINA +  SELENATO DE SÓDIO +  ÁCIDO ASCÓRBICO +  ÓXIDO CÚPRICO +  ÓXIDO DE ZINCO",
+            description = "ACETATO DE RACEALFATOCOFEROL +  BETACAROTENO +  OXIDO CUPRICO +  RIBOFLAVINA +  " +
+                    "SELENATO DE SÓDIO +  ÁCIDO ASCÓRBICO +  ÓXIDO CÚPRICO +  ÓXIDO DE ZINCO",
             blocked = true,
             active = true,
         ),

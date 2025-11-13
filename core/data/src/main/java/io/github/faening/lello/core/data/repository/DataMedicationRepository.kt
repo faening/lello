@@ -13,33 +13,33 @@ class DataMedicationRepository @Inject constructor(
     private val dao: MedicationDao
 ) : MedicationRepository<Medication> {
 
-    override fun getAll(): Flow<List<Medication>> {
-        return dao.getAllWithOptions().map { entities -> entities.map { it.toModel() } }
+    override fun getAllMedications(): Flow<List<Medication>> {
+        return dao.getAllMedications().map { entities -> entities.map { it.toModel() } }
     }
 
-    override suspend fun getById(id: Long): Medication? {
-        return dao.getByIdWithOptions(id)?.toModel()
+    override fun getMedicationById(id: Long): Medication? {
+        return dao.getMedicationById(id)?.toModel()
     }
 
-    override suspend fun insert(entry: Medication): Long {
-        val medicationId = dao.insert(entry.toEntity())
-        val dosageEntities = entry.dosages.map { it.toEntity(medicationId) }
+    override suspend fun insert(item: Medication): Long {
+        val medicationId = dao.insert(item.toEntity())
+        val dosageEntities = item.dosages.map { it.toEntity(medicationId) }
         dao.insertDosages(dosageEntities)
         return medicationId
     }
 
-    override suspend fun update(entry: Medication) {
-        dao.update(entry.toEntity())
+    override suspend fun update(item: Medication) {
+        dao.update(item.toEntity())
 
         // Remove todas as dosagens antigas do medicamento
-        dao.deleteDosagesForMedication(entry.id ?: 0L)
+        dao.deleteDosagesForMedicationId(item.id ?: 0L)
 
         // Insere as novas dosagens
-        val dosageEntities = entry.dosages.map { it.toEntity(entry.id ?: 0L) }
+        val dosageEntities = item.dosages.map { it.toEntity(item.id ?: 0L) }
         dao.insertDosages(dosageEntities)
     }
 
     override suspend fun disable(id: Long) {
-        dao.disableMedicationWithDosages(id)
+        dao.disable(id)
     }
 }

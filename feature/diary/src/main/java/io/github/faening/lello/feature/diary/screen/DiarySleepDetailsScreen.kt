@@ -1,30 +1,45 @@
 package io.github.faening.lello.feature.diary.screen
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
-import io.github.faening.lello.core.designsystem.component.pill.LelloFilledPill
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
+import io.github.faening.lello.core.designsystem.theme.Yellow700
 import io.github.faening.lello.core.domain.mock.SleepJournalMock
 import io.github.faening.lello.core.domain.util.toLocalDateTime
 import io.github.faening.lello.core.model.journal.SleepJournal
@@ -49,195 +64,209 @@ private fun DiarySleepDetailsScreenContent(
     sleepJournal: SleepJournal,
     onBackClick: () -> Unit,
 ) {
-    LelloTheme {
-        Scaffold(
-            topBar = { TopAppBarSection(onBackClick) }
-        ) { paddingValues ->
-            Column(
+    Scaffold(
+        topBar = {
+            DiarySleepDetailsTopAppBar(onBackClick)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(Dimension.spacingMedium)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(Dimension.spacingMedium)
-                    .verticalScroll(rememberScrollState())
+                    .height(320.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
             ) {
-                sleepJournal.let { sleep ->
-                    Column {
-                        SleepTimestampSection(sleep)
-                        SleepDurationSection(sleep)
-                        SleeplessTimeSection(sleep)
-                        SleepSensationOptionsSection(sleep)
-                        SleepQualityOptionsSection(sleep)
-                        SleepActivityOptionsSection(sleep)
-                        LocationOptionsSection(sleep)
-                    }
-                }
+                Image(
+                    painter = painterResource(LelloIcons.Graphic.DiarySleep.resId),
+                    contentDescription = "Diary Medication Cover Image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                )
             }
+
+            DiarySleepDetailsCard(sleepJournal = sleepJournal)
         }
     }
 }
 
 @Composable
-private fun TopAppBarSection(
+private fun DiarySleepDetailsTopAppBar(
     onBackClick: () -> Unit
 ) {
     LelloTopAppBar(
         title = TopAppBarTitle(text = "Diário de Sono"),
         navigateUp = TopAppBarAction(onClick = onBackClick),
-        moodColor = MoodColor.INVERSE
     )
 }
 
 @Composable
-private fun SleepTimestampSection(
-    sleep: SleepJournal
+private fun DiarySleepDetailsCard(
+    sleepJournal: SleepJournal
 ) {
-    DetailSection(
-        title = "Data e hora",
-        content = {
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH'h' mm'm'")
-            Text(
-                text = formatter.format(sleep.createdAt.toLocalDateTime()),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+    val shape = RoundedCornerShape(
+        topStart = Dimension.borderRadiusLarge,
+        topEnd = Dimension.borderRadiusLarge,
+        bottomStart = Dimension.borderRadiusLarge,
+        bottomEnd = Dimension.borderRadiusLarge
     )
-}
+    val containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    val shadowOffset = Dimension.spacingSmall
 
-@Composable
-private fun SleepDurationSection(
-    sleep: SleepJournal
-) {
-    DetailSection(
-        title = "Duração do sono",
-        content = {
-            LelloFilledPill(sleep.sleepDuration.description)
-        }
-    )
-}
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = shadowOffset, bottom = shadowOffset)
+    ) {
+        // Fake Shadow
+        Box(
+            Modifier
+                .matchParentSize()
+                .offset(shadowOffset, shadowOffset)
+                .background(
+                    color = MaterialTheme.colorScheme.scrim.copy(alpha = Dimension.alphaStateNormal),
+                    shape = shape
+                )
+        )
 
-@Composable
-private fun SleeplessTimeSection(
-    sleep: SleepJournal
-) {
-    if (sleep.sleeplessTime > 0) {
-        DetailSection(
-            title = "Tempo acordado durante a noite",
-            content = {
-                Text(
-                    text = "${sleep.sleeplessTime} minutos",
-                    style = MaterialTheme.typography.bodyLarge
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = shape,
+            border = BorderStroke(
+                width = Dimension.borderWidthThick,
+                color = MaterialTheme.colorScheme.outline
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            colors = CardDefaults.cardColors(containerColor = containerColor)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Dimension.spacingRegular),
+                verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
+            ) {
+                DetailSection(
+                    title = "Quanto tempo você dormiu?",
+                    content = {
+                        Text(
+                            text = sleepJournal.sleepDuration.description.uppercase().ifEmpty { "-" },
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Como você se sentiu ao acordar?",
+                    content = {
+                        val text = sleepJournal.sleepSensationOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Hora registro",
+                    content = {
+                        val formatter = DateTimeFormatter.ofPattern("HH'h' mm'm'")
+                        Text(
+                            text = formatter.format(sleepJournal.createdAt.toLocalDateTime()) ?: "_",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Como foi a qualidade do seu sono?",
+                    content = {
+                        val text = sleepJournal.sleepQualityOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Quanto tempo acordado antes de dormir?",
+                    content = {
+                        Text(
+                            text = "${sleepJournal.sleeplessTime} MINUTOS".ifEmpty { "-" },
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "O que você fez antes de dormir?",
+                    content = {
+                        val text = sleepJournal.sleepActivityOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                DetailSection(
+                    title = "Onde você dormiu?",
+                    content = {
+                        val text = sleepJournal.locationOptions
+                            .map { it.description.trim() }
+                            .filter { it.isNotEmpty() }
+                            .joinToString(separator = ", ") { it.uppercase() }
+                            .ifEmpty { "-" }
+
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
                 )
             }
-        )
+        }
     }
-}
-
-@Composable
-private fun SleepSensationOptionsSection(
-    sleep: SleepJournal
-) {
-    DetailSection(
-        title = "Como você se sentiu ao acordar?",
-        content = {
-            if (sleep.sleepSensationOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    sleep.sleepSensationOptions.forEach {
-                        LelloFilledPill(it.description)
-                    }
-                }
-            }
-        }
-    )
-}
-
-@Composable
-private fun SleepQualityOptionsSection(
-    sleep: SleepJournal
-) {
-    DetailSection(
-        title = "Como foi a qualidade do seu sono?",
-        content = {
-            if (sleep.sleepQualityOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    sleep.sleepQualityOptions.forEach {
-                        LelloFilledPill(it.description)
-                    }
-                }
-            }
-        }
-    )
-}
-
-@Composable
-private fun SleepActivityOptionsSection(
-    sleep: SleepJournal
-) {
-    DetailSection(
-        title = "O que você fez antes de dormir?",
-        content = {
-            if (sleep.sleepActivityOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    sleep.sleepActivityOptions.forEach {
-                        LelloFilledPill(it.description)
-                    }
-                }
-            }
-        }
-    )
-}
-
-@Composable
-private fun LocationOptionsSection(
-    sleep: SleepJournal
-) {
-    DetailSection(
-        title = "Onde você dormiu?",
-        content = {
-            if (sleep.locationOptions.isEmpty()) {
-                LelloFilledPill("Não especificado")
-            } else {
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingSmall),
-                    verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
-                ) {
-                    sleep.locationOptions.forEach {
-                        LelloFilledPill(it.description)
-                    }
-                }
-            }
-        }
-    )
 }
 
 @Composable
 private fun DetailSection(
     title: String,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = Dimension.spacingLarge),
-        verticalArrangement = Arrangement.spacedBy(Dimension.spacingMedium)
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingSmall)
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                color = Yellow700
+            )
         )
         content()
     }
@@ -253,10 +282,12 @@ private fun DetailSection(
 )
 @Composable
 private fun DiarySleepDetailsScreenPreview_LightMode() {
-    DiarySleepDetailsScreenContent(
-        sleepJournal = SleepJournalMock.list.first(),
-        onBackClick = {},
-    )
+    LelloTheme {
+        DiarySleepDetailsScreenContent(
+            sleepJournal = SleepJournalMock.list.first(),
+            onBackClick = {},
+        )
+    }
 }
 
 @Preview(
@@ -267,10 +298,12 @@ private fun DiarySleepDetailsScreenPreview_LightMode() {
 )
 @Composable
 private fun DiarySleepDetailsScreenPreview_DarkMode() {
-    DiarySleepDetailsScreenContent(
-        sleepJournal = SleepJournalMock.list.first(),
-        onBackClick = {},
-    )
+    LelloTheme {
+        DiarySleepDetailsScreenContent(
+            sleepJournal = SleepJournalMock.list.first(),
+            onBackClick = {},
+        )
+    }
 }
 
 // endregion Previews

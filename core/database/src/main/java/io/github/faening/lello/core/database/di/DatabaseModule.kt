@@ -29,6 +29,7 @@ object DatabaseModule {
             name = "lello.db",
         )
         .addMigrations(DatabaseMigrations.MIGRATION_1_2)
+        .fallbackToDestructiveMigration()
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)

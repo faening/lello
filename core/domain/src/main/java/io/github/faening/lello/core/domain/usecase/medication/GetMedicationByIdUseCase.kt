@@ -7,7 +7,7 @@ import jakarta.inject.Inject
 class GetMedicationByIdUseCase @Inject constructor(
     private val repository: MedicationRepository<Medication>
 ) {
-    suspend operator fun invoke(id: Long): Medication? {
-        return repository.getById(id)
+    operator fun invoke(id: Long): Medication? {
+        return repository.getMedicationById(id)
     }
 }
