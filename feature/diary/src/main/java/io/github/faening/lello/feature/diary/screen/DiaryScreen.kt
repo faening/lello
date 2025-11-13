@@ -230,7 +230,11 @@ private fun DiaryScreenContent(
             DiaryScreenTopAppBar(selectedDate, onSelectDate)
         }
     ) { paddingValues ->
-        if (moodJournals.isEmpty() && mealJournals.isEmpty() && sleepJournals.isEmpty()) {
+        if (moodJournals.isEmpty() &&
+            mealJournals.isEmpty() &&
+            sleepJournals.isEmpty() &&
+            medicationJournals.isEmpty()
+        ) {
             EmptyContentSection(paddingValues)
         } else {
             Column(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,41 +41,40 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.Yellow700
-import io.github.faening.lello.core.domain.mock.SleepJournalMock
-import io.github.faening.lello.core.domain.util.toLocalDateTime
-import io.github.faening.lello.core.model.journal.SleepJournal
+import io.github.faening.lello.core.domain.util.formatTimestamp
+import io.github.faening.lello.core.model.journal.MedicationJournal
+import io.github.faening.lello.core.testing.data.MedicationJournalTestData
 import io.github.faening.lello.feature.diary.DiaryViewModel
-import java.time.format.DateTimeFormatter
 
 @Composable
-fun DiarySleepDetailsScreen(
+fun DiaryMedicationDetailsScreen(
     viewModel: DiaryViewModel = hiltViewModel(),
     onBackClick: () -> Unit
 ) {
-    val selectedSleepJournal by viewModel.selectedSleepJournal.collectAsState()
+    val selectedMedicationJournal by viewModel.selectedMedicationJournal.collectAsState()
 
-    DiarySleepDetailsScreenContent(
-        sleepJournal = selectedSleepJournal ?: return,
+    DiaryMedicationDetailsScreenContent(
+        medicationJournal = selectedMedicationJournal ?: return,
         onBackClick = onBackClick
     )
 }
 
 @Composable
-private fun DiarySleepDetailsScreenContent(
-    sleepJournal: SleepJournal,
+private fun DiaryMedicationDetailsScreenContent(
+    medicationJournal: MedicationJournal,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            DiarySleepDetailsTopAppBar(onBackClick)
+            DiaryMedicationDetailsTopAppBar(onBackClick)
         }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(Dimension.spacingMedium)
-                .verticalScroll(rememberScrollState())
+                .padding(Dimension.spacingRegular)
+                .verticalScroll(rememberScrollState()),
         ) {
             Box(
                 modifier = Modifier
@@ -83,7 +83,7 @@ private fun DiarySleepDetailsScreenContent(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(LelloIcons.Graphic.DiarySleep.resId),
+                    painter = painterResource(LelloIcons.Graphic.DiaryMedication.resId),
                     contentDescription = "Diary Medication Cover Image",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
@@ -92,24 +92,24 @@ private fun DiarySleepDetailsScreenContent(
                 )
             }
 
-            DiarySleepDetailsCard(sleepJournal = sleepJournal)
+            DiaryMedicationDetailsCard(medicationJournal = medicationJournal)
         }
     }
 }
 
 @Composable
-private fun DiarySleepDetailsTopAppBar(
+private fun DiaryMedicationDetailsTopAppBar(
     onBackClick: () -> Unit
 ) {
     LelloTopAppBar(
-        title = TopAppBarTitle(text = "Diário de Sono"),
-        navigateUp = TopAppBarAction(onClick = onBackClick),
+        title = TopAppBarTitle(text = "Diário de Remédio"),
+        navigateUp = TopAppBarAction(onClick = onBackClick)
     )
 }
 
 @Composable
-private fun DiarySleepDetailsCard(
-    sleepJournal: SleepJournal
+private fun DiaryMedicationDetailsCard(
+    medicationJournal: MedicationJournal
 ) {
     val shape = RoundedCornerShape(
         topStart = Dimension.borderRadiusLarge,
@@ -153,95 +153,67 @@ private fun DiarySleepDetailsCard(
                 verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
             ) {
                 DetailSection(
-                    title = "Quanto tempo você dormiu?",
+                    title = "Medicamento (Princípio Ativo)",
                     content = {
                         Text(
-                            text = sleepJournal.sleepDuration.description.uppercase().ifEmpty { "-" },
+                            text = medicationJournal.medication?.activeIngredientOption?.description ?: "_",
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                         )
                     }
                 )
 
                 DetailSection(
-                    title = "Como você se sentiu ao acordar?",
+                    title = "Dosagem",
                     content = {
-                        val text = sleepJournal.sleepSensationOptions
-                            .map { it.description.trim() }
-                            .filter { it.isNotEmpty() }
-                            .joinToString(separator = ", ") { it.uppercase() }
-                            .ifEmpty { "-" }
-
                         Text(
-                            text = text,
+                            text = "${medicationJournal.medicationDosage?.dosageNumber}ª DOSE".ifEmpty { "-" },
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(Dimension.spacingRegular)
+                ) {
+                    DetailSection(
+                        title = "Hora agendamento",
+                        modifier = Modifier.weight(1f),
+                        content = {
+                            Text(
+                                text = medicationJournal.medicationDosage?.time.toString().ifEmpty { "-" },
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                            )
+                        }
+                    )
+
+                    DetailSection(
+                        title = "Hora ingestão",
+                        modifier = Modifier.weight(1f),
+                        content = {
+                            Text(
+                                text = medicationJournal.registeredAt.formatTimestamp().ifEmpty { "-" },
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                            )
+                        }
+                    )
+                }
+
+                DetailSection(
+                    title = "Tomou o medicamento?",
+                    content = {
+                        Text(
+                            text = if (medicationJournal.taken) "SIM" else "NÃO",
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                         )
                     }
                 )
 
                 DetailSection(
-                    title = "Hora registro",
-                    content = {
-                        val formatter = DateTimeFormatter.ofPattern("HH'h' mm'm'")
-                        Text(
-                            text = formatter.format(sleepJournal.createdAt.toLocalDateTime()) ?: "_",
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                        )
-                    }
-                )
-
-                DetailSection(
-                    title = "Como foi a qualidade do seu sono?",
-                    content = {
-                        val text = sleepJournal.sleepQualityOptions
-                            .map { it.description.trim() }
-                            .filter { it.isNotEmpty() }
-                            .joinToString(separator = ", ") { it.uppercase() }
-                            .ifEmpty { "-" }
-
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                        )
-                    }
-                )
-
-                DetailSection(
-                    title = "Quanto tempo acordado antes de dormir?",
+                    title = "Justificativa",
                     content = {
                         Text(
-                            text = "${sleepJournal.sleeplessTime} MINUTOS".ifEmpty { "-" },
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                        )
-                    }
-                )
-
-                DetailSection(
-                    title = "O que você fez antes de dormir?",
-                    content = {
-                        val text = sleepJournal.sleepActivityOptions
-                            .map { it.description.trim() }
-                            .filter { it.isNotEmpty() }
-                            .joinToString(separator = ", ") { it.uppercase() }
-                            .ifEmpty { "-" }
-
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-                        )
-                    }
-                )
-
-                DetailSection(
-                    title = "Onde você dormiu?",
-                    content = {
-                        val text = sleepJournal.locationOptions
-                            .map { it.description.trim() }
-                            .filter { it.isNotEmpty() }
-                            .joinToString(separator = ", ") { it.uppercase() }
-                            .ifEmpty { "-" }
-
-                        Text(
-                            text = text,
+                            text = medicationJournal.skipReasonOption?.description ?: "-",
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                         )
                     }
@@ -272,7 +244,7 @@ private fun DetailSection(
     }
 }
 
-// region Previews
+// region: Previews
 
 @Preview(
     name = "Default",
@@ -281,29 +253,14 @@ private fun DetailSection(
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-private fun DiarySleepDetailsScreenPreview_LightMode() {
+private fun DiaryMedicationDetailsScreenPreview_LightMode() {
+    val journal = MedicationJournalTestData.list[0]
     LelloTheme {
-        DiarySleepDetailsScreenContent(
-            sleepJournal = SleepJournalMock.list.first(),
+        DiaryMedicationDetailsScreenContent(
+            medicationJournal = journal,
             onBackClick = {},
         )
     }
 }
 
-@Preview(
-    name = "Default",
-    group = "Dark Mode",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
-)
-@Composable
-private fun DiarySleepDetailsScreenPreview_DarkMode() {
-    LelloTheme {
-        DiarySleepDetailsScreenContent(
-            sleepJournal = SleepJournalMock.list.first(),
-            onBackClick = {},
-        )
-    }
-}
-
-// endregion Previews
+// endregion: Previews

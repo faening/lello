@@ -5,6 +5,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun Long.toInstant(): Instant = Instant.ofEpochMilli(this)
 
@@ -31,4 +33,12 @@ fun Long.isSameDay(date: LocalDate): Boolean {
 fun LocalTime.toEpochMillisOnDate(date: LocalDate, zone: ZoneId = ZoneId.systemDefault()): Long {
     val dateTime = LocalDateTime.of(date, this)
     return dateTime.atZone(zone).toInstant().toEpochMilli()
+}
+
+fun Long.formatTimestamp(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale("pt", "BR"))
+    return Instant.ofEpochMilli(this)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
+        .format(formatter)
 }
