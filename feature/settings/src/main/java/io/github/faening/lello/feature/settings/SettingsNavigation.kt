@@ -8,11 +8,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import io.github.faening.lello.core.navigation.customComposable
+import io.github.faening.lello.feature.settings.screen.SettingsNotificationScreen
 import io.github.faening.lello.feature.settings.screen.SettingsScreen
 
 object SettingsDestinations {
     const val GRAPH = "settings_graph"
     const val HOME = "settings_home"
+    const val NOTIFICATIONS = "settings_notifications"
 }
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
@@ -20,13 +23,26 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
         startDestination = SettingsDestinations.HOME,
         route = SettingsDestinations.GRAPH
     ) {
-        composable(route = SettingsDestinations.HOME) { backStackEntry ->
+        composable(
+            route = SettingsDestinations.HOME
+        ) { backStackEntry ->
             val viewModel = sharedSettingsViewModel(navController, backStackEntry)
 
             SettingsScreen(
                 viewModel = viewModel,
-                onNavigateToNotifications = { },
+                onNavigateToNotifications = { navController.navigate(SettingsDestinations.NOTIFICATIONS) },
                 onNavigateToTerms = {}
+            )
+        }
+
+        customComposable(
+            route = SettingsDestinations.NOTIFICATIONS
+        ) { backStackEntry ->
+            val viewModel = sharedSettingsViewModel(navController, backStackEntry)
+
+            SettingsNotificationScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
             )
         }
     }

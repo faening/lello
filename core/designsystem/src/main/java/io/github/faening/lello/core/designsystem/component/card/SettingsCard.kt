@@ -127,7 +127,7 @@ fun LelloSettingsCard(
                                 color = colors.secondaryTextColor(),
                                 maxLines = 2,
                                 minLines = 1,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodySmall
                             )
                         }
 
