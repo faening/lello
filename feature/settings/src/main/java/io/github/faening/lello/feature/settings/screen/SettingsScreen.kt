@@ -23,7 +23,6 @@ import io.github.faening.lello.core.designsystem.component.card.SettingsItemType
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
-import io.github.faening.lello.core.designsystem.theme.MoodColor
 import io.github.faening.lello.feature.settings.SettingsViewModel
 
 @Composable
@@ -32,10 +31,16 @@ fun SettingsScreen(
     onNavigateToNotifications: () -> Unit,
     onNavigateToTerms: () -> Unit
 ) {
+    // UI
+    val isDarkThemeEnabled by viewModel.isDarkThemeEnabled.collectAsState()
+
+    // Security
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsState()
     val isBiometricAvailable by viewModel.isBiometricAvailable.collectAsState()
 
     SettingsScreenContent(
+        isDarkThemeEnabled = isDarkThemeEnabled,
+        onToggleTheme = viewModel::toggleDarkTheme,
         isBiometricEnabled = isBiometricEnabled,
         isBiometricAvailable = isBiometricAvailable,
         onBiometricToggle = viewModel::toggleBiometricAuthentication,
@@ -45,7 +50,8 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreenContent(
-    moodColor: MoodColor = MoodColor.DEFAULT,
+    isDarkThemeEnabled: Boolean = false,
+    onToggleTheme: (Boolean) -> Unit = {},
     isBiometricEnabled: Boolean = false,
     isBiometricAvailable: Boolean = false,
     onBiometricToggle: (Boolean) -> Unit = {},
@@ -75,6 +81,8 @@ private fun SettingsScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SettingsScreenUISection(
+                isDarkThemeEnabled = isDarkThemeEnabled,
+                onToggleTheme = onToggleTheme,
                 onNavigateToNotifications = onNavigateToNotifications
             )
             SettingsScreenSecuritySection(
@@ -111,8 +119,8 @@ private fun SettingsScreenTopAppBar(
 
 @Composable
 private fun SettingsScreenUISection(
-    isDarkThemeEnabled: Boolean = false, // isSystemInDarkTheme(),
-    onToggleTheme: () -> Unit = {  }, // TODO: Implementar
+    isDarkThemeEnabled: Boolean = false,
+    onToggleTheme: (Boolean) -> Unit = {},
     onNavigateToNotifications: () -> Unit
 ) {
     Column(
@@ -127,7 +135,7 @@ private fun SettingsScreenUISection(
                     subtitle = "Ativar ou desativar o tema escuro",
                     type = SettingsItemType.SWITCH,
                     isChecked = isDarkThemeEnabled,
-                    onCheckedChange = { onToggleTheme }
+                    onCheckedChange = onToggleTheme
                 ),
                 SettingsItem(
                     icon = LelloIcons.Outlined.NotificationBell.imageVector,
@@ -235,7 +243,6 @@ private fun SettingsScreenAboutSection(
 private fun SettingsScreenPreview_LightMode() {
     LelloTheme {
         SettingsScreenContent(
-            moodColor = MoodColor.DEFAULT,
             onNavigateToNotifications = { }
         )
     }
