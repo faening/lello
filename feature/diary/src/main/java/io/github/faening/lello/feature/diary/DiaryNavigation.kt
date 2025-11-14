@@ -3,7 +3,6 @@ package io.github.faening.lello.feature.diary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -30,7 +29,7 @@ fun NavGraphBuilder.diaryGraph(navController: NavHostController) {
         startDestination = DiaryDestinations.HOME,
         route = DiaryDestinations.GRAPH
     ) {
-        customComposable(
+        composable(
             route = DiaryDestinations.HOME
         ) { backStackEntry ->
             val viewModel = sharedDiaryViewModel(navController, backStackEntry)

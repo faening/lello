@@ -40,6 +40,7 @@ import io.github.faening.lello.core.data.repository.DataSleepQualityOptionReposi
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.DataSocialOptionRepository
 import io.github.faening.lello.core.data.repository.DataStoreOnboardingRepository
+import io.github.faening.lello.core.data.repository.DataStoreThemeRepository
 import io.github.faening.lello.core.data.repository.DataStoreUserRepository
 import io.github.faening.lello.core.database.dao.AppetiteOptionDao
 import io.github.faening.lello.core.database.dao.ClimateOptionDao
@@ -86,6 +87,7 @@ import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
 import io.github.faening.lello.core.domain.repository.RewardHistoryRepository
 import io.github.faening.lello.core.domain.repository.SleepJournalRepository
+import io.github.faening.lello.core.domain.repository.ThemeResource
 import io.github.faening.lello.core.domain.repository.UserRepository
 import io.github.faening.lello.core.model.journal.JournalCategory
 import io.github.faening.lello.core.model.journal.MealJournal
@@ -283,6 +285,12 @@ object RepositoryModule {
     fun provideDataStoreOnboardingRepository(
         dataStore: DataStore<Preferences>
     ): OnboardingRepository = DataStoreOnboardingRepository(dataStore)
+
+    @Provides
+    @Singleton
+    fun provideDataStoreThemeRepository(
+        dataStore: DataStore<Preferences>
+    ): ThemeResource = DataStoreThemeRepository(dataStore)
 
     @Provides
     @Singleton

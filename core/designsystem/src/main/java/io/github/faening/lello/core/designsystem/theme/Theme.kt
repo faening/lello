@@ -122,7 +122,7 @@ val LocalMoodColors = staticCompositionLocalOf { MoodColor.DEFAULT }
 @Composable
 fun LelloTheme(
     moodColor: MoodColor = MoodColor.DEFAULT,
-    darkTheme: Boolean = false, // isSystemInDarkTheme(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val baseColorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
