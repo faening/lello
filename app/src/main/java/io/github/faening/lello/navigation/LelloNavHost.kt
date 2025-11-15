@@ -34,7 +34,6 @@ fun LelloNavHost(
     modifier: Modifier = Modifier,
     viewModel: StartupViewModel = hiltViewModel()
 ) {
-
     val isUserAuthenticated by viewModel.isUserAuthenticated.collectAsState()
     val hasSeen by viewModel.hasSeenOnboarding.collectAsState(initial = false)
     val isLoading by viewModel.isLoading.collectAsState()
@@ -59,27 +58,23 @@ fun LelloNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        // Starting
         onboardingGraph(
             navController = navController,
             onOnboardingFinish = { navController.navigate(HomeDestinations.HOME) }
         )
 
-        // Authentication
         authenticationGraph(
             navController = navController,
             isReauthentication = isUserAuthenticated == true,
             canUseBiometricAuth = canUseBiometricAuth
         )
 
-        // Menu
         homeGraph(navController = navController)
         diaryGraph(navController = navController)
         achievementGraph(navController = navController)
         medicationGraph(navController = navController)
         settingsGraph(navController = navController)
 
-        // Journals
         mealJournalGraph(navController = navController)
         medicationJournalGraph(navController = navController)
         moodJournalGraph(navController = navController)
