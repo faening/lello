@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.lello.android.feature)
+    alias(libs.plugins.lello.hilt)
+    alias(libs.plugins.lello.work.manager)
     alias(libs.plugins.lello.android.library.compose.ui)
 }
 
