@@ -12,7 +12,7 @@ class WorkManagerConventionPlugin : Plugin<Project> {
                     add("implementation", libs.findLibrary("androidx-work").get())
                     add("implementation", libs.findLibrary("androidx-work-gcm").get())
                     add("implementation", libs.findLibrary("androidx-work-multiprocess").get())
-                    add("androidTestImplementation", libs.findLibrary("androidx-work-test").get())
+                    add("testImplementation", libs.findLibrary("androidx-work-test").get())
                 }
             }
         }

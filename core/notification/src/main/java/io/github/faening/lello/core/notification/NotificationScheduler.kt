@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.ScheduleDailyNotificationsUseCase
 import io.github.faening.lello.core.notification.worker.DailyCheckInNotificationWorker
+import io.github.faening.lello.core.notification.worker.MascotEnergyNotificationWorker
 import io.github.faening.lello.core.notification.worker.MedicationNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,9 +48,9 @@ class NotificationScheduler @Inject constructor(
 
     private fun handleMascotEnergyNotifications(enabled: Boolean) {
         if (enabled) {
-            //MascotEnergyNotificationWorker.schedule(context)
+            MascotEnergyNotificationWorker.schedule(context)
         } else {
-            //MascotEnergyNotificationWorker.cancel(context)
+            MascotEnergyNotificationWorker.cancel(context)
         }
     }
 
