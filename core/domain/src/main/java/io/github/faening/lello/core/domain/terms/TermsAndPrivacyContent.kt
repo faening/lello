@@ -1,4 +1,7 @@
-package io.github.faening.lello.feature.settings.model
+package io.github.faening.lello.core.domain.terms
+
+import io.github.faening.lello.core.model.terms.TermsListItem
+import io.github.faening.lello.core.model.terms.TermsSection
 
 object TermsAndPrivacyContent {
     val termsOfUse = listOf(

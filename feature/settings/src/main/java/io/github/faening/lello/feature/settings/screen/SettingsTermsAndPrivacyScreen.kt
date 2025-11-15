@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,20 +26,32 @@ import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarActio
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.terms.TermsListItem
+import io.github.faening.lello.core.model.terms.TermsSection
 import io.github.faening.lello.feature.settings.SettingsViewModel
-import io.github.faening.lello.feature.settings.model.TermsAndPrivacyContent
-import io.github.faening.lello.feature.settings.model.TermsListItem
 
 @Composable
 fun SettingsTermsAndPrivacyScreen(
     viewModel: SettingsViewModel,
     onBack: () -> Unit
 ) {
-    SettingsTermsAndPrivacyScreenContent(onBack = onBack)
+    val termsOfUse by viewModel.termsOfUse.collectAsState()
+    val privacyPolicy by viewModel.privacyPolicy.collectAsState()
+    val lastUpdated = viewModel.lastUpdated
+
+    SettingsTermsAndPrivacyScreenContent(
+        termsOfUse = termsOfUse,
+        privacyPolicy = privacyPolicy,
+        lastUpdated = lastUpdated,
+        onBack = onBack
+    )
 }
 
 @Composable
 private fun SettingsTermsAndPrivacyScreenContent(
+    termsOfUse: List<TermsSection> = listOf(),
+    privacyPolicy: List<TermsSection> = listOf(),
+    lastUpdated: String = "",
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -61,7 +75,7 @@ private fun SettingsTermsAndPrivacyScreenContent(
                     .fillMaxWidth()
                     .padding(bottom = Dimension.spacingLarge)
             )
-            TermsAndPrivacyContent.termsOfUse.forEach { section ->
+            termsOfUse.forEach { section ->
                 SettingsTermsAndPrivacyListSection(
                     title = section.title,
                     items = section.items
@@ -77,7 +91,7 @@ private fun SettingsTermsAndPrivacyScreenContent(
                     .fillMaxWidth()
                     .padding(vertical = Dimension.spacingLarge)
             )
-            TermsAndPrivacyContent.privacyPolicy.forEach { section ->
+            privacyPolicy.forEach { section ->
                 SettingsTermsAndPrivacyListSection(
                     title = section.title,
                     items = section.items
@@ -90,7 +104,7 @@ private fun SettingsTermsAndPrivacyScreenContent(
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
                         append("Atualizado em: ")
                     }
-                    append(TermsAndPrivacyContent.LAST_UPDATED)
+                    append(lastUpdated)
                 },
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,

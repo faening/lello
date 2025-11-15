@@ -1,4 +1,4 @@
-package io.github.faening.lello.feature.settings.model
+package io.github.faening.lello.core.model.terms
 
 data class TermsSection(
     val title: String?,
