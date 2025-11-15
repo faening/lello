@@ -7,6 +7,7 @@ import io.github.faening.lello.core.domain.usecase.notification.ScheduleDailyNot
 import io.github.faening.lello.core.notification.worker.DailyCheckInNotificationWorker
 import io.github.faening.lello.core.notification.worker.MascotEnergyNotificationWorker
 import io.github.faening.lello.core.notification.worker.MedicationNotificationWorker
+import io.github.faening.lello.core.notification.worker.WelcomeNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -23,6 +24,8 @@ class NotificationScheduler @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun initialize() {
+        WelcomeNotificationWorker.schedule(context)
+
         scope.launch {
             getNotificationPreferencesUseCase.invoke().collect { preferences ->
                 handleMedicationNotifications(preferences.medicationEnabled)
