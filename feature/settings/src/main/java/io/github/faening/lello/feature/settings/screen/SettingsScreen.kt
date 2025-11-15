@@ -44,7 +44,8 @@ fun SettingsScreen(
         isBiometricEnabled = isBiometricEnabled,
         isBiometricAvailable = isBiometricAvailable,
         onBiometricToggle = viewModel::toggleBiometricAuthentication,
-        onNavigateToNotifications = onNavigateToNotifications
+        onNavigateToNotifications = onNavigateToNotifications,
+        onNavigateToTerms = onNavigateToTerms
     )
 }
 
@@ -94,7 +95,7 @@ private fun SettingsScreenContent(
                 onLogout = onLogout,
                 onDeleteAccount = onDeleteAccount
             )
-            SettingsScreenAboutSection(
+            SettingsScreenTermsAndPrivacySection(
                 onNavigateToTerms = onNavigateToTerms
             )
         }
@@ -210,7 +211,7 @@ private fun SettingsScreenAccountSection(
 }
 
 @Composable
-private fun SettingsScreenAboutSection(
+private fun SettingsScreenTermsAndPrivacySection(
     onNavigateToTerms: () -> Unit,
 ) {
     Column(
@@ -221,10 +222,10 @@ private fun SettingsScreenAboutSection(
             items = listOf(
                 SettingsItem(
                     icon = LelloIcons.Outlined.Document.imageVector,
-                    title = "Termos de uso",
+                    title = "Uso e Privacidade",
                     subtitle = "Leia nossos termos de uso e política de privacidade",
                     type = SettingsItemType.NAVIGATION,
-                    onClick = { onNavigateToTerms },
+                    onClick = onNavigateToTerms,
                 )
             )
         )

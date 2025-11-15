@@ -11,11 +11,13 @@ import androidx.navigation.navigation
 import io.github.faening.lello.core.navigation.customComposable
 import io.github.faening.lello.feature.settings.screen.SettingsNotificationScreen
 import io.github.faening.lello.feature.settings.screen.SettingsScreen
+import io.github.faening.lello.feature.settings.screen.SettingsTermsAndPrivacyScreen
 
 object SettingsDestinations {
     const val GRAPH = "settings_graph"
     const val HOME = "settings_home"
     const val NOTIFICATIONS = "settings_notifications"
+    const val TERMS = "settings_terms"
 }
 
 fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
@@ -31,7 +33,7 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             SettingsScreen(
                 viewModel = viewModel,
                 onNavigateToNotifications = { navController.navigate(SettingsDestinations.NOTIFICATIONS) },
-                onNavigateToTerms = {}
+                onNavigateToTerms = { navController.navigate(SettingsDestinations.TERMS) }
             )
         }
 
@@ -41,6 +43,17 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             val viewModel = sharedSettingsViewModel(navController, backStackEntry)
 
             SettingsNotificationScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        customComposable(
+            route = SettingsDestinations.TERMS
+        ) { backStackEntry ->
+            val viewModel = sharedSettingsViewModel(navController, backStackEntry)
+
+            SettingsTermsAndPrivacyScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() }
             )
