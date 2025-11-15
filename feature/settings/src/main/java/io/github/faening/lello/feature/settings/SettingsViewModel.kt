@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetJournalRewardsNotificationUseCase
+import io.github.faening.lello.core.domain.usecase.notification.SetMascotEnergyNotificationUseCase
+import io.github.faening.lello.core.domain.usecase.notification.SetMedicationNotificationUseCase
 import io.github.faening.lello.core.domain.usecase.theme.ThemePreferenceUseCase
 import io.github.faening.lello.core.domain.usecase.user.GetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
@@ -23,7 +25,9 @@ class SettingsViewModel @Inject constructor(
     private val getUserBiometricPreferencesUseCase: GetUserBiometricPreferencesUseCase,
     private val setUserBiometricPreferencesUseCase: SetUserBiometricPreferencesUseCase,
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
-    private val setJournalRewardsNotificationUseCase: SetJournalRewardsNotificationUseCase
+    private val setJournalRewardsNotificationUseCase: SetJournalRewardsNotificationUseCase,
+    private val setMascotEnergyNotificationUseCase: SetMascotEnergyNotificationUseCase,
+    private val setMedicationNotificationUseCase: SetMedicationNotificationUseCase
 ) : ViewModel() {
 
     private val _isDarkThemeEnabled = MutableStateFlow(false)
@@ -91,13 +95,13 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleMedicationNotification(enabled: Boolean) {
         viewModelScope.launch {
-            // TODO: Implement this function
+            setMedicationNotificationUseCase.invoke(enabled)
         }
     }
 
     fun toggleMascotEnergyNotification(enabled: Boolean) {
         viewModelScope.launch {
-            // TODO: Implement this function
+            setMascotEnergyNotificationUseCase.invoke(enabled)
         }
     }
 }

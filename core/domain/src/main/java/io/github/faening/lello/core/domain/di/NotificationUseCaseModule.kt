@@ -9,6 +9,8 @@ import io.github.faening.lello.core.domain.repository.NotificationSettingsResour
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.ScheduleDailyNotificationsUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetJournalRewardsNotificationUseCase
+import io.github.faening.lello.core.domain.usecase.notification.SetMascotEnergyNotificationUseCase
+import io.github.faening.lello.core.domain.usecase.notification.SetMedicationNotificationUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,4 +31,13 @@ object NotificationUseCaseModule {
         repository: NotificationSettingsResources
     ) = SetJournalRewardsNotificationUseCase(repository)
 
+    @Provides
+    fun setMascotEnergyNotificationUseCase(
+        repository: NotificationSettingsResources
+    ) = SetMascotEnergyNotificationUseCase(repository)
+
+    @Provides
+    fun provideSetMedicationNotificationUseCase(
+        repository: NotificationSettingsResources
+    ) = SetMedicationNotificationUseCase(repository)
 }

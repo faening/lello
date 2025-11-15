@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.lello.android.application.compose.ui)
     alias(libs.plugins.lello.firebase.authentication)
     alias(libs.plugins.lello.hilt)
+    alias(libs.plugins.lello.work.manager)
     alias(libs.plugins.google.services)
     alias(libs.plugins.kotlin.serialization)
 }

@@ -12,13 +12,13 @@ class GetNotificationPreferencesUseCase @Inject constructor(
     operator fun invoke(): Flow<NotificationPreferences> {
         return combine(
             repository.observeJournalRewardsNotificationEnabled(),
-            // userPreferencesDataStore.observeMedicationNotificationEnabled(),
-            // userPreferencesDataStore.observeMascotEnergyNotificationEnabled()
-        ) { journalRewards ->
+            repository.observeMedicationNotificationEnabled(),
+            repository.observeMascotEnergyNotificationEnabled()
+        ) { journalRewards, medication, mascotEnergy ->
             NotificationPreferences(
-                journalRewardsEnabled = journalRewards.first(),
-                medicationEnabled = false,
-                mascotEnergyEnabled = false
+                journalRewardsEnabled = journalRewards,
+                medicationEnabled = medication,
+                mascotEnergyEnabled = mascotEnergy
             )
         }
     }

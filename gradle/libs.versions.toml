@@ -15,8 +15,9 @@ firebase = "34.3.0"
 google-id = "1.1.1"
 google-services = "4.4.3"
 hilt = "2.57"
-hiltCommon = "1.3.0"
+hilt-common = "1.3.0"
 hilt-navigation = "1.2.0"
+hilt-work = "1.3.0"
 junit = "4.13.2"
 kotlin = "2.1.10"
 kotlin-coroutines = "1.10.2"
@@ -116,10 +117,11 @@ google-id = { group = "com.google.android.libraries.identity.googleid", name = "
 
 # Hilt
 # https://developer.android.com/training/dependency-injection/hilt-android?hl=pt-br
-hilt = { group = "com.google.dagger", name="hilt-android", version.ref = "hilt" }
-hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name="hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hilt" }
-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
+hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hilt-common" }
+hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
+hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 # Junit
 junit = { group = "junit", name = "junit", version.ref = "junit" }

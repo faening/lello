@@ -14,21 +14,57 @@ class DataStoreNotificationSettingsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : NotificationSettingsResources {
 
-    override suspend fun setJournalRewardsNotificationEnabled(enabled: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[JOURNAL_REWARDS_NOTIFICATION_KEY] = enabled
-        }
-    }
-
     override suspend fun getJournalRewardsNotificationEnabled(): Boolean {
         return dataStore.data.map { preferences ->
             preferences[JOURNAL_REWARDS_NOTIFICATION_KEY] ?: true
         }.first()
     }
 
+    override suspend fun setJournalRewardsNotificationEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[JOURNAL_REWARDS_NOTIFICATION_KEY] = enabled
+        }
+    }
+
     override fun observeJournalRewardsNotificationEnabled(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[JOURNAL_REWARDS_NOTIFICATION_KEY] ?: true
+        }
+    }
+
+    override suspend fun getMedicationNotificationEnabled(): Boolean {
+        return dataStore.data.map { preferences ->
+            preferences[MEDICATION_NOTIFICATION_KEY] ?: true
+        }.first()
+    }
+
+    override suspend fun setMedicationNotificationEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[MEDICATION_NOTIFICATION_KEY] = enabled
+        }
+    }
+
+    override fun observeMedicationNotificationEnabled(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[MEDICATION_NOTIFICATION_KEY] ?: true
+        }
+    }
+
+    override suspend fun getMascotEnergyNotificationEnabled(): Boolean {
+        return dataStore.data.map { preferences ->
+            preferences[MASCOT_ENERGY_NOTIFICATION_KEY] ?: true
+        }.first()
+    }
+
+    override suspend fun setMascotEnergyNotificationEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[MASCOT_ENERGY_NOTIFICATION_KEY] = enabled
+        }
+    }
+
+    override fun observeMascotEnergyNotificationEnabled(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[MASCOT_ENERGY_NOTIFICATION_KEY] ?: true
         }
     }
 
