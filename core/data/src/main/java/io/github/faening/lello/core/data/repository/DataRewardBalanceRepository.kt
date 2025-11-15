@@ -13,10 +13,22 @@ class DataRewardBalanceRepository @Inject constructor(
     private val dao: RewardBalanceDao
 ) : RewardBalanceRepository<RewardBalance> {
 
+    private val defaultBalance = RewardBalance(
+        id = 1,
+        totalCoins = 0,
+        lastMoodReward = 0L,
+        lastMealReward = 0L,
+        lastSleepReward = 0L,
+        lastMedicationReward = 0L,
+        lastDailyAchievementReward = 0L
+    )
+
     override fun observeBalance(): Flow<RewardBalance> {
         return dao
             .observeBalance()
-            .map { it.toModel() }
+            .map { entity ->
+                entity?.toModel() ?: defaultBalance
+            }
     }
 
     override suspend fun getBalance(): RewardBalance? {
