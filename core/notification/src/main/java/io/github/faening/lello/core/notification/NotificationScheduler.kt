@@ -25,6 +25,7 @@ class NotificationScheduler @Inject constructor(
         scope.launch {
             getNotificationPreferencesUseCase.invoke().collect { preferences ->
                 handleMedicationNotifications(preferences.medicationEnabled)
+                handleMascotEnergyNotifications(preferences.mascotEnergyEnabled)
                 handleJournalRewardsNotifications(preferences.journalRewardsEnabled)
             }
         }
@@ -41,6 +42,14 @@ class NotificationScheduler @Inject constructor(
             DailyCheckInNotificationWorker.schedule(context)
         } else {
             DailyCheckInNotificationWorker.cancel(context)
+        }
+    }
+
+    private fun handleMascotEnergyNotifications(enabled: Boolean) {
+        if (enabled) {
+            //MascotEnergyNotificationWorker.schedule(context)
+        } else {
+            //MascotEnergyNotificationWorker.cancel(context)
         }
     }
 
