@@ -3,6 +3,7 @@ package io.github.faening.lello.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.domain.terms.TermsAndPrivacyContent
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetJournalRewardsNotificationUseCase
@@ -12,6 +13,7 @@ import io.github.faening.lello.core.domain.usecase.theme.ThemePreferenceUseCase
 import io.github.faening.lello.core.domain.usecase.user.GetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.user.SetUserBiometricPreferencesUseCase
 import io.github.faening.lello.core.model.settings.NotificationPreferences
+import io.github.faening.lello.core.model.terms.TermsSection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,6 +43,14 @@ class SettingsViewModel @Inject constructor(
 
     private val _isBiometricAvailable = MutableStateFlow(false)
     val isBiometricAvailable: StateFlow<Boolean> = _isBiometricAvailable.asStateFlow()
+
+    private val _termsOfUse = MutableStateFlow(TermsAndPrivacyContent.termsOfUse)
+    val termsOfUse: StateFlow<List<TermsSection>> = _termsOfUse
+
+    private val _privacyPolicy = MutableStateFlow(TermsAndPrivacyContent.privacyPolicy)
+    val privacyPolicy: StateFlow<List<TermsSection>> = _privacyPolicy
+
+    val lastUpdated: String = TermsAndPrivacyContent.LAST_UPDATED
 
     init {
         loadThemePreferences()
