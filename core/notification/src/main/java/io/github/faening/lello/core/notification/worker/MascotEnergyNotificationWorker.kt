@@ -1,6 +1,8 @@
 package io.github.faening.lello.core.notification.worker
 
 import android.content.Context
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -11,10 +13,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.github.faening.lello.core.domain.repository.NotificationRepository
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotVitalityHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
-import io.github.faening.lello.core.model.notification.Notification
+import io.github.faening.lello.core.notification.NotificationHelper
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 
@@ -24,7 +26,7 @@ class MascotEnergyNotificationWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getMascotVitalityHistoryUseCase: GetMascotVitalityHistoryUseCase,
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
-    private val notificationRepository: NotificationRepository
+    // private val notificationRepository: NotificationRepository
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -39,21 +41,24 @@ class MascotEnergyNotificationWorker @AssistedInject constructor(
             val currentVitality = vitalityHistory.firstOrNull()?.value ?: 100
 
             if (currentVitality < 20) {
-                notificationRepository.schedule(
-                    Notification(
-                        id = NOTIFICATION_ID_MASCOT_ENERGY,
-                        title = "❤️ Lello está fraco!",
-                        message = "O Lello está com pouca energia ($currentVitality%). Cuide dele para aumentar sua vitalidade.",
-                        hour = 14, // 2 PM
-                        minute = 0
-                    )
-                )
+                showLowEnergyNotification(currentVitality)
             }
 
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.retry()
         }
+    }
+
+    private fun showLowEnergyNotification(currentVitality: Int) {
+        val notification = NotificationCompat.Builder(applicationContext, NotificationHelper.getChannelId())
+            .setSmallIcon(LelloIcons.Filled.Capybara.resId)
+            .setContentTitle("❤️ Lello está fraco!")
+            .setContentText("O Lello está com pouca energia ($currentVitality%). Cuide dele para aumentar sua vitalidade.")
+            .setAutoCancel(true)
+            .build()
+
+        NotificationManagerCompat.from(applicationContext).notify(NOTIFICATION_ID_MASCOT_ENERGY, notification)
     }
 
     companion object {

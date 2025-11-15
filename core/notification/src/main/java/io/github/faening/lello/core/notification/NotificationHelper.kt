@@ -1,12 +1,9 @@
-package io.github.faening.lello.core.notification.manager
+package io.github.faening.lello.core.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import io.github.faening.lello.core.designsystem.icon.LelloIcons
 
 object NotificationHelper {
     private const val CHANNEL_ID = "lello_notifications"
@@ -28,16 +25,5 @@ object NotificationHelper {
         }
     }
 
-    fun showWelcomeNotification(context: Context) {
-        createNotificationChannel(context)
-
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(LelloIcons.Filled.Capybara.resId)
-            .setContentTitle("Bem-vindo!")
-            .setContentText("Lello está com saudade de você. Interaja com os diários para ganhar moedas!")
-            .setAutoCancel(true)
-            .build()
-
-        NotificationManagerCompat.from(context).notify(1001, notification)
-    }
+    fun getChannelId(): String = CHANNEL_ID
 }

@@ -24,9 +24,12 @@ class NotificationScheduler @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun initialize() {
-        WelcomeNotificationWorker.schedule(context)
+        NotificationHelper.createNotificationChannel(context)
+
 
         scope.launch {
+            handleWelcomeNotification()
+
             getNotificationPreferencesUseCase.invoke().collect { preferences ->
                 handleMedicationNotifications(preferences.medicationEnabled)
                 handleMascotEnergyNotifications(preferences.mascotEnergyEnabled)
@@ -39,6 +42,10 @@ class NotificationScheduler @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             scheduleDailyNotificationsUseCase()
         }
+    }
+
+    private fun handleWelcomeNotification() {
+        WelcomeNotificationWorker.schedule(context)
     }
 
     private fun handleJournalRewardsNotifications(enabled: Boolean) {

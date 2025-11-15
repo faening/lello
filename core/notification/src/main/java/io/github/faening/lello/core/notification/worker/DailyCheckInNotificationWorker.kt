@@ -1,6 +1,8 @@
 package io.github.faening.lello.core.notification.worker
 
 import android.content.Context
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -11,10 +13,10 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.github.faening.lello.core.domain.repository.NotificationRepository
+import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.reward.GetDailyCheckInUseCase
-import io.github.faening.lello.core.model.notification.Notification
+import io.github.faening.lello.core.notification.NotificationHelper
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 
@@ -24,7 +26,7 @@ class DailyCheckInNotificationWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val getDailyCheckInUseCase: GetDailyCheckInUseCase,
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
-    private val notificationRepository: NotificationRepository
+    // private val notificationRepository: NotificationRepository
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -38,21 +40,29 @@ class DailyCheckInNotificationWorker @AssistedInject constructor(
             val checkInState = getDailyCheckInUseCase.observeDailyCheckIn().first()
 
             if (checkInState.currentStep >= 4 && !checkInState.bonusReceived) {
-                notificationRepository.schedule(
-                    Notification(
-                        id = NOTIFICATION_ID_DAILY_BONUS,
-                        title = "🎉 Bônus disponível!",
-                        message = "Você completou todos os diários hoje! Abra o app para receber sua recompensa.",
-                        hour = 20, // 8 PM
-                        minute = 0
-                    )
-                )
+                // Opção A: publicar agora usando o channel do Helper
+                showDailyBonusNotification()
+
+                // Opção B: se preferir manter o agendamento às 20\:00,
+                // garanta que o NotificationRepository use NotificationHelper.getChannelId() ao construir a notificação.
+                // notificationRepository.schedule(...)
             }
 
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.retry()
         }
+    }
+
+    private fun showDailyBonusNotification() {
+        val notification = NotificationCompat.Builder(applicationContext, NotificationHelper.getChannelId())
+            .setSmallIcon(LelloIcons.Filled.Capybara.resId)
+            .setContentTitle("🎉 Bônus disponível!")
+            .setContentText("Você completou todos os diários hoje! Abra o app para receber sua recompensa.")
+            .setAutoCancel(true)
+            .build()
+
+        NotificationManagerCompat.from(applicationContext).notify(NOTIFICATION_ID_DAILY_BONUS, notification)
     }
 
     companion object {

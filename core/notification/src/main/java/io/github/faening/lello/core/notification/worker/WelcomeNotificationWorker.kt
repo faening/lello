@@ -5,7 +5,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import io.github.faening.lello.core.notification.manager.NotificationHelper
+import io.github.faening.lello.core.notification.manager.WelcomeNotificationManager
 import java.util.concurrent.TimeUnit
 
 class WelcomeNotificationWorker(
@@ -14,7 +14,7 @@ class WelcomeNotificationWorker(
 ) : Worker(context, params) {
 
     override fun doWork(): Result {
-        NotificationHelper.showWelcomeNotification(applicationContext)
+        WelcomeNotificationManager.showWelcomeNotification(applicationContext)
         return Result.success()
     }
 
