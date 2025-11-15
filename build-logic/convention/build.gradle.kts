@@ -71,6 +71,10 @@ gradlePlugin {
             id = "lello.hilt"
             implementationClass = "HiltConventionPlugin"
         }
+        register("workManager") {
+            id = "lello.work.manager"
+            implementationClass = "WorkManagerConventionPlugin"
+        }
         register("androidRoom") {
             id = "lello.android.room"
             implementationClass = "AndroidRoomConventionPlugin"

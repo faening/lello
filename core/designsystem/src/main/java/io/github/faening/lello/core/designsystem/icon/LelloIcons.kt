@@ -94,6 +94,7 @@ object LelloIcons {
         val ArrowTopLeftRound = LelloIcon(designsystemR.drawable.ic_arrow_top_left_round_filled)
         val BookOpen = LelloIcon(designsystemR.drawable.ic_book_open_filled)
         val Calendar = LelloIcon(designsystemR.drawable.ic_calendar_filled)
+        val Capybara = LelloIcon(designsystemR.drawable.ic_capybara_filled)
         val Clock = LelloIcon(designsystemR.drawable.ic_clock_filled)
         val CloseRound = LelloIcon(designsystemR.drawable.ic_close_round_filled)
         val Document = LelloIcon(designsystemR.drawable.ic_document_filled)

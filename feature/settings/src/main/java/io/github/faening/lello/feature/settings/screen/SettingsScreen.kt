@@ -142,7 +142,7 @@ private fun SettingsScreenUISection(
                     title = "Notificações",
                     subtitle = "Ajuste as preferências de notificação",
                     type = SettingsItemType.NAVIGATION,
-                    onClick = { onNavigateToNotifications }
+                    onClick = onNavigateToNotifications
                 )
             )
         )

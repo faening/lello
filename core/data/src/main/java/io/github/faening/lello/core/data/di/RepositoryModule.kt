@@ -39,6 +39,7 @@ import io.github.faening.lello.core.data.repository.DataSleepJournalRepository
 import io.github.faening.lello.core.data.repository.DataSleepQualityOptionRepository
 import io.github.faening.lello.core.data.repository.DataSleepSensationOptionRepository
 import io.github.faening.lello.core.data.repository.DataSocialOptionRepository
+import io.github.faening.lello.core.data.repository.DataStoreNotificationSettingsRepository
 import io.github.faening.lello.core.data.repository.DataStoreOnboardingRepository
 import io.github.faening.lello.core.data.repository.DataStoreThemeRepository
 import io.github.faening.lello.core.data.repository.DataStoreUserRepository
@@ -81,6 +82,7 @@ import io.github.faening.lello.core.domain.repository.MealJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationJournalRepository
 import io.github.faening.lello.core.domain.repository.MedicationRepository
 import io.github.faening.lello.core.domain.repository.MoodJournalRepository
+import io.github.faening.lello.core.domain.repository.NotificationSettingsResources
 import io.github.faening.lello.core.domain.repository.OnboardingRepository
 import io.github.faening.lello.core.domain.repository.OptionRepository
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
@@ -279,6 +281,12 @@ object RepositoryModule {
 
     @Provides
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> = context.dataStore
+
+    @Provides
+    @Singleton
+    fun provideDataStoreNotificationSettingsRepository(
+        dataStore: DataStore<Preferences>
+    ): NotificationSettingsResources = DataStoreNotificationSettingsRepository(dataStore)
 
     @Provides
     @Singleton

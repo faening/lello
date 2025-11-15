@@ -5,24 +5,30 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import io.github.faening.lello.core.domain.usecase.notification.ScheduleDailyNotificationsUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.github.faening.lello.core.notification.NotificationScheduler
 import javax.inject.Inject
 
-@Suppress("SpellCheckingInspection")
 @HiltAndroidApp
-class LelloApplication : Application() {
+class LelloApplication : Application(), Configuration.Provider {
 
     @Inject
-    lateinit var scheduleDailyNotificationsUseCase: ScheduleDailyNotificationsUseCase
+    lateinit var notificationScheduler: NotificationScheduler
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        scheduleNotifications()
+        notificationScheduler.initialize()
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -36,12 +42,6 @@ class LelloApplication : Application() {
             }
             val notificationManager: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun scheduleNotifications() {
-        CoroutineScope(Dispatchers.IO).launch {
-            scheduleDailyNotificationsUseCase()
         }
     }
 }
