@@ -9,10 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +23,7 @@ import io.github.faening.lello.core.designsystem.component.card.SettingsItemType
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
+import io.github.faening.lello.core.model.settings.NotificationPreferences
 import io.github.faening.lello.feature.settings.SettingsViewModel
 
 @Composable
@@ -32,20 +31,25 @@ fun SettingsNotificationScreen(
     viewModel: SettingsViewModel,
     onBack: () -> Unit,
 ) {
+    val notificationPreferences by viewModel.notificationPreferences.collectAsState()
 
     SettingsNotificationScreenContent(
+        notificationPreferences = notificationPreferences,
+        onJournalRewardToggle = viewModel::toggleJournalRewardNotification,
+        onMedicationToggle = viewModel::toggleMedicationNotification,
+        onMascotEnergyToggle = viewModel::toggleMascotEnergyNotification,
         onBack = onBack
     )
 }
 
 @Composable
 private fun SettingsNotificationScreenContent(
+    notificationPreferences: NotificationPreferences,
+    onJournalRewardToggle: (Boolean) -> Unit,
+    onMedicationToggle: (Boolean) -> Unit,
+    onMascotEnergyToggle: (Boolean) -> Unit,
     onBack: () -> Unit,
 ) {
-    var rewardNotificationEnabled by rememberSaveable { mutableStateOf(true) }
-    var medicationNotificationEnabled by rememberSaveable { mutableStateOf(true) }
-    var mascotEnergyNotificationEnabled by rememberSaveable { mutableStateOf(true) }
-
     Scaffold(
         topBar = {
             SettingsNotificationTopAppBar(onBack = onBack)
@@ -72,24 +76,24 @@ private fun SettingsNotificationScreenContent(
                         title = "Diários",
                         subtitle = "Avise quando uma recompensa estiver disponível",
                         type = SettingsItemType.SWITCH,
-                        isChecked = rewardNotificationEnabled,
-                        onCheckedChange = { rewardNotificationEnabled = it }
+                        isChecked = notificationPreferences.journalRewardsEnabled,
+                        onCheckedChange = onJournalRewardToggle
                     ),
                     SettingsItem(
                         icon = LelloIcons.Outlined.DrugPill.imageVector,
                         title = "Remédios",
                         subtitle = "Lembretes para tomar os remédios no horário certo",
                         type = SettingsItemType.SWITCH,
-                        isChecked = medicationNotificationEnabled,
-                        onCheckedChange = { medicationNotificationEnabled = it }
+                        isChecked = notificationPreferences.medicationEnabled,
+                        onCheckedChange = onMedicationToggle
                     ),
                     SettingsItem(
                         icon = LelloIcons.Outlined.Sum.imageVector,
                         title = "Lello",
                         subtitle = "Receber um aviso quando o Lello estiver cansado",
                         type = SettingsItemType.SWITCH,
-                        isChecked = mascotEnergyNotificationEnabled,
-                        onCheckedChange = { mascotEnergyNotificationEnabled = it }
+                        isChecked = notificationPreferences.mascotEnergyEnabled,
+                        onCheckedChange = onMascotEnergyToggle
                     )
                 )
             )
@@ -119,6 +123,14 @@ private fun SettingsNotificationTopAppBar(
 private fun SettingsNotificationScreenPreview_LightMode() {
     LelloTheme {
         SettingsNotificationScreenContent(
+            notificationPreferences = NotificationPreferences(
+                journalRewardsEnabled = true,
+                medicationEnabled = false,
+                mascotEnergyEnabled = true
+            ),
+            onJournalRewardToggle = {},
+            onMedicationToggle = {},
+            onMascotEnergyToggle = {},
             onBack = {}
         )
     }

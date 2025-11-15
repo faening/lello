@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.os.Build
 import dagger.hilt.android.HiltAndroidApp
 import io.github.faening.lello.core.domain.usecase.notification.ScheduleDailyNotificationsUseCase
+import io.github.faening.lello.core.notification.worker.DailyCheckInNotificationWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class LelloApplication : Application() {
         super.onCreate()
         createNotificationChannel()
         scheduleNotifications()
+        scheduleWorkers()
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -43,5 +45,9 @@ class LelloApplication : Application() {
         CoroutineScope(Dispatchers.IO).launch {
             scheduleDailyNotificationsUseCase()
         }
+    }
+
+    private fun scheduleWorkers() {
+        DailyCheckInNotificationWorker.schedule(this)
     }
 }
