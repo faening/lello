@@ -7,8 +7,8 @@ import org.gradle.kotlin.dsl.dependencies
 class WorkManagerConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            dependencies {
-                pluginManager.withPlugin("com.android.base") {
+            pluginManager.withPlugin("com.android.base") {
+                dependencies {
                     add("implementation", libs.findLibrary("androidx-work").get())
                     add("implementation", libs.findLibrary("androidx-work-gcm").get())
                     add("implementation", libs.findLibrary("androidx-work-multiprocess").get())

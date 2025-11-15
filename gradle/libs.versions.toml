@@ -121,6 +121,7 @@ hilt-android = { group = "com.google.dagger", name="hilt-android", version.ref =
 hilt-compiler = { group = "com.google.dagger", name="hilt-compiler", version.ref = "hilt" }
 hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hilt-common" }
 hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work" }
 hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 
 # Junit
