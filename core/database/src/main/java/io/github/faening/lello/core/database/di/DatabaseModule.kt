@@ -9,7 +9,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.faening.lello.core.database.DatabaseMigrations
 import io.github.faening.lello.core.database.DatabaseSeeder
 import io.github.faening.lello.core.database.LelloDatabase
 import javax.inject.Singleton
@@ -28,13 +27,13 @@ object DatabaseModule {
             klass = LelloDatabase::class.java,
             name = "lello.db",
         )
-        .addMigrations(DatabaseMigrations.MIGRATION_1_2)
-        .fallbackToDestructiveMigration()
+        // .addMigrations(DatabaseMigrations.MIGRATION_1_2)
         .addCallback(object : RoomDatabase.Callback() {
-            override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
                 DatabaseSeeder.seedAll(db)
             }
         })
+        .fallbackToDestructiveMigration(true)
         .build()
 }

@@ -62,7 +62,7 @@ internal object DatabaseSeeder {
         for (item in AppetiteOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO appetite_options (description, blocked, active)
+                        INSERT OR IGNORE INTO appetite_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -78,7 +78,7 @@ internal object DatabaseSeeder {
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO climate_options (description, blocked, active)
+                        INSERT OR IGNORE INTO climate_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -94,7 +94,7 @@ internal object DatabaseSeeder {
         for (item in EmotionOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO emotion_options (description, blocked, active)
+                        INSERT OR IGNORE INTO emotion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -110,7 +110,7 @@ internal object DatabaseSeeder {
         for (item in FoodOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO food_options (description, blocked, active)
+                        INSERT OR IGNORE INTO food_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -126,7 +126,7 @@ internal object DatabaseSeeder {
         for (item in HealthOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO health_options (description, blocked, active)
+                        INSERT OR IGNORE INTO health_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -142,7 +142,7 @@ internal object DatabaseSeeder {
         for (item in JournalCategorySeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
+                        INSERT OR IGNORE INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -160,7 +160,7 @@ internal object DatabaseSeeder {
         for (item in LocationOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO location_options (description, blocked, active)
+                        INSERT OR IGNORE INTO location_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -176,7 +176,7 @@ internal object DatabaseSeeder {
         val now = System.currentTimeMillis()
         db.execSQL(
             sql = """
-                INSERT INTO mascot_status (
+                INSERT OR IGNORE INTO mascot_status (
                     id,
                     vitality,
                     last_updated_at
@@ -194,7 +194,7 @@ internal object DatabaseSeeder {
         for (item in MealOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO meal_options (description, blocked, active)
+                        INSERT OR IGNORE INTO meal_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -210,7 +210,7 @@ internal object DatabaseSeeder {
         for (item in MedicationActiveIngredientSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_active_ingredient_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_active_ingredient_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -226,7 +226,7 @@ internal object DatabaseSeeder {
         for (item in MedicationDosageFormOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_dosage_form_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -242,7 +242,7 @@ internal object DatabaseSeeder {
         for (item in MedicationDosageUnitOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_dosage_unit_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_dosage_unit_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -258,7 +258,7 @@ internal object DatabaseSeeder {
         for (item in MedicationSkipReasonOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_skip_reason_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_skip_reason_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -274,7 +274,7 @@ internal object DatabaseSeeder {
         for (item in PortionOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO portion_options (description, blocked, active)
+                        INSERT OR IGNORE INTO portion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -291,7 +291,7 @@ internal object DatabaseSeeder {
         val initialTime = now - 48L * 60L * 60L * 1000L
         db.execSQL(
             sql = """
-                INSERT INTO reward_balance (
+                INSERT OR IGNORE INTO reward_balance (
                     id,
                     total_coins,
                     last_mood_reward,
@@ -317,7 +317,7 @@ internal object DatabaseSeeder {
         for (item in SleepActivityOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_activity_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_activity_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -333,7 +333,7 @@ internal object DatabaseSeeder {
         for (item in SleepQualityOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_quality_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_quality_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -349,7 +349,7 @@ internal object DatabaseSeeder {
         for (item in SleepSensationOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_sensation_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_sensation_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -365,7 +365,7 @@ internal object DatabaseSeeder {
         for (item in SocialOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO social_options (description, blocked, active)
+                        INSERT OR IGNORE INTO social_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(

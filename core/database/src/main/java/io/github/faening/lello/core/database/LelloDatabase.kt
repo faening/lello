@@ -129,7 +129,7 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         SleepSensationOptionEntity::class,
         SocialOptionEntity::class,
     ],
-    version = 2,
+    version = 1,
     exportSchema = true
 )
 @TypeConverters(
