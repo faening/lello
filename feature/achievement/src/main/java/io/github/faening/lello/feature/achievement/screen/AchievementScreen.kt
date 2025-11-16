@@ -24,9 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.github.faening.lello.core.audio.AudioManager
 import io.github.faening.lello.core.audio.AudioTrack
-import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.LelloAchievementTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.achievement.AchievementViewModel
@@ -37,8 +36,10 @@ fun AchievementScreen(
     onBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
+
     var isMuted by remember { mutableStateOf(false) }
     val vitality by viewModel.vitality.collectAsState()
+    val money by viewModel.money.collectAsState()
 
     // Inicia a música ao entrar, para ao sair
     DisposableEffect(isMuted) {
@@ -50,79 +51,82 @@ fun AchievementScreen(
         onDispose { AudioManager.stop() }
     }
 
-    LelloTheme {
-        AchievementContainer(
-            vitality = vitality,
-            isMuted = isMuted,
-            onMuteToggle = { isMuted = !isMuted },
-            onBack = onBack
-        )
-    }
+    AchievementScreenContent(
+        vitality = vitality,
+        money = money,
+        isMuted = isMuted,
+        onMuteToggle = { isMuted = !isMuted },
+        onBack = onBack
+    )
 }
 
 @Composable
-private fun AchievementContainer(
+private fun AchievementScreenContent(
     vitality: Int,
+    money: Int,
     isMuted: Boolean,
     onMuteToggle: () -> Unit,
     onBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = LelloIcons.Graphic.AchievementsBackgroundForest.resId),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        AchievementScreenBackground()
         Scaffold(
-            containerColor = Color.Transparent,
             topBar = {
-                AchievementTopAppBar(
+                AchievementScreenTopAppBar(
+                    vitality = vitality,
+                    money = money,
                     isMuted = isMuted,
                     onMuteToggle = onMuteToggle,
                     onBack = onBack
                 )
-            }
+            },
+            containerColor = Color.Transparent
         ) { paddingValues ->
-            AchievementContent(
-                modifier = Modifier.padding(paddingValues)
-            )
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // No topo, adicionar informações de vitalidade e barra de cansaço
+
+
+                // Mascote aqui
+                val mascot = LelloIcons.Graphic.AchievementsMascotLelloBard.imageVector
+
+                // Lojas aqui
+                // 2 icones na vertical
+                val iconshop = LelloIcons.Graphic.AchievementsShop.imageVector
+                val iconInventory = LelloIcons.Graphic.AchievementsInventory.imageVector
+            }
         }
     }
 }
 
 @Composable
-private fun AchievementContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // No topo, adicionar informações de vitalidade e barra de cansaço
-
-
-        // Mascote aqui
-        val mascot = LelloIcons.Graphic.AchievementsMascotLelloBard.imageVector
-
-        // Lojas aqui
-        // 2 icones na vertical
-        val iconshop = LelloIcons.Graphic.AchievementsShop.imageVector
-        val iconInventory = LelloIcons.Graphic.AchievementsInventory.imageVector
-    }
+private fun AchievementScreenBackground() {
+    Image(
+        painter = painterResource(LelloIcons.Graphic.AchievementsBackgroundForest.resId),
+        contentDescription = "Background da tela de conquistas",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @Composable
-private fun AchievementTopAppBar(
+private fun AchievementScreenTopAppBar(
+    vitality: Int,
+    money: Int,
     isMuted: Boolean,
     onMuteToggle: () -> Unit,
     onBack: () -> Unit = {}
 ) {
-    LelloTopAppBar(
-        title = TopAppBarTitle(text = "Lello"),
+    LelloAchievementTopAppBar(
+        vitality = vitality,
+        money = money,
         navigateUp = TopAppBarAction(onClick = onBack),
         actions = listOf(
             TopAppBarAction(
@@ -138,20 +142,25 @@ private fun AchievementTopAppBar(
     )
 }
 
+// region: Previes
+
 @Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun AchievementScreenPreview() {
+fun AchievementScreenPreview_LightMode() {
     LelloTheme {
-        AchievementContainer(
+        AchievementScreenContent(
             vitality = 50,
+            money = 250,
             isMuted = false,
             onMuteToggle = {},
             onBack = {}
         )
     }
 }
+
+// endregion: Previes
