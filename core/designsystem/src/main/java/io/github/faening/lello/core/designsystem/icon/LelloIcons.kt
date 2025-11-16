@@ -1,7 +1,14 @@
 package io.github.faening.lello.core.designsystem.icon
 
+import androidx.compose.foundation.Image
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import io.github.faening.lello.core.designsystem.R as designsystemR
 
@@ -126,4 +133,42 @@ object LelloIcons {
 data class LelloIcon(val resId: Int) {
     val imageVector: ImageVector
         @Composable get() = ImageVector.vectorResource(resId)
+}
+
+/**
+ * Um Composable que carrega dinamicamente um ícone com base no seu NOME (String).
+ *
+ * @param resourceName O nome do recurso drawable.
+ * @param contentDescription A descrição do conteúdo para acessibilidade.
+ * @param modifier Modificador para estilizar o Image Composable.
+ */
+@Composable
+fun DynamicLelloIcon(
+    resourceName: String,
+    contentDescription: String?,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val resourceId = remember(resourceName, context) {
+        context.resources.getIdentifier(
+            resourceName,
+            "drawable",
+            context.packageName
+        )
+    }
+
+    if (resourceId != 0) {
+        Image(
+            painter = painterResource(id = resourceId),
+            contentDescription = contentDescription,
+            modifier = modifier
+        )
+    } else {
+        // Você pode substituir por um ícone de placeholder do LelloIcons
+        Image(
+            imageVector = Icons.Default.BrokenImage, // Substituir
+            contentDescription = "Imagem não encontrada",
+            modifier = modifier
+        )
+    }
 }

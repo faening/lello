@@ -15,7 +15,7 @@ import io.github.faening.lello.core.data.repository.DataEmotionOptionRepository
 import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
 import io.github.faening.lello.core.data.repository.DataInventoryRepository
-import io.github.faening.lello.core.data.repository.DataItemRepository
+import io.github.faening.lello.core.data.repository.DataItemCatalogRepository
 import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMascotRepository
@@ -73,7 +73,7 @@ import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
 import io.github.faening.lello.core.domain.repository.InventoryRepository
-import io.github.faening.lello.core.domain.repository.ItemRepository
+import io.github.faening.lello.core.domain.repository.ItemCategoryRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MascotStatusRepository
@@ -118,7 +118,8 @@ import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
 import io.github.faening.lello.core.model.store.InventoryItem
-import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.ItemCatalog
+import io.github.faening.lello.core.model.store.ItemType
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Singleton
 
@@ -161,7 +162,7 @@ object RepositoryModule {
     @Provides
     fun provideDataItemRepository(
         dao: ItemCatalogDao
-    ): ItemRepository<Item> = DataItemRepository(dao)
+    ): ItemCategoryRepository<ItemCatalog, ItemType> = DataItemCatalogRepository(dao)
 
     @Provides
     fun provideDataJournalCategoryRepository(

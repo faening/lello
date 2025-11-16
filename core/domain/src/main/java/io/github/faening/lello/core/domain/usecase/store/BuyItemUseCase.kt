@@ -7,12 +7,12 @@ import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalan
 import io.github.faening.lello.core.domain.usecase.reward.balance.SaveOrUpdateRewardBalanceUseCase
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.store.InventoryItem
-import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.ItemCatalog
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Inject
 
 class BuyItemUseCase @Inject constructor(
-    private val itemRepository: ItemRepository<Item>,
+    private val itemRepository: ItemRepository<ItemCatalog>,
     private val inventoryRepository: InventoryRepository<InventoryItem>,
     private val purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
     private val saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,

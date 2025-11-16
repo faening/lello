@@ -7,6 +7,7 @@ import io.github.faening.lello.core.database.seed.ClimateOptionSeed
 import io.github.faening.lello.core.database.seed.EmotionOptionSeed
 import io.github.faening.lello.core.database.seed.FoodOptionSeed
 import io.github.faening.lello.core.database.seed.HealthOptionSeed
+import io.github.faening.lello.core.database.seed.ItemCatalogSeed
 import io.github.faening.lello.core.database.seed.JournalCategorySeed
 import io.github.faening.lello.core.database.seed.LocationOptionSeed
 import io.github.faening.lello.core.database.seed.MealOptionSeed
@@ -40,6 +41,7 @@ internal object DatabaseSeeder {
         seedEmotionOptions(db)
         seedFoodOptions(db)
         seedHealthOptions(db)
+        seedItemCatalog(db)
         seedJournalCategory(db)
         seedLocationOptions(db)
         seedMascotStatus(db)
@@ -138,6 +140,27 @@ internal object DatabaseSeeder {
                     item.description,
                     if (item.blocked) 1 else 0,
                     if (item.active) 1 else 0
+                )
+            )
+        }
+    }
+
+    private fun seedItemCatalog(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "item_catalog")) return
+        for (item in ItemCatalogSeed.data) {
+            db.execSQL(
+                sql = """
+                        INSERT OR IGNORE INTO item_catalog (name, description, price, image_resource_name, type, vitality_gain, is_active)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """.trimIndent(),
+                bindArgs = arrayOf(
+                    item.name,
+                    item.description,
+                    item.price,
+                    item.imageResourceName,
+                    item.type.name,
+                    item.vitalityGain,
+                    if (item.isActive) 1 else 0
                 )
             )
         }

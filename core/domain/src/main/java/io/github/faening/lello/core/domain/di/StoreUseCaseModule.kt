@@ -14,7 +14,7 @@ import io.github.faening.lello.core.domain.usecase.store.GetInventoryItemsUseCas
 import io.github.faening.lello.core.domain.usecase.store.GetPurchaseHistoryUseCase
 import io.github.faening.lello.core.domain.usecase.store.GetStoreItemsUseCase
 import io.github.faening.lello.core.model.store.InventoryItem
-import io.github.faening.lello.core.model.store.Item
+import io.github.faening.lello.core.model.store.ItemCatalog
 import io.github.faening.lello.core.model.store.PurchaseHistory
 
 @Module
@@ -23,7 +23,7 @@ object StoreUseCaseModule {
 
     @Provides
     fun provideBuyItemUseCase(
-        itemRepository: ItemRepository<Item>,
+        itemRepository: ItemRepository<ItemCatalog>,
         inventoryRepository: InventoryRepository<InventoryItem>,
         purchaseHistoryRepository: PurchaseHistoryRepository<PurchaseHistory>,
         saveOrUpdateRewardBalanceUseCase: SaveOrUpdateRewardBalanceUseCase,
@@ -48,7 +48,7 @@ object StoreUseCaseModule {
 
     @Provides
     fun provideGetStoreItemsUseCase(
-        itemRepository: ItemRepository<Item>,
+        itemRepository: ItemRepository<ItemCatalog>,
         inventoryRepository: InventoryRepository<InventoryItem>
     ) = GetStoreItemsUseCase(itemRepository, inventoryRepository)
 }
