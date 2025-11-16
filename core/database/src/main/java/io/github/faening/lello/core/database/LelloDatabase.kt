@@ -32,6 +32,9 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
+import io.github.faening.lello.core.database.model.item.ItemCatalogEntity
+import io.github.faening.lello.core.database.model.item.ItemInventoryEntity
+import io.github.faening.lello.core.database.model.item.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
@@ -74,9 +77,6 @@ import io.github.faening.lello.core.database.model.option.SleepSensationOptionEn
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
 import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
-import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
-import io.github.faening.lello.core.database.model.store.ItemInventoryEntity
-import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
 import io.github.faening.lello.core.database.util.JournalMoodTypeConverter

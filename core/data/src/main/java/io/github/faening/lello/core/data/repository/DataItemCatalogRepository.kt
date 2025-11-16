@@ -1,7 +1,7 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.ItemCatalogDao
-import io.github.faening.lello.core.database.model.store.toModel
+import io.github.faening.lello.core.database.model.item.toModel
 import io.github.faening.lello.core.domain.repository.ItemCategoryRepository
 import io.github.faening.lello.core.model.store.ItemCatalog
 import io.github.faening.lello.core.model.store.ItemType

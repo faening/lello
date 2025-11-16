@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
+import io.github.faening.lello.core.database.model.item.PurchaseHistoryEntity
 import io.github.faening.lello.core.domain.repository.PurchaseHistoryRepository
 
 @Dao

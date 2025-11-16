@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import io.github.faening.lello.core.database.model.store.ItemInventoryEntity
+import io.github.faening.lello.core.database.model.item.ItemInventoryEntity
 import io.github.faening.lello.core.domain.repository.ItemInventoryDaoContract
 
 @Suppress("unused")

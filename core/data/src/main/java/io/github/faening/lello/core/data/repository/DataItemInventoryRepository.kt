@@ -1,8 +1,8 @@
 package io.github.faening.lello.core.data.repository
 
 import io.github.faening.lello.core.database.dao.ItemInventoryDao
-import io.github.faening.lello.core.database.model.store.toEntity
-import io.github.faening.lello.core.database.model.store.toModel
+import io.github.faening.lello.core.database.model.item.toEntity
+import io.github.faening.lello.core.database.model.item.toModel
 import io.github.faening.lello.core.domain.repository.ItemInventoryRepository
 import io.github.faening.lello.core.model.store.ItemInventory
 import javax.inject.Inject

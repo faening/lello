@@ -1,6 +1,6 @@
 package io.github.faening.lello.core.database.seed
 
-import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
+import io.github.faening.lello.core.database.model.item.ItemCatalogEntity
 import io.github.faening.lello.core.model.store.ItemType
 
 object ItemCatalogSeed : Seed<ItemCatalogEntity> {
