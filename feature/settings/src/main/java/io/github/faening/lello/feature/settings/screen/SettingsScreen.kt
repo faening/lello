@@ -29,7 +29,8 @@ import io.github.faening.lello.feature.settings.SettingsViewModel
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onNavigateToNotifications: () -> Unit,
-    onNavigateToTerms: () -> Unit
+    onNavigateToTerms: () -> Unit,
+    onLogoutSuccess: () -> Unit
 ) {
     // UI
     val isDarkThemeEnabled by viewModel.isDarkThemeEnabled.collectAsState()
@@ -45,7 +46,11 @@ fun SettingsScreen(
         isBiometricAvailable = isBiometricAvailable,
         onBiometricToggle = viewModel::toggleBiometricAuthentication,
         onNavigateToNotifications = onNavigateToNotifications,
-        onNavigateToTerms = onNavigateToTerms
+        onNavigateToTerms = onNavigateToTerms,
+        onLogout = {
+            viewModel.logout()
+            onLogoutSuccess()
+        }
     )
 }
 
@@ -195,7 +200,7 @@ private fun SettingsScreenAccountSection(
                     title = "Sair",
                     subtitle = "Saia da sua conta sem perder seus dados",
                     type = SettingsItemType.NAVIGATION,
-                    onClick = { onLogout }
+                    onClick = onLogout
                 ),
                 SettingsItem(
                     icon = LelloIcons.Outlined.Trash.imageVector,

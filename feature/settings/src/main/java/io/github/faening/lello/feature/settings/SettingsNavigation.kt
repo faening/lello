@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import io.github.faening.lello.core.navigation.customComposable
+import io.github.faening.lello.feature.authentication.AuthenticationDestinations
 import io.github.faening.lello.feature.settings.screen.SettingsNotificationScreen
 import io.github.faening.lello.feature.settings.screen.SettingsScreen
 import io.github.faening.lello.feature.settings.screen.SettingsTermsAndPrivacyScreen
@@ -33,7 +35,15 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
             SettingsScreen(
                 viewModel = viewModel,
                 onNavigateToNotifications = { navController.navigate(SettingsDestinations.NOTIFICATIONS) },
-                onNavigateToTerms = { navController.navigate(SettingsDestinations.TERMS) }
+                onNavigateToTerms = { navController.navigate(SettingsDestinations.TERMS) },
+                onLogoutSuccess = {
+                    navController.navigate(AuthenticationDestinations.GRAPH) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }
             )
         }
 

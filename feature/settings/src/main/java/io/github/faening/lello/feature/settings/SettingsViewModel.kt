@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.terms.TermsAndPrivacyContent
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.LogoutUseCase
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetJournalRewardsNotificationUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetMascotEnergyNotificationUseCase
@@ -29,7 +30,8 @@ class SettingsViewModel @Inject constructor(
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
     private val setJournalRewardsNotificationUseCase: SetJournalRewardsNotificationUseCase,
     private val setMascotEnergyNotificationUseCase: SetMascotEnergyNotificationUseCase,
-    private val setMedicationNotificationUseCase: SetMedicationNotificationUseCase
+    private val setMedicationNotificationUseCase: SetMedicationNotificationUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
     private val _isDarkThemeEnabled = MutableStateFlow(false)
@@ -113,5 +115,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             setMascotEnergyNotificationUseCase.invoke(enabled)
         }
+    }
+
+    fun logout() {
+        logoutUseCase.invoke()
     }
 }

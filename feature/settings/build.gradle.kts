@@ -11,4 +11,5 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.model)
     api(projects.core.navigation)
+    api(projects.feature.authentication)
 }
