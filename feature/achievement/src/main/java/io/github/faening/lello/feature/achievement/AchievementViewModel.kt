@@ -39,8 +39,4 @@ class AchievementViewModel @Inject constructor(
             _money.value = getRewardBalanceUseCase.invoke()?.totalCoins ?: 0
         }
     }
-
-    fun feedMascot(amount: Int) {
-
-    }
 }

@@ -14,8 +14,8 @@ import io.github.faening.lello.core.data.repository.DataClimateOptionRepository
 import io.github.faening.lello.core.data.repository.DataEmotionOptionRepository
 import io.github.faening.lello.core.data.repository.DataFoodOptionRepository
 import io.github.faening.lello.core.data.repository.DataHealthOptionRepository
-import io.github.faening.lello.core.data.repository.DataInventoryRepository
 import io.github.faening.lello.core.data.repository.DataItemCatalogRepository
+import io.github.faening.lello.core.data.repository.DataItemInventoryRepository
 import io.github.faening.lello.core.data.repository.DataJournalCategoryRepository
 import io.github.faening.lello.core.data.repository.DataLocationOptionRepository
 import io.github.faening.lello.core.data.repository.DataMascotRepository
@@ -48,8 +48,8 @@ import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
-import io.github.faening.lello.core.database.dao.InventoryDao
 import io.github.faening.lello.core.database.dao.ItemCatalogDao
+import io.github.faening.lello.core.database.dao.ItemInventoryDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MascotStatusDao
@@ -72,8 +72,8 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
-import io.github.faening.lello.core.domain.repository.InventoryRepository
 import io.github.faening.lello.core.domain.repository.ItemCategoryRepository
+import io.github.faening.lello.core.domain.repository.ItemInventoryRepository
 import io.github.faening.lello.core.domain.repository.JournalCategoryRepository
 import io.github.faening.lello.core.domain.repository.MascotRepository
 import io.github.faening.lello.core.domain.repository.MascotStatusRepository
@@ -117,8 +117,8 @@ import io.github.faening.lello.core.model.option.SleepSensationOption
 import io.github.faening.lello.core.model.option.SocialOption
 import io.github.faening.lello.core.model.reward.RewardBalance
 import io.github.faening.lello.core.model.reward.RewardHistory
-import io.github.faening.lello.core.model.store.InventoryItem
 import io.github.faening.lello.core.model.store.ItemCatalog
+import io.github.faening.lello.core.model.store.ItemInventory
 import io.github.faening.lello.core.model.store.ItemType
 import io.github.faening.lello.core.model.store.PurchaseHistory
 import javax.inject.Singleton
@@ -155,14 +155,14 @@ object RepositoryModule {
     ): OptionRepository<HealthOption> = DataHealthOptionRepository(dao)
 
     @Provides
-    fun provideDataInventoryRepository(
-        dao: InventoryDao
-    ): InventoryRepository<InventoryItem> = DataInventoryRepository(dao)
-
-    @Provides
-    fun provideDataItemRepository(
+    fun provideDataItemCatalogRepository(
         dao: ItemCatalogDao
     ): ItemCategoryRepository<ItemCatalog, ItemType> = DataItemCatalogRepository(dao)
+
+    @Provides
+    fun provideDataItemInventoryRepository(
+        dao: ItemInventoryDao
+    ): ItemInventoryRepository<ItemInventory> = DataItemInventoryRepository(dao)
 
     @Provides
     fun provideDataJournalCategoryRepository(
