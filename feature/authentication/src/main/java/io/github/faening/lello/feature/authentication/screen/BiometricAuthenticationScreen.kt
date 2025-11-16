@@ -41,6 +41,7 @@ internal fun BiometricAuthenticationScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val activity = context as FragmentActivity
 
     // Inicia autenticação biométrica automaticamente se disponível
     LaunchedEffect(key1 = true) {
@@ -50,7 +51,7 @@ internal fun BiometricAuthenticationScreen(
 
         if (biometricAvailable && hasSavedEmail) {
             runCatching {
-                viewModel.authenticateWithBiometric(context as FragmentActivity)
+                viewModel.authenticateWithBiometric(activity)
             }.onFailure { e ->
                 e.printStackTrace()
             }
@@ -67,7 +68,7 @@ internal fun BiometricAuthenticationScreen(
 
     BiometricAuthenticationContent(
         uiState = uiState,
-        onTryAgain = { viewModel.authenticateWithBiometric(context as FragmentActivity) },
+        onTryAgain = { viewModel.authenticateWithBiometric(activity) },
         onErrorDismiss = { viewModel.clearError() },
         onNavigateToEmailSignIn = onNavigateToEmailSignIn
     )
