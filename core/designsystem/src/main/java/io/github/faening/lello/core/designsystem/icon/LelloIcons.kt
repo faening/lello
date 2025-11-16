@@ -21,6 +21,7 @@ object LelloIcons {
 
         // Card - Diary
         val Coin = LelloIcon(designsystemR.drawable.ic_coin_custom)
+        val Heart = LelloIcon(designsystemR.drawable.ic_heart_custom)
 
         // Diaries
         val DiaryMeal = LelloIcon(designsystemR.drawable.img_diary_meal_screen)
