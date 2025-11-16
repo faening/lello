@@ -8,7 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import io.github.faening.lello.core.navigation.customComposable
+import io.github.faening.lello.feature.achievement.screen.AchievementInventoryScreen
 import io.github.faening.lello.feature.achievement.screen.AchievementScreen
+import io.github.faening.lello.feature.achievement.screen.AchievementStoreScreen
 
 object AchievementDestinations {
     const val GRAPH = "achievement_graph"
@@ -27,11 +30,33 @@ fun NavGraphBuilder.achievementGraph(navController: NavHostController) {
 
             AchievementScreen(
                 viewModel = viewModel,
+                onNavigateToStore = { navController.navigate(AchievementDestinations.STORE) },
+                onNavigateToInventory = { navController.navigate(AchievementDestinations.INVENTORY) },
                 onBack = { navController.popBackStack() }
             )
         }
 
+        customComposable(
+            route = AchievementDestinations.STORE
+        ) { backStackEntry ->
+            val viewModel = sharedAchievementViewModel(navController, backStackEntry)
 
+            AchievementStoreScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        customComposable(
+            route = AchievementDestinations.INVENTORY
+        ) { backStackEntry ->
+            val viewModel = sharedAchievementViewModel(navController, backStackEntry)
+
+            AchievementInventoryScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 
