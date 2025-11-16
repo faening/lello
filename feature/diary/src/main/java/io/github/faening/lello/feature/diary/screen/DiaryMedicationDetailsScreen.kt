@@ -72,9 +72,9 @@ private fun DiaryMedicationDetailsScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
                 .padding(Dimension.spacingRegular)
-                .verticalScroll(rememberScrollState()),
         ) {
             Box(
                 modifier = Modifier
