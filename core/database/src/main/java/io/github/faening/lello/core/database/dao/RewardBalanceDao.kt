@@ -5,15 +5,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
-import io.github.faening.lello.core.domain.repository.RewardBalanceRepository
+import io.github.faening.lello.core.domain.repository.RewardBalanceDaoContract
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("unused")
 @Dao
-interface RewardBalanceDao : RewardBalanceRepository<RewardBalanceEntity> {
+interface RewardBalanceDao : RewardBalanceDaoContract<RewardBalanceEntity> {
 
-    @Query("SELECT * FROM reward_balance WHERE id = 1")
-    override fun observeBalance(): Flow<RewardBalanceEntity>
+    @Query("SELECT * FROM reward_balance WHERE id = 1 LIMIT 1")
+    override fun observeBalance(): Flow<RewardBalanceEntity?>
 
     @Query("SELECT * FROM reward_balance WHERE id = 1")
     override suspend fun getBalance(): RewardBalanceEntity?

@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.terms.TermsAndPrivacyContent
 import io.github.faening.lello.core.domain.usecase.authentication.BiometricAuthenticationUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.DeleteAccountUseCase
+import io.github.faening.lello.core.domain.usecase.authentication.LogoutUseCase
 import io.github.faening.lello.core.domain.usecase.notification.GetNotificationPreferencesUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetJournalRewardsNotificationUseCase
 import io.github.faening.lello.core.domain.usecase.notification.SetMascotEnergyNotificationUseCase
@@ -29,7 +31,9 @@ class SettingsViewModel @Inject constructor(
     private val getNotificationPreferencesUseCase: GetNotificationPreferencesUseCase,
     private val setJournalRewardsNotificationUseCase: SetJournalRewardsNotificationUseCase,
     private val setMascotEnergyNotificationUseCase: SetMascotEnergyNotificationUseCase,
-    private val setMedicationNotificationUseCase: SetMedicationNotificationUseCase
+    private val setMedicationNotificationUseCase: SetMedicationNotificationUseCase,
+    private val logoutUseCase: LogoutUseCase,
+    private val deleteAccountUseCase: DeleteAccountUseCase
 ) : ViewModel() {
 
     private val _isDarkThemeEnabled = MutableStateFlow(false)
@@ -43,6 +47,18 @@ class SettingsViewModel @Inject constructor(
 
     private val _isBiometricAvailable = MutableStateFlow(false)
     val isBiometricAvailable: StateFlow<Boolean> = _isBiometricAvailable.asStateFlow()
+
+    private val _showDeleteDialog = MutableStateFlow(false)
+    val showDeleteDialog: StateFlow<Boolean> = _showDeleteDialog
+
+    private val _isDeletingAccount = MutableStateFlow(false)
+    val isDeletingAccount: StateFlow<Boolean> = _isDeletingAccount
+
+    private val _accountDeletionSucceeded = MutableStateFlow(false)
+    val accountDeletionSucceeded: StateFlow<Boolean> = _accountDeletionSucceeded
+
+    private val _accountDeletionError = MutableStateFlow<Throwable?>(null)
+    val accountDeletionError: StateFlow<Throwable?> = _accountDeletionError
 
     private val _termsOfUse = MutableStateFlow(TermsAndPrivacyContent.termsOfUse)
     val termsOfUse: StateFlow<List<TermsSection>> = _termsOfUse
@@ -112,6 +128,34 @@ class SettingsViewModel @Inject constructor(
     fun toggleMascotEnergyNotification(enabled: Boolean) {
         viewModelScope.launch {
             setMascotEnergyNotificationUseCase.invoke(enabled)
+        }
+    }
+
+    fun logout() {
+        logoutUseCase.invoke()
+    }
+
+    fun requestAccountDeletion() {
+        _showDeleteDialog.value = true
+    }
+
+    fun dismissDeleteDialog() {
+        _showDeleteDialog.value = false
+    }
+
+    fun confirmDeleteAccount() {
+        _isDeletingAccount.value = true
+        viewModelScope.launch {
+            _accountDeletionError.value = null
+            try {
+                val success = deleteAccountUseCase()
+                _accountDeletionSucceeded.value = success
+            } catch (e: Exception) {
+                _accountDeletionError.value = e
+            } finally {
+                _isDeletingAccount.value = false
+                _showDeleteDialog.value = false
+            }
         }
     }
 }

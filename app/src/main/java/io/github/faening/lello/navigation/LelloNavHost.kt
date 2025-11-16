@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import io.github.faening.lello.BuildConfig
 import io.github.faening.lello.feature.achievement.achievementGraph
 import io.github.faening.lello.feature.authentication.AuthenticationDestinations
 import io.github.faening.lello.feature.authentication.authenticationGraph
@@ -49,7 +48,6 @@ fun LelloNavHost(
     }
 
     val startDestination = when {
-        BuildConfig.DEBUG -> HomeDestinations.GRAPH // For easier testing during development
         isUserAuthenticated == false -> AuthenticationDestinations.GRAPH
         isUserAuthenticated == true -> AuthenticationDestinations.GRAPH
         !hasSeen -> OnboardingDestinations.GRAPH

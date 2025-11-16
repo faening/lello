@@ -8,8 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,7 +35,9 @@ import io.github.faening.lello.feature.settings.SettingsViewModel
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onNavigateToNotifications: () -> Unit,
-    onNavigateToTerms: () -> Unit
+    onNavigateToTerms: () -> Unit,
+    onLogoutSuccess: () -> Unit,
+    onAccountDeletionSuccess: () -> Unit
 ) {
     // UI
     val isDarkThemeEnabled by viewModel.isDarkThemeEnabled.collectAsState()
@@ -38,6 +46,19 @@ fun SettingsScreen(
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsState()
     val isBiometricAvailable by viewModel.isBiometricAvailable.collectAsState()
 
+    // Account
+    val showDeleteDialog by viewModel.showDeleteDialog.collectAsState()
+    val isDeletingAccount by viewModel.isDeletingAccount.collectAsState()
+    val deletionSucceeded by viewModel.accountDeletionSucceeded.collectAsState()
+    val deletionError by viewModel.accountDeletionError.collectAsState()
+
+    // Navega após sucesso
+    LaunchedEffect(deletionSucceeded) {
+        if (deletionSucceeded) {
+            onAccountDeletionSuccess()
+        }
+    }
+
     SettingsScreenContent(
         isDarkThemeEnabled = isDarkThemeEnabled,
         onToggleTheme = viewModel::toggleDarkTheme,
@@ -45,8 +66,24 @@ fun SettingsScreen(
         isBiometricAvailable = isBiometricAvailable,
         onBiometricToggle = viewModel::toggleBiometricAuthentication,
         onNavigateToNotifications = onNavigateToNotifications,
-        onNavigateToTerms = onNavigateToTerms
+        onNavigateToTerms = onNavigateToTerms,
+        onLogout = {
+            viewModel.logout()
+            onLogoutSuccess()
+        },
+        onDeleteAccount = {
+            viewModel.requestAccountDeletion()
+        }
     )
+
+    if (showDeleteDialog) {
+        DeleteAccountConfirmationDialog(
+            isLoading = isDeletingAccount,
+            error = deletionError?.message,
+            onConfirm = { viewModel.confirmDeleteAccount() },
+            onDismiss = { viewModel.dismissDeleteDialog() }
+        )
+    }
 }
 
 @Composable
@@ -195,14 +232,14 @@ private fun SettingsScreenAccountSection(
                     title = "Sair",
                     subtitle = "Saia da sua conta sem perder seus dados",
                     type = SettingsItemType.NAVIGATION,
-                    onClick = { onLogout }
+                    onClick = onLogout
                 ),
                 SettingsItem(
                     icon = LelloIcons.Outlined.Trash.imageVector,
                     title = "Excluir conta",
                     subtitle = "Excluir permanentemente sua conta e todos os dados associados",
                     type = SettingsItemType.NAVIGATION,
-                    onClick = { onDeleteAccount },
+                    onClick = onDeleteAccount,
                     isDangerousTheme = true
                 )
             )
@@ -230,6 +267,50 @@ private fun SettingsScreenTermsAndPrivacySection(
             )
         )
     }
+}
+
+@Composable
+private fun DeleteAccountConfirmationDialog(
+    isLoading: Boolean,
+    error: String?,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                imageVector = LelloIcons.Outlined.Trash.imageVector,
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(
+                text = "Excluir conta",
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        text = {
+            Text(
+                text = when {
+                    isLoading -> "Excluindo conta..."
+                    error != null -> "Erro ao excluir: $error"
+                    else -> "Tem certeza que deseja excluir sua conta? Esta ação é irreversível."
+                },
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        confirmButton = {
+            if (!isLoading) {
+                TextButton(onClick = onConfirm) { Text("SIM") }
+            }
+        },
+        dismissButton = {
+            if (!isLoading) {
+                TextButton(onClick = onDismiss) { Text("CANCELAR") }
+            }
+        }
+    )
 }
 
 // region Previews

@@ -59,10 +59,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedAppetiteOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "appetite_options")) return
         for (item in AppetiteOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO appetite_options (description, blocked, active)
+                        INSERT OR IGNORE INTO appetite_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -75,10 +76,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedClimateOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "climate_options")) return
         for (item in ClimateOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO climate_options (description, blocked, active)
+                        INSERT OR IGNORE INTO climate_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -91,10 +93,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedEmotionOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "emotion_options")) return
         for (item in EmotionOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO emotion_options (description, blocked, active)
+                        INSERT OR IGNORE INTO emotion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -107,10 +110,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedFoodOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "food_options")) return
         for (item in FoodOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO food_options (description, blocked, active)
+                        INSERT OR IGNORE INTO food_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -123,10 +127,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedHealthOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "health_options")) return
         for (item in HealthOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO health_options (description, blocked, active)
+                        INSERT OR IGNORE INTO health_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -139,10 +144,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedJournalCategory(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "journal_categories")) return
         for (item in JournalCategorySeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO journal_categories (name, short_description, long_description, blocked, active)
+                        INSERT OR IGNORE INTO journal_categories (name, short_description, long_description, blocked, active)
                         VALUES (?, ?, ?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -157,10 +163,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedLocationOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "location_options")) return
         for (item in LocationOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO location_options (description, blocked, active)
+                        INSERT OR IGNORE INTO location_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -173,10 +180,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMascotStatus(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "mascot_status")) return
         val now = System.currentTimeMillis()
         db.execSQL(
             sql = """
-                INSERT INTO mascot_status (
+                INSERT OR IGNORE INTO mascot_status (
                     id,
                     vitality,
                     last_updated_at
@@ -191,10 +199,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMealOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "meal_options")) return
         for (item in MealOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO meal_options (description, blocked, active)
+                        INSERT OR IGNORE INTO meal_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -207,10 +216,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMedicationActiveIngredientOption(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "medication_active_ingredient_options")) return
         for (item in MedicationActiveIngredientSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_active_ingredient_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_active_ingredient_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -223,10 +233,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMedicationDosageFormOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "medication_dosage_form_options")) return
         for (item in MedicationDosageFormOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_dosage_form_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_dosage_form_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -239,10 +250,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMedicationDosageUnitOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "medication_dosage_unit_options")) return
         for (item in MedicationDosageUnitOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_dosage_unit_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_dosage_unit_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -255,10 +267,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedMedicationSkipReasonOption(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "medication_skip_reason_options")) return
         for (item in MedicationSkipReasonOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO medication_skip_reason_options (description, blocked, active)
+                        INSERT OR IGNORE INTO medication_skip_reason_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -271,10 +284,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedPortionOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "portion_options")) return
         for (item in PortionOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO portion_options (description, blocked, active)
+                        INSERT OR IGNORE INTO portion_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -287,11 +301,12 @@ internal object DatabaseSeeder {
     }
 
     private fun seedRewardBalance(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "reward_balance")) return
         val now = System.currentTimeMillis()
         val initialTime = now - 48L * 60L * 60L * 1000L
         db.execSQL(
             sql = """
-                INSERT INTO reward_balance (
+                INSERT OR IGNORE INTO reward_balance (
                     id,
                     total_coins,
                     last_mood_reward,
@@ -314,10 +329,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedSleepActivityOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "sleep_activity_options")) return
         for (item in SleepActivityOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_activity_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_activity_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -330,10 +346,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedSleepQualityOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "sleep_quality_options")) return
         for (item in SleepQualityOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_quality_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_quality_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -346,10 +363,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedSleepSensationOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "sleep_sensation_options")) return
         for (item in SleepSensationOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO sleep_sensation_options (description, blocked, active)
+                        INSERT OR IGNORE INTO sleep_sensation_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -362,10 +380,11 @@ internal object DatabaseSeeder {
     }
 
     private fun seedSocialOptions(db: SupportSQLiteDatabase) {
+        if (!shouldSeedTable(db, "social_options")) return
         for (item in SocialOptionSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT INTO social_options (description, blocked, active)
+                        INSERT OR IGNORE INTO social_options (description, blocked, active)
                         VALUES (?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
@@ -375,5 +394,13 @@ internal object DatabaseSeeder {
                 )
             )
         }
+    }
+
+    private fun shouldSeedTable(db: SupportSQLiteDatabase, tableName: String): Boolean {
+        val cursor = db.query("SELECT COUNT(*) FROM $tableName")
+        cursor.moveToFirst()
+        val count = cursor.getInt(0)
+        cursor.close()
+        return count == 0
     }
 }

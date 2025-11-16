@@ -32,6 +32,7 @@ fun LelloSimpleSearchTextField(
     placeholder: String = "",
     maxLength: Int = 60,
     enabled: Boolean = true,
+    readOnly: Boolean = false,
     toUpperCase: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -59,6 +60,7 @@ fun LelloSimpleSearchTextField(
                     )
                 },
             enabled = enabled,
+            readOnly = readOnly,
             textStyle = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold,
                 color = SimpleSearchTextFieldDefaults.textColor(enabled)

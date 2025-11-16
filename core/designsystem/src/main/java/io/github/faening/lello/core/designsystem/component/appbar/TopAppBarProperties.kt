@@ -25,6 +25,7 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Aquamarine600
 import io.github.faening.lello.core.designsystem.theme.Blue600
 import io.github.faening.lello.core.designsystem.theme.Dimension
+import io.github.faening.lello.core.designsystem.theme.Grey500
 import io.github.faening.lello.core.designsystem.theme.Grey700
 import io.github.faening.lello.core.designsystem.theme.LelloShape
 import io.github.faening.lello.core.designsystem.theme.MoodColor
@@ -130,11 +131,11 @@ internal object TopAppBarProperties {
     @Composable
     fun titleTextColor(colorScheme: ColorScheme, moodColor: MoodColor): Color {
         return when (moodColor) {
-            MoodColor.DEFAULT -> MaterialTheme.colorScheme.onPrimary
-            MoodColor.INVERSE -> MaterialTheme.colorScheme.onPrimary
-            MoodColor.AQUAMARINE -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.DEFAULT -> Grey500
+            MoodColor.INVERSE -> Grey500
+            MoodColor.AQUAMARINE -> Grey500
             MoodColor.BLUE -> MaterialTheme.colorScheme.onSecondary
-            MoodColor.ORANGE -> MaterialTheme.colorScheme.onPrimary
+            MoodColor.ORANGE -> Grey500
             MoodColor.RED -> MaterialTheme.colorScheme.onSecondary
             MoodColor.SECONDARY -> MaterialTheme.colorScheme.onSecondary
         }

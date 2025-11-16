@@ -243,6 +243,7 @@ private fun MedicationRegisterDosageUnitSection(
                 LelloSimpleSearchTextField(
                     value = selectedDosageUnit?.description ?: "",
                     onValueChange = { },
+                    readOnly = true,
                     placeholder = "Unidade",
                     trailingIcon = {
                         if (selectedDosageUnit?.description?.isNotEmpty() == true) {

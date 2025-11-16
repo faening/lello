@@ -7,7 +7,7 @@ import io.github.faening.lello.core.model.reward.RewardBalance
 
 @Entity(tableName = "reward_balance")
 data class RewardBalanceEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: Int = 1, // sempre 1, pois é único no app single-user
 
     @ColumnInfo(name = "total_coins")
