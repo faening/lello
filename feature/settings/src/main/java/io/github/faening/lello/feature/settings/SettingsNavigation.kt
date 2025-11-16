@@ -43,6 +43,14 @@ fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
                         }
                         launchSingleTop = true
                     }
+                },
+                onAccountDeletionSuccess = {
+                    navController.navigate(AuthenticationDestinations.GRAPH) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
                 }
             )
         }

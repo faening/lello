@@ -5,11 +5,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.github.faening.lello.core.domain.usecase.authentication.DeleteAccountUseCase
 import io.github.faening.lello.core.domain.usecase.authentication.LogoutUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthenticationUseCaseModule {
+
+    @Provides
+    fun provideDeleteAccountUseCase(
+        firebase: FirebaseAuth
+    ) = DeleteAccountUseCase(firebase)
 
     @Provides
     fun provideLogoutUseCase(
