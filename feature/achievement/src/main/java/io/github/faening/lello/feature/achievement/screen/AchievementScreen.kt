@@ -144,17 +144,12 @@ private fun AchievementScreenTopAppBar(
         vitality = vitality,
         money = money,
         navigateUp = TopAppBarAction(onClick = onBack),
-        actions = listOf(
-            TopAppBarAction(
-                icon = if (isMuted) {
-                    LelloIcons.customIcon(LelloIcons.Outlined.SoundOff.resId)
-                } else {
-                    LelloIcons.customIcon(LelloIcons.Outlined.Sound.resId)
-                },
-                contentDescription = "Icone de Áudio",
-                onClick = onMuteToggle
-            )
-        )
+        onToggleSound = onMuteToggle,
+        soundIcon = if (isMuted) {
+            LelloIcons.customIcon(LelloIcons.Outlined.SoundOff.resId)
+        } else {
+            LelloIcons.customIcon(LelloIcons.Outlined.Sound.resId)
+        }
     )
 }
 

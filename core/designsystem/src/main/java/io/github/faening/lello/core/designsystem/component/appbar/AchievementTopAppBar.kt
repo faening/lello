@@ -3,6 +3,7 @@ package io.github.faening.lello.core.designsystem.component.appbar
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,13 +39,17 @@ import io.github.faening.lello.core.designsystem.theme.MoodColor
 fun LelloAchievementTopAppBar(
     vitality: Int,
     money: Int,
-    navigateUp: TopAppBarAction? = null,
-    actions: List<TopAppBarAction> = emptyList(),
+    navigateUp: TopAppBarAction,
+    soundIcon: ImageVector = LelloIcons.Outlined.Sound.imageVector,
+    onToggleSound: () -> Unit,
     moodColor: MoodColor = MoodColor.DEFAULT,
     colorScheme: ColorScheme = MaterialTheme.colorScheme,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     CenterAlignedTopAppBar(
+        modifier = modifier
+            .fillMaxWidth()
+            .statusBarsPadding(),
         title = {
             StatCenter(
                 vitality = vitality,
@@ -53,18 +58,46 @@ fun LelloAchievementTopAppBar(
             )
         },
         navigationIcon = {
-            TopAppBarNavigationIcon(
-                navigateUp = navigateUp,
-                moodColor = moodColor,
-                colorScheme = colorScheme
-            )
+            Surface(
+                modifier = Modifier.size(Dimension.heightButtonSmall),
+                shape = LelloShape.buttonShape,
+                color = MaterialTheme.colorScheme.primary,
+                onClick = { navigateUp.onClick() }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(Dimension.paddingComponentSmall),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = LelloIcons.Outlined.ArrowLeftLarge.imageVector,
+                        contentDescription = "Voltar",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(Dimension.iconSizeSmall)
+                    )
+                }
+            }
         },
         actions = {
-            TopAppBarActionIcon(
-                actions = actions,
-                moodColor = moodColor,
-                colorScheme = colorScheme
-            )
+            Surface(
+                modifier = Modifier.size(Dimension.heightButtonSmall),
+                shape = LelloShape.buttonShape,
+                color = MaterialTheme.colorScheme.primary,
+                onClick = onToggleSound
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(Dimension.paddingComponentSmall),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = soundIcon,
+                        contentDescription = "Voltar",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(Dimension.iconSizeSmall)
+                    )
+                }
+            }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = Color.Transparent,
@@ -72,10 +105,7 @@ fun LelloAchievementTopAppBar(
             navigationIconContentColor = colorScheme.onSurface,
             titleContentColor = colorScheme.onSurface,
             actionIconContentColor = colorScheme.onSurface
-        ),
-        modifier = modifier
-            .fillMaxWidth()
-            .statusBarsPadding()
+        )
     )
 }
 
@@ -112,7 +142,7 @@ private fun StatPill(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        color = colorScheme.tertiary,
+        color = colorScheme.primary,
         contentColor = Color.Transparent,
         shape = LelloShape.buttonShape,
         modifier = modifier
@@ -148,6 +178,7 @@ private fun StatPill(
 @Preview(
     name = "Primary",
     group = "Light Theme",
+    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
@@ -157,12 +188,7 @@ private fun LelloAchievementTopAppBarPreview_LightTheme() {
             vitality = 75,
             money = 1200,
             navigateUp = TopAppBarAction(),
-            actions = listOf(
-                TopAppBarAction(
-                    icon = LelloIcons.Outlined.Sound.imageVector,
-                    contentDescription = "Sound"
-                )
-            )
+            onToggleSound = {}
         )
     }
 }
