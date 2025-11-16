@@ -1,6 +1,5 @@
 package io.github.faening.lello.feature.authentication
 
-import android.util.Log
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.FragmentActivity
@@ -78,8 +77,7 @@ class AuthenticationViewModel @Inject constructor(
     fun loadIsBiometricAvailable() {
         viewModelScope.launch {
             runCatching {
-                val isAvailable = biometricAuthenticationUseCase.shouldUseBiometricAuthentication()
-                _canUseBiometricAuth.value = isAvailable
+                _canUseBiometricAuth.value = biometricAuthenticationUseCase.shouldUseBiometricAuthentication()
             }.onFailure {
                 _canUseBiometricAuth.value = false
             }
@@ -215,8 +213,6 @@ class AuthenticationViewModel @Inject constructor(
                 subtitle = "",
                 negativeButtonText = "Cancelar"
             )
-
-            Log.d("Test", "authenticateWithBiometric: $result")
 
             when (result) {
                 is AuthResult.Success -> {

@@ -1,6 +1,5 @@
 package io.github.faening.lello.feature.authentication.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,38 +41,33 @@ internal fun BiometricAuthenticationScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val activity = context as FragmentActivity
 
     // Inicia autenticação biométrica automaticamente se disponível
     LaunchedEffect(key1 = true) {
-        // delay(500)
+        delay(200)
         val biometricAvailable = viewModel.canUseBiometricAuth.value
         val hasSavedEmail = uiState.savedEmail != null
 
-        Log.d("Test", "biometricAvailable: $biometricAvailable")
-        Log.d("Test", "hasSavedEmail: $hasSavedEmail")
-
         if (biometricAvailable && hasSavedEmail) {
             runCatching {
-                viewModel.authenticateWithBiometric(activity)
+                viewModel.authenticateWithBiometric(context as FragmentActivity)
             }.onFailure { e ->
                 e.printStackTrace()
             }
         }
     }
 
-    // Observar mudanças no estado e navegar quando o sign in for bem-sucedido
+    // Monitora resultado da autenticação
     LaunchedEffect(uiState.isSignInSuccessful) {
         if (uiState.isSignInSuccessful) {
-            viewModel.resetSignInState()
-            delay(100)
             onSignInSuccess()
+            viewModel.resetSignInState()
         }
     }
 
     BiometricAuthenticationContent(
         uiState = uiState,
-        onTryAgain = { viewModel.authenticateWithBiometric(activity) },
+        onTryAgain = { viewModel.authenticateWithBiometric(context as FragmentActivity) },
         onErrorDismiss = { viewModel.clearError() },
         onNavigateToEmailSignIn = onNavigateToEmailSignIn
     )
@@ -109,9 +103,7 @@ private fun BiometricAuthenticationContent(
             ) {
                 // Conteúdo principal (centralizado)
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -134,17 +126,13 @@ private fun BiometricAuthenticationContent(
                     label = "Usar Digital",
                     onClick = onTryAgain,
                     moodColor = MoodColor.INVERSE,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = Dimension.spacingRegular),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = Dimension.spacingRegular),
                 )
                 LelloFilledButton(
                     label = "Entrar com e-mail e senha",
                     onClick = onNavigateToEmailSignIn,
                     moodColor = MoodColor.SECONDARY,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = Dimension.spacingExtraLarge),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = Dimension.spacingExtraLarge),
                 )
 
                 uiState.savedEmail?.let { email ->

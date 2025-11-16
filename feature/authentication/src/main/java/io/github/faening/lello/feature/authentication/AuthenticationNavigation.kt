@@ -1,6 +1,5 @@
 package io.github.faening.lello.feature.authentication
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,8 +31,6 @@ fun NavGraphBuilder.authenticationGraph(
     isReauthentication: Boolean = false,
     canUseBiometricAuth: Boolean = true
 ) {
-    Log.d("Test", "authenticationGraph: $canUseBiometricAuth")
-
     val startDestination = if (isReauthentication) {
         if (canUseBiometricAuth) {
             AuthenticationDestinations.BIOMETRIC_AUTHENTICATION
