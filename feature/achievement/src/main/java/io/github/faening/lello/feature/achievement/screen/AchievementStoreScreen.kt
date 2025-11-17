@@ -54,17 +54,17 @@ fun AchievementStoreScreen(
 
     AchievementStoreScreenContent(
         items = uiState.storeItems,
-        onItemClick = { viewModel.onShowBottomSheet(it) },
+        onItemClick = { viewModel.onShowStoreItemSheet(it) },
         onBack = onBack
     )
 
     ItemDetailsBottomSheet(
         context = context,
-        item = uiState.selectedItem,
-        onDismiss = { viewModel.onDismissBottomSheet() },
+        item = uiState.selectedStoreItem,
+        onDismiss = { viewModel.onDismissStoreItemSheet() },
         onPurchaseClick = { item ->
             viewModel.onPurchaseItem(item)
-            viewModel.onDismissBottomSheet() // Fecha o sheet após a compra
+            viewModel.onDismissStoreItemSheet()
         }
     )
 }

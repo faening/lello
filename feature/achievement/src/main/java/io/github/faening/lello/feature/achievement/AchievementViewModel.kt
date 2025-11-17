@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.item.catalog.GetAllItemCatalogUseCase
 import io.github.faening.lello.core.domain.usecase.item.inventory.GetAllItemInventoryUseCase
+import io.github.faening.lello.core.domain.usecase.item.purchase.EquipItemUseCase
 import io.github.faening.lello.core.domain.usecase.item.purchase.PurchaseItemUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
@@ -24,6 +25,7 @@ class AchievementViewModel @Inject constructor(
     private val getRewardBalanceUseCase: GetRewardBalanceUseCase,
     private val getAllItemCatalogUseCase: GetAllItemCatalogUseCase,
     private val getAllItemInventoryUseCase: GetAllItemInventoryUseCase,
+    private val equipItemUseCase: EquipItemUseCase,
     private val purchaseItemUseCase: PurchaseItemUseCase
 ) : ViewModel() {
 
@@ -38,40 +40,32 @@ class AchievementViewModel @Inject constructor(
      * Carrega todos os dados necessários para a tela da loja e os combina.
      */
     private fun loadStoreData() {
+        // ... (seu loadStoreData está quase correto)
         _uiState.update { it.copy(isLoading = true) }
-
         viewModelScope.launch {
-            // Carrega dinheiro
+            // ... (launch de dinheiro e vitalidade) ...
             launch {
                 val money = getRewardBalanceUseCase.invoke()?.totalCoins ?: 0
                 _uiState.update { it.copy(money = money) }
             }
-
-            // Carrega vitalidade
             launch {
                 val vitality = getMascotStatusUseCase.invoke().vitality
                 _uiState.update { it.copy(vitality = vitality) }
             }
 
-            // Lógica principal: Carregar catálogo, carregar inventário e filtrar
-            val allItems = getAllItemCatalogUseCase.invoke() // Lista completa
-            val inventoryItems = getAllItemInventoryUseCase.invoke() // Itens possuídos
+            val allItems = getAllItemCatalogUseCase.invoke()
+            val inventoryItems = getAllItemInventoryUseCase.invoke()
+            val ownedItemIds = inventoryItems.map { it.itemCatalogId }.toSet()
 
-            val ownedItemIds = inventoryItems
-                .map { it.itemCatalogId }
-                .toSet()
-
-            // Filtra a lista para a LOJA
             val storeItems = allItems.filter { item ->
                 item.type == ItemType.CONSUMABLE || item.id !in ownedItemIds
             }
 
-            // Atualiza o state com TODAS as listas
             _uiState.update {
                 it.copy(
-                    allCatalogItems = allItems, // <-- AQUI! Passa a lista completa
-                    storeItems = storeItems,      // Passa a lista filtrada
-                    inventoryItems = inventoryItems, // Passa o inventário
+                    allCatalogItems = allItems,
+                    storeItems = storeItems,
+                    inventoryItems = inventoryItems,
                     isLoading = false
                 )
             }
@@ -97,6 +91,42 @@ class AchievementViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Chamado quando o usuário clica em um item no inventário.
+     */
+    fun onShowInventoryItemSheet(item: ItemInventory) {
+        _uiState.update { it.copy(selectedInventoryItem = item) }
+    }
+
+    /**
+     * Fecha o BottomSheet do inventário.
+     */
+    fun onDismissInventoryItemSheet() {
+        _uiState.update { it.copy(selectedInventoryItem = null) }
+    }
+
+    /**
+     * Chamado pelo botão "Equipar" do BottomSheet.
+     */
+    fun onEquipItem() {
+        viewModelScope.launch {
+            val itemToEquip = _uiState.value.selectedInventoryItem ?: return@launch
+
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                equipItemUseCase(itemToEquip)
+                _uiState.update { it.copy(isLoading = false) }
+                loadStoreData() // Recarrega para mostrar o item equipado
+                onDismissInventoryItemSheet() // Fecha o BottomSheet
+
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(isLoading = false, errorMessage = e.message)
+                }
+            }
+        }
+    }
+
     fun onErrorMessageShown() {
         _uiState.update { it.copy(errorMessage = null) }
     }
@@ -105,12 +135,14 @@ class AchievementViewModel @Inject constructor(
         _uiState.update { it.copy(purchaseSuccessMessage = null) }
     }
 
-    fun onShowBottomSheet(item: ItemCatalog) {
-        _uiState.update { it.copy(selectedItem = item) }
+    // Renomeie 'onShowBottomSheet' -> 'onShowStoreItemSheet'
+    fun onShowStoreItemSheet(item: ItemCatalog) {
+        _uiState.update { it.copy(selectedStoreItem = item) } // ATUALIZADO
     }
 
-    fun onDismissBottomSheet() {
-        _uiState.update { it.copy(selectedItem = null) }
+    // Renomeie 'onDismissBottomSheet' -> 'onDismissStoreItemSheet'
+    fun onDismissStoreItemSheet() {
+        _uiState.update { it.copy(selectedStoreItem = null) } // ATUALIZADO
     }
 }
 
@@ -118,18 +150,16 @@ data class AchievementUiState(
     val vitality: Int = 0,
     val money: Int = 0,
 
-    // Lista COMPLETA do catálogo (para o Inventário usar)
-    val allCatalogItems: List<ItemCatalog> = emptyList(),
+    val allCatalogItems: List<ItemCatalog> = emptyList(), // Catálogo completo
+    val storeItems: List<ItemCatalog> = emptyList(),      // Loja (filtrado)
+    val inventoryItems: List<ItemInventory> = emptyList(), // Inventário
 
-    // Lista FILTRADA (para a Loja usar)
-    val storeItems: List<ItemCatalog> = emptyList(),
-
-    // Itens que o usuário possui
-    val inventoryItems: List<ItemInventory> = emptyList(),
-
-    // Estados para a compra
+    // Estados para a compra (Loja)
     val isLoading: Boolean = false,
-    val selectedItem: ItemCatalog? = null,
+    val selectedStoreItem: ItemCatalog? = null, // MUDANÇA: 'selectedItem' -> 'selectedStoreItem'
     val errorMessage: String? = null,
-    val purchaseSuccessMessage: String? = null
+    val purchaseSuccessMessage: String? = null,
+
+    // NOVO ESTADO: para o BottomSheet do Inventário
+    val selectedInventoryItem: ItemInventory? = null
 )
