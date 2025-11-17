@@ -43,9 +43,8 @@ fun AchievementScreen(
     onBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsState()
     var isMuted by remember { mutableStateOf(false) }
-    val vitality by viewModel.vitality.collectAsState()
-    val money by viewModel.money.collectAsState()
 
     // Inicia a música ao entrar, para ao sair
     DisposableEffect(isMuted) {
@@ -58,8 +57,8 @@ fun AchievementScreen(
     }
 
     AchievementScreenContent(
-        vitality = vitality,
-        money = money,
+        vitality = uiState.vitality,
+        money = uiState.money,
         isMuted = isMuted,
         onMuteToggle = { isMuted = !isMuted },
         onNavigateToStore = onNavigateToStore,

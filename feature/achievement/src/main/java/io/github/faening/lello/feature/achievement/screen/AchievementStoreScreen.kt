@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,24 +50,32 @@ fun AchievementStoreScreen(
     onBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val items by viewModel.itemCatalog.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     AchievementStoreScreenContent(
-        context = context,
-        items = items,
+        items = uiState.storeItems,
+        onItemClick = { viewModel.onShowBottomSheet(it) },
         onBack = onBack
+    )
+
+    ItemDetailsBottomSheet(
+        context = context,
+        item = uiState.selectedItem,
+        onDismiss = { viewModel.onDismissBottomSheet() },
+        onPurchaseClick = { item ->
+            viewModel.onPurchaseItem(item)
+            viewModel.onDismissBottomSheet() // Fecha o sheet após a compra
+        }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AchievementStoreScreenContent(
-    context: Context,
     items: List<ItemCatalog>,
+    onItemClick: (ItemCatalog) -> Unit,
     onBack: () -> Unit,
 ) {
-    val selectedItem = remember { mutableStateOf<ItemCatalog?>(null) }
-
     Scaffold(
         topBar = {
             AchievementStoreTopAppBar(onBack = onBack)
@@ -87,18 +94,12 @@ private fun AchievementStoreScreenContent(
                     ItemCatalogSection(
                         title = itemType.displayName,
                         items = itemsOfType,
-                        onClick = { item -> selectedItem.value = item }
+                        onClick = onItemClick
                     )
                 }
             }
         }
     }
-
-    ItemDetailsBottomSheet(
-        context = context,
-        item = selectedItem.value,
-        onDismiss = { selectedItem.value = null }
-    )
 }
 
 @Composable
@@ -149,9 +150,10 @@ private fun ItemCatalogSection(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ItemDetailsBottomSheet(
+    context: Context,
     item: ItemCatalog?,
     onDismiss: () -> Unit,
-    context: Context,
+    onPurchaseClick: (ItemCatalog) -> Unit,
 ) {
     item?.let {
         ModalBottomSheet(onDismissRequest = onDismiss) {
@@ -205,7 +207,7 @@ private fun ItemDetailsBottomSheet(
                 // Botão de ação
                 LelloFilledButton(
                     label = "Comprar por ${item.price} moedas",
-                    onClick = {},
+                    onClick = { onPurchaseClick(it) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(Dimension.spacingExtraLarge))
@@ -228,8 +230,8 @@ fun AchievementStoreScreenPreview_LightMode() {
 
     LelloTheme {
         AchievementStoreScreenContent(
-            context = LocalContext.current,
             items = items,
+            onItemClick = {},
             onBack = {}
         )
     }
