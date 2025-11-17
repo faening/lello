@@ -1,13 +1,13 @@
-package io.github.faening.lello.core.database.seed
+package io.github.faening.lello.core.testing.data
 
-import io.github.faening.lello.core.database.model.item.ItemCatalogEntity
+import io.github.faening.lello.core.model.store.ItemCatalog
 import io.github.faening.lello.core.model.store.ItemType
+import io.github.faening.lello.core.testing.repository.TestDataResources
 
-object ItemCatalogSeed : Seed<ItemCatalogEntity> {
-    override val data = listOf(
-        // Consumables
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+class ItemCatalogTestData : TestDataResources<ItemCatalog> {
+    override val list = listOf(
+        ItemCatalog(
+            id = 1L,
             name = "Girassol",
             description = "Sementes crocantes, ricas em vitaminas e minerais. Ao consumir este item, a energia do Lello será restaurada em 15.",
             price = 35,
@@ -16,10 +16,8 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             vitalityGain = 15,
             isActive = true
         ),
-
-        // Hats
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+        ItemCatalog(
+            id = 2L,
             name = "Chapéu da Lua Cantante",
             description = "Dizem que este chapéu foi trançado com acordes de uma canção esquecida. Quem o usa sente os pés leves e o coração mais alegre — ou talvez, seja só vontade de sair dançando por aí.",
             price = 250,
@@ -28,8 +26,8 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             vitalityGain = null,
             isActive = true
         ),
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+        ItemCatalog(
+            id = 3L,
             name = "Chapéu do Capiter Pan",
             description = "Reza a lenda que este chapéu nasceu do primeiro sopro de vento livre. Quem o veste sente o coração mais leve e a coragem renovada, ou talvez, seja só a pena balançando ao lado.",
             price = 200,
@@ -38,8 +36,8 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             vitalityGain = null,
             isActive = true
         ),
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+        ItemCatalog(
+            id = 4L,
             name = "Elmo do Bravo Teimoso",
             description = "Forjado do orgulho de mil batalhas, dizem que este elmo transforma qualquer um em cabeça-dura. Protege dos golpes e das dúvidas, ou talvez, seja só o peso fazendo a teimosia aumentar.",
             price = 200,
@@ -48,10 +46,8 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             vitalityGain = null,
             isActive = true
         ),
-
-        // Necklaces
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+        ItemCatalog(
+            id = 0L,
             name = "Colar da Turmalina Radiante",
             description = "Dizem que este colar guarda o fragmento de um antigo feitiço oceânico. Quando usado, seu azul irradia um brilho hipnótico, capaz de dispersar sombras e confundir até o olhar da própria noite — ou talvez, seja só o encanto de se sentir especial.",
             price = 150,
@@ -60,8 +56,8 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             vitalityGain = null,
             isActive = true
         ),
-        ItemCatalogEntity(
-            itemCatalogId = 0L,
+        ItemCatalog(
+            id = 0L,
             name = "Cachecol da Brisa Suave",
             description = "Tecido com fios de crepúsculo, este cachecol é tão longo que vira capa nas costas do Lello. Quem o usa sente a coragem de um herói e vontade de abraçar o mundo — ou talvez, só goste de se enrolar em algo macio.",
             price = 130,
@@ -69,6 +65,6 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
             type = ItemType.NECKLACE,
             vitalityGain = null,
             isActive = true
-        ),
+        )
     )
 }

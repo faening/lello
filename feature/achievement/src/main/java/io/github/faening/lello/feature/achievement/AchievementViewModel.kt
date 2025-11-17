@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.faening.lello.core.domain.usecase.item.catalog.GetAllItemCatalogUseCase
 import io.github.faening.lello.core.domain.usecase.mascot.GetMascotStatusUseCase
 import io.github.faening.lello.core.domain.usecase.reward.balance.GetRewardBalanceUseCase
+import io.github.faening.lello.core.model.store.ItemCatalog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,8 +26,8 @@ class AchievementViewModel @Inject constructor(
     private val _money = MutableStateFlow(0)
     val money: StateFlow<Int> = _money.asStateFlow()
 
-    private val _itemCatalog = MutableStateFlow<List<Any>>(emptyList())
-    val itemCatalog: StateFlow<List<Any>> = _itemCatalog.asStateFlow()
+    private val _itemCatalog = MutableStateFlow<List<ItemCatalog>>(emptyList())
+    val itemCatalog: StateFlow<List<ItemCatalog>> = _itemCatalog.asStateFlow()
 
     init {
         loadVitality()
