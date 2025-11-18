@@ -8,6 +8,26 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
         // Consumables
         ItemCatalogEntity(
             itemCatalogId = 0L,
+            name = "Amendoim",
+            description = "Fonte natural de proteínas e gorduras boas. Ao consumir este item, a energia do Lello será restaurada em 20.",
+            price = 40,
+            imageResourceName = "ic_item_consumable_peanut_custom",
+            type = ItemType.CONSUMABLE,
+            vitalityGain = 20,
+            isActive = true
+        ),
+        ItemCatalogEntity(
+            itemCatalogId = 0L,
+            name = "Amêndoa",
+            description = "Rica em vitamina A, ótima para a saúde e visão. Ao consumir este item, a energia do Lello será restaurada em 10.",
+            price = 30,
+            imageResourceName = "ic_item_consumable_almond_custom",
+            type = ItemType.CONSUMABLE,
+            vitalityGain = 10,
+            isActive = true
+        ),
+        ItemCatalogEntity(
+            itemCatalogId = 0L,
             name = "Girassol",
             description = "Sementes crocantes, ricas em vitaminas e minerais. Ao consumir este item, a energia do Lello será restaurada em 15.",
             price = 35,
@@ -21,7 +41,7 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
         ItemCatalogEntity(
             itemCatalogId = 0L,
             name = "Chapéu da Lua Cantante",
-            description = "Dizem que este chapéu foi trançado com acordes de uma canção esquecida. Quem o usa sente os pés leves e o coração mais alegre — ou talvez, seja só vontade de sair dançando por aí.",
+            description = "Dizem que este chapéu foi trançado com acordes de uma canção esquecida. Quem o usa sente os pés leves e o coração mais alegre ou talvez, seja só vontade de sair dançando por aí.",
             price = 250,
             imageResourceName = "ic_item_hat_singing_moon_custom",
             type = ItemType.HEAD,
@@ -40,10 +60,10 @@ object ItemCatalogSeed : Seed<ItemCatalogEntity> {
         ),
         ItemCatalogEntity(
             itemCatalogId = 0L,
-            name = "Elmo do Bravo Teimoso",
-            description = "Forjado do orgulho de mil batalhas, dizem que este elmo transforma qualquer um em cabeça-dura. Protege dos golpes e das dúvidas, ou talvez, seja só o peso fazendo a teimosia aumentar.",
-            price = 200,
-            imageResourceName = "ic_item_hat_brave_stubborn_custom",
+            name = "Chapéu da Noite Estrelada",
+            description = "Dizem que o chapéu foi tecido de fragmentos de uma noite estrelada. Quem o usa sente a mente mais clara e os pensamentos mais brilhantes, ou talvez, seja só a fita apertando a cabeça.",
+            price = 250,
+            imageResourceName = "ic_item_hat_starry_night_custom",
             type = ItemType.HEAD,
             vitalityGain = null,
             isActive = true
