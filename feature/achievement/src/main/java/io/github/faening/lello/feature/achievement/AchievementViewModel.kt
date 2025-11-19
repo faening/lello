@@ -1,8 +1,15 @@
 package io.github.faening.lello.feature.achievement
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultRenderersFactory
+import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.faening.lello.core.designsystem.media.LelloMedia
 import io.github.faening.lello.core.domain.usecase.item.catalog.GetAllItemCatalogUseCase
 import io.github.faening.lello.core.domain.usecase.item.inventory.GetAllItemInventoryUseCase
 import io.github.faening.lello.core.domain.usecase.item.purchase.EquipItemUseCase
@@ -32,6 +39,11 @@ class AchievementViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AchievementUiState())
     val uiState: StateFlow<AchievementUiState> = _uiState.asStateFlow()
 
+    private var _exoPlayer: ExoPlayer? = null
+    val exoPlayer: ExoPlayer? get() = _exoPlayer
+
+    private var isVideoPrepared = false
+
     init {
         loadStoreData()
     }
@@ -40,10 +52,9 @@ class AchievementViewModel @Inject constructor(
      * Carrega todos os dados necessários para a tela da loja e os combina.
      */
     private fun loadStoreData() {
-        // ... (seu loadStoreData está quase correto)
         _uiState.update { it.copy(isLoading = true) }
+
         viewModelScope.launch {
-            // ... (launch de dinheiro e vitalidade) ...
             launch {
                 val money = getRewardBalanceUseCase.invoke()?.totalCoins ?: 0
                 _uiState.update { it.copy(money = money) }
@@ -61,11 +72,20 @@ class AchievementViewModel @Inject constructor(
                 item.type == ItemType.CONSUMABLE || item.id !in ownedItemIds
             }
 
+            val equippedItems = inventoryItems
+                .filter { it.isEquipped }
+                .mapNotNull { invItem ->
+                    allItems.find { it.id == invItem.itemCatalogId }?.let { catalog ->
+                        invItem to catalog
+                    }
+                }
+
             _uiState.update {
                 it.copy(
                     allCatalogItems = allItems,
                     storeItems = storeItems,
                     inventoryItems = inventoryItems,
+                    equippedItems = equippedItems,
                     isLoading = false
                 )
             }
@@ -144,19 +164,82 @@ class AchievementViewModel @Inject constructor(
     fun onDismissStoreItemSheet() {
         _uiState.update { it.copy(selectedStoreItem = null) } // ATUALIZADO
     }
+
+    /**
+     * Prepara o ExoPlayer com o vídeo correspondente ao humor atual.
+     *
+     * @param context Contexto necessário para a criação do ExoPlayer.
+     */
+    @OptIn(UnstableApi::class)
+    fun prepareVideo(context: Context) {
+        if (isVideoPrepared && _exoPlayer != null) {
+            _exoPlayer?.play()
+            return
+        }
+
+        val video = LelloMedia.Video.AchievementCapybara
+
+        _exoPlayer = ExoPlayer.Builder(context)
+            .setRenderersFactory(
+                DefaultRenderersFactory(context)
+                    .setEnableDecoderFallback(true)
+            )
+            .build()
+            .apply {
+                val mediaItem = MediaItem.fromUri("android.resource://${context.packageName}/${video.resId}")
+                setMediaItem(mediaItem)
+                repeatMode = Player.REPEAT_MODE_ALL
+                volume = 0f
+                prepare()
+                playWhenReady = true
+
+                // Marca como preparado após o vídeo estar pronto
+                addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(state: Int) {
+                        if (state == Player.STATE_READY) {
+                            isVideoPrepared = true
+                            _uiState.update { it.copy(isVideoReady = true) }
+                        }
+                    }
+                })
+            }
+    }
+
+    /**
+     * Pausa o vídeo quando a tela não está visível.
+     */
+    fun pauseVideo() {
+        _exoPlayer?.pause()
+    }
+
+    /**
+     * Retoma a reprodução do vídeo quando a tela volta a ficar visível.
+     */
+    fun resumeVideo() {
+        _exoPlayer?.play()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        _exoPlayer?.release()
+        _exoPlayer = null
+        isVideoPrepared = false
+    }
 }
 
 data class AchievementUiState(
     val vitality: Int = 0,
     val money: Int = 0,
 
-    val allCatalogItems: List<ItemCatalog> = emptyList(), // Catálogo completo
-    val storeItems: List<ItemCatalog> = emptyList(),      // Loja (filtrado)
-    val inventoryItems: List<ItemInventory> = emptyList(), // Inventário
+    val allCatalogItems: List<ItemCatalog> = emptyList(),
+    val storeItems: List<ItemCatalog> = emptyList(),
+    val selectedStoreItem: ItemCatalog? = null,
+    val inventoryItems: List<ItemInventory> = emptyList(),
+    val equippedItems: List<Pair<ItemInventory, ItemCatalog>> = emptyList(),
 
     // Estados para a compra (Loja)
     val isLoading: Boolean = false,
-    val selectedStoreItem: ItemCatalog? = null, // MUDANÇA: 'selectedItem' -> 'selectedStoreItem'
+    val isVideoReady: Boolean = false,
     val errorMessage: String? = null,
     val purchaseSuccessMessage: String? = null,
 

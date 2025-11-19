@@ -49,6 +49,7 @@ fun LelloAchievementTopAppBar(
     CenterAlignedTopAppBar(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = Dimension.spacingSmall)
             .statusBarsPadding(),
         title = {
             StatCenter(
