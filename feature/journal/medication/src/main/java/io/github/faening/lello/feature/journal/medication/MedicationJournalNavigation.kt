@@ -15,6 +15,7 @@ import io.github.faening.lello.feature.journal.medication.screen.MedicationJourn
 import io.github.faening.lello.feature.journal.medication.screen.MedicationJournalSummaryScreen
 import io.github.faening.lello.feature.journal.settings.SettingsJournalDestinations
 import io.github.faening.lello.feature.journal.settings.model.JournalOptionType
+import io.github.faening.lello.feature.medication.MedicationDestinations
 
 object JournalMedicationDestinations {
     const val GRAPH = "journal_medication_graph"
@@ -38,9 +39,7 @@ fun NavGraphBuilder.medicationJournalGraph(navController: NavHostController) {
             MedicationJournalScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onRegister = {
-                    // TODO: Navigate to medication registration screen
-                },
+                onRegister = { navController.navigate(MedicationDestinations.HOME) },
                 onNext = { medication, dosageIndex ->
                     viewModel.setSelectedDosage(medication, dosageIndex)
                     navController.navigate(JournalMedicationDestinations.SKIP_REASON)
