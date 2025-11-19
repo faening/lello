@@ -171,7 +171,7 @@ private fun MealJournalDetailsScreenContent(
                 Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
                 LelloOptionPillSelector(
-                    title = "Onde você estava?",
+                    title = "Onde você esteve?",
                     options = locationOptions,
                     isSelected = { it.selected },
                     onToggle = { option -> onLocationOptionToggle(option.description) },

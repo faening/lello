@@ -166,7 +166,7 @@ private fun MoodJournalDetailsScreenContent(
                 )
 
                 LelloOptionPillSelector(
-                    title = "Onde você está?",
+                    title = "Onde você esteve?",
                     options = locationOptions,
                     isSelected = { it.selected },
                     onToggle = { option ->  onLocationOptionToggle(option.description) },
@@ -177,7 +177,7 @@ private fun MoodJournalDetailsScreenContent(
                 )
 
                 LelloOptionPillSelector(
-                    title = "Com quem você está agora?",
+                    title = "Com quem você interagiu?",
                     options = socialOptions,
                     isSelected = { it.selected },
                     onToggle = { option -> onSocialOptionToggle(option.description) },
