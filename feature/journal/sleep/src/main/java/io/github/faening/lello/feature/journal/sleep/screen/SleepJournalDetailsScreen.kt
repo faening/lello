@@ -150,7 +150,7 @@ private fun SleepJournalDetailsScreenContent(
                 Spacer(modifier = Modifier.height(Dimension.spacingLarge))
 
                 LelloOptionPillSelector(
-                    title = "Quanto tempo você ficou acordado?",
+                    title = "Quanto tempo você levou para adormecer?",
                     options = SleeplessTimeOptions,
                     isSelected = { it == sleeplessTimeOption },
                     onToggle = { option -> onSleeplessTimeOptionToggle(option) },
