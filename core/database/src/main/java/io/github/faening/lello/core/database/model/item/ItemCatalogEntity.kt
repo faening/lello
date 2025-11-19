@@ -28,6 +28,9 @@ data class ItemCatalogEntity(
     @ColumnInfo(name = "image_resource_name")
     val imageResourceName: String,
 
+    @ColumnInfo(name = "background_image_resource_name")
+    val backgroundImageResourceName: String,
+
     @ColumnInfo(name = "type")
     val type: ItemType,
 
@@ -44,6 +47,7 @@ fun ItemCatalogEntity.toModel(): ItemCatalog = ItemCatalog(
     description = description,
     price = price,
     imageResourceName = imageResourceName,
+    backgroundImageResourceName = backgroundImageResourceName,
     type = type,
     vitalityGain = vitalityGain,
     isActive = isActive
@@ -55,6 +59,7 @@ fun ItemCatalog.toEntity(): ItemCatalogEntity = ItemCatalogEntity(
     description = description,
     price = price,
     imageResourceName = imageResourceName,
+    backgroundImageResourceName = backgroundImageResourceName,
     type = type,
     vitalityGain = vitalityGain,
     isActive = isActive

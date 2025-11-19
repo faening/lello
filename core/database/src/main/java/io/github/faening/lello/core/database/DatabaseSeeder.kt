@@ -150,14 +150,23 @@ internal object DatabaseSeeder {
         for (item in ItemCatalogSeed.data) {
             db.execSQL(
                 sql = """
-                        INSERT OR IGNORE INTO item_catalog (name, description, price, image_resource_name, type, vitality_gain, is_active)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        INSERT OR IGNORE INTO item_catalog (
+                            name,
+                            description,
+                            price,
+                            image_resource_name,
+                            background_image_resource_name,
+                            type,
+                            vitality_gain,
+                            is_active
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                     """.trimIndent(),
                 bindArgs = arrayOf(
                     item.name,
                     item.description,
                     item.price,
                     item.imageResourceName,
+                    item.backgroundImageResourceName,
                     item.type.name,
                     item.vitalityGain,
                     if (item.isActive) 1 else 0

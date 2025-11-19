@@ -10,6 +10,8 @@ object LelloMedia {
         val JournalSummaryBackgroundOrange = LelloVideo(designsystemR.raw.journal_summay_background_orange)
         val JournalSummaryBackgroundRed = LelloVideo(designsystemR.raw.journal_summay_background_red)
         val JournalSummaryBackgroundYellow = LelloVideo(designsystemR.raw.journal_summay_background_yellow)
+
+        val AchievementCapybara = LelloVideo(designsystemR.raw.achievement_capybara)
     }
 
     // object Audio { ... }
