@@ -36,14 +36,14 @@ internal object DaoModule {
     ) = database.healthOptionDao()
 
     @Provides
-    fun provideInventoryDao(
-        database: LelloDatabase,
-    ) = database.inventoryDao()
-
-    @Provides
     fun provideItemCatalogDao(
         database: LelloDatabase,
     ) = database.itemCatalogDao()
+
+    @Provides
+    fun provideInventoryDao(
+        database: LelloDatabase,
+    ) = database.itemInventoryDao()
 
     @Provides
     fun provideJournalCategoryDao(

@@ -8,8 +8,8 @@ import io.github.faening.lello.core.database.dao.ClimateOptionDao
 import io.github.faening.lello.core.database.dao.EmotionOptionDao
 import io.github.faening.lello.core.database.dao.FoodOptionDao
 import io.github.faening.lello.core.database.dao.HealthOptionDao
-import io.github.faening.lello.core.database.dao.InventoryDao
 import io.github.faening.lello.core.database.dao.ItemCatalogDao
+import io.github.faening.lello.core.database.dao.ItemInventoryDao
 import io.github.faening.lello.core.database.dao.JournalCategoryDao
 import io.github.faening.lello.core.database.dao.LocationOptionDao
 import io.github.faening.lello.core.database.dao.MascotStatusDao
@@ -32,6 +32,9 @@ import io.github.faening.lello.core.database.dao.SleepJournalDao
 import io.github.faening.lello.core.database.dao.SleepQualityOptionDao
 import io.github.faening.lello.core.database.dao.SleepSensationOptionDao
 import io.github.faening.lello.core.database.dao.SocialOptionDao
+import io.github.faening.lello.core.database.model.item.ItemCatalogEntity
+import io.github.faening.lello.core.database.model.item.ItemInventoryEntity
+import io.github.faening.lello.core.database.model.item.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.model.journal.JournalCategoryEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntity
 import io.github.faening.lello.core.database.model.journal.meal.MealJournalEntityAppetiteOptionEntityCrossRef
@@ -74,9 +77,6 @@ import io.github.faening.lello.core.database.model.option.SleepSensationOptionEn
 import io.github.faening.lello.core.database.model.option.SocialOptionEntity
 import io.github.faening.lello.core.database.model.reward.RewardBalanceEntity
 import io.github.faening.lello.core.database.model.reward.RewardHistoryEntity
-import io.github.faening.lello.core.database.model.store.InventoryEntity
-import io.github.faening.lello.core.database.model.store.ItemCatalogEntity
-import io.github.faening.lello.core.database.model.store.PurchaseHistoryEntity
 import io.github.faening.lello.core.database.util.DateConverter
 import io.github.faening.lello.core.database.util.InstantConverters
 import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
@@ -88,8 +88,8 @@ import io.github.faening.lello.core.database.util.JournalMoodTypeConverter
         EmotionOptionEntity::class,
         FoodOptionEntity::class,
         HealthOptionEntity::class,
-        InventoryEntity::class,
         ItemCatalogEntity::class,
+        ItemInventoryEntity::class,
         JournalCategoryEntity::class,
         LocationOptionEntity::class,
         MascotStatusEntity::class,
@@ -143,8 +143,8 @@ abstract class LelloDatabase : RoomDatabase() {
     abstract fun emotionOptionDao(): EmotionOptionDao
     abstract fun foodOptionDao(): FoodOptionDao
     abstract fun healthOptionDao(): HealthOptionDao
-    abstract fun inventoryDao(): InventoryDao
     abstract fun itemCatalogDao(): ItemCatalogDao
+    abstract fun itemInventoryDao(): ItemInventoryDao
     abstract fun journalCategoryDao(): JournalCategoryDao
     abstract fun locationOptionDao(): LocationOptionDao
     abstract fun mascotStatusDao(): MascotStatusDao

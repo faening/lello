@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -22,23 +24,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import io.github.faening.lello.core.audio.AudioManager
 import io.github.faening.lello.core.audio.AudioTrack
-import io.github.faening.lello.core.designsystem.component.appbar.LelloTopAppBar
+import io.github.faening.lello.core.designsystem.component.appbar.LelloAchievementTopAppBar
 import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarAction
-import io.github.faening.lello.core.designsystem.component.appbar.TopAppBarTitle
+import io.github.faening.lello.core.designsystem.component.button.LelloBigestFloatingActionButton
 import io.github.faening.lello.core.designsystem.icon.LelloIcons
+import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.feature.achievement.AchievementViewModel
 
 @Composable
 fun AchievementScreen(
     viewModel: AchievementViewModel,
+    onNavigateToStore: () -> Unit,
+    onNavigateToInventory: () -> Unit,
     onBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsState()
     var isMuted by remember { mutableStateOf(false) }
-    val vitality by viewModel.vitality.collectAsState()
 
     // Inicia a música ao entrar, para ao sair
     DisposableEffect(isMuted) {
@@ -50,108 +56,147 @@ fun AchievementScreen(
         onDispose { AudioManager.stop() }
     }
 
-    LelloTheme {
-        AchievementContainer(
-            vitality = vitality,
-            isMuted = isMuted,
-            onMuteToggle = { isMuted = !isMuted },
-            onBack = onBack
-        )
-    }
+    AchievementScreenContent(
+        vitality = uiState.vitality,
+        money = uiState.money,
+        isMuted = isMuted,
+        onMuteToggle = { isMuted = !isMuted },
+        onNavigateToStore = onNavigateToStore,
+        onNavigateToInventory = onNavigateToInventory,
+        onBack = onBack
+    )
 }
 
 @Composable
-private fun AchievementContainer(
+private fun AchievementScreenContent(
     vitality: Int,
+    money: Int,
     isMuted: Boolean,
     onMuteToggle: () -> Unit,
+    onNavigateToStore: () -> Unit,
+    onNavigateToInventory: () -> Unit,
     onBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = LelloIcons.Graphic.AchievementsBackgroundForest.resId),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        AchievementScreenBackground()
 
         Scaffold(
-            containerColor = Color.Transparent,
             topBar = {
-                AchievementTopAppBar(
+                AchievementScreenTopAppBar(
+                    vitality = vitality,
+                    money = money,
                     isMuted = isMuted,
                     onMuteToggle = onMuteToggle,
                     onBack = onBack
                 )
-            }
+            },
+            containerColor = Color.Transparent
         ) { paddingValues ->
-            AchievementContent(
-                modifier = Modifier.padding(paddingValues)
-            )
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+            ) {
+                val mascot = LelloIcons.Graphic.AchievementsMascotLelloBard.imageVector
+                Icon(
+                    imageVector = mascot,
+                    contentDescription = "Mascote",
+                    modifier = Modifier
+                        .size(300.dp)
+                        .align(Alignment.Center),
+                    tint = Color.Unspecified
+                )
+
+                AchievementShortcuts(
+                    onNavigateToStore = onNavigateToStore,
+                    onNavigateToInventory = onNavigateToInventory,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(Dimension.spacingRegular)
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun AchievementContent(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // No topo, adicionar informações de vitalidade e barra de cansaço
-
-
-        // Mascote aqui
-        val mascot = LelloIcons.Graphic.AchievementsMascotLelloBard.imageVector
-
-        // Lojas aqui
-        // 2 icones na vertical
-        val iconshop = LelloIcons.Graphic.AchievementsShop.imageVector
-        val iconInventory = LelloIcons.Graphic.AchievementsInventory.imageVector
-    }
-}
-
-@Composable
-private fun AchievementTopAppBar(
-    isMuted: Boolean,
-    onMuteToggle: () -> Unit,
-    onBack: () -> Unit = {}
-) {
-    LelloTopAppBar(
-        title = TopAppBarTitle(text = "Lello"),
-        navigateUp = TopAppBarAction(onClick = onBack),
-        actions = listOf(
-            TopAppBarAction(
-                icon = if (isMuted) {
-                    LelloIcons.customIcon(LelloIcons.Outlined.SoundOff.resId)
-                } else {
-                    LelloIcons.customIcon(LelloIcons.Outlined.Sound.resId)
-                },
-                contentDescription = "Icone de Áudio",
-                onClick = onMuteToggle
-            )
-        )
+private fun AchievementScreenBackground() {
+    Image(
+        painter = painterResource(LelloIcons.Graphic.AchievementsBackgroundForest.resId),
+        contentDescription = "Background da tela de conquistas",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
     )
 }
 
 @Composable
+private fun AchievementScreenTopAppBar(
+    vitality: Int,
+    money: Int,
+    isMuted: Boolean,
+    onMuteToggle: () -> Unit,
+    onBack: () -> Unit = {}
+) {
+    LelloAchievementTopAppBar(
+        vitality = vitality,
+        money = money,
+        navigateUp = TopAppBarAction(onClick = onBack),
+        onToggleSound = onMuteToggle,
+        soundIcon = if (isMuted) {
+            LelloIcons.customIcon(LelloIcons.Outlined.SoundOff.resId)
+        } else {
+            LelloIcons.customIcon(LelloIcons.Outlined.Sound.resId)
+        }
+    )
+}
+
+@Composable
+private fun AchievementShortcuts(
+    onNavigateToStore: () -> Unit,
+    onNavigateToInventory: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(Dimension.spacingRegular),
+        horizontalAlignment = Alignment.End
+    ) {
+        LelloBigestFloatingActionButton(
+            icon = LelloIcons.Graphic.AchievementsInventory.imageVector,
+            contentDescription = "Inventário",
+            onClick = onNavigateToInventory
+        )
+        LelloBigestFloatingActionButton(
+            icon = LelloIcons.Graphic.AchievementsShop.imageVector,
+            contentDescription = "Loja",
+            onClick = onNavigateToStore
+        )
+    }
+}
+
+// region: Previes
+
+@Composable
 @Preview(
-    name = "Light",
+    name = "Light Mode",
     showBackground = true,
     backgroundColor = 0xFFFFFBF0,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
-fun AchievementScreenPreview() {
+fun AchievementScreenPreview_LightMode() {
     LelloTheme {
-        AchievementContainer(
+        AchievementScreenContent(
             vitality = 50,
+            money = 250,
             isMuted = false,
             onMuteToggle = {},
+            onNavigateToStore = {},
+            onNavigateToInventory = {},
             onBack = {}
         )
     }
 }
+
+// endregion: Previes
