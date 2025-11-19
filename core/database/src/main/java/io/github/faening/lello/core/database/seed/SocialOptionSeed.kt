@@ -18,7 +18,7 @@ object SocialOptionSeed : Seed<SocialOptionEntity> {
         SocialOptionEntity(socialOptionId = 12, description = "Grupo de amigos", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 13, description = "Parceiro(a) de treino", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 14, description = "Crianças", blocked = true, active = true),
-        SocialOptionEntity(socialOptionId = 15, description = "socialOptionIdoso(a)", blocked = true, active = true),
+        SocialOptionEntity(socialOptionId = 15, description = "Idoso(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 16, description = "Sozinho(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 17, description = "Técnico(a)/Treinador(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 18, description = "Mentor(a)", blocked = true, active = true),

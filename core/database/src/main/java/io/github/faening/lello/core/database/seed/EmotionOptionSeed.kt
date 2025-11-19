@@ -28,7 +28,6 @@ internal object EmotionOptionSeed : Seed<EmotionOptionEntity> {
         EmotionOptionEntity(emotionOptionId = 22, description = "Sentimental", blocked = true, active = true),
         EmotionOptionEntity(emotionOptionId = 23, description = "Solitário", blocked = true, active = true),
         EmotionOptionEntity(emotionOptionId = 24, description = "Stressado", blocked = true, active = true),
-        EmotionOptionEntity(emotionOptionId = 25, description = "TímemotionOptionIdo", blocked = true, active = true),
-        EmotionOptionEntity(emotionOptionId = 26, description = "Triste", blocked = true, active = true)
+        EmotionOptionEntity(emotionOptionId = 25, description = "Triste", blocked = true, active = true)
     )
 }
