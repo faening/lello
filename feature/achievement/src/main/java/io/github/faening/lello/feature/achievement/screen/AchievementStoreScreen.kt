@@ -183,7 +183,7 @@ private fun ItemDetailsBottomSheet(
                 Spacer(Modifier.height(Dimension.spacingLarge))
                 Text(
                     text = it.description,
-                    style = MaterialTheme.typography.bodyLarge.copy(
+                    style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     textAlign = TextAlign.Center,

@@ -222,7 +222,7 @@ private fun EquippedItemsLayer(
     val context = LocalContext.current
 
     val alpha by animateFloatAsState(
-        targetValue = if (isVideoReady) 0.5f else 0f,
+        targetValue = if (isVideoReady) 0.8f else 0f,
         animationSpec = tween(durationMillis = 1000),
         label = "equipped_items_alpha"
     )

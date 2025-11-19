@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -182,7 +183,7 @@ private fun InventoryItemDetailsBottomSheet(
         Column(
             modifier = Modifier
                 .padding(horizontal = Dimension.spacingRegular)
-                .fillMaxWidth(), // Garante que o botão preencha
+                .fillMaxSize(), // Garante que o botão preencha
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val imageResId = remember(catalogItem.imageResourceName) {
@@ -213,7 +214,9 @@ private fun InventoryItemDetailsBottomSheet(
             Spacer(Modifier.height(Dimension.spacingLarge))
             Text(
                 text = catalogItem.description,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
