@@ -167,14 +167,14 @@ private fun SettingsScreenUISection(
         LelloSettingsCard(
             sectionTitle = "UI",
             items = listOf(
-                SettingsItem(
-                    icon = LelloIcons.Outlined.Sum.imageVector,
-                    title = "Personalização",
-                    subtitle = "Ativar ou desativar o tema escuro",
-                    type = SettingsItemType.SWITCH,
-                    isChecked = isDarkThemeEnabled,
-                    onCheckedChange = onToggleTheme
-                ),
+//                SettingsItem(
+//                    icon = LelloIcons.Outlined.Sum.imageVector,
+//                    title = "Personalização",
+//                    subtitle = "Ativar ou desativar o tema escuro",
+//                    type = SettingsItemType.SWITCH,
+//                    isChecked = isDarkThemeEnabled,
+//                    onCheckedChange = onToggleTheme
+//                ),
                 SettingsItem(
                     icon = LelloIcons.Outlined.NotificationBell.imageVector,
                     title = "Notificações",
