@@ -36,9 +36,7 @@ import io.github.faening.lello.core.designsystem.icon.LelloIcons
 import io.github.faening.lello.core.designsystem.theme.Dimension
 import io.github.faening.lello.core.designsystem.theme.LelloTheme
 import io.github.faening.lello.core.designsystem.theme.MoodColor
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -147,7 +145,9 @@ private fun CalendarTopAppBarDatePickerDialog(
 ) {
     if (show) {
         val state = rememberDatePickerState(
-            initialSelectedDateMillis = initialDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            initialSelectedDateMillis = initialDate
+                .toEpochDay()
+                .times(86400000L)
         )
 
         DatePickerDialog(
@@ -157,9 +157,7 @@ private fun CalendarTopAppBarDatePickerDialog(
                     onClick = {
                         val millis = state.selectedDateMillis
                         if (millis != null) {
-                            val date = Instant.ofEpochMilli(millis)
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate()
+                            val date = LocalDate.ofEpochDay(millis / 86400000L)
                             onDateSelected(date)
                         }
                         onDismiss()
