@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -230,7 +229,7 @@ private fun EquippedItemsLayer(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .graphicsLayer { this.alpha = alpha }
+            // .graphicsLayer { this.alpha = alpha }
     ) {
         equippedItems
             .sortedBy { it.second.zIndex }
