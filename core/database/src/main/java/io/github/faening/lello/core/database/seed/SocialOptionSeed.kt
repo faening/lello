@@ -10,7 +10,7 @@ object SocialOptionSeed : Seed<SocialOptionEntity> {
         SocialOptionEntity(socialOptionId = 4, description = "Esposo(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 5, description = "Colega de trabalho", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 6, description = "Colega de estudo", blocked = true, active = true),
-        SocialOptionEntity(socialOptionId = 7, description = "DesconhecsocialOptionIdo(a)", blocked = true, active = true),
+        SocialOptionEntity(socialOptionId = 7, description = "Desconhecido(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 8, description = "Pet", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 9, description = "Vizinho(a)", blocked = true, active = true),
         SocialOptionEntity(socialOptionId = 10, description = "Professor(a)", blocked = true, active = true),

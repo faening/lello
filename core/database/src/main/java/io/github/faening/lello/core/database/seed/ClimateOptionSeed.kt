@@ -19,7 +19,6 @@ internal object ClimateOptionSeed : Seed<ClimateOptionEntity> {
         ClimateOptionEntity(climateOptionId = 13, description = "Parcialmente nublado", blocked = true, active = true),
         ClimateOptionEntity(climateOptionId = 14, description = "Quente", blocked = true, active = true),
         ClimateOptionEntity(climateOptionId = 15, description = "Tempestade", blocked = true, active = true),
-        ClimateOptionEntity(climateOptionId = 16, description = "ÚmclimateOptionIdo", blocked = true, active = true),
-        ClimateOptionEntity(climateOptionId = 17, description = "Ventando", blocked = true, active = true)
+        ClimateOptionEntity(climateOptionId = 16, description = "Ventando", blocked = true, active = true)
     )
 }
