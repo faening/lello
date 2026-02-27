@@ -87,8 +87,8 @@ O Lello foi projetado com foco em boas práticas de desenvolvimento e uma arquit
 
 ## 📚 Documentação e Protótipo
 
--   **[Documentação Técnica]([https://link-para-sua-documentacao.com](https://docs.google.com/document/d/1VX06Tmg64IOdRQsGVi1NcmZzmNdOQ3sQXTSLNWhziWs/edit?usp=sharing))** *(Substitua pelo link do seu documento)*
--   **[Protótipo no Figma]([https://link-para-seu-figma.com](https://www.figma.com/design/PXDYBv1gR2Vp49vuCRUqHa/Lello?node-id=1-964&t=FF7y1C2sVSNB8cZi-1))** *(Substitua pelo link do seu protótipo)*
+-   **[Documentação Técnica](https://docs.google.com/document/d/1BY3KbRi5iCDT31jQ5usoKoKC_8OSNjjTY71dL8oSF8A/edit?usp=sharing)**
+-   **[Protótipo no Figma](https://www.figma.com/design/PXDYBv1gR2Vp49vuCRUqHa/Lello?node-id=3-491&t=0w6SiuueORyuovtZ-1)**
 
 ## 🎨 Design e Créditos
 
